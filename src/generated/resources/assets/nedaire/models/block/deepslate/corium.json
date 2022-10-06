@@ -1,0 +1,87 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#back"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#back"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#back"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#back"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#back"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#back"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#ore"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#ore"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#ore"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#ore"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#ore"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#ore"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "back": "minecraft:block/deepslate",
+    "ore": "nedaire:block/deepslate/corium",
+    "particle": "minecraft:block/deepslate"
+  }
+}

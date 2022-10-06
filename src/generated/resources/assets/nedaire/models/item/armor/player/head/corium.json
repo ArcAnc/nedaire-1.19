@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "nedaire:item/armor/player/head/corium"
+  }
+}

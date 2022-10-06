@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "tag": "forge:string"
+    }
+  },
+  "pattern": [
+    "BA ",
+    "B A",
+    "BA "
+  ],
+  "result": {
+    "item": "nedaire:weapon/bow/corium"
+  }
+}

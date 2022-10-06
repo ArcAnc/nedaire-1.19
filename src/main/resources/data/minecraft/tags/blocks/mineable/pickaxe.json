@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#forge:ores/corium",
+    "#forge:storage_blocks/corium",
+    "nedaire:skystone",
+    "nedaire:pedestal",
+    "nedaire:holder"
+  ]
+}

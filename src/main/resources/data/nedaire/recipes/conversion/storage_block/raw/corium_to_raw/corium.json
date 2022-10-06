@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nedaire:storage_block/raw/corium"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "nedaire:raw/corium"
+  }
+}

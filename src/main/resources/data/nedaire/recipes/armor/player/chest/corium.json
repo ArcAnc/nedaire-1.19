@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    }
+  },
+  "pattern": [
+    "A A",
+    "AAA",
+    "AAA"
+  ],
+  "result": {
+    "item": "nedaire:armor/player/chest/corium"
+  }
+}

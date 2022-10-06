@@ -1,0 +1,22 @@
+// 1.19.2	2022-09-22T23:42:04.8702614	Nedaire Block States
+b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
+3295d546b61fe8f68f54f65914707e27d601aadf assets/nedaire/blockstates/holder.json
+a65d08ea21081d12b4b0c4840c4a02f136170bed assets/nedaire/blockstates/ore/corium.json
+79db76921b08ff34406f41dde9443e737fb4101f assets/nedaire/blockstates/pedestal.json
+af014dcfafe19f0dd12073ff143a26e2b8d9c2ba assets/nedaire/blockstates/skystone.json
+73ad65f2a6a80159f43ac105dafc033239e12a78 assets/nedaire/blockstates/storage_block/corium.json
+d49da51c847b38b10c0794c411379a9262c5f25f assets/nedaire/blockstates/storage_block/raw/corium.json
+706ddcbcaf044d8e87bbb4a9a873a223cae2613d assets/nedaire/models/block/deepslate/corium.json
+cfa042a8faf257e3a8ee6832b36c4ca19bd288b0 assets/nedaire/models/block/holder.json
+7833433fc84476e2e7ef55c0eeb130d4e4b57cb3 assets/nedaire/models/block/ore/corium.json
+ebcfb4c1cbd507b2a0eb8a8f9644811660bca068 assets/nedaire/models/block/pedestal.json
+98fb51fa7a7e0937cb32a4045f8dfb6331998060 assets/nedaire/models/block/skystone.json
+ede951dd917ef3135a4313c3adb936a1d4bdf1b6 assets/nedaire/models/block/storage_block/corium.json
+d0e6f696554536b8bd591889d2d8976875658112 assets/nedaire/models/block/storage_block/raw/corium.json
+bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
+5396426a5e8200b12d11befaf52f74a426277423 assets/nedaire/models/item/holder.json
+f9c7fce4c1a1c579c318a1262df5dac623de021b assets/nedaire/models/item/ore/corium.json
+1ca8386edc932c6f011ac10160ac5e1918a85e9b assets/nedaire/models/item/pedestal.json
+8c269f39267173c02adb3a55903ad895e29d10c9 assets/nedaire/models/item/skystone.json
+cd028df5af5901a5041154f6d3579b5ddbd0cea8 assets/nedaire/models/item/storage_block/corium.json
+b9fecbdc0cea36f6e789dfb3e2a9736088ca86f3 assets/nedaire/models/item/storage_block/raw/corium.json
