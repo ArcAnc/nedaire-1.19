@@ -11,7 +11,6 @@ package com.arcanc.nedaire.content.module.jewelry.capability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
 import com.arcanc.nedaire.util.database.ModDatabase;
 import com.arcanc.nedaire.util.helpers.SocketHelper;

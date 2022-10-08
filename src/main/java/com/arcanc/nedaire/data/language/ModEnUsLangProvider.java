@@ -69,6 +69,7 @@ public class ModEnUsLangProvider extends LanguageProvider
 		}
 		
 		add(ModRegistration.RegisterItems.HAMMER.get(), StringHelper.capitalize(ModDatabase.Items.Names.HAMMER));
+		add(ModRegistration.RegisterItems.CHALK.get(), StringHelper.capitalize(ModDatabase.Items.Names.CHALK));
 
 		add(ModRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(ModDatabase.Blocks.Names.SKYSTONE));
 		
@@ -111,41 +112,8 @@ public class ModEnUsLangProvider extends LanguageProvider
 		
 		add(ModDatabase.GUI.Enchiridion.Section.ResourceLocations.MAGIC.toLanguageKey(), StringHelper.capitalize(ModDatabase.GUI.Enchiridion.Section.MAGIC));
 	
-		add(ModDatabase.GUI.Enchiridion.Chapters.test.toLanguageKey(), "Just test chapter");
+//		add(ModDatabase.GUI.Enchiridion.Chapters.test.toLanguageKey(), "Just test chapter");
 		
-		add(ModDatabase.GUI.Enchiridion.Chapters.test2.toLanguageKey(), "Another test chapter");
-
-		add(ModDatabase.GUI.Enchiridion.Chapters.test3.toLanguageKey(), "Yet another one test chapter");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test4.toLanguageKey(), "Test4");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test5.toLanguageKey(), "Yet another one test chapter5");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test6.toLanguageKey(), "Yet another one test chapter6");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test7.toLanguageKey(), "Yet another one test chapter7");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test8.toLanguageKey(), "Yet another one test chapter8");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test9.toLanguageKey(), "Yet another one test chapter9");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test10.toLanguageKey(), "Yet another one test chapter10");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test11.toLanguageKey(), "Yet another one test chapter11");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test12.toLanguageKey(), "Yet another one test chapter12");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test13.toLanguageKey(), "Yet another one test chapter13");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test14.toLanguageKey(), "Yet another one test chapter14");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test15.toLanguageKey(), "Yet another one test chapter15");
-		add(ModDatabase.GUI.Enchiridion.Chapters.test16.toLanguageKey(), "Yet another one test chapter16");
-		
-		add(ModDatabase.GUI.Enchiridion.Pages.test.toLanguageKey(), "It's just text to test options. Here I was draw item </item;minecraft:diamond/> and entity </entity;minecraft:cat/> But Here I have another item </item;minecraft:black_candle/> which must be taken from string. So now I need even bigger string for test. </entity;minecraft:piglin/>. And Im' thinking about drawing EVEN more entity... Like this! </entity;minecraft:rabbit/> </entity;minecraft:drowned/> </entity;minecraft:magma_cube/> and last </recipe;minecraft:diamond_from_blasting_deepslate_diamond_ore/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test2.toLanguageKey(), "This is not too long test page, just with some text, to be drawed");
-		add(ModDatabase.GUI.Enchiridion.Pages.test3.toLanguageKey(), "Only testing page3, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test4.toLanguageKey(), "Only testing page4, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test5.toLanguageKey(), "Only testing page5, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test6.toLanguageKey(), "Only testing page6, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test7.toLanguageKey(), "Only testing page7, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test8.toLanguageKey(), "Only testing page8, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test9.toLanguageKey(), "Only testing page9, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test10.toLanguageKey(), "Only testing page10, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test11.toLanguageKey(), "Only testing page11, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test12.toLanguageKey(), "Only testing page12, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test13.toLanguageKey(), "Only testing page13, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test14.toLanguageKey(), "Only testing page14, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test15.toLanguageKey(), "Only testing page15, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
-		add(ModDatabase.GUI.Enchiridion.Pages.test16.toLanguageKey(), "Only testing page16, with 2 different testing entity: </entity;minecraft:squid/> </entity;minecraft:cat/>");
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
 	}
 	

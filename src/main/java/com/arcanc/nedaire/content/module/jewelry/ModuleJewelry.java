@@ -8,14 +8,11 @@
  */
 package com.arcanc.nedaire.content.module.jewelry;
 
-import java.util.function.Supplier;
-
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.item.gem.GemItem;
 import com.arcanc.nedaire.content.item.gem.GemUtils;
 import com.arcanc.nedaire.content.module.jewelry.capability.CapabilitySocket;
 import com.arcanc.nedaire.content.module.jewelry.capability.SocketStorage;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.ModRegistration.RegisterItems.ItemRegObject;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,15 +21,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.RegistryObject;
 
 public class ModuleJewelry
 {
 	public static boolean MUST_PRESENT = false;
 	
-	private static final Supplier<Item.Properties> baseProps = () -> new Item.Properties().tab(Nedaire.getInstance().TAB);
-	
-	public static final RegistryObject<Item> GEM = MUST_PRESENT ? ModRegistration.RegisterItems.ITEMS.register("gem", () -> new GemItem(baseProps.get())) : null;
+	public static final ItemRegObject<Item> GEM = MUST_PRESENT ? new ItemRegObject<>("gem", (p) -> new GemItem(p)) : null;
 	
 	public static void init(IEventBus bus) 
 	{

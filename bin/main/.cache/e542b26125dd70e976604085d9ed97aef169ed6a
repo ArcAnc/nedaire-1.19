@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-08T20:54:39.9881459	Nedaire Item Models
+// 1.19.2	2022-10-08T03:32:13.9720754	Nedaire Item Models
 06c3ccfac4f748146590f5f73374ea9f738ce039 assets/nedaire/models/item/armor/horse/corium.json
 62b40966b1675af70347cf2200ea2c5049257cbb assets/nedaire/models/item/armor/player/chest/corium.json
 80b8521fe02610d3ba523b93bc908e1aee98ca05 assets/nedaire/models/item/armor/player/feet/corium.json
@@ -9,6 +9,7 @@ de1332d4fad12f66ea90ccc25ebcd8efb1efc5a6 assets/nedaire/models/item/dust/corium.
 b5e093c05703ae8f6e7617c38984edfc78daf3e5 assets/nedaire/models/item/nugget/corium.json
 94efd74b29e1fd68e978c17e45650ea71fc7c06e assets/nedaire/models/item/raw/corium.json
 3a6727e631678768d929ba142e9596e71e07a8d8 assets/nedaire/models/item/tool/axe/corium.json
+29b2b221cd00024ba80f409c03bb7742dbc7b634 assets/nedaire/models/item/tool/chalk.json
 70f5f79d91edc28c6b4509ef188f608c6c6e2383 assets/nedaire/models/item/tool/enchiridion.json
 6f679eb961220d1609ab302820ff7ba6042e1053 assets/nedaire/models/item/tool/fishing_rod/corium.json
 6a034df0320a898eb5259fe2e2fef1464cf20b88 assets/nedaire/models/item/tool/fishing_rod/corium_cast.json

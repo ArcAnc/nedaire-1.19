@@ -61,7 +61,7 @@ public class ModItemModelProvider extends ItemModelProvider
 		simpleItem(mat.getPlayerArmorFeet().getId());
 		
 		handheld(ModRegistration.RegisterItems.HAMMER.getId());
-		
+		simpleItem(ModRegistration.RegisterItems.CHALK.getId());
 		handheld(ModRegistration.RegisterItems.BOOK.getId());
 	}
 	

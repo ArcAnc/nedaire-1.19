@@ -19,6 +19,7 @@ import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
 import com.arcanc.nedaire.content.itemGroup.ModItemGroup;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
+import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.registration.ModRegistration;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
@@ -66,6 +67,7 @@ public class Nedaire
 		TAB = new ModItemGroup(ModDatabase.ItemGroups.Main.MAIN);
 		
 		ModuleJewelry.MUST_PRESENT = false;
+		ModuleRunecarving.MUST_PRESENT = true;
 		
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

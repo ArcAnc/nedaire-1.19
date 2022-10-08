@@ -11,6 +11,7 @@ package com.arcanc.nedaire.content.block;
 import java.util.function.BiFunction;
 
 import com.arcanc.nedaire.content.block.entities.ModBEPedestal;
+import com.arcanc.nedaire.content.registration.ModRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -39,6 +40,11 @@ public class ModBlockPedestal extends ModTileProviderBlock<ModBEPedestal>
 		super(properties, tile);
 	}
 
+	public ModBlockPedestal(Properties props)
+	{
+		this (props, (bp, state) -> ModRegistration.RegisterBlockEntities.BE_PEDESTAL.get().create(bp, state));
+	}
+	
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTrace) 
 	{

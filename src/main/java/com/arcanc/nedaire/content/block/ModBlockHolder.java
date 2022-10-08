@@ -11,6 +11,7 @@ package com.arcanc.nedaire.content.block;
 import java.util.function.BiFunction;
 
 import com.arcanc.nedaire.content.block.entities.ModBEHolder;
+import com.arcanc.nedaire.content.registration.ModRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -38,6 +39,10 @@ public class ModBlockHolder extends ModTileProviderBlock<ModBEHolder>
 		super(properties, tile);
 	}
 
+	public ModBlockHolder(Properties props)
+	{
+		this(props, (bp, state) -> ModRegistration.RegisterBlockEntities.BE_HOLDER.get().create(bp, state));
+	}
 	
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTrace) 

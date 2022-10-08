@@ -11,10 +11,8 @@ package com.arcanc.nedaire.content.material;
 import java.util.List;
 
 import com.arcanc.nedaire.Nedaire;
-import com.arcanc.nedaire.content.block.ModBaseBlock;
 import com.arcanc.nedaire.content.block.ModOreBlock;
-import com.arcanc.nedaire.content.item.ModBaseItem;
-import com.arcanc.nedaire.content.item.ModBlockItemBase;
+import com.arcanc.nedaire.content.item.ModBaseBlockItem;
 import com.arcanc.nedaire.content.item.armor.ModArmorBase;
 import com.arcanc.nedaire.content.item.armor.ModHorseArmorItemBase;
 import com.arcanc.nedaire.content.item.tool.ModAxeBase;
@@ -33,6 +31,8 @@ import com.arcanc.nedaire.content.material.armor.player.ModPlayerArmorMaterial;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.content.material.tool.ModToolMaterial;
 import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.ModRegistration.RegisterBlocks.BlockRegObject;
+import com.arcanc.nedaire.content.registration.ModRegistration.RegisterItems.ItemRegObject;
 import com.arcanc.nedaire.util.database.ModDatabase;
 import com.arcanc.nedaire.util.database.ModDatabase.Items;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -50,7 +50,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.TierSortingRegistry;
-import net.minecraftforge.registries.RegistryObject;
 
 public class ModMaterial 
 {
@@ -62,19 +61,19 @@ public class ModMaterial
 	
 	private static Supplier<Item.Properties> baseProps = () -> new Item.Properties().tab(Nedaire.getInstance().TAB);
 	
-	private final RegistryObject<Item> ingot, nugget, raw, dust,
+	private final ItemRegObject<? extends Item> ingot, nugget, raw, dust,
 	   pickaxe, axe, shovel, hoe, shears, fishingRod,
 	   sword, shield, bow, crossbow,
 	   armorHorse, playerArmorHead, playerArmorChest, playerArmorLegs, playerArmorFeet;
 	
 	private final boolean isRequiredOre;
-	private final RegistryObject <? extends Block> storageBlock, rawStorageBlock, oreBlock, deepSlateOre;
+	private final BlockRegObject <? extends Block, ? extends Item> storageBlock, rawStorageBlock, oreBlock, deepSlateOre;
 	
 	private ModMaterial(ModMaterialProperties props) 
 	{
 		this.name = props.name;
 		
-		this.ingot = register(StringHelper.slashPlacer(this.name, Items.Names.INGOT), () -> new ModBaseItem(baseProps.get()));
+		this.ingot = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.INGOT));
 		
 		this.toolMat = new ModToolMaterial.Builder().
 				setDurability(props.toolDurability).
@@ -115,40 +114,50 @@ public class ModMaterial
 				build();
 
 		
-		this.nugget = register(StringHelper.slashPlacer(this.name, Items.Names.NUGGET), () -> new ModBaseItem(baseProps.get()));
-		this.dust = register(StringHelper.slashPlacer(this.name, Items.Names.DUST), () -> new ModBaseItem(baseProps.get()));
+		this.nugget = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.NUGGET));
+		this.dust = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.DUST));
 		
-		this.pickaxe = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.PICKAXE), () -> new ModPickaxeBase(toolMat));
-		this.axe = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.AXE), () -> new ModAxeBase(toolMat, toolMat.getAttackDamageBonus() + 5 - 1, -3.2f));
-		this.shovel = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHOVEL), () -> new ModShovelBase(toolMat));
-		this.hoe = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.HOE), () -> new ModHoeBase(toolMat));
-		this.shears = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHEARS), () -> new ModShearsBase(toolMat));
-		this.fishingRod = register(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.FISHING_ROD), () -> new ModFishingRodBase(toolMat));
+		this.pickaxe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.PICKAXE), (p) -> new ModPickaxeBase(toolMat));
+		this.axe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.AXE), (p) -> new ModAxeBase(toolMat, toolMat.getAttackDamageBonus() + 5 - 1, -3.2f));
+		this.shovel = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHOVEL), (p) -> new ModShovelBase(toolMat));
+		this.hoe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.HOE), (p) -> new ModHoeBase(toolMat));
+		this.shears = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHEARS), (p) -> new ModShearsBase(toolMat));
+		this.fishingRod = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.FISHING_ROD), (p) -> new ModFishingRodBase(toolMat));
 	
-		this.sword = register(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SWORD), () -> new ModSwordBase(toolMat));
-		this.shield = register(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SHIELD), () -> new ModShieldBase(toolMat));
-		this.bow = register(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.BOW), () -> new ModBowBase(toolMat));
-		this.crossbow = register(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.CROSSBOW), () -> new ModCrossbowBase(toolMat));
+		this.sword = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SWORD), (p) -> new ModSwordBase(toolMat));
+		this.shield = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SHIELD), (p) -> new ModShieldBase(toolMat));
+		this.bow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.BOW), (p) -> new ModBowBase(toolMat));
+		this.crossbow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.CROSSBOW), (p) -> new ModCrossbowBase(toolMat));
 	
-		this.armorHorse = register(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.Armor.ARMOR_HORSE), () -> new ModHorseArmorItemBase(horseArmorMat));
-		this.playerArmorHead = register(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_HEAD), () -> new ModArmorBase(armorMat, EquipmentSlot.HEAD));
-		this.playerArmorChest = register(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_CHEST), () -> new ModArmorBase(armorMat, EquipmentSlot.CHEST));
-		this.playerArmorLegs = register(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), () -> new ModArmorBase(armorMat, EquipmentSlot.LEGS));
-		this.playerArmorFeet = register(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), () -> new ModArmorBase(armorMat, EquipmentSlot.FEET));
+		this.armorHorse = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.Armor.ARMOR_HORSE), (p) -> new ModHorseArmorItemBase(horseArmorMat));
+		this.playerArmorHead = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_HEAD), (p) -> new ModArmorBase(armorMat, EquipmentSlot.HEAD));
+		this.playerArmorChest = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_CHEST), (p) -> new ModArmorBase(armorMat, EquipmentSlot.CHEST));
+		this.playerArmorLegs = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), (p) -> new ModArmorBase(armorMat, EquipmentSlot.LEGS));
+		this.playerArmorFeet = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), (p) -> new ModArmorBase(armorMat, EquipmentSlot.FEET));
 	
-		this.storageBlock = registerBlock(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK), () -> new ModBaseBlock(Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL)));
+		this.storageBlock = ModRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK), () -> Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL));
 	
 		this.isRequiredOre = props.isRequiredOre;
 		
 		if (this.isRequiredOre)
 		{
-			this.raw = register(StringHelper.slashPlacer(this.name, Items.Names.RAW), () -> new ModBaseItem(baseProps.get()));
+			this.raw = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.RAW));
 
-			this.oreBlock = registerBlock(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.ORE), () -> new ModOreBlock(Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f)));
+			this.oreBlock = new BlockRegObject<>(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.ORE), 
+					() -> Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), 
+					ModOreBlock :: new, 
+					baseProps, 
+					ModBaseBlockItem :: new);
 			
-			this.rawStorageBlock = registerBlock(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK, ModDatabase.Items.Names.RAW), () -> new ModBaseBlock(Block.Properties.of(Material.STONE /* create material Color for it*/).requiresCorrectToolForDrops().strength(5.0f, 6.0f)));
+			this.rawStorageBlock = ModRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK, 
+					ModDatabase.Items.Names.RAW), 
+					() -> Block.Properties.of(Material.STONE /*FIXME: create material Color for it*/).requiresCorrectToolForDrops().strength(5.0f, 6.0f));
 			
-			this.deepSlateOre = registerBlock(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.DEEPSLATE), () -> new ModOreBlock(Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE)));
+			this.deepSlateOre = new BlockRegObject<>(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.DEEPSLATE), 
+					() -> Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE),
+					ModOreBlock :: new,
+					baseProps,
+					ModBaseBlockItem :: new);
 		}
 		else
 		{
@@ -158,20 +167,6 @@ public class ModMaterial
 			this.deepSlateOre = null;
 		}
 	}	
-	
-	private static <T extends Item> RegistryObject<T> register (String name, Supplier<? extends T> sup)
-	{
-		return ModRegistration.RegisterItems.ITEMS.register(name, sup);
-	}
-	
-	private static <T extends Block> RegistryObject<T> registerBlock (String name, Supplier<? extends T> sup)
-	{
-		RegistryObject<T> obj = ModRegistration.RegisterBlocks.BLOCKS.register(name, sup);
-		
-		register (obj.getId().getPath(), () -> new ModBlockItemBase(obj.get(), baseProps.get()));
-		
-		return obj;
-	}
 	
 	public String getName() 
 	{
@@ -193,117 +188,117 @@ public class ModMaterial
 		return horseArmorMat;
 	}
 	
-	public RegistryObject<Item> getIngot() 
+	public ItemRegObject<? extends Item> getIngot() 
 	{
 		return ingot;
 	}
 	
-	public RegistryObject<Item> getRaw() 
+	public ItemRegObject<? extends Item> getRaw() 
 	{
 		return raw;
 	}
 	
-	public RegistryObject<Item> getNugget() 
+	public ItemRegObject<? extends Item> getNugget() 
 	{
 		return nugget;
 	}
 	
-	public RegistryObject<Item> getDust() 
+	public ItemRegObject<? extends Item> getDust() 
 	{
 		return dust;
 	}
 	
-	public RegistryObject<? extends Block> getStorageBlock() 
+	public BlockRegObject<? extends Block, ? extends Item> getStorageBlock() 
 	{
 		return storageBlock;
 	}
 	
-	public RegistryObject<? extends Block> getOreBlock() 
+	public BlockRegObject<? extends Block, ? extends Item> getOreBlock() 
 	{
 		return oreBlock;
 	}
 	
-	public RegistryObject<? extends Block> getRawStorageBlock() 
+	public BlockRegObject<? extends Block, ? extends Item> getRawStorageBlock() 
 	{
 		return rawStorageBlock;
 	}
 	
-	public RegistryObject<? extends Block> getDeepSlateOre() 
+	public BlockRegObject<? extends Block, ? extends Item> getDeepSlateOre() 
 	{
 		return deepSlateOre;
 	}
 	
-	public RegistryObject<Item> getPickaxe() 
+	public ItemRegObject<? extends Item> getPickaxe() 
 	{
 		return pickaxe;
 	}
 	
-	public RegistryObject<Item> getAxe() 
+	public ItemRegObject<? extends Item> getAxe() 
 	{
 		return axe;
 	}
 	
-	public RegistryObject<Item> getShovel() 
+	public ItemRegObject<? extends Item> getShovel() 
 	{
 		return shovel;
 	}
 	
-	public RegistryObject<Item> getHoe() 
+	public ItemRegObject<? extends Item> getHoe() 
 	{
 		return hoe;
 	}
 	
-	public RegistryObject<Item> getShears() 
+	public ItemRegObject<? extends Item> getShears() 
 	{
 		return shears;
 	}
 	
-	public RegistryObject<Item> getFishingRod() 
+	public ItemRegObject<? extends Item> getFishingRod() 
 	{
 		return fishingRod;
 	}
 	
-	public RegistryObject<Item> getSword() 
+	public ItemRegObject<? extends Item> getSword() 
 	{
 		return sword;
 	}
 	
-	public RegistryObject<Item> getShield() 
+	public ItemRegObject<? extends Item> getShield() 
 	{
 		return shield;
 	}
 	
-	public RegistryObject<Item> getBow() 
+	public ItemRegObject<? extends Item> getBow() 
 	{
 		return bow;
 	}
 	
-	public RegistryObject<Item> getCrossbow() 
+	public ItemRegObject<? extends Item> getCrossbow() 
 	{
 		return crossbow;
 	}
 	
-	public RegistryObject<Item> getArmorHorse() 
+	public ItemRegObject<? extends Item> getArmorHorse() 
 	{
 		return armorHorse;
 	}
 	
-	public RegistryObject<Item> getPlayerArmorHead() 
+	public ItemRegObject<? extends Item> getPlayerArmorHead() 
 	{
 		return playerArmorHead;
 	}
 	
-	public RegistryObject<Item> getPlayerArmorChest() 
+	public ItemRegObject<? extends Item> getPlayerArmorChest() 
 	{
 		return playerArmorChest;
 	}
 	
-	public RegistryObject<Item> getPlayerArmorLegs() 
+	public ItemRegObject<? extends Item> getPlayerArmorLegs() 
 	{
 		return playerArmorLegs;
 	}
 	
-	public RegistryObject<Item> getPlayerArmorFeet() 
+	public ItemRegObject<? extends Item> getPlayerArmorFeet() 
 	{
 		return playerArmorFeet;
 	}

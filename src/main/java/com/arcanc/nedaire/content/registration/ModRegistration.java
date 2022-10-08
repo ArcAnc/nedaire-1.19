@@ -9,9 +9,17 @@
 package com.arcanc.nedaire.content.registration;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+
+import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.block.ModBaseBlock;
@@ -20,7 +28,9 @@ import com.arcanc.nedaire.content.block.ModBlockPedestal;
 import com.arcanc.nedaire.content.block.ModTileProviderBlock;
 import com.arcanc.nedaire.content.block.entities.ModBEHolder;
 import com.arcanc.nedaire.content.block.entities.ModBEPedestal;
-import com.arcanc.nedaire.content.item.ModBlockItemBase;
+import com.arcanc.nedaire.content.item.FakeIconItem;
+import com.arcanc.nedaire.content.item.ModBaseBlockItem;
+import com.arcanc.nedaire.content.item.ModBaseItem;
 import com.arcanc.nedaire.content.item.gem.GemEffect;
 import com.arcanc.nedaire.content.item.gem.GemEffectHealth;
 import com.arcanc.nedaire.content.item.gem.GemEffectRegen;
@@ -31,7 +41,9 @@ import com.arcanc.nedaire.content.material.ModMaterial.ModMaterialProperties;
 import com.arcanc.nedaire.data.crafting.recipe.ModShieldRecipes;
 import com.arcanc.nedaire.util.database.ModDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.google.common.collect.ImmutableSet;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -39,9 +51,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -61,19 +75,111 @@ public class ModRegistration
 		public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ModDatabase.MOD_ID);
 
 		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties().tab(Nedaire.getInstance().TAB);
-		protected static final Supplier<Item.Properties> fakeIconProps = () -> new Item.Properties().stacksTo(1);
 		
-		public static final RegistryObject<Item> HAMMER = ITEMS.register(
+		public static final ItemRegObject<Item> HAMMER = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						ModDatabase.Items.Names.HAMMER, 
-						ModDatabase.Items.Names.TOOL), 
-				() -> new ModHammer(baseProps.get()));
+						ModDatabase.Items.Names.TOOL),
+				ModHammer :: new);
 		
-		public static final RegistryObject<Item> BOOK = ITEMS.register(
+		public static final ItemRegObject<ModBook> BOOK = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						ModDatabase.GUI.Enchiridion.ENCHIRIDION, 
 						ModDatabase.Items.Names.TOOL), 
-				() -> new ModBook(baseProps.get()));
+				ModBook :: new);
+		
+		public static final ItemRegObject<ModBaseItem> CHALK = new ItemRegObject<>(
+				StringHelper.slashPlacer(
+						ModDatabase.Items.Names.CHALK, 
+						ModDatabase.Items.Names.TOOL), 
+				() -> baseProps.get().durability(220), 
+				ModBaseItem :: new);
+		
+		public static void init()
+		{
+		}
+		
+		public static ItemRegObject<FakeIconItem> icon(String name)
+		{
+			return new ItemRegObject<>(name, Item.Properties :: new, prop -> new FakeIconItem());
+		}
+		
+		public static ItemRegObject<ModBaseItem> simpleWithStackSize(String name, int maxSize)
+		{
+			return simple(name, props -> props.stacksTo(maxSize), item -> {});
+		}
+		
+		public static ItemRegObject<ModBaseItem> simple(String name)
+		{
+			return simple(name, props -> {}, item -> {});
+		}
+		
+		public static ItemRegObject<ModBaseItem> simple(String name, Consumer<Item.Properties> makeProps, Consumer<ModBaseItem> processItem)
+		{
+			return new ItemRegObject<>(name, () -> Util.make(baseProps.get(), makeProps), (props) -> Util.make(new ModBaseItem(props), processItem));
+		}
+		
+		public static class ItemRegObject<T extends Item> implements Supplier<T>, ItemLike
+		{
+			public static final Collection<ItemRegObject<? extends Item>> LIST = new ArrayList<>();
+			
+			private final RegistryObject<T> regObject;
+			private final Supplier<Item.Properties> props;
+			
+			public ItemRegObject(String name, Function<Item.Properties, T> make)
+			{
+				this(name, baseProps, make);
+			}
+			
+			public ItemRegObject(String name, Supplier<Item.Properties> props, Function<Item.Properties, T> make) 
+			{
+				this.props = props;
+				this.regObject = ITEMS.register(name, () -> make.apply(props.get()));
+				
+				LIST.add(this);
+			}
+			
+			public Item.Properties getProperties() 
+			{
+				return props.get();
+			}
+			
+			@Override
+			@Nonnull
+			public T get() 
+			{
+				return regObject.get();
+			}
+			
+			@Override
+			@Nonnull
+			public Item asItem() 
+			{
+				return regObject.get();
+			}
+			
+			public ResourceLocation getId()
+			{
+				return regObject.getId();
+			}
+		}
+
+		public static Supplier<Properties> copyProps(Item itemBlock) 
+		{
+			Item.Properties p = new Item.Properties().
+					food(itemBlock.getFoodProperties()).
+					craftRemainder(itemBlock.getCraftingRemainingItem()).
+					durability(itemBlock.getMaxDamage()).
+					stacksTo(itemBlock.getMaxStackSize()).
+					tab(itemBlock.getItemCategory()).
+					rarity(itemBlock.getRarity(itemBlock.getDefaultInstance()));
+			
+			if (itemBlock.isFireResistant())
+				p.fireResistant();
+			if(!itemBlock.canBeDepleted())
+				p.setNoRepair();
+			return () -> p;
+		}
 	}
 	
 	public static class RegisterBlocks
@@ -85,22 +191,94 @@ public class ModRegistration
 				requiresCorrectToolForDrops().
 				strength(2.0f);
 		
-		public static final RegistryObject<Block> SKYSTONE = registerBlock(
+		public static final BlockRegObject<ModBaseBlock, ModBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				ModDatabase.Blocks.Names.SKYSTONE, 
-				()-> new ModBaseBlock(baseProps.get().requiresCorrectToolForDrops().strength(2.0f)), true);
+				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
 
 		
-		public static final RegistryObject<ModBlockPedestal> PEDESTAL = registerBlockWithEntity(
+		public static final BlockRegObject<ModBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				ModDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
-				() -> new ModBlockPedestal(
-						baseMachineProps.get(),
-						ModBEPedestal :: new));		
+				baseMachineProps,
+				ModBlockPedestal :: new, 
+				ModRegistration.RegisterItems.baseProps,
+				(b, t) -> new ModBaseBlockItem(b, t));		
 		
-		public static final RegistryObject<ModBlockHolder> HOLDER = registerBlockWithEntity(
-				ModDatabase.Blocks.BlockEntities.Names.HOLDER, 
-				() -> new ModBlockHolder(
-						baseMachineProps.get(),
-						ModBEHolder :: new));
+		public static final BlockRegObject<ModBlockHolder, ModBaseBlockItem> HOLDER = new BlockRegObject<>(
+				ModDatabase.Blocks.BlockEntities.Names.HOLDER,
+				baseMachineProps,
+				ModBlockHolder :: new,
+				ModRegistration.RegisterItems.baseProps,
+				(b, t) -> new ModBaseBlockItem(b, t));
+		
+		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
+		{
+			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
+			
+			private final RegistryObject<T> regObject;
+			private final Supplier<Block.Properties> blockProps;
+			private final RegistryObject<I> itemBlock;
+			private final Supplier<Item.Properties> itemProps;
+			
+			public static BlockRegObject<ModBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props)
+			{
+				return simple(name, props, p -> {});
+			}
+			
+			public static BlockRegObject<ModBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props, Consumer<ModBaseBlock> extra)
+			{
+				return new BlockRegObject<>(name, props, p -> Util.make(new ModBaseBlock(p), extra), ModRegistration.RegisterItems.baseProps, (b, t) -> new ModBaseBlockItem(b, t));
+			}
+			
+			public BlockRegObject(String name, Supplier<Block.Properties> blockProps, Function<Block.Properties, T> makeBlock, Supplier<Item.Properties> itemProps, BiFunction<T, Item.Properties, I> makeItem)
+			{
+				this.blockProps = blockProps;
+				this.regObject = BLOCKS.register(name, () -> makeBlock.apply(blockProps.get()));
+				this.itemProps = itemProps;
+				this.itemBlock = ModRegistration.RegisterItems.ITEMS.register(name, () -> makeItem.apply(regObject.get(), itemProps.get()));
+				
+				ALL_ENTRIES.add(this);
+			}
+			
+			public BlockRegObject (T existing)
+			{
+				this.blockProps = () -> Block.Properties.copy(existing);
+				this.regObject = RegistryObject.create(Registry.BLOCK.getKey(existing), ForgeRegistries.BLOCKS);
+				this.itemBlock = RegistryObject.create(Registry.ITEM.getKey(existing.asItem()), ForgeRegistries.ITEMS);
+				this.itemProps = ModRegistration.RegisterItems.copyProps(itemBlock.get());
+			}
+
+			@Override
+			public Item asItem() 
+			{
+				return itemBlock.get();
+			}
+
+			@Override
+			public T get() 
+			{
+				return regObject.get();
+			}
+			
+			public Supplier<Block.Properties> getBlockProperties() 
+			{
+				return blockProps;
+			}
+			
+			public Supplier<Item.Properties> getItemProperties() 
+			{
+				return itemProps;
+			}
+			
+			public ResourceLocation getId()
+			{
+				return regObject.getId();
+			}
+			
+			public BlockState getDefaultBlockState()
+			{
+				return get().defaultBlockState();
+			}
+		}
 		
 		private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, boolean isItemRequired)
 		{
@@ -108,7 +286,7 @@ public class ModRegistration
 			
 			if (isItemRequired)
 			{
-				RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBlockItemBase(b.get(), RegisterItems.baseProps.get()));
+				RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBaseBlockItem(b.get(), RegisterItems.baseProps.get()));
 			}
 			
 			return b;
@@ -118,7 +296,7 @@ public class ModRegistration
 		{
 			RegistryObject<ModTileProviderBlock<R>> b = BLOCKS.register(name, () -> new ModTileProviderBlock<R>(props, tile));
 			
-			RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBlockItemBase(b.get(), RegisterItems.baseProps.get()));
+			RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBaseBlockItem(b.get(), RegisterItems.baseProps.get()));
 			
 			return b;
 		}
@@ -127,7 +305,7 @@ public class ModRegistration
 		{
 			RegistryObject<T> b = BLOCKS.register(name, block);
 			
-			RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBlockItemBase(b.get(), RegisterItems.baseProps.get()));
+			RegisterItems.ITEMS.register(b.getId().getPath(), ()-> new ModBaseBlockItem(b.get(), RegisterItems.baseProps.get()));
 			
 			return b;
 		}
@@ -162,23 +340,28 @@ public class ModRegistration
 		public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ModDatabase.MOD_ID);
 	
 
-		public static final RegistryObject<BlockEntityType<ModBEPedestal>> BE_PEDESTAL = register(
-				ModDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
-				ModBEPedestal :: new, 
-				RegisterBlocks.PEDESTAL);
+		public static final RegistryObject<BlockEntityType<ModBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
+				ModDatabase.Blocks.BlockEntities.Names.PEDESTAL,
+				makeType(ModBEPedestal :: new, 
+						RegisterBlocks.PEDESTAL));
 
-		public static final RegistryObject<BlockEntityType<ModBEHolder>> BE_HOLDER = register(
-				ModDatabase.Blocks.BlockEntities.Names.HOLDER, 
-				ModBEHolder :: new, 
-				RegisterBlocks.HOLDER);
+		public static final RegistryObject<BlockEntityType<ModBEHolder>> BE_HOLDER = BLOCK_ENTITIES.register(
+				ModDatabase.Blocks.BlockEntities.Names.HOLDER,
+				makeType(ModBEHolder :: new, 
+						RegisterBlocks.HOLDER));
 		
-		@SafeVarargs
-		private static <T extends BlockEntity, R extends Block> RegistryObject<BlockEntityType<T>> register (String name, BlockEntityType.BlockEntitySupplier<T> blockEntity, RegistryObject<R>... blocks)
+		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
-			return BLOCK_ENTITIES.register(name, () -> BlockEntityType.Builder.of(blockEntity, Stream.of(blocks).map(RegistryObject :: get).toArray(Block[] :: new)).build(null));
+			return makeTypeMultipleBlocks(create, ImmutableSet.of(valid));
+		}
+
+		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeTypeMultipleBlocks(
+				BlockEntityType.BlockEntitySupplier<T> create, Collection<? extends Supplier<? extends Block>> valid)
+		{
+			return () -> new BlockEntityType<>(
+					create, ImmutableSet.copyOf(valid.stream().map(Supplier::get).collect(Collectors.toList())), null);
 		}
 	}
-	
 	public static class RegisterRecipes
 	{
 		public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ModDatabase.MOD_ID);

@@ -57,6 +57,7 @@ public class ModDatabase
 			public static final String PLAYER_ARMOR = "player";
 			
 			public static final String HAMMER = "hammer";
+			public static final String CHALK = "chalk";
 			
 			public static class Tools
 			{
@@ -295,164 +296,21 @@ public class ModDatabase
 				public static final List<SectionData> SECTIONS = new LinkedList<>(
 						Arrays.asList(
 								new SectionData (Section.ResourceLocations.ALCHEMY,
-									new ItemStack (net.minecraft.world.level.block.Blocks.CAULDRON)).
-										addPage(Chapters.test, Pages.test).
-										addPage(Chapters.test2, Pages.test2).
-										addPage(Chapters.test3, Pages.test3).
-										addPage(Chapters.test4, Pages.test4).
-										addPage(Chapters.test5, Pages.test5).
-										addPage(Chapters.test6, Pages.test6).
-										addPage(Chapters.test7, Pages.test7).
-										addPage(Chapters.test8, Pages.test8),
+									new ItemStack (net.minecraft.world.level.block.Blocks.CAULDRON)),
+//										addPage(Chapters.test, Pages.test).
 								new SectionData (Section.ResourceLocations.JEWELRY,
-									new ItemStack (net.minecraft.world.item.Items.DIAMOND)).
-										addPage(Chapters.test9, Pages.test9).
-										addPage(Chapters.test10, Pages.test10).
-										addPage(Chapters.test11, Pages.test11).
-										addPage(Chapters.test12, Pages.test12).
-										addPage(Chapters.test13, Pages.test13),
+									new ItemStack (net.minecraft.world.item.Items.DIAMOND)),
 								new SectionData (Section.ResourceLocations.MAGIC,
-									new ItemStack (net.minecraft.world.item.Items.ENDER_PEARL)).
-								addPage(Chapters.test14, Pages.test14).
-								addPage(Chapters.test15, Pages.test15).
-								addPage(Chapters.test16, Pages.test16)
+									new ItemStack (net.minecraft.world.item.Items.ENDER_PEARL))
 						));
 			}
 			public static final String CHAPTER = "chapter";
 			public static class Chapters
 			{
-				public static final ResourceLocation test = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test"));
-				public static final ResourceLocation test2 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test2"));
-				public static final ResourceLocation test3 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test3"));
-				public static final ResourceLocation test4 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test4"));
-				public static final ResourceLocation test5 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test5"));
-				public static final ResourceLocation test6 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test6"));
-				public static final ResourceLocation test7 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test7"));
-				public static final ResourceLocation test8 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test8"));
-				public static final ResourceLocation test9 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test9"));
-				public static final ResourceLocation test10 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test10"));
-				public static final ResourceLocation test11 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test11"));
-				public static final ResourceLocation test12 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test12"));
-				public static final ResourceLocation test13 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test13"));
-				public static final ResourceLocation test14 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test14"));
-				public static final ResourceLocation test15 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test15"));
-				public static final ResourceLocation test16 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION, 
-						CHAPTER,
-						"test16"));
 			}
 			public static final String PAGE = "page";
 			public static class Pages 
 			{
-				public static final ResourceLocation test = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test"));
-				public static final ResourceLocation test2 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test2"));
-				public static final ResourceLocation test3 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test3"));
-				public static final ResourceLocation test4 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test4"));
-				public static final ResourceLocation test5 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test5"));
-				public static final ResourceLocation test6 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test6"));
-				public static final ResourceLocation test7 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test7"));
-				public static final ResourceLocation test8 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test8"));
-				public static final ResourceLocation test9 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test9"));
-				public static final ResourceLocation test10 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test10"));
-				public static final ResourceLocation test11 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test11"));
-				public static final ResourceLocation test12 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test12"));
-				public static final ResourceLocation test13 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test13"));
-				public static final ResourceLocation test14 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test14"));
-				public static final ResourceLocation test15 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test15"));
-				public static final ResourceLocation test16 = StringHelper.getLocFStr(StringHelper.symbolPlacer('.', 
-						ENCHIRIDION,
-						PAGE,
-						"test16"));
 			}
 			
 			private static ResourceLocation getEnchiridionPath (String part, String path)

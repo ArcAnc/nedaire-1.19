@@ -21,7 +21,7 @@ public class ModHammer extends ModBaseItem
 	}
 	
 	@Override
-	public boolean isEnchantable(ItemStack p_41456_) 
+	public boolean isEnchantable(ItemStack stack) 
 	{
 		return false;
 	}
