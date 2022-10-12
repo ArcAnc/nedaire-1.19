@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.capabilities.vim;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.nbt.CompoundTag;
 
@@ -94,20 +94,20 @@ public class VimStorage implements IVim
 	public CompoundTag serializeNBT() 
 	{
 		CompoundTag tag = new CompoundTag();
-		tag.putInt(ModDatabase.Capabilities.Vim.ENERGY, getEnergyStored());
-		tag.putInt(ModDatabase.Capabilities.Vim.MAX_ENERGY, getMaxEnergyStored());
-		tag.putInt(ModDatabase.Capabilities.Vim.EXTRACT, extracting);
-		tag.putInt(ModDatabase.Capabilities.Vim.INPUT, input);
+		tag.putInt(NDatabase.Capabilities.Vim.ENERGY, getEnergyStored());
+		tag.putInt(NDatabase.Capabilities.Vim.MAX_ENERGY, getMaxEnergyStored());
+		tag.putInt(NDatabase.Capabilities.Vim.EXTRACT, extracting);
+		tag.putInt(NDatabase.Capabilities.Vim.INPUT, input);
 		return tag;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag tag) 
 	{
-		this.energy = 		tag.getInt(ModDatabase.Capabilities.Vim.ENERGY);
-		this.maxEnergy = 	tag.getInt(ModDatabase.Capabilities.Vim.MAX_ENERGY);
-		this.extracting = 	tag.getInt(ModDatabase.Capabilities.Vim.EXTRACT);
-		this.input = 		tag.getInt(ModDatabase.Capabilities.Vim.INPUT);
+		this.energy = 		tag.getInt(NDatabase.Capabilities.Vim.ENERGY);
+		this.maxEnergy = 	tag.getInt(NDatabase.Capabilities.Vim.MAX_ENERGY);
+		this.extracting = 	tag.getInt(NDatabase.Capabilities.Vim.EXTRACT);
+		this.input = 		tag.getInt(NDatabase.Capabilities.Vim.INPUT);
 	}
 	
 	public static VimStorage.Config newConfig ()

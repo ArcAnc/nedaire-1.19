@@ -16,7 +16,7 @@ import org.apache.commons.compress.utils.Lists;
 import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -81,7 +81,7 @@ public class EnchElementPage extends EnchElementAbstract
 			if (isAboveArrow(mouseX, mouseY, arrowLeft))
 			{
 				ench.getScreen().blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
-				ench.getScreen().renderTooltip(pos, Component.translatable(ModDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
+				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
 			}
 			else
 			{
@@ -100,7 +100,7 @@ public class EnchElementPage extends EnchElementAbstract
 			if (isAboveArrow(mouseX, mouseY, arrowRight))
 			{
 				ench.getScreen().blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
-				ench.getScreen().renderTooltip(pos, Component.translatable(ModDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
+				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
 			}
 			else
 			{
@@ -118,7 +118,7 @@ public class EnchElementPage extends EnchElementAbstract
 		if (isAboveArrow(mouseX, mouseY, toContent))
 		{
 			ench.getScreen().blit(pos, toContent.getX(), toContent.getY(), 49, 207, 17, toContent.getZ());
-			ench.getScreen().renderTooltip(pos, Component.translatable(ModDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START), mouseX, mouseY);
+			ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START), mouseX, mouseY);
 		}
 		else
 		{

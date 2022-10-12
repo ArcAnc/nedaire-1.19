@@ -20,7 +20,7 @@ import com.arcanc.nedaire.content.itemGroup.ModItemGroup;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
 import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
 import com.arcanc.nedaire.data.ModBlockLootProvider;
@@ -28,9 +28,9 @@ import com.arcanc.nedaire.data.ModBlockStatesProvider;
 import com.arcanc.nedaire.data.ModBlockTagsProvider;
 import com.arcanc.nedaire.data.ModItemModelProvider;
 import com.arcanc.nedaire.data.ModItemTagsProvider;
-import com.arcanc.nedaire.data.crafting.ModRecipeProvider;
-import com.arcanc.nedaire.data.language.ModEnUsLangProvider;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.data.crafting.NRecipeProvider;
+import com.arcanc.nedaire.data.language.NEnUsLangProvider;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.data.DataGenerator;
@@ -50,13 +50,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod(ModDatabase.MOD_ID)
+@Mod(NDatabase.MOD_ID)
 public class Nedaire 
 {
 
     private static Nedaire instance;
 	
-	private static final Logger LOGGER = LogManager.getLogger(ModDatabase.MOD_ID);
+	private static final Logger LOGGER = LogManager.getLogger(NDatabase.MOD_ID);
 
 	public final CreativeModeTab TAB;
 	
@@ -64,20 +64,21 @@ public class Nedaire
 	{
 		instance = this;
 		
-		TAB = new ModItemGroup(ModDatabase.ItemGroups.Main.MAIN);
+		TAB = new ModItemGroup(NDatabase.ItemGroups.Main.MAIN);
 		
 		ModuleJewelry.MUST_PRESENT = false;
 		ModuleRunecarving.MUST_PRESENT = true;
 		
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ModRegistration.RegisterBlocks.BLOCKS.register(modEventBus);
-	    ModRegistration.RegisterItems.ITEMS.register(modEventBus);
-	    ModRegistration.RegisterMaterials.init();
-	    ModRegistration.RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
-	    ModRegistration.RegisterRecipes.RECIPE_SERIALIZERS.register(modEventBus);
-	    ModRegistration.RegisterWorldGen.FEATURES.register(modEventBus);
-	    ModRegistration.RegisterGemEffects.EFFECTS.register(modEventBus);
+		NRegistration.RegisterBlocks.BLOCKS.register(modEventBus);
+	    NRegistration.RegisterItems.ITEMS.register(modEventBus);
+	    NRegistration.RegisterMaterials.init();
+	    NRegistration.RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+	    NRegistration.RegisterRecipes.RECIPE_SERIALIZERS.register(modEventBus);
+	    NRegistration.RegisterRecipes.Types.init(modEventBus);
+	    NRegistration.RegisterWorldGen.FEATURES.register(modEventBus);
+	    NRegistration.RegisterGemEffects.EFFECTS.register(modEventBus);
 		
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
@@ -91,7 +92,6 @@ public class Nedaire
 	    modEventBus.addListener(this :: gatherData);
 	    
 	    MinecraftForge.EVENT_BUS.addListener(this :: updatedTags);
-	    
 	}
 	
 	private void serverSetup(final FMLCommonSetupEvent event)
@@ -126,8 +126,8 @@ public class Nedaire
 	
 	private void registerBlockEntityRenderers() 
 	{
-		BlockEntityRenderers.register(ModRegistration.RegisterBlockEntities.BE_PEDESTAL.get(), PedestalRenderer :: new);	
-		BlockEntityRenderers.register(ModRegistration.RegisterBlockEntities.BE_HOLDER.get(), HolderRenderer :: new);	
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_PEDESTAL.get(), PedestalRenderer :: new);	
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_HOLDER.get(), HolderRenderer :: new);	
 	}
 	
 /*	private void registerBlocksRenderers()
@@ -146,7 +146,7 @@ public class Nedaire
 */	
 	private void registerModelsProperties() 
 	{
-		ModRegistration.RegisterItems.ITEMS.getEntries().
+		NRegistration.RegisterItems.ITEMS.getEntries().
 		stream().
 		map(RegistryObject :: get).
 		forEach(item -> 
@@ -162,7 +162,7 @@ public class Nedaire
 	{
 		if (event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS))
 		{
-			ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+			ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 			event.addSprite(mat.getToolMat().getShieldBase().texture());
 			event.addSprite(mat.getToolMat().getShieldNoPattern().texture());
 		
@@ -188,12 +188,12 @@ public class Nedaire
     		
     	gen.addProvider(event.includeServer(), btp);
         gen.addProvider(event.includeServer(), new ModItemTagsProvider(gen, btp, ext));    	
-        gen.addProvider(event.includeServer(), new ModRecipeProvider(gen));
+        gen.addProvider(event.includeServer(), new NRecipeProvider(gen));
 /*            gen.addProvider(new NedaireMultiblockProvider(gen));
  */   	
     	
     	
-    	gen.addProvider(event.includeClient(), new ModEnUsLangProvider(gen));
+    	gen.addProvider(event.includeClient(), new NEnUsLangProvider(gen));
         gen.addProvider(event.includeClient(), new ModItemModelProvider(gen, ext));
         gen.addProvider(event.includeClient(), new ModBlockStatesProvider(gen, ext));
 

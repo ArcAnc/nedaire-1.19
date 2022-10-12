@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.block;
 import java.util.function.BiFunction;
 
 import com.arcanc.nedaire.content.block.entities.ModBEPedestal;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ModBlockPedestal extends ModTileProviderBlock<ModBEPedestal> 
 {
-	private final VoxelShape shape = Shapes.or(
+	private static final VoxelShape SHAPE = Shapes.or(
 			box(0, 0, 0, 16, 4, 16), 
 			box(2, 12, 2, 14, 16, 14), 
 			box(4, 4, 4, 12, 12, 12));
@@ -42,7 +42,7 @@ public class ModBlockPedestal extends ModTileProviderBlock<ModBEPedestal>
 
 	public ModBlockPedestal(Properties props)
 	{
-		this (props, (bp, state) -> ModRegistration.RegisterBlockEntities.BE_PEDESTAL.get().create(bp, state));
+		super (props, NRegistration.RegisterBlockEntities.BE_PEDESTAL);
 	}
 	
 	@Override
@@ -66,7 +66,7 @@ public class ModBlockPedestal extends ModTileProviderBlock<ModBEPedestal>
 	{
 		if (!level.isClientSide && !oldState.is(newState.getBlock())) 
 		{
-			BlockHelper.castTileEntity(BlockHelper.getTileEntity(level, pos), ModBEPedestal.class).ifPresent(ent -> 
+			BlockHelper.castTileEntity(level, pos, ModBEPedestal.class).ifPresent(ent -> 
 			{
 				ItemHelper.dropContents(level, pos, ItemHelper.getItemHandler(ent)); 
 			});
@@ -77,18 +77,18 @@ public class ModBlockPedestal extends ModTileProviderBlock<ModBEPedestal>
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
 	{
-		return shape;
+		return SHAPE;
 	}
 	
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
 	{
-		return shape;
+		return SHAPE;
 	}
 	
 	@Override
 	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
 	{
-		return shape;
+		return SHAPE;
 	}
 }

@@ -8,19 +8,19 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ModBERedstoneSensitive extends ModBaseBlockEntity 
+public class NBERedstoneSensitive extends ModBaseBlockEntity 
 {
 
 	private int currentRedstoneMod = 2;
 	
-	public ModBERedstoneSensitive(BlockEntityType<?> type, BlockPos pos, BlockState state) 
+	public NBERedstoneSensitive(BlockEntityType<?> type, BlockPos pos, BlockState state) 
 	{
 		super(type, pos, state);
 	}
@@ -60,9 +60,9 @@ public class ModBERedstoneSensitive extends ModBaseBlockEntity
 	public void readCustomTag(CompoundTag tag, boolean descPacket) 
 	{
 		
-		if (tag.contains(ModDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
+		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
 		{
-			this.currentRedstoneMod = tag.getInt(ModDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD);
+			this.currentRedstoneMod = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD);
 		}
 		
 	}
@@ -70,7 +70,7 @@ public class ModBERedstoneSensitive extends ModBaseBlockEntity
 	@Override
 	public void writeCustomTag(CompoundTag tag, boolean descPacket) 
 	{
-		tag.putInt(ModDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, this.currentRedstoneMod);
+		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, this.currentRedstoneMod);
 	}
 
 }

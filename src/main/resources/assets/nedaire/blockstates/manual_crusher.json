@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "nedaire:block/manual_crusher"
+    },
+    "facing=west": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 90
+    }
+  }
+}

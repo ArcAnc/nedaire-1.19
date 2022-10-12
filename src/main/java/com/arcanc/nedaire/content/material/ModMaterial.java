@@ -30,11 +30,11 @@ import com.arcanc.nedaire.content.material.armor.player.ModAbstractPlayerArmorMa
 import com.arcanc.nedaire.content.material.armor.player.ModPlayerArmorMaterial;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.content.material.tool.ModToolMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
-import com.arcanc.nedaire.content.registration.ModRegistration.RegisterBlocks.BlockRegObject;
-import com.arcanc.nedaire.content.registration.ModRegistration.RegisterItems.ItemRegObject;
-import com.arcanc.nedaire.util.database.ModDatabase;
-import com.arcanc.nedaire.util.database.ModDatabase.Items;
+import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration.RegisterBlocks.BlockRegObject;
+import com.arcanc.nedaire.content.registration.NRegistration.RegisterItems.ItemRegObject;
+import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.base.Supplier;
 
@@ -73,7 +73,7 @@ public class ModMaterial
 	{
 		this.name = props.name;
 		
-		this.ingot = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.INGOT));
+		this.ingot = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.INGOT));
 		
 		this.toolMat = new ModToolMaterial.Builder().
 				setDurability(props.toolDurability).
@@ -103,8 +103,8 @@ public class ModMaterial
 				setEquipSound(props.playerArmorEquipSound).
 				setRepairIngredient(props.playerArmorRepairIngredient != null ? props.playerArmorRepairIngredient : () -> Ingredient.of(ingot.get())).
 				setKnockbackResistance(0.0f).
-				setTexturePathMain(props.playerArmorTexturePathMain != null ? props.playerArmorTexturePathMain : StringHelper.getStrLocFStr("textures/entity/" + ModDatabase.Items.Names.ARMOR + "/" + ModDatabase.Items.Names.PLAYER_ARMOR + "/") + name + "_"  + "1" + ".png").
-				setTexturePathSecondary(props.playerArmorTexturePathSecondary != null ? props.playerArmorTexturePathSecondary : StringHelper.getStrLocFStr("textures/entity/" + ModDatabase.Items.Names.ARMOR + "/" + ModDatabase.Items.Names.PLAYER_ARMOR + "/") + name + "_"  + "2" + ".png").
+				setTexturePathMain(props.playerArmorTexturePathMain != null ? props.playerArmorTexturePathMain : StringHelper.getStrLocFStr("textures/entity/" + NDatabase.Items.Names.ARMOR + "/" + NDatabase.Items.Names.PLAYER_ARMOR + "/") + name + "_"  + "1" + ".png").
+				setTexturePathSecondary(props.playerArmorTexturePathSecondary != null ? props.playerArmorTexturePathSecondary : StringHelper.getStrLocFStr("textures/entity/" + NDatabase.Items.Names.ARMOR + "/" + NDatabase.Items.Names.PLAYER_ARMOR + "/") + name + "_"  + "2" + ".png").
 				build();
 		
 		this.horseArmorMat = new ModHorseArmorMaterial.Builder().
@@ -114,8 +114,8 @@ public class ModMaterial
 				build();
 
 		
-		this.nugget = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.NUGGET));
-		this.dust = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.DUST));
+		this.nugget = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.NUGGET));
+		this.dust = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.DUST));
 		
 		this.pickaxe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.PICKAXE), (p) -> new ModPickaxeBase(toolMat));
 		this.axe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.AXE), (p) -> new ModAxeBase(toolMat, toolMat.getAttackDamageBonus() + 5 - 1, -3.2f));
@@ -135,25 +135,25 @@ public class ModMaterial
 		this.playerArmorLegs = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), (p) -> new ModArmorBase(armorMat, EquipmentSlot.LEGS));
 		this.playerArmorFeet = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), (p) -> new ModArmorBase(armorMat, EquipmentSlot.FEET));
 	
-		this.storageBlock = ModRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK), () -> Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL));
+		this.storageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK), () -> Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL));
 	
 		this.isRequiredOre = props.isRequiredOre;
 		
 		if (this.isRequiredOre)
 		{
-			this.raw = ModRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.RAW));
+			this.raw = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.RAW));
 
-			this.oreBlock = new BlockRegObject<>(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.ORE), 
+			this.oreBlock = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.ORE), 
 					() -> Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), 
 					ModOreBlock :: new, 
 					baseProps, 
 					ModBaseBlockItem :: new);
 			
-			this.rawStorageBlock = ModRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.STORAGE_BLOCK, 
-					ModDatabase.Items.Names.RAW), 
+			this.rawStorageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK, 
+					NDatabase.Items.Names.RAW), 
 					() -> Block.Properties.of(Material.STONE /*FIXME: create material Color for it*/).requiresCorrectToolForDrops().strength(5.0f, 6.0f));
 			
-			this.deepSlateOre = new BlockRegObject<>(StringHelper.slashPlacer(this.name, ModDatabase.Blocks.Names.DEEPSLATE), 
+			this.deepSlateOre = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.DEEPSLATE), 
 					() -> Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE),
 					ModOreBlock :: new,
 					baseProps,

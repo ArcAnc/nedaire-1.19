@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +26,7 @@ public class ModTags
 {
 	public static class Blocks 
 	{
-		public static final MaterialTag CORIUM = new ModTags.Blocks.MaterialTag(ModDatabase.Materials.CORIUM);
+		public static final MaterialTag CORIUM = new ModTags.Blocks.MaterialTag(NDatabase.Materials.CORIUM);
 		
 		public static final Map<String, ModTags.Blocks.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(ModTags.Blocks.MaterialTag :: getName, mat -> mat));
 		
@@ -41,8 +41,8 @@ public class ModTags
 			{
 				this.name = name;
 				
-				this.storageBlock = forgeTag(ModDatabase.Blocks.Names.STORAGE_BLOCK + "s/" + name);
-				this.ore = forgeTag(ModDatabase.Blocks.Names.ORE + "s/" + name);
+				this.storageBlock = forgeTag(NDatabase.Blocks.Names.STORAGE_BLOCK + "s/" + name);
+				this.ore = forgeTag(NDatabase.Blocks.Names.ORE + "s/" + name);
 			}
 			
 			public String getName() 
@@ -83,7 +83,7 @@ public class ModTags
 	public static class Items
 	{
 	
-		public static final MaterialTag CORIUM = new ModTags.Items.MaterialTag(ModDatabase.Materials.CORIUM);
+		public static final MaterialTag CORIUM = new ModTags.Items.MaterialTag(NDatabase.Materials.CORIUM);
 		
 		public static final Map<String, ModTags.Items.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(ModTags.Items.MaterialTag :: getName, mat -> mat));
 		
@@ -103,13 +103,13 @@ public class ModTags
 			{
 				this.name = name;
 				
-				this.ingot = forgeTag(ModDatabase.Items.Names.INGOT + "s/" + name);
-				this.nugget = forgeTag(ModDatabase.Items.Names.NUGGET + "s/" + name);
-				this.dust = forgeTag(ModDatabase.Items.Names.DUST + "s/" + name);
-				this.raw = forgeTag(ModDatabase.Items.Names.RAW + "_materials/" + name);
+				this.ingot = forgeTag(NDatabase.Items.Names.INGOT + "s/" + name);
+				this.nugget = forgeTag(NDatabase.Items.Names.NUGGET + "s/" + name);
+				this.dust = forgeTag(NDatabase.Items.Names.DUST + "s/" + name);
+				this.raw = forgeTag(NDatabase.Items.Names.RAW + "_materials/" + name);
 
-				this.storageBlock = forgeTag(ModDatabase.Blocks.Names.STORAGE_BLOCK + "s/" + name);
-				this.ore = forgeTag(ModDatabase.Blocks.Names.ORE + "s/" + name);
+				this.storageBlock = forgeTag(NDatabase.Blocks.Names.STORAGE_BLOCK + "s/" + name);
+				this.ore = forgeTag(NDatabase.Blocks.Names.ORE + "s/" + name);
 			}
 			
 			public String getName() 

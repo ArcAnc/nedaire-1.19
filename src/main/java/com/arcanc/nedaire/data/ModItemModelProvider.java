@@ -9,8 +9,8 @@
 package com.arcanc.nedaire.data;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.data.DataGenerator;
@@ -25,13 +25,13 @@ public class ModItemModelProvider extends ItemModelProvider
 {
 	public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) 
 	{
-		super(generator, ModDatabase.MOD_ID, existingFileHelper);
+		super(generator, NDatabase.MOD_ID, existingFileHelper);
 	}
 
 	@Override
 	protected void registerModels() 
 	{
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		simpleItem(mat.getIngot().getId());
 		simpleItem(mat.getDust().getId());
@@ -60,9 +60,9 @@ public class ModItemModelProvider extends ItemModelProvider
 		simpleItem(mat.getPlayerArmorLegs().getId());
 		simpleItem(mat.getPlayerArmorFeet().getId());
 		
-		handheld(ModRegistration.RegisterItems.HAMMER.getId());
-		simpleItem(ModRegistration.RegisterItems.CHALK.getId());
-		handheld(ModRegistration.RegisterItems.BOOK.getId());
+		handheld(NRegistration.RegisterItems.HAMMER.getId());
+		simpleItem(NRegistration.RegisterItems.CHALK.getId());
+		handheld(NRegistration.RegisterItems.BOOK.getId());
 	}
 	
 	private void shield (ResourceLocation loc)

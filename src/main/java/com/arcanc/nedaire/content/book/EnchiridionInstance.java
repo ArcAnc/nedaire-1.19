@@ -15,8 +15,8 @@ import java.util.function.Supplier;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.content.book.parts.Chapter;
 import com.arcanc.nedaire.content.book.parts.EnchElementList;
-import com.arcanc.nedaire.util.database.ModDatabase;
-import com.arcanc.nedaire.util.database.ModDatabase.GUI.Enchiridion.Section.SectionData;
+import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.database.NDatabase.GUI.Enchiridion.Section.SectionData;
 import com.google.common.collect.Maps;
 
 import net.minecraft.network.chat.Component;
@@ -45,11 +45,11 @@ public class EnchiridionInstance
 		
 		/** FIXME: Add custom event for filling  database*/
 		
-		for (SectionData data : ModDatabase.GUI.Enchiridion.Section.SECTIONS)
+		for (SectionData data : NDatabase.GUI.Enchiridion.Section.SECTIONS)
 		{
 			int upperS = upper;
 			int bottomS = bottom;
-			boolean isNative = data.name().getNamespace() == ModDatabase.MOD_ID;
+			boolean isNative = data.name().getNamespace() == NDatabase.MOD_ID;
 			CONTENT.put(data.name(), () -> new Chapter(
 					isNative ? screen.guiLeft + 15 + (20 * upperS) + (4 * upperS) : screen.guiLeft + 15 + (20 * bottomS) + (4 * bottomS), 
 					isNative ? screen.guiTop + 175 : screen.guiTop + 21, 

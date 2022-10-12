@@ -9,9 +9,9 @@
 package com.arcanc.nedaire.data;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.tags.ModTags;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -23,7 +23,7 @@ public class ModItemTagsProvider extends ItemTagsProvider
 {
 	public ModItemTagsProvider(DataGenerator gen, BlockTagsProvider blockTagsProvider, ExistingFileHelper ext) 
 	{
-		super(gen, blockTagsProvider, ModDatabase.MOD_ID, ext);
+		super(gen, blockTagsProvider, NDatabase.MOD_ID, ext);
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class ModItemTagsProvider extends ItemTagsProvider
 		copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		copy(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock(), ModTags.Items.MATERIALS.get(mat.getName()).getStorageBlock());
 			
@@ -55,7 +55,7 @@ public class ModItemTagsProvider extends ItemTagsProvider
 		tag(Tags.Items.RAW_MATERIALS).addTag(ModTags.Items.MATERIALS.get(mat.getName()).getRaw());
 		tag(ModTags.Items.MATERIALS.get(mat.getName()).getRaw()).add(mat.getRaw().get());
 	
-		tag(ModTags.Items.WRENCH).add(ModRegistration.RegisterItems.HAMMER.get());
+		tag(ModTags.Items.WRENCH).add(NRegistration.RegisterItems.HAMMER.get());
 		
 		
 	}

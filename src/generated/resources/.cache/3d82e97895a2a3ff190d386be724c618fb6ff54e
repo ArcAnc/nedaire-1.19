@@ -1,6 +1,7 @@
-// 1.19.2	2022-08-21T17:48:01.8130129	Nedaire Block Loot Provider
+// 1.19.2	2022-10-11T01:49:11.4927661	Nedaire Block Loot Provider
 7ebb1f7e2354bac34aca0202262147a02d46dc91 data/nedaire/loot_tables/blocks/deepslate/corium.json
 e858706e3b0af0ddf98a4439dabeda538f7d86ed data/nedaire/loot_tables/blocks/holder.json
+522d9d1fa41ec0234bdf4837322f25eaf37b13ed data/nedaire/loot_tables/blocks/manual_crusher.json
 fed5f17ab02ca96bb89ae3643b5f3dd796f8e9e5 data/nedaire/loot_tables/blocks/ore/corium.json
 790791b549b110018801916f423025cad627359f data/nedaire/loot_tables/blocks/pedestal.json
 3b28471143228a1fe3f84aa37412bc115b28ab60 data/nedaire/loot_tables/blocks/skystone.json

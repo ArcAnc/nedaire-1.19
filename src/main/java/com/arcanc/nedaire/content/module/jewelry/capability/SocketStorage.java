@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.SocketHelper;
 
 import net.minecraft.core.Direction;
@@ -237,7 +237,7 @@ public class SocketStorage implements ISocket
     	Item item = event.getObject().getItem();
     	if (item instanceof ArmorItem || item instanceof HorseArmorItem)
     	{
-    		event.addCapability(new ResourceLocation(ModDatabase.Capabilities.Socket.TAG_LOCATION), new ICapabilityProvider() 
+    		event.addCapability(new ResourceLocation(NDatabase.Capabilities.Socket.TAG_LOCATION), new ICapabilityProvider() 
     		{
 				private SocketStorage storage = new SocketStorage();
     			

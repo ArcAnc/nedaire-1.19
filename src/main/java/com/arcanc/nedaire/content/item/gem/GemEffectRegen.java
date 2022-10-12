@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.item.gem;
 
 import java.awt.Color;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +28,7 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 	
 	public GemEffectRegen(Color color, int period, int power) 
 	{
-		super(color, ModDatabase.Capabilities.Socket.Regeneration.NAME);
+		super(color, NDatabase.Capabilities.Socket.Regeneration.NAME);
 		
 		this.period = period;
 		this.healPower = power;
@@ -51,7 +51,7 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 		if (!stack.isEmpty() && level != null && entity != null && entity.isAlive())
 		{
 			CompoundTag tag = stack.getOrCreateTag();
-			long lastTick = tag.getLong(ModDatabase.Capabilities.Socket.Regeneration.LAST_TICK);
+			long lastTick = tag.getLong(NDatabase.Capabilities.Socket.Regeneration.LAST_TICK);
 			long curTime = level.getGameTime();
 			if (lastTick + period <= curTime)
 			{
@@ -60,7 +60,7 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 					entity.heal(healPower);
 				}
 			
-			tag.putLong(ModDatabase.Capabilities.Socket.Regeneration.LAST_TICK, curTime);
+			tag.putLong(NDatabase.Capabilities.Socket.Regeneration.LAST_TICK, curTime);
 			}
 		}
 	}
@@ -82,17 +82,17 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 		
 		super.loadEffect(tag);
 		
-		if (!tag.contains(ModDatabase.Capabilities.Socket.Regeneration.LAST_TICK))
+		if (!tag.contains(NDatabase.Capabilities.Socket.Regeneration.LAST_TICK))
 		{
-			tag.putLong(ModDatabase.Capabilities.Socket.Regeneration.LAST_TICK, 0);
+			tag.putLong(NDatabase.Capabilities.Socket.Regeneration.LAST_TICK, 0);
 		}
-		if (tag.contains(ModDatabase.Capabilities.Socket.Regeneration.HEAL_POWER))
+		if (tag.contains(NDatabase.Capabilities.Socket.Regeneration.HEAL_POWER))
 		{
-			this.healPower = tag.getInt(ModDatabase.Capabilities.Socket.Regeneration.HEAL_POWER);
+			this.healPower = tag.getInt(NDatabase.Capabilities.Socket.Regeneration.HEAL_POWER);
 		}
-		if (tag.contains(ModDatabase.Capabilities.Socket.Regeneration.PERIOD))
+		if (tag.contains(NDatabase.Capabilities.Socket.Regeneration.PERIOD))
 		{
-			this.healPower = tag.getInt(ModDatabase.Capabilities.Socket.Regeneration.PERIOD);
+			this.healPower = tag.getInt(NDatabase.Capabilities.Socket.Regeneration.PERIOD);
 		}
 		return this;
 	}
@@ -102,8 +102,8 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 	{
 		CompoundTag tag = super.saveEffect(); 
 		
-		tag.putInt(ModDatabase.Capabilities.Socket.Regeneration.HEAL_POWER, healPower);
-		tag.putInt(ModDatabase.Capabilities.Socket.Regeneration.PERIOD, period);
+		tag.putInt(NDatabase.Capabilities.Socket.Regeneration.HEAL_POWER, healPower);
+		tag.putInt(NDatabase.Capabilities.Socket.Regeneration.PERIOD, period);
 		
 		return tag;
 	}

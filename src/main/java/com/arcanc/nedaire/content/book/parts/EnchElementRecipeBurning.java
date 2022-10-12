@@ -17,7 +17,7 @@ import org.apache.commons.compress.utils.Lists;
 import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -137,13 +137,13 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 				{
 					RenderSystem.enableBlend();
 					
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(ModDatabase.GUI.Enchiridion.Recipes.Translatable.TICKS, time)), Optional.empty(), mouseX, mouseY);
+					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.TICKS, time)), Optional.empty(), mouseX, mouseY);
 				}
 				else if (mouseX >= expPos.x + 18 && mouseY >= expPos.y + 2 && mouseX <= expPos.x + 18 + 11 && mouseY <= expPos.y + 2 +11)
 				{
 					RenderSystem.enableBlend();
 					
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(ModDatabase.GUI.Enchiridion.Recipes.Translatable.EXPERIENCE, exp)), Optional.empty(), mouseX, mouseY);
+					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.EXPERIENCE, exp)), Optional.empty(), mouseX, mouseY);
 				}
 			}
 		});

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.nbt.CompoundTag;
@@ -65,20 +65,20 @@ public abstract class GemEffect <T extends GemEffect<T>>
 	{
 		CompoundTag tag = new CompoundTag();
 		
-		tag.putUUID(ModDatabase.Capabilities.Socket.ID, id);
-		tag.putInt(ModDatabase.Capabilities.Socket.COLOR, color.getRGB());
-		tag.putString(ModDatabase.Capabilities.Socket.NAME, name);
+		tag.putUUID(NDatabase.Capabilities.Socket.ID, id);
+		tag.putInt(NDatabase.Capabilities.Socket.COLOR, color.getRGB());
+		tag.putString(NDatabase.Capabilities.Socket.NAME, name);
 		
 		return tag;
 	}
 	
 	protected GemEffect<T> loadEffect (CompoundTag tag)
 	{
-		if (tag.contains(ModDatabase.Capabilities.Socket.ID))
+		if (tag.contains(NDatabase.Capabilities.Socket.ID))
 		{
-			this.id = tag.getUUID(ModDatabase.Capabilities.Socket.ID);
-			this.color = new Color(tag.getInt(ModDatabase.Capabilities.Socket.COLOR));
-			this.name = tag.getString(ModDatabase.Capabilities.Socket.NAME);
+			this.id = tag.getUUID(NDatabase.Capabilities.Socket.ID);
+			this.color = new Color(tag.getInt(NDatabase.Capabilities.Socket.COLOR));
+			this.name = tag.getString(NDatabase.Capabilities.Socket.NAME);
 		}
 		
 		return this;

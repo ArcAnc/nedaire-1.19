@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.container;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.arcanc.nedaire.util.inventory.IItemStackAcess;
 import com.arcanc.nedaire.util.inventory.ModManagedItemStorage;
@@ -23,10 +23,10 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public abstract class ModSlot extends SlotItemHandler 
 {	
-	public static final ResourceLocation BACKGROUND_STANDART = StringHelper.getLocFStr(ModDatabase.GUI.Slots.Textures.STANDART);
-	public static final ResourceLocation BACKGROUND_INPUT = StringHelper.getLocFStr(ModDatabase.GUI.Slots.Textures.INPUT);
-	public static final ResourceLocation BACKGROUND_OUPUT = StringHelper.getLocFStr(ModDatabase.GUI.Slots.Textures.OUTPUT);
-	public static final ResourceLocation BACKGROUND_BOTH = StringHelper.getLocFStr(ModDatabase.GUI.Slots.Textures.BOTH);
+	public static final ResourceLocation BACKGROUND_STANDART = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.STANDART);
+	public static final ResourceLocation BACKGROUND_INPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.INPUT);
+	public static final ResourceLocation BACKGROUND_OUPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.OUTPUT);
+	public static final ResourceLocation BACKGROUND_BOTH = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.BOTH);
 	
 	private final AbstractContainerMenu containerMenu;
 

@@ -22,7 +22,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class ModDatabase 
+public class NDatabase 
 {
 	public static final String MOD_ID = "nedaire";
 	public static final String VERSION = "${version}";
@@ -108,6 +108,7 @@ public class ModDatabase
 			{
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
+				public static final String MANUAL_CRUSHER = "manual_crusher";
 			}
 			
 			public static class TagAddress
@@ -127,7 +128,30 @@ public class ModDatabase
 
 	public static class Recipes
 	{
+		public static class StackWithChanceNBT
+		{
+			public static final String CHANCE = "chance";
+			public static final String STACK = "stack";
+		}
 		
+		public static class IngredientWithSizeNBT
+		{
+			public static final String COUNT_KEY = "count";
+			public static final String BASE_KEY = "base_ingredient";
+		}
+		
+		public static class Types
+		{
+			public static final String CRUSHER = "crusher";
+			public static class Crusher
+			{
+				public static final String RESULT = "result";
+				public static final String INPUT = "input";
+				public static final String SECONDARIES = "secondaries";
+				public static final String ENERGY = "energy";
+				public static final String IS_MANUAL = "is_manual";
+			}
+		}
 		public static class VanillaTypes
 		{
 			public static final String SMELTING = "smelting";

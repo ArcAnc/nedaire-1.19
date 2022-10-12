@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.itemGroup;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.network.chat.Component;
@@ -24,7 +24,7 @@ public class ModItemGroup extends CreativeModeTab
 		
 		hideTitle();
 		
-		setBackgroundImage(StringHelper.getLocFStr(ModDatabase.ItemGroups.BACKGROUND_IMAGE_PATH + label + ".png"));
+		setBackgroundImage(StringHelper.getLocFStr(NDatabase.ItemGroups.BACKGROUND_IMAGE_PATH + label + ".png"));
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class ModItemGroup extends CreativeModeTab
 	@Override
 	public Component getDisplayName() 
 	{
-		return Component.translatable(ModDatabase.MOD_ID + ".itemGroup." + getRecipeFolderName());
+		return Component.translatable(NDatabase.MOD_ID + ".itemGroup." + getRecipeFolderName());
 	}
 	
 	@Override

@@ -9,8 +9,8 @@
 package com.arcanc.nedaire.content.block.entities;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.registration.ModRegistration;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.inventory.ItemStackHolder;
 import com.arcanc.nedaire.util.inventory.ModSimpleItemStorage;
@@ -34,7 +34,7 @@ public class ModBEHolder extends ModBaseBlockEntity implements IInventoryCallbac
 
 	public ModBEHolder(BlockPos pos, BlockState state) 
 	{
-		super(ModRegistration.RegisterBlockEntities.BE_HOLDER.get(), pos, state);
+		super(NRegistration.RegisterBlockEntities.BE_HOLDER.get(), pos, state);
 		inv = new ModSimpleItemStorage(this).addSlot(new ItemStackHolder(1));
 	}
 	
@@ -90,13 +90,13 @@ public class ModBEHolder extends ModBaseBlockEntity implements IInventoryCallbac
 	@Override
 	public void readCustomTag(CompoundTag tag, boolean descPacket) 
 	{
-		inv.deserializeNBT(tag.getCompound(ModDatabase.Capabilities.ItemHandler.TAG_LOCATION));
+		inv.deserializeNBT(tag.getCompound(NDatabase.Capabilities.ItemHandler.TAG_LOCATION));
 	}
 
 	@Override
 	public void writeCustomTag(CompoundTag tag, boolean descPacket) 
 	{
-		tag.put(ModDatabase.Capabilities.ItemHandler.TAG_LOCATION, inv.serializeNBT());
+		tag.put(NDatabase.Capabilities.ItemHandler.TAG_LOCATION, inv.serializeNBT());
 	}
 	
 	@Override

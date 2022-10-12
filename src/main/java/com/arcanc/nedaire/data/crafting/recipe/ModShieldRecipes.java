@@ -9,7 +9,7 @@
 package com.arcanc.nedaire.data.crafting.recipe;
 
 import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -118,7 +118,7 @@ public class ModShieldRecipes extends ShieldDecorationRecipe
 	   @Override
 	   public RecipeSerializer<?> getSerializer() 
 	   {
-		   return ModRegistration.RegisterRecipes.SHIELD_SERIALIZER.get();
+		   return NRegistration.RegisterRecipes.SHIELD_SERIALIZER.get();
 	   }
 
 }

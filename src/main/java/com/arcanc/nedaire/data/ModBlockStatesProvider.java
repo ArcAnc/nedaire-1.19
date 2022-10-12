@@ -9,13 +9,14 @@
 package com.arcanc.nedaire.data;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -28,14 +29,14 @@ public class ModBlockStatesProvider extends BlockStateProvider
 
 	public ModBlockStatesProvider(DataGenerator gen, ExistingFileHelper exFileHelper) 
 	{
-		super(gen, ModDatabase.MOD_ID, exFileHelper);
+		super(gen, NDatabase.MOD_ID, exFileHelper);
 	}
 
 	
 	@Override
 	protected void registerStatesAndModels() 
 	{
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		registerSimpleBlock (mat.getStorageBlock().get());
 		
@@ -46,10 +47,11 @@ public class ModBlockStatesProvider extends BlockStateProvider
 			registerDeepslateOreBlock(mat.getDeepSlateOre().get());
 		}
 		
-		registerSimpleBlock(ModRegistration.RegisterBlocks.SKYSTONE.get());
+		registerSimpleBlock(NRegistration.RegisterBlocks.SKYSTONE.get());
 		
-		registerPedestal(ModRegistration.RegisterBlocks.PEDESTAL.get());
-		registerHolder(ModRegistration.RegisterBlocks.HOLDER.get());
+		registerPedestal(NRegistration.RegisterBlocks.PEDESTAL.get());
+		registerHolder(NRegistration.RegisterBlocks.HOLDER.get());
+		registerManualChusher(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -102,134 +104,75 @@ public class ModBlockStatesProvider extends BlockStateProvider
 					cube("#ore").
 					end();
 		
-		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
-
-		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(model);
+		registerModels(block, model);
 	}
 	
 	private void registerPedestal(Block block) 
 	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_side"));
+		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_top"));
+		
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
-				texture("side", StringHelper.getLocFStr(blockPrefix(ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_side"))).
-				texture("top", StringHelper.getLocFStr(blockPrefix(ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_top"))).
-				texture("particle", StringHelper.getLocFStr(blockPrefix(ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + ModDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_side"))).
+				texture("side", texSide).
+				texture("top", texTop).
+				texture("particle", texSide).
 				element().
 					from(0, 0, 0).
 					to(16, 4, 16).
-						face(Direction.DOWN).
-							texture("#top").
-							cullface(Direction.DOWN).
-							end().
-						face(Direction.UP).
-							texture("#top").
-							end().
-						face(Direction.NORTH).
-							texture("#side").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.SOUTH).
-							texture("#side").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#side").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.EAST).
-							texture("#side").
-							cullface(Direction.EAST).
-							end().
+						allFaces((face, builder) -> 
+						{
+							if (face == Direction.DOWN || face == Direction.UP)
+								builder.texture("#top");
+							else
+								builder.texture("#side");
+							builder.cullface(face).end();
+						}).
 					end().
 				element().
 					from(2, 12, 2).
 					to(14, 16, 14).
-						face(Direction.DOWN).
-							texture("#top").
-							end().
-						face(Direction.UP).
-							texture("#top").
-							end().
-						face(Direction.NORTH).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							texture("#side").
-							end().
+						allFaces((face, builder) -> 
+						{
+							if (face == Direction.DOWN || face == Direction.UP)
+								builder.texture("#top");
+							else
+								builder.texture("#side");
+							builder.cullface(face).end();
+						}).
 					end().
 				element().
 					from(4, 4, 4).
 					to(12, 12, 12).
-						face(Direction.DOWN).
-							texture("#top").
-							end().
-						face(Direction.UP).
-							texture("#top").
-							end().
-						face(Direction.NORTH).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							texture("#side").
-							end().
+						allFaces((face, builder) -> 
+						{
+							if (face == Direction.DOWN || face == Direction.UP)
+								builder.texture("#top");
+							else
+								builder.texture("#side");
+							builder.cullface(face).end();
+						}).
 					end();
 	
-		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
-		
-		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(model);
+		registerModels(block, model);
 	}
 
 	private void registerHolder(Block block) 
 	{
 		/*TODO: add uvs here!*/
 		
+		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.Names.SKYSTONE));
+		
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
-				texture("main", StringHelper.getLocFStr(blockPrefix(ModDatabase.Blocks.Names.SKYSTONE))).
-				texture("patricle", StringHelper.getLocFStr(blockPrefix(ModDatabase.Blocks.Names.SKYSTONE))).
+				texture("main", tex).
+				texture("patricle", tex).
 				element().
 					from(0,10,0).
 					to(16,16,16).
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(7.5f, 10.75f, 7.5f).
@@ -239,30 +182,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.Z).
 							origin(7, 9, 8).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(2.5f, 8.25f, 7.5f).
@@ -272,30 +192,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.Z).
 							origin(7, 9, 8).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(8.5f, 9.75f, 1.75f).
@@ -305,30 +202,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.X).
 							origin(7, 9, 8).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(8.5f, 3f, 8.25f).
@@ -338,30 +212,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.X).
 							origin(7, 9, 8).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(-1.67f, 5.85f, 7.5f).
@@ -371,30 +222,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.Z).
 							origin(0, 0, 0).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(5.85f, 11.07f, 7.5f).
@@ -404,30 +232,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.Z).
 							origin(0, 0, 0).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(8.5f, 10.27f, 5.25f).
@@ -437,30 +242,7 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.X).
 							origin(0, 0, 0).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 					from(8.5f, -0.54f, 4.77f).
@@ -470,36 +252,103 @@ public class ModBlockStatesProvider extends BlockStateProvider
 							axis(Direction.Axis.X).
 							origin(0, 0, 0).
 							end().
-						face(Direction.NORTH).
-							texture("#main").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.EAST).
-							texture("#main").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.SOUTH).
-							texture("#main").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.WEST).
-							texture("#main").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							texture("#main").
-							cullface(Direction.UP).
-							end().
-						face(Direction.DOWN).
-							texture("#main").
-							cullface(Direction.DOWN).
-							end().
+						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end();
 
+		registerModels(block, model);
+	}
+	
+	private void registerManualChusher(Block block)
+	{
+		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER + "/" + NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER));
+		
+		ModelFile model = models().
+				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
+				renderType("cutout").
+				texture("main", tex).
+				texture("particle", tex).
+				element().
+					from(2, 0, 2).
+					to(14, 6, 14).
+						face(Direction.NORTH).
+							uvs(9, 3, 12, 4.5f).
+							end().
+						face(Direction.SOUTH).
+							uvs(3, 3, 6, 4.5f).
+							end().
+						face(Direction.EAST).
+							uvs(0, 3, 3, 4.5f).
+							end().
+						face(Direction.WEST).
+							uvs(6, 3, 9, 4.5f).
+							end().
+						face(Direction.UP).
+							uvs(6, 3, 3, 0).
+							end().
+						face(Direction.DOWN).
+							uvs(9, 0, 6, 3).
+							end().
+						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				end().
+				element().
+					from(3, 6, 3).
+					to(13, 14, 13).
+						face(Direction.NORTH).
+							uvs(2.5f, 7, 5, 9).
+							end().
+						face(Direction.SOUTH).
+							uvs(7.5f, 7, 10, 9).
+							end().
+						face(Direction.EAST).
+							uvs(0, 7, 2.5f, 9).
+							end().
+						face(Direction.WEST).
+							uvs(5, 7, 7.5f, 9).
+							end().
+						face(Direction.UP).
+							uvs(5, 7, 2.5f, 4.5f).
+							end().
+						face(Direction.DOWN).
+							uvs(7.5f, 4.5f, 5, 7).
+							end().
+						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				end().
+				element().
+					from(2, 14, 2).
+					to(14, 16, 14).
+						face(Direction.NORTH).
+							uvs(3, 12, 6, 12.5f).
+							end().
+						face(Direction.SOUTH).
+							uvs(9, 12, 12, 12.5f).
+							end().
+						face(Direction.EAST).
+							uvs(0, 12, 3, 12.5f).
+							end().
+						face(Direction.WEST).
+							uvs(6, 12, 3, 9).
+							end().
+						face(Direction.UP).
+							uvs(6, 12, 3, 9).
+							end().
+						face(Direction.DOWN).
+							uvs(9, 9, 6, 12).
+							end().
+						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				end();
+	
+		horizontalBlock(block, model, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(model);
+	}
+	
+	private void registerModels(Block block, ModelFile model)
+	{
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
 		
 		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(model);
+		parent(model);
 	}
 	
 	private String itemPrefix(String str)

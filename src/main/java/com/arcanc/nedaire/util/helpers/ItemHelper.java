@@ -9,11 +9,16 @@
 package com.arcanc.nedaire.util.helpers;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Containers;
 import net.minecraft.world.item.Item;
@@ -30,7 +35,16 @@ public class ItemHelper
 {
 	public static Capability<IItemHandler> itemHandler = ForgeCapabilities.ITEM_HANDLER;
 	
+	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	
+	public static CompoundTag parseNbtFromJson(JsonElement jsonElement) throws CommandSyntaxException
+	{
+		if(jsonElement.isJsonObject())
+			return TagParser.parseTag(GSON.toJson(jsonElement));
+		else
+			return TagParser.parseTag(jsonElement.getAsString());
+	}
+
 	public static ItemStack copyStackWithAmount(ItemStack stack, int count)
 	{
 		ItemStack ret = stack.copy();

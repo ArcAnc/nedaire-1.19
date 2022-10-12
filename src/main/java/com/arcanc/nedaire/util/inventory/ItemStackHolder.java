@@ -10,7 +10,7 @@ package com.arcanc.nedaire.util.inventory;
 
 import javax.annotation.Nonnull;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.base.Predicate;
 
 import net.minecraft.nbt.CompoundTag;
@@ -219,7 +219,7 @@ public class ItemStackHolder implements IItemStackAcess
 	@Override
 	public IItemStackAcess load(CompoundTag nbt) 
 	{
-		this.stackLimit = nbt.getInt(ModDatabase.Capabilities.ItemHandler.ItemHolder.SLOT_LIMIT);
+		this.stackLimit = nbt.getInt(NDatabase.Capabilities.ItemHandler.ItemHolder.SLOT_LIMIT);
 		this.stack = ItemStack.of(nbt);
 		
 		return this;
@@ -231,7 +231,7 @@ public class ItemStackHolder implements IItemStackAcess
 		CompoundTag nbt = new CompoundTag();
 		
 		stack.save(nbt);
-		nbt.putInt(ModDatabase.Capabilities.ItemHandler.ItemHolder.SLOT_LIMIT, stackLimit);
+		nbt.putInt(NDatabase.Capabilities.ItemHandler.ItemHolder.SLOT_LIMIT, stackLimit);
 		
 		return nbt;
 	}

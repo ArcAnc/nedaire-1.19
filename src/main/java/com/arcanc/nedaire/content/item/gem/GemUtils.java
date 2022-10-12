@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.SocketHelper;
 import com.google.common.collect.Maps;
 
@@ -40,18 +40,18 @@ public class GemUtils
 	{
 		CompoundTag tag = new CompoundTag();
 		
-		tag.putInt(ModDatabase.Capabilities.Socket.COLOR, color.getRGB());
-		stack.getOrCreateTag().put(ModDatabase.Capabilities.Socket.TAG_LOCATION, tag);
+		tag.putInt(NDatabase.Capabilities.Socket.COLOR, color.getRGB());
+		stack.getOrCreateTag().put(NDatabase.Capabilities.Socket.TAG_LOCATION, tag);
 		
 		return stack;
 	}
 	
 	public static int getColor (ItemStack stack)
 	{
-		CompoundTag compoundtag = stack.getTag().getCompound(ModDatabase.Capabilities.Socket.TAG_LOCATION);
-	    if (compoundtag != null && compoundtag.contains(ModDatabase.Capabilities.Socket.COLOR, Tag.TAG_ANY_NUMERIC)) 
+		CompoundTag compoundtag = stack.getTag().getCompound(NDatabase.Capabilities.Socket.TAG_LOCATION);
+	    if (compoundtag != null && compoundtag.contains(NDatabase.Capabilities.Socket.COLOR, Tag.TAG_ANY_NUMERIC)) 
 	    {
-	    	return compoundtag.getInt(ModDatabase.Capabilities.Socket.COLOR);
+	    	return compoundtag.getInt(NDatabase.Capabilities.Socket.COLOR);
 	    }
 	    else
 	    {
@@ -61,10 +61,10 @@ public class GemUtils
 	
 	public static <T extends GemEffect<T>> T getEffect(ItemStack stack)
 	{
-		CompoundTag tag = stack.getOrCreateTag().getCompound(ModDatabase.Capabilities.Socket.TAG_LOCATION);
+		CompoundTag tag = stack.getOrCreateTag().getCompound(NDatabase.Capabilities.Socket.TAG_LOCATION);
 		if (tag!= null)
 		{
-			UUID id = tag.getUUID(ModDatabase.Capabilities.Socket.ID);
+			UUID id = tag.getUUID(NDatabase.Capabilities.Socket.ID);
 			return (T) GemUtils.effectMap.get(id).getEffect();
 		}
 		return null;
@@ -154,23 +154,23 @@ public class GemUtils
 					List<Component> descr = event.getToolTip();
 					
 					descr.add(Component.empty());
-					descr.add(Component.translatable(ModDatabase.MOD_ID + ".socket.contains").withStyle(ChatFormatting.GRAY));
+					descr.add(Component.translatable(NDatabase.MOD_ID + ".socket.contains").withStyle(ChatFormatting.GRAY));
 					for (int q = 0 ; q < cap.getSlots(); q++)
 					{
 						ItemStack socket = cap.getStackInSlot(q);
 						if (socket == ItemStack.EMPTY)
 						{
-							descr.add(Component.translatable(ModDatabase.MOD_ID + ".socket.number", q , Component.translatable(ModDatabase.MOD_ID + ".socket.empty")).withStyle(ChatFormatting.BLUE));
+							descr.add(Component.translatable(NDatabase.MOD_ID + ".socket.number", q , Component.translatable(NDatabase.MOD_ID + ".socket.empty")).withStyle(ChatFormatting.BLUE));
 						}
 						else
 						{
 							if (socket.getItem() instanceof IGemItem gem)
 							{
-								descr.add(Component.translatable(ModDatabase.MOD_ID + ".socket.number", q + ": " + gem.getEffect(socket).getEffect().getDisplayDescription()));
+								descr.add(Component.translatable(NDatabase.MOD_ID + ".socket.number", q + ": " + gem.getEffect(socket).getEffect().getDisplayDescription()));
 							}
 							else
 							{
-								descr.add(Component.translatable(ModDatabase.MOD_ID + ".socket.number", q + ": " + Component.translatable(ModDatabase.MOD_ID + ".socket.unknown" )).withStyle(ChatFormatting.RED));
+								descr.add(Component.translatable(NDatabase.MOD_ID + ".socket.number", q + ": " + Component.translatable(NDatabase.MOD_ID + ".socket.unknown" )).withStyle(ChatFormatting.RED));
 							}
 						}
 					}

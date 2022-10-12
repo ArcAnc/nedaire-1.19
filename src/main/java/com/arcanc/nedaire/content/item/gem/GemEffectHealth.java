@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.item.gem;
 
 import java.awt.Color;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,7 +27,7 @@ public class GemEffectHealth <T extends GemEffect<T>> extends GemEffect<T>
 	
 	public GemEffectHealth(Color color, int healthAmount) 
 	{
-		super(color, ModDatabase.Capabilities.Socket.Health.NAME);
+		super(color, NDatabase.Capabilities.Socket.Health.NAME);
 		
 		this.healthAmount = healthAmount;
 	}
@@ -80,9 +80,9 @@ public class GemEffectHealth <T extends GemEffect<T>> extends GemEffect<T>
 	protected GemEffectHealth<T> loadEffect(CompoundTag tag) 
 	{
 		super.loadEffect(tag);
-		if (tag.contains(ModDatabase.Capabilities.Socket.Health.AMOUNT))
+		if (tag.contains(NDatabase.Capabilities.Socket.Health.AMOUNT))
 		{
-			this.healthAmount = tag.getInt(ModDatabase.Capabilities.Socket.Health.AMOUNT);
+			this.healthAmount = tag.getInt(NDatabase.Capabilities.Socket.Health.AMOUNT);
 		}
 		
 		return this;
@@ -93,7 +93,7 @@ public class GemEffectHealth <T extends GemEffect<T>> extends GemEffect<T>
 	{
 		CompoundTag tag = super.saveEffect();
 		
-		tag.putInt(ModDatabase.Capabilities.Socket.Health.AMOUNT, healthAmount);
+		tag.putInt(NDatabase.Capabilities.Socket.Health.AMOUNT, healthAmount);
 		
 		return tag;
 	}

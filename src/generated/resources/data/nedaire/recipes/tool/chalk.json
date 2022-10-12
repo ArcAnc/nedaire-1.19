@@ -1,0 +1,13 @@
+{
+  "type": "nedaire:crusher",
+  "energy": 1600,
+  "input": {
+    "tag": "forge:ender_pearls"
+  },
+  "is_manual": false,
+  "result": {
+    "item": "nedaire:tool/chalk",
+    "nbt": "{Damage:0}"
+  },
+  "secondaries": []
+}

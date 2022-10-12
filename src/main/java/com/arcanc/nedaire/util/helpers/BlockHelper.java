@@ -16,10 +16,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockHelper 
 {
+	public static class BlockProperties
+	{
+		public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+	}
+
+	
 	@SuppressWarnings("deprecation")
 	public static final BlockEntity getTileEntity(Level world, BlockPos pos)
 	{

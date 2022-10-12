@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModTileProviderBlock<T extends BlockEntity> extends ModBaseBlock implements EntityBlock 
 {
@@ -32,6 +33,11 @@ public class ModTileProviderBlock<T extends BlockEntity> extends ModBaseBlock im
 	{
 		super(properties);
 		this.tile = tile;
+	}
+	
+	public ModTileProviderBlock(Properties props, RegistryObject<BlockEntityType<T>> type)
+	{
+		this(props, (bp, state) -> type.get().create(bp, state));
 	}
 
 	@Override

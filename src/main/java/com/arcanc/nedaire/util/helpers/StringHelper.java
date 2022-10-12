@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.util.helpers;
 
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -21,7 +21,7 @@ public class StringHelper
 	
 	public static ResourceLocation getLocFStr(String s)
 	{
-		return new ResourceLocation(ModDatabase.MOD_ID, s);
+		return new ResourceLocation(NDatabase.MOD_ID, s);
 	}
 	
 	public static String symbolPlacer (char symbol, String... strings)

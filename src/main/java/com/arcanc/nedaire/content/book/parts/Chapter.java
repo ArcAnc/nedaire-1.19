@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.book.parts;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -40,7 +40,7 @@ public class Chapter extends Button
 		this.id  = id;
 		this.instance = instance;
 		this.icon = icon;
-		this.isNative = id.getNamespace() == ModDatabase.MOD_ID;
+		this.isNative = id.getNamespace() == NDatabase.MOD_ID;
 	}
 
 	@Override

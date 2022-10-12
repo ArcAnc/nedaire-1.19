@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.base.Predicate;
 
 import net.minecraft.nbt.CompoundTag;
@@ -169,7 +169,7 @@ public class ModSimpleItemStorage implements IItemHandler, INBTSerializable<Comp
 			list.add(items.get(q).save());
 		}
 		
-		tag.put(ModDatabase.Capabilities.ItemHandler.SLOTS, list);
+		tag.put(NDatabase.Capabilities.ItemHandler.SLOTS, list);
 		
 		return tag;
 	}
@@ -181,7 +181,7 @@ public class ModSimpleItemStorage implements IItemHandler, INBTSerializable<Comp
         {
             slot.clear();
         }
-        ListTag list = nbt.getList(ModDatabase.Capabilities.ItemHandler.SLOTS, Tag.TAG_COMPOUND);
+        ListTag list = nbt.getList(NDatabase.Capabilities.ItemHandler.SLOTS, Tag.TAG_COMPOUND);
         for (int q = 0; q < list.size(); ++q) 
         {
         	items.get(q).load(list.getCompound(q));

@@ -11,9 +11,10 @@ package com.arcanc.nedaire.data.crafting;
 import java.util.function.Consumer;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.data.crafting.builders.NCrusherRecipeBuilder;
 import com.arcanc.nedaire.data.tags.ModTags;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
@@ -30,11 +31,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.Tags.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ModRecipeProvider extends RecipeProvider
+public class NRecipeProvider extends RecipeProvider
 {
-	public ModRecipeProvider(DataGenerator gen) 
+	public NRecipeProvider(DataGenerator gen) 
 	{
 		super(gen);
 	}
@@ -42,7 +44,7 @@ public class ModRecipeProvider extends RecipeProvider
 	@Override
 	protected void buildCraftingRecipes(Consumer<FinishedRecipe> out) 
 	{
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		//=========================
 		//Nuggets to Ingot and back
@@ -52,13 +54,13 @@ public class ModRecipeProvider extends RecipeProvider
 		pattern("AAA").
 		pattern("AAA").
 		pattern("AAA").
-		unlockedBy("has_" + ModDatabase.Items.Names.NUGGET +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getNugget())).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getNugget().getId().getPath() + "_to_" + mat.getIngot().getId().getPath()));
+		unlockedBy("has_" + NDatabase.Items.Names.NUGGET +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getNugget())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getNugget().getId().getPath() + "_to_" + mat.getIngot().getId().getPath()));
 	
 		ShapelessRecipeBuilder.shapeless(mat.getNugget().get(), 9).
 		requires(Ingredient.of(ModTags.Items.MATERIALS.get(mat.getName()).getIngot())).
-		unlockedBy("has_" + ModDatabase.Items.Names.INGOT + "_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getIngot())).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getIngot().getId().getPath() + "_to_" + mat.getNugget().getId().getPath()));
+		unlockedBy("has_" + NDatabase.Items.Names.INGOT + "_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getIngot())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getIngot().getId().getPath() + "_to_" + mat.getNugget().getId().getPath()));
 
 		//=========================
 		//Storage Block to Ingots and back
@@ -68,13 +70,13 @@ public class ModRecipeProvider extends RecipeProvider
 		pattern("AAA").
 		pattern("AAA").
 		pattern("AAA").
-		unlockedBy("has_" + ModDatabase.Items.Names.INGOT +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getIngot())).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getIngot().getId().getPath() + "_to_" + mat.getStorageBlock().getId().getPath()));
+		unlockedBy("has_" + NDatabase.Items.Names.INGOT +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getIngot())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getIngot().getId().getPath() + "_to_" + mat.getStorageBlock().getId().getPath()));
 	
 		ShapelessRecipeBuilder.shapeless(mat.getIngot().get(), 9).
 		requires(Ingredient.of(ModTags.Items.MATERIALS.get(mat.getName()).getStorageBlock())).
-		unlockedBy("has_" + ModDatabase.Blocks.Names.STORAGE_BLOCK +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getStorageBlock())).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getStorageBlock().getId().getPath() + "_to_" + mat.getIngot().getId().getPath()));
+		unlockedBy("has_" + NDatabase.Blocks.Names.STORAGE_BLOCK +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getStorageBlock())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getStorageBlock().getId().getPath() + "_to_" + mat.getIngot().getId().getPath()));
 
 		//==========================
 		//Smelting and Blasting
@@ -99,13 +101,13 @@ public class ModRecipeProvider extends RecipeProvider
 			pattern("AAA").
 			pattern("AAA").
 			pattern("AAA").
-			unlockedBy("has_" + ModDatabase.Items.Names.RAW +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getRaw())).
-			save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getRaw().getId().getPath() + "_to_" + mat.getRawStorageBlock().getId().getPath()));
+			unlockedBy("has_" + NDatabase.Items.Names.RAW +"_" + mat.getName(), has(ModTags.Items.MATERIALS.get(mat.getName()).getRaw())).
+			save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getRaw().getId().getPath() + "_to_" + mat.getRawStorageBlock().getId().getPath()));
 		
 			ShapelessRecipeBuilder.shapeless(mat.getRaw().get(), 9).
 			requires(Ingredient.of(mat.getRawStorageBlock().get())).
-			unlockedBy("has_" + ModDatabase.Blocks.Names.STORAGE_BLOCK + "_" + ModDatabase.Items.Names.RAW + "_" + mat.getName(), has(mat.getRawStorageBlock().get())).
-			save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getRawStorageBlock().getId().getPath() + "_to_" + mat.getRaw().getId().getPath()));
+			unlockedBy("has_" + NDatabase.Blocks.Names.STORAGE_BLOCK + "_" + NDatabase.Items.Names.RAW + "_" + mat.getName(), has(mat.getRawStorageBlock().get())).
+			save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getRawStorageBlock().getId().getPath() + "_to_" + mat.getRaw().getId().getPath()));
 		}
 		
 		//==========================
@@ -123,30 +125,40 @@ public class ModRecipeProvider extends RecipeProvider
 		//==========================
 		addArmor(mat, out);
 		
-		addShieldDecorationRecipe(out, ModRegistration.RegisterRecipes.SHIELD_SERIALIZER.get());
+		addShieldDecorationRecipe(out, NRegistration.RegisterRecipes.SHIELD_SERIALIZER.get());
 		
 		
 		//==========================
 		//BOOK
 		//==========================
-		ShapelessRecipeBuilder.shapeless(ModRegistration.RegisterItems.BOOK.get()).
+		ShapelessRecipeBuilder.shapeless(NRegistration.RegisterItems.BOOK.get()).
 		requires(Ingredient.of(mat.getDust().get())).
-		unlockedBy("has_" + ModDatabase.Items.Names.DUST + "_" + mat.getName(), has(mat.getDust().get())).
-		save(out, ModRegistration.RegisterItems.BOOK.getId());
+		unlockedBy("has_" + NDatabase.Items.Names.DUST + "_" + mat.getName(), has(mat.getDust().get())).
+		save(out, NRegistration.RegisterItems.BOOK.getId());
+		
+		crusherRecipes(out);
+	}
+
+	private void crusherRecipes(Consumer<FinishedRecipe> out) 
+	{
+		NCrusherRecipeBuilder.builder(NRegistration.RegisterItems.CHALK.asItem()).
+			addInput(Items.ENDER_PEARLS).
+			setEnergy(1600).
+			build(out, NRegistration.RegisterItems.CHALK.getId());
 	}
 
 	private void addBlasting (TagKey<Item> input, Item output, float exp, Consumer<FinishedRecipe> out)
 	{	
 		SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), output, exp, 100).
 		unlockedBy("has_" + input.location().getPath(), has(input)).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.BLASTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.BLASTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
 	}
 	
 	private void addSmelting (TagKey<Item> input, Item output, float exp, Consumer<FinishedRecipe> out)
 	{
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), output, exp, 200).
 		unlockedBy("has_" + input.location().getPath(), has(input)).
-		save(out, StringHelper.getLocFStr(ModDatabase.Recipes.VanillaTypes.SMELTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.SMELTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
 	}
 
 	private void addTools(ModMaterial mat, Consumer<FinishedRecipe> out)

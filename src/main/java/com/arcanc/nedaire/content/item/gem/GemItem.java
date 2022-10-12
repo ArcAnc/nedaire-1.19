@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.item.gem;
 
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
 import com.arcanc.nedaire.content.item.ModBaseItem;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
@@ -29,7 +29,7 @@ public class GemItem extends ModBaseItem implements IGemItem
 	public ItemStack getDefaultInstance() 
 	{
 		ItemStack stack = new ItemStack(this);
-		GemUtils.makeGem(stack, ModRegistration.RegisterGemEffects.HEALTH.get().getColor());
+		GemUtils.makeGem(stack, NRegistration.RegisterGemEffects.HEALTH.get().getColor());
 		return stack;
 	}
 	
@@ -38,7 +38,7 @@ public class GemItem extends ModBaseItem implements IGemItem
 	{
 		if (this.allowedIn(tab)) 
 		{
-			for (RegistryObject<GemEffect<?>> c : ModRegistration.RegisterGemEffects.EFFECTS.getEntries())
+			for (RegistryObject<GemEffect<?>> c : NRegistration.RegisterGemEffects.EFFECTS.getEntries())
 			{
 				list.add(GemUtils.makeGem(new ItemStack(this), c.get().getColor()));
 			}

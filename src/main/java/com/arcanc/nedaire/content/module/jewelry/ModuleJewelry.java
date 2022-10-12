@@ -12,7 +12,7 @@ import com.arcanc.nedaire.content.item.gem.GemItem;
 import com.arcanc.nedaire.content.item.gem.GemUtils;
 import com.arcanc.nedaire.content.module.jewelry.capability.CapabilitySocket;
 import com.arcanc.nedaire.content.module.jewelry.capability.SocketStorage;
-import com.arcanc.nedaire.content.registration.ModRegistration.RegisterItems.ItemRegObject;
+import com.arcanc.nedaire.content.registration.NRegistration.RegisterItems.ItemRegObject;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

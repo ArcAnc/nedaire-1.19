@@ -9,9 +9,9 @@
 package com.arcanc.nedaire.data;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.tags.ModTags;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -23,13 +23,13 @@ public class ModBlockTagsProvider extends BlockTagsProvider
 {
 	public ModBlockTagsProvider(DataGenerator gen, ExistingFileHelper ext) 
 	{
-		super(gen, ModDatabase.MOD_ID, ext);
+		super(gen, NDatabase.MOD_ID, ext);
 	}
 	
 	@Override
 	protected void addTags() 
 	{
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		tag(Tags.Blocks.STORAGE_BLOCKS).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
 		tag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock()).add(mat.getStorageBlock().get()).add(mat.getRawStorageBlock().get());
@@ -43,8 +43,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider
 			tag(BlockTags.NEEDS_DIAMOND_TOOL).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre());
 		}
 		
-		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModRegistration.RegisterBlocks.SKYSTONE.get()).add(ModRegistration.RegisterBlocks.PEDESTAL.get()).add(ModRegistration.RegisterBlocks.HOLDER.get());
-		tag(BlockTags.NEEDS_STONE_TOOL).add(ModRegistration.RegisterBlocks.SKYSTONE.get()).add(ModRegistration.RegisterBlocks.PEDESTAL.get()).add(ModRegistration.RegisterBlocks.HOLDER.get());
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(NRegistration.RegisterBlocks.SKYSTONE.get()).add(NRegistration.RegisterBlocks.PEDESTAL.get()).add(NRegistration.RegisterBlocks.HOLDER.get());
+		tag(BlockTags.NEEDS_STONE_TOOL).add(NRegistration.RegisterBlocks.SKYSTONE.get()).add(NRegistration.RegisterBlocks.PEDESTAL.get()).add(NRegistration.RegisterBlocks.HOLDER.get());
 	}
 	
 	@Override

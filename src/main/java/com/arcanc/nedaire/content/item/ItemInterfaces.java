@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.item;
 import com.arcanc.nedaire.content.item.gem.GemEffect;
 import com.arcanc.nedaire.content.item.gem.GemEffectInstance;
 import com.arcanc.nedaire.content.item.gem.GemUtils;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.world.item.ItemStack;
 
@@ -26,7 +26,7 @@ public class ItemInterfaces
 	{
 		default <T extends GemEffect<T>> GemEffectInstance<T> getEffect(ItemStack stack)
 		{
-			return (GemEffectInstance<T>) GemUtils.effectMap.get(stack.getTag().getCompound(ModDatabase.Capabilities.Socket.TAG_LOCATION).getUUID(ModDatabase.Capabilities.Socket.ID));
+			return (GemEffectInstance<T>) GemUtils.effectMap.get(stack.getTag().getCompound(NDatabase.Capabilities.Socket.TAG_LOCATION).getUUID(NDatabase.Capabilities.Socket.ID));
 		}
 	}
 	

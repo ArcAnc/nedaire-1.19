@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.registration.ModRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.loot.ModLootProvider;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.google.common.collect.ImmutableSet;
@@ -85,7 +85,7 @@ public class ModBlockLootProvider extends ModLootProvider
 	@Override
 	protected void registerTables() 
 	{
-		ModMaterial mat = ModRegistration.RegisterMaterials.CORIUM;
+		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		registerSelfDrop(mat.getStorageBlock().get());
 		if (mat.requiredOre())
@@ -95,10 +95,11 @@ public class ModBlockLootProvider extends ModLootProvider
 			register(mat.getDeepSlateOre().get(), createOreDrop(mat.getDeepSlateOre().get(), mat.getRaw().get()));
 		}
 		
-		registerSelfDrop(ModRegistration.RegisterBlocks.SKYSTONE.get());
+		registerSelfDrop(NRegistration.RegisterBlocks.SKYSTONE.get());
 		
-		register(ModRegistration.RegisterBlocks.PEDESTAL.get(), createNameableBlockEntityTable(ModRegistration.RegisterBlocks.PEDESTAL.get()));
-		register(ModRegistration.RegisterBlocks.HOLDER.get(), createNameableBlockEntityTable(ModRegistration.RegisterBlocks.HOLDER.get()));
+		register(NRegistration.RegisterBlocks.PEDESTAL.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PEDESTAL.get()));
+		register(NRegistration.RegisterBlocks.HOLDER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOLDER.get()));
+		register(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get()));
 	}
 	
 	private void registerSelfDrop(Block block)
@@ -154,19 +155,19 @@ public class ModBlockLootProvider extends ModLootProvider
 		return new ResourceLocation(in.getNamespace(), "blocks/"+in.getPath());
 	}
 	
-	private static LootTable.Builder createNameableBlockEntityTable(Block p_124293_) 
+	private static LootTable.Builder createNameableBlockEntityTable(Block block) 
 	{
-		return LootTable.lootTable().withPool(applyExplosionCondition(p_124293_, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(p_124293_).apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)))));
+		return LootTable.lootTable().withPool(applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(block).apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY)))));
 	}
 	
-	private <T extends FunctionUserBuilder<T>> T applyExplosionDecay(ItemLike p_124132_, FunctionUserBuilder<T> p_124133_) 
+	private <T extends FunctionUserBuilder<T>> T applyExplosionDecay(ItemLike item, FunctionUserBuilder<T> builder) 
 	{
-		return (T)(!EXPLOSION_RESISTANT.contains(p_124132_.asItem()) ? p_124133_.apply(ApplyExplosionDecay.explosionDecay()) : p_124133_.unwrap());
+		return (T)(!EXPLOSION_RESISTANT.contains(item.asItem()) ? builder.apply(ApplyExplosionDecay.explosionDecay()) : builder.unwrap());
     }
 	
-	private static <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ItemLike p_124135_, ConditionUserBuilder<T> p_124136_) 
+	private static <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ItemLike item, ConditionUserBuilder<T> builder) 
 	{
-		return (T)(!EXPLOSION_RESISTANT.contains(p_124135_.asItem()) ? p_124136_.when(ExplosionCondition.survivesExplosion()) : p_124136_.unwrap());
+		return (T)(!EXPLOSION_RESISTANT.contains(item.asItem()) ? builder.when(ExplosionCondition.survivesExplosion()) : builder.unwrap());
 	}
 	
 	@Override

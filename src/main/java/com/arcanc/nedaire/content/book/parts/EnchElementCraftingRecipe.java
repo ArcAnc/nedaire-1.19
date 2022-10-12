@@ -16,7 +16,7 @@ import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
-import com.arcanc.nedaire.util.database.ModDatabase;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -128,13 +128,13 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 				else if (mouseX >= imagePos.x && mouseY >= imagePos.y && mouseX <= imagePos.x + 22 && mouseY <= imagePos.y + 15)
 				{
 					RenderSystem.enableBlend();
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(ModDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPED)), Optional.empty(), mouseX, mouseY);
+					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPED)), Optional.empty(), mouseX, mouseY);
 				}
 				else if ((mouseX >= imagePos.x && mouseY >= imagePos.y - 18 && mouseX <= imagePos.x + 22 - 18 && mouseY <= imagePos.y + 15)
 						&& rec.getSerializer().equals(RecipeSerializer.SHAPELESS_RECIPE))
 				{
 					RenderSystem.enableBlend();
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(ModDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPELESS)), Optional.empty(), mouseX, mouseY);
+					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPELESS)), Optional.empty(), mouseX, mouseY);
 				}
 			}
 		});

@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.material.tool;
 
-import com.arcanc.nedaire.util.database.ModDatabase.Items;
+import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
