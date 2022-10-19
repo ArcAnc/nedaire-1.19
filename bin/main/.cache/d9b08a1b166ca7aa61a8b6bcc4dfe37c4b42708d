@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-08T20:54:39.986146	Nedaire Recipe Provider
+// 1.19.2	2022-10-12T23:28:22.0389113	Nedaire Recipe Provider
 4c73387df475819964ac510fef43452bb59a9a1f data/nedaire/advancements/recipes/main/armor/horse/corium.json
 816c26eee0dc43639adb56fbe525695b8a91138a data/nedaire/advancements/recipes/main/armor/player/chest/corium.json
 28c05e5ce56af29738aa09b41119cef14eb99f24 data/nedaire/advancements/recipes/main/armor/player/feet/corium.json
@@ -46,6 +46,7 @@ abcaa01aa135b18cd8d2cb9272491810653045c3 data/nedaire/recipes/conversion/storage
 47a55ef5a5551d2c3ae9774f8af374620eeb608a data/nedaire/recipes/smelting/ores/corium_to_ingot/corium.json
 73e918f8399222b3f7b6dbcfd668fcd6520376d6 data/nedaire/recipes/smelting/raw_materials/corium_to_ingot/corium.json
 c15bea9daeffc8979172afb4388c134714e0ddef data/nedaire/recipes/tool/axe/corium.json
+f10a60f2fad2f67f2179e715dd2629e534b12027 data/nedaire/recipes/tool/chalk.json
 6da3b5fdfc51d483849baa946fc7cb18981914a7 data/nedaire/recipes/tool/enchiridion.json
 2335aa9345ab0d9b00ce66746dc15d389da0f99e data/nedaire/recipes/tool/fishing_rod/corium.json
 68d520700f3989c45921f96bb653898acf04f735 data/nedaire/recipes/tool/hoe/corium.json

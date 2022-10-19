@@ -51,16 +51,27 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 	{
 		super(properties, tile);
 		
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.SOUTH));
+		this.registerDefaultState(getInitDefaultState());
 	}
 	
 	public NBlockManualCrusher(Properties props) 
 	{
 		super (props, NRegistration.RegisterBlockEntities.BE_MANUAL_CRUSHER);
 
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.SOUTH));
+		this.registerDefaultState(getInitDefaultState());
 	}
 
+	@Override
+	protected BlockState getInitDefaultState() 
+	{
+		BlockState state = super.getInitDefaultState();
+		if (state.hasProperty(FACING))
+		{
+			state = state.setValue(FACING, Direction.SOUTH);
+		}
+		return state;
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
@@ -149,7 +160,7 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 	{
 		if (!level.isClientSide() && !oldState.is(newState.getBlock())) 
 		{
-			BlockHelper.castTileEntity(level, pos, NBEManualCrusher.class).ifPresent(ent -> 
+			BlockHelper.castTileEntity(level, pos, NBEManualCrusher.class).ifPresent(ent -> 	
 			{
 				ItemHelper.dropContents(level, pos, ItemHelper.getItemHandler(ent)); 
 			});

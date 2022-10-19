@@ -119,8 +119,8 @@ public class VimStorage implements IVim
 	{
 		private int energy;
 		private int maxEnergy;
-		private int extracting;
-		private int input;
+		private int extracting = Integer.MAX_VALUE;
+		private int input = Integer.MAX_VALUE;
 		
 		
 		private Config() 
