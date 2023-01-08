@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NBERedstoneSensitive extends ModBaseBlockEntity 
+public class NBERedstoneSensitive extends NBaseBlockEntity 
 {
 
 	private int currentRedstoneMod = 2;
@@ -27,6 +27,8 @@ public class NBERedstoneSensitive extends ModBaseBlockEntity
 
 	public boolean isPowered()
 	{
+		if (getLevel() == null)
+			return false;
 		if (currentRedstoneMod == 0 && getLevel().hasNeighborSignal(getBlockPos()))
 			return true;
 		else if (currentRedstoneMod == 1 && !getLevel().hasNeighborSignal(getBlockPos()))

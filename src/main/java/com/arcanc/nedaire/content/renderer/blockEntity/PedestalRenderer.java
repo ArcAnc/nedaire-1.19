@@ -10,13 +10,14 @@ package com.arcanc.nedaire.content.renderer.blockEntity;
 
 import java.util.Set;
 
-import com.arcanc.nedaire.content.block.entities.ModBEPedestal;
+import org.joml.Quaternionf;
+
+import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
+import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -25,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
-public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal> 
+public class PedestalRenderer implements BlockEntityRenderer<NBEPedestal> 
 {
 
 	public PedestalRenderer(BlockEntityRendererProvider.Context ctx) 
@@ -33,7 +34,7 @@ public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal>
 	}
 	
 	@Override
-	public void render(ModBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
 	{
 		if (blockEntity != null)
 		{
@@ -73,7 +74,7 @@ public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal>
 		}
 	}
 
-	private void renderSolo(ModBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, IItemHandler handler, Set<Integer> presentSlots)
+	private void renderSolo(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, IItemHandler handler, Set<Integer> presentSlots)
 	{
 		presentSlots.forEach( i -> 
 		{
@@ -85,8 +86,8 @@ public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal>
 			mStack.scale(0.75F, 0.75F, 0.75F);
 	        long time = blockEntity.getLevel().getGameTime();
 	        float angle = (time) % 360;
-	        mStack.mulPose(Vector3f.YP.rotationDegrees(angle));
-	        Minecraft.getInstance().getItemRenderer().renderStatic(
+	        mStack.mulPose(new Quaternionf().fromAxisAngleDeg(0, 1, 0, angle));
+	        RenderHelper.renderItem().renderStatic(
 	        		stack, 
 	        		ItemTransforms.TransformType.GROUND, 
 	        		combinedLight, 
@@ -99,7 +100,7 @@ public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal>
 		});
 	}
 	
-	private void renderMore(ModBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, IItemHandler stackHandler, int amount, Set<Integer> presentSlots) 
+	private void renderMore(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, IItemHandler stackHandler, int amount, Set<Integer> presentSlots) 
 	{
 		float offsetPerItem = 360/amount;
 		float ticks = (blockEntity.getLevel().getGameTime() + partialTicks) * 0.5f;
@@ -128,11 +129,11 @@ public class PedestalRenderer implements BlockEntityRenderer<ModBEPedestal>
 			mStack.translate(x, y, z);
 			mStack.scale(0.75F, 0.75F, 0.75F);
 			
-			mStack.mulPose(Vector3f.YP.rotationDegrees((ticks * q) % 360));
+			mStack.mulPose(new Quaternionf().fromAxisAngleDeg(0, 1, 0, (ticks * q) % 360));
 			
 			ItemStack stack = stackHandler.getStackInSlot(i);
 	        
-	        Minecraft.getInstance().getItemRenderer().renderStatic(
+	        RenderHelper.renderItem().renderStatic(
 	        		stack, 
 	        		ItemTransforms.TransformType.GROUND, 
 	        		combinedLight, 

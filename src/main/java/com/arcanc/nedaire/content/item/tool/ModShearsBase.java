@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -19,7 +18,7 @@ public class ModShearsBase extends ShearsItem
 {
 	public ModShearsBase(ModAbstractToolMaterial toolMat) 
 	{
-		super(new Item.Properties().tab(Nedaire.getInstance().TAB).defaultDurability(toolMat.getUses()));
+		super(new Item.Properties().defaultDurability(toolMat.getUses()));
 	}
 	
 	@Override

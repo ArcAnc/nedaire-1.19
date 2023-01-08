@@ -146,6 +146,232 @@
       "to": [
         13,
         14,
+        3.005
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#main",
+          "uv": [
+            7.5,
+            4.5,
+            5.0,
+            7.0
+          ]
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#main",
+          "uv": [
+            0.0,
+            7.0,
+            2.5,
+            9.0
+          ]
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#main",
+          "uv": [
+            2.5,
+            7.0,
+            5.0,
+            9.0
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#main",
+          "uv": [
+            7.5,
+            7.0,
+            10.0,
+            9.0
+          ]
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            2.5,
+            4.5
+          ]
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            7.5,
+            9.0
+          ]
+        }
+      },
+      "from": [
+        3,
+        6,
+        13
+      ],
+      "to": [
+        13,
+        14,
+        13.005
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "rotation": 90,
+          "texture": "#main",
+          "uv": [
+            7.5,
+            4.5,
+            5.0,
+            7.0
+          ]
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#main",
+          "uv": [
+            0.0,
+            7.0,
+            2.5,
+            9.0
+          ]
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#main",
+          "uv": [
+            2.5,
+            7.0,
+            5.0,
+            9.0
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#main",
+          "uv": [
+            7.5,
+            7.0,
+            10.0,
+            9.0
+          ]
+        },
+        "up": {
+          "cullface": "up",
+          "rotation": 270,
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            2.5,
+            4.5
+          ]
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            7.5,
+            9.0
+          ]
+        }
+      },
+      "from": [
+        13,
+        6,
+        3
+      ],
+      "to": [
+        13.005,
+        14,
+        13
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "rotation": 90,
+          "texture": "#main",
+          "uv": [
+            7.5,
+            4.5,
+            5.0,
+            7.0
+          ]
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#main",
+          "uv": [
+            0.0,
+            7.0,
+            2.5,
+            9.0
+          ]
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#main",
+          "uv": [
+            2.5,
+            7.0,
+            5.0,
+            9.0
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#main",
+          "uv": [
+            7.5,
+            7.0,
+            10.0,
+            9.0
+          ]
+        },
+        "up": {
+          "cullface": "up",
+          "rotation": 270,
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            2.5,
+            4.5
+          ]
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#main",
+          "uv": [
+            5.0,
+            7.0,
+            7.5,
+            9.0
+          ]
+        }
+      },
+      "from": [
+        3,
+        6,
+        3
+      ],
+      "to": [
+        3.005,
+        14,
         13
       ]
     },
@@ -207,8 +433,8 @@
           "uv": [
             6.0,
             12.0,
-            3.0,
-            9.0
+            9.0,
+            12.5
           ]
         }
       },

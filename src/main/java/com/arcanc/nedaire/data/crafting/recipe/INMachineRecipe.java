@@ -10,7 +10,7 @@ package com.arcanc.nedaire.data.crafting.recipe;
 
 import java.util.List;
 
-import com.arcanc.nedaire.data.FluidTagInput;
+import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 
 import net.minecraft.core.NonNullList;

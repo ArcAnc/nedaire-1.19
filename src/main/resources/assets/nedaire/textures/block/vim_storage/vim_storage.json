@@ -1,0 +1,96 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "nedaire:block/vim_storage/vim_storage_front",
+		"front": "nedaire:block/vim_storage/vim_storage_front",
+		"side": "nedaire:block/vim_storage/vim_storage_side",
+		"top": "nedaire:block/vim_storage/vim_storage_top"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 2],
+			"to": [4, 16, 14],
+			"faces": {
+				"north": {"uv": [12, 0, 16, 16], "rotation": 180, "texture": "#front"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"south": {"uv": [0, 0, 4, 16], "texture": "#front"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"up": {"uv": [4, 14, 0, 2], "texture": "#top"},
+				"down": {"uv": [16, 2, 12, 14], "texture": "#top"}
+			}
+		},
+		{
+			"from": [12, 0, 2],
+			"to": [16, 16, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 4, 16], "texture": "#front"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"south": {"uv": [12, 0, 16, 16], "texture": "#front"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"up": {"uv": [12, 2, 16, 14], "texture": "#top"},
+				"down": {"uv": [0, 2, 4, 14], "texture": "#top"}
+			}
+		},
+		{
+			"from": [6, 0, 2],
+			"to": [10, 16, 14],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 16], "texture": "#front"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"south": {"uv": [6, 0, 10, 16], "texture": "#front"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"up": {"uv": [6, 2, 10, 14], "texture": "#top"},
+				"down": {"uv": [6, 2, 10, 14], "texture": "#top"}
+			}
+		},
+		{
+			"from": [4, 10, 5],
+			"to": [6, 15, 11],
+			"faces": {
+				"north": {"uv": [10, 1, 12, 6], "texture": "#front"},
+				"east": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"south": {"uv": [4, 1, 6, 6], "texture": "#front"},
+				"west": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"up": {"uv": [4, 5, 6, 11], "texture": "#top"},
+				"down": {"uv": [10, 5, 12, 11], "texture": "#top"}
+			}
+		},
+		{
+			"from": [4, 1, 5],
+			"to": [6, 6, 11],
+			"faces": {
+				"north": {"uv": [10, 10, 12, 15], "texture": "#front"},
+				"east": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"south": {"uv": [4, 10, 6, 15], "texture": "#front"},
+				"west": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"up": {"uv": [4, 5, 6, 11], "texture": "#top"},
+				"down": {"uv": [10, 5, 12, 11], "texture": "#top"}
+			}
+		},
+		{
+			"from": [10, 10, 5],
+			"to": [12, 15, 11],
+			"faces": {
+				"north": {"uv": [4, 1, 6, 6], "texture": "#front"},
+				"east": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"south": {"uv": [10, 1, 12, 6], "texture": "#front"},
+				"west": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"up": {"uv": [10, 5, 12, 11], "texture": "#top"},
+				"down": {"uv": [4, 5, 6, 11], "texture": "#top"}
+			}
+		},
+		{
+			"from": [10, 1, 5],
+			"to": [12, 6, 11],
+			"faces": {
+				"north": {"uv": [4, 10, 6, 15], "texture": "#front"},
+				"east": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"south": {"uv": [10, 10, 12, 15], "texture": "#front"},
+				"west": {"uv": [0, 0, 3, 2.5], "texture": "#missing"},
+				"up": {"uv": [10, 5, 12, 11], "texture": "#top"},
+				"down": {"uv": [10, 5, 12, 11], "texture": "#top"}
+			}
+		}
+	]
+}

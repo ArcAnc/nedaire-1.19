@@ -1,17 +1,32 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,waterlogged=false": {
       "model": "nedaire:block/manual_crusher",
       "y": 270
     },
-    "facing=north": {
+    "facing=east,waterlogged=true": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 270
+    },
+    "facing=north,waterlogged=false": {
       "model": "nedaire:block/manual_crusher",
       "y": 180
     },
-    "facing=south": {
+    "facing=north,waterlogged=true": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 180
+    },
+    "facing=south,waterlogged=false": {
       "model": "nedaire:block/manual_crusher"
     },
-    "facing=west": {
+    "facing=south,waterlogged=true": {
+      "model": "nedaire:block/manual_crusher"
+    },
+    "facing=west,waterlogged=false": {
+      "model": "nedaire:block/manual_crusher",
+      "y": 90
+    },
+    "facing=west,waterlogged=true": {
       "model": "nedaire:block/manual_crusher",
       "y": 90
     }

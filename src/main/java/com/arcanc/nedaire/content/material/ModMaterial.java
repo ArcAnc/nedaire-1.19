@@ -10,8 +10,7 @@ package com.arcanc.nedaire.content.material;
 
 import java.util.List;
 
-import com.arcanc.nedaire.Nedaire;
-import com.arcanc.nedaire.content.block.ModOreBlock;
+import com.arcanc.nedaire.content.block.NOreBlock;
 import com.arcanc.nedaire.content.item.ModBaseBlockItem;
 import com.arcanc.nedaire.content.item.armor.ModArmorBase;
 import com.arcanc.nedaire.content.item.armor.ModHorseArmorItemBase;
@@ -59,7 +58,7 @@ public class ModMaterial
 	private final ModAbstractPlayerArmorMaterial armorMat;
 	private final ModHorseArmorMaterial horseArmorMat;
 	
-	private static Supplier<Item.Properties> baseProps = () -> new Item.Properties().tab(Nedaire.getInstance().TAB);
+	private static Supplier<Item.Properties> baseProps = () -> new Item.Properties();
 	
 	private final ItemRegObject<? extends Item> ingot, nugget, raw, dust,
 	   pickaxe, axe, shovel, hoe, shears, fishingRod,
@@ -145,7 +144,7 @@ public class ModMaterial
 
 			this.oreBlock = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.ORE), 
 					() -> Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), 
-					ModOreBlock :: new, 
+					NOreBlock :: new, 
 					baseProps, 
 					ModBaseBlockItem :: new);
 			
@@ -155,7 +154,7 @@ public class ModMaterial
 			
 			this.deepSlateOre = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.DEEPSLATE), 
 					() -> Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE),
-					ModOreBlock :: new,
+					NOreBlock :: new,
 					baseProps,
 					ModBaseBlockItem :: new);
 		}

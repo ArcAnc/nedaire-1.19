@@ -19,14 +19,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
-public class ModManagedItemStorage extends ModSimpleItemStorage 
+public class ModManagedItemStorage extends NSimpleItemStorage 
 {
 	protected List<IItemStackAcess> inputSlots;
 	protected List<IItemStackAcess> outputSlots;
 
-	protected ModSimpleItemStorage inputHandler = new ModSimpleItemStorage();
-	protected ModSimpleItemStorage outputHandler = new ModSimpleItemStorage();
-	protected ModSimpleItemStorage fullHandler = new ModSimpleItemStorage();
+	protected NSimpleItemStorage inputHandler = new NSimpleItemStorage();
+	protected NSimpleItemStorage outputHandler = new NSimpleItemStorage();
+	protected NSimpleItemStorage fullHandler = new NSimpleItemStorage();
 	
 	protected final LazyOptional<IItemHandler> input = LazyOptional.of(() -> inputHandler);
 	protected final LazyOptional<IItemHandler> output = LazyOptional.of(() -> outputHandler);
@@ -86,17 +86,17 @@ public class ModManagedItemStorage extends ModSimpleItemStorage
 		full.invalidate();
 	}
 	
-	public ModSimpleItemStorage getFullHandler() 
+	public NSimpleItemStorage getFullHandler() 
 	{
 		return fullHandler;
 	}
 	
-	public ModSimpleItemStorage getInputHandler() 
+	public NSimpleItemStorage getInputHandler() 
 	{
 		return inputHandler;
 	}
 	
-	public ModSimpleItemStorage getOutputHandler() 
+	public NSimpleItemStorage getOutputHandler() 
 	{
 		return outputHandler;
 	}

@@ -8,6 +8,9 @@
  */
 package com.arcanc.nedaire.content.capabilities.vim;
 
+import javax.annotation.Nullable;
+
+import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +22,7 @@ public class VimStorage implements IVim
 	protected int maxEnergy;
 	protected int extracting;
 	protected int input;
+	protected IInventoryCallback tile;
 	
 	private VimStorage (VimStorage.Config config)
 	{
@@ -26,6 +30,7 @@ public class VimStorage implements IVim
 		this.maxEnergy = config.maxEnergy;
 		this.extracting = config.extracting;
 		this.input = config.input;
+		this.tile = config.tile;
 	}
 	
 	@Override
@@ -41,6 +46,7 @@ public class VimStorage implements IVim
 				if (!simulate)
 				{
 					energy += returned;
+					onVimChange();
 				}
 			}
 		}
@@ -60,6 +66,7 @@ public class VimStorage implements IVim
 				if (!simulate)
 				{
 					energy -= returned;
+					onVimChange();
 				}
 			}
 		}
@@ -78,6 +85,20 @@ public class VimStorage implements IVim
 		return maxEnergy;
 	}
 
+	@Override
+	public void setEnergyStored(int count) 
+	{
+		if (count > 0 && count < maxEnergy)
+			this.energy = count;
+	}
+
+	@Override
+	public void setMaxEnergyStored(int count) 
+	{
+		if (count > 0)
+			this.maxEnergy = count;
+	}
+	
 	@Override
 	public boolean isAllowedExtraction() 
 	{
@@ -108,11 +129,19 @@ public class VimStorage implements IVim
 		this.maxEnergy = 	tag.getInt(NDatabase.Capabilities.Vim.MAX_ENERGY);
 		this.extracting = 	tag.getInt(NDatabase.Capabilities.Vim.EXTRACT);
 		this.input = 		tag.getInt(NDatabase.Capabilities.Vim.INPUT);
+		onVimChange();
 	}
 	
-	public static VimStorage.Config newConfig ()
+	public void onVimChange()
 	{
-		return new Config();
+		if (tile == null)
+			return;
+		tile.onVimChange();
+	}
+	
+	public static VimStorage.Config newConfig (@Nullable IInventoryCallback tile)
+	{
+		return new Config(tile);
 	}
 	
 	public static class Config 
@@ -121,10 +150,11 @@ public class VimStorage implements IVim
 		private int maxEnergy;
 		private int extracting = Integer.MAX_VALUE;
 		private int input = Integer.MAX_VALUE;
+		private IInventoryCallback tile;
 		
-		
-		private Config() 
+		private Config(IInventoryCallback tile) 
 		{
+			this.tile = tile;
 		}
 		
 		/**
@@ -169,5 +199,4 @@ public class VimStorage implements IVim
 		}
 		
 	}
-
 }

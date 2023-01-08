@@ -20,15 +20,25 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang3.mutable.Mutable;
+import org.apache.commons.lang3.mutable.MutableObject;
 
-import com.arcanc.nedaire.Nedaire;
-import com.arcanc.nedaire.content.block.ModBaseBlock;
-import com.arcanc.nedaire.content.block.ModBlockHolder;
-import com.arcanc.nedaire.content.block.ModBlockPedestal;
+import com.arcanc.nedaire.content.block.NBaseBlock;
+import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
+import com.arcanc.nedaire.content.block.NBlockHolder;
+import com.arcanc.nedaire.content.block.NBlockHoover;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
-import com.arcanc.nedaire.content.block.entities.ModBEHolder;
+import com.arcanc.nedaire.content.block.NBlockPedestal;
+import com.arcanc.nedaire.content.block.NBlockVimStorage;
+import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.content.block.entities.NBEHolder;
+import com.arcanc.nedaire.content.block.entities.NBEHoover;
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
-import com.arcanc.nedaire.content.block.entities.ModBEPedestal;
+import com.arcanc.nedaire.content.block.entities.NBEPedestal;
+import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
+import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.menu.NHooverMenu;
+import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.ModBaseBlockItem;
 import com.arcanc.nedaire.content.item.ModBaseItem;
@@ -43,29 +53,45 @@ import com.arcanc.nedaire.data.crafting.recipe.ModShieldRecipes;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityType.Builder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -79,9 +105,9 @@ public class NRegistration
 	{
 		public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NDatabase.MOD_ID);
 
-		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties().tab(Nedaire.getInstance().TAB);
+		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties();
 		
-		public static final ItemRegObject<Item> HAMMER = new ItemRegObject<>(
+		public static final ItemRegObject<ModHammer> HAMMER = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						NDatabase.Items.Names.HAMMER, 
 						NDatabase.Items.Names.TOOL),
@@ -177,7 +203,6 @@ public class NRegistration
 					craftRemainder(itemBlock.getCraftingRemainingItem()).
 					durability(itemBlock.getMaxDamage()).
 					stacksTo(itemBlock.getMaxStackSize()).
-					tab(itemBlock.getItemCategory()).
 					rarity(itemBlock.getRarity(itemBlock.getDefaultInstance()));
 			
 			if (itemBlock.isFireResistant())
@@ -197,32 +222,52 @@ public class NRegistration
 				requiresCorrectToolForDrops().
 				strength(2.0f);
 		
-		public static final BlockRegObject<ModBaseBlock, ModBaseBlockItem> SKYSTONE = BlockRegObject.simple(
+		public static final BlockRegObject<NBaseBlock, ModBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
 				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
 
 		
-		public static final BlockRegObject<ModBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
 				baseMachineProps,
-				ModBlockPedestal :: new, 
+				NBlockPedestal :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, t) -> new ModBaseBlockItem(b, t));		
+				(b, p) -> new ModBaseBlockItem(b, p));		
 		
-		public static final BlockRegObject<ModBlockHolder, ModBaseBlockItem> HOLDER = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockHolder, ModBaseBlockItem> HOLDER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.HOLDER,
 				baseMachineProps,
-				ModBlockHolder :: new,
+				NBlockHolder :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, t) -> new ModBaseBlockItem(b, t));
+				(b, p) -> new ModBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockManualCrusher, ModBaseBlockItem> MANUAL_CRUSHER = new BlockRegObject<> (
 				NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER,
 				baseMachineProps,
 				NBlockManualCrusher :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, t) -> new ModBaseBlockItem(b, t));
+				(b, p) -> new ModBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockVimStorage, ModBaseBlockItem> VIM_STORAGE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
+				baseMachineProps, 
+				NBlockVimStorage :: new, 
+				NRegistration.RegisterItems.baseProps, 
+				(b, p) -> new ModBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockDeliveryStation, ModBaseBlockItem> DELIVERY_STATION = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION,
+				baseMachineProps,
+				NBlockDeliveryStation :: new,
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new ModBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockHoover, ModBaseBlockItem> HOOVER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.HOOVER,
+				baseMachineProps,
+				NBlockHoover :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new ModBaseBlockItem(b, p));
 		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
@@ -233,14 +278,14 @@ public class NRegistration
 			private final RegistryObject<I> itemBlock;
 			private final Supplier<Item.Properties> itemProps;
 			
-			public static BlockRegObject<ModBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props)
+			public static BlockRegObject<NBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props)
 			{
 				return simple(name, props, p -> {});
 			}
 			
-			public static BlockRegObject<ModBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props, Consumer<ModBaseBlock> extra)
+			public static BlockRegObject<NBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props, Consumer<NBaseBlock> extra)
 			{
-				return new BlockRegObject<>(name, props, p -> Util.make(new ModBaseBlock(p), extra), NRegistration.RegisterItems.baseProps, (b, t) -> new ModBaseBlockItem(b, t));
+				return new BlockRegObject<>(name, props, p -> Util.make(new NBaseBlock(p), extra), NRegistration.RegisterItems.baseProps, (b, t) -> new ModBaseBlockItem(b, t));
 			}
 			
 			public BlockRegObject(String name, Supplier<Block.Properties> blockProps, Function<Block.Properties, T> makeBlock, Supplier<Item.Properties> itemProps, BiFunction<T, Item.Properties, I> makeItem)
@@ -257,8 +302,8 @@ public class NRegistration
 			public BlockRegObject (T existing)
 			{
 				this.blockProps = () -> Block.Properties.copy(existing);
-				this.regObject = RegistryObject.create(Registry.BLOCK.getKey(existing), ForgeRegistries.BLOCKS);
-				this.itemBlock = RegistryObject.create(Registry.ITEM.getKey(existing.asItem()), ForgeRegistries.ITEMS);
+				this.regObject = RegistryObject.create(BuiltInRegistries.BLOCK.getKey(existing), ForgeRegistries.BLOCKS);
+				this.itemBlock = RegistryObject.create(BuiltInRegistries.ITEM.getKey(existing.asItem()), ForgeRegistries.ITEMS);
 				this.itemProps = NRegistration.RegisterItems.copyProps(itemBlock.get());
 			}
 
@@ -324,20 +369,35 @@ public class NRegistration
 		public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, NDatabase.MOD_ID);
 	
 
-		public static final RegistryObject<BlockEntityType<ModBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
+		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
-				makeType(ModBEPedestal :: new, 
+				makeType(NBEPedestal :: new, 
 						RegisterBlocks.PEDESTAL));
 
-		public static final RegistryObject<BlockEntityType<ModBEHolder>> BE_HOLDER = BLOCK_ENTITIES.register(
+		public static final RegistryObject<BlockEntityType<NBEHolder>> BE_HOLDER = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.HOLDER,
-				makeType(ModBEHolder :: new, 
+				makeType(NBEHolder :: new, 
 						RegisterBlocks.HOLDER));
 		
 		public static final RegistryObject<BlockEntityType<NBEManualCrusher>> BE_MANUAL_CRUSHER = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER, 
 				makeType(NBEManualCrusher :: new,
 						RegisterBlocks.MANUAL_CRUSHER));
+		
+		public static final RegistryObject<BlockEntityType<NBEVimStorage>> BE_VIM_STORAGE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
+				makeType(NBEVimStorage :: new, 
+						RegisterBlocks.VIM_STORAGE));
+		
+		public static final RegistryObject<BlockEntityType<NBEDeliveryStation>> BE_DELIVERY_STATION = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION,
+				makeType(NBEDeliveryStation :: new,
+						RegisterBlocks.DELIVERY_STATION));
+		
+		public static final RegistryObject<BlockEntityType<NBEHoover>> BE_HOOVER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.HOOVER,
+				makeType(NBEHoover :: new,
+						RegisterBlocks.HOOVER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
@@ -351,13 +411,14 @@ public class NRegistration
 					create, ImmutableSet.copyOf(valid.stream().map(Supplier::get).collect(Collectors.toList())), null);
 		}
 	}
+	
 	public static class RegisterRecipes
 	{
 		public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, NDatabase.MOD_ID);
 
-		public static final RegistryObject<SimpleRecipeSerializer<ModShieldRecipes>> SHIELD_SERIALIZER = RECIPE_SERIALIZERS.register(
+		public static final RegistryObject<SimpleCraftingRecipeSerializer<ModShieldRecipes>> SHIELD_SERIALIZER = RECIPE_SERIALIZERS.register(
 				NDatabase.Recipes.VanillaTypes.SHIELD_DECORATION, 
-				() -> new SimpleRecipeSerializer<>(ModShieldRecipes :: new));
+				() -> new SimpleCraftingRecipeSerializer<>(ModShieldRecipes :: new));
 
 		public static final RegistryObject<NCrusherRecipeSerializer> CRUSHER_SERIALIZER = RECIPE_SERIALIZERS.register(
 				NDatabase.Recipes.Types.CRUSHER, 
@@ -365,7 +426,7 @@ public class NRegistration
 		
 		public static class Types
 		{
-			private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, NDatabase.MOD_ID);
+			private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, NDatabase.MOD_ID);
 			
 			public static final TypeWithClass<NCrusherRecipe> MANUAL_CRUSHER = register(NDatabase.Recipes.Types.CRUSHER, NCrusherRecipe.class);
 		
@@ -394,6 +455,20 @@ public class NRegistration
 	
 	}
 
+	public static class RegisterEntities
+	{
+		public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, NDatabase.MOD_ID);
+	
+		public static final RegistryObject<EntityType<DeliveryDroneEntity>> DELIVERY_DRONE = register(
+				NDatabase.Entities.Names.DELIVERY_DRONE,
+				() -> Builder.<DeliveryDroneEntity>of(DeliveryDroneEntity :: new, MobCategory.MISC).sized(0.3125f, 0.3125f).clientTrackingRange(16));
+		
+		private static <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<Builder<T>> builder)
+		{
+			return ENTITIES.register(name, () -> builder.get().build(StringHelper.getStrLocFStr(name)));
+		}
+	}
+
 	public static class RegisterWorldGen
 	{
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, NDatabase.MOD_ID);
@@ -419,6 +494,131 @@ public class NRegistration
 	public static class InitEnchiridion
 	{
 		
+	}
+	
+	public static class RegisterMenuTypes
+	{
+		public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, NDatabase.MOD_ID);
+	
+		public static final BEContainer<NBEHoover, NHooverMenu> HOOVER = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.HOOVER, NHooverMenu :: makeServer, NHooverMenu :: makeClient);
+		
+		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
+		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)
+		{
+			RegistryObject<MenuType<C>> typeRef = registerType(name, client);
+			return new BEContainer<>(typeRef, container);
+		}
+
+		public static <C extends NContainerMenu> ItemContainerType<C> registerItem
+		(String name, ItemContainerConstructor<C> container, ClientContainerConstructor<C> client)
+		{
+			RegistryObject<MenuType<C>> typeRef = registerType(name, client);
+			return new ItemContainerType<>(typeRef, container);
+		}
+
+		private static <C extends NContainerMenu> RegistryObject<MenuType<C>> registerType(String name, ClientContainerConstructor<C> client)
+		{
+			return MENU_TYPES.register(
+					name, () -> 
+					{
+						Mutable<MenuType<C>> typeBox = new MutableObject<>();
+						MenuType<C> type = IForgeMenuType.create((id, inv, data) -> client.construct(typeBox.getValue(), id, inv, data.readBlockPos()));
+						typeBox.setValue(type);
+						return type;
+					}
+			);
+		}
+
+		public static <C extends AbstractContainerMenu>	ItemContainerType<C> register(String name, ItemContainerConstructor<C> container)
+		{
+			RegistryObject<MenuType<C>> typeRef = MENU_TYPES.register(
+					name, () -> {
+						Mutable<MenuType<C>> typeBox = new MutableObject<>();
+						MenuType<C> type = IForgeMenuType.create((windowId, inv, data) -> 
+						{
+							Minecraft mc = RenderHelper.mc();
+							Level world = mc.level;
+							// Matches NBaseItem#openGui
+							int slotOrdinal = data.readInt();
+							EquipmentSlot slot = EquipmentSlot.values()[slotOrdinal];
+							ItemStack stack = mc.player.getItemBySlot(slot);
+							return container.construct(typeBox.getValue(), windowId, inv, slot, stack);
+						});
+						typeBox.setValue(type);
+						return type;
+					}
+			);
+			return new ItemContainerType<>(typeRef, container);
+		}
+
+		public static <M extends AbstractContainerMenu>	RegistryObject<MenuType<M>> registerSimple(String name, SimpleContainerConstructor<M> factory)
+		{
+			return MENU_TYPES.register(
+					name, () -> {
+						Mutable<MenuType<M>> typeBox = new MutableObject<>();
+						MenuType<M> type = IForgeMenuType.create((id, inv, data) -> factory.construct(typeBox.getValue(), id, inv));
+						typeBox.setValue(type);
+						return type;
+					}
+			);
+		}
+		
+		public static class BEContainer<T extends BlockEntity, C extends NContainerMenu>
+		{
+			private final RegistryObject<MenuType<C>> type;
+			private final BEContainerConstructor<T, C> factory;
+
+			private BEContainer(RegistryObject<MenuType<C>> type, BEContainerConstructor<T, C> factory)
+			{
+				this.type = type;
+				this.factory = factory;
+			}
+
+			public C create(int windowId, Inventory playerInv, T tile)
+			{
+				return factory.construct(getType(), windowId, playerInv, tile);
+			}
+
+			public MenuType<C> getType()
+			{
+				return type.get();
+			}
+		}
+		
+		public record ItemContainerType<C extends AbstractContainerMenu>(RegistryObject<MenuType<C>> type, ItemContainerConstructor<C> factory)
+		{
+			public C create(int id, Inventory inv, EquipmentSlot slot, ItemStack stack)
+			{
+				return factory.construct(getType(), id, inv, slot, stack);
+			}
+
+			public MenuType<C> getType()
+			{
+				return type.get();
+			}
+		}
+		
+		public interface BEContainerConstructor<T extends BlockEntity, C extends NContainerMenu>
+		{
+			C construct(MenuType<C> type, int windowId, Inventory inventoryPlayer, T te);
+		}
+
+		public interface ClientContainerConstructor<C extends NContainerMenu>
+		{
+			C construct(MenuType<C> type, int windowId, Inventory inventoryPlayer, BlockPos pos);
+		}
+
+		public interface ItemContainerConstructor<C extends AbstractContainerMenu>
+		{
+			C construct(MenuType<C> type, int windowId, Inventory inventoryPlayer, EquipmentSlot slot, ItemStack stack);
+		}
+
+		public interface SimpleContainerConstructor<C extends AbstractContainerMenu>
+		{
+			C construct(MenuType<?> type, int windowId, Inventory inventoryPlayer);
+		}
+
 	}
 	
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)

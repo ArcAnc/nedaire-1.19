@@ -17,6 +17,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
@@ -34,13 +35,14 @@ public class Chapter extends Button
 	private EnchElementList list;
 	public EnchElementPage page;
 	
-	public Chapter(int x, int y, ResourceLocation id, EnchiridionInstance instance, ItemStack icon, OnPress press, OnTooltip tooltip)
+	public Chapter(int x, int y, ResourceLocation id, EnchiridionInstance instance, ItemStack icon, OnPress press, Tooltip tooltip)
 	{
-		super(x, y, 20, 26, CommonComponents.EMPTY, press, tooltip);
+		super(x, y, 20, 26, CommonComponents.EMPTY, press, DEFAULT_NARRATION);
 		this.id  = id;
 		this.instance = instance;
 		this.icon = icon;
 		this.isNative = id.getNamespace() == NDatabase.MOD_ID;
+		this.setTooltip(tooltip);
 	}
 
 	@Override
@@ -56,21 +58,18 @@ public class Chapter extends Button
 	    RenderSystem.defaultBlendFunc();
 	    RenderSystem.enableDepthTest();
 	    if (isNative)
-	    	this.blit(pose, this.x, this.y, 236, 0, this.width, this.height);
+	    	this.blit(pose, this.getX(), this.getY(), 236, 0, this.width, this.height);
 	    else
 	    {
-    		this.blit(pose, this.x, this.y, 236, 26, this.width, this.height);
+    		this.blit(pose, this.getX(), this.getY(), 236, 26, this.width, this.height);
 	    }
 	    
 	    pose.pushPose();
 	    pose.scale(1.15f, 1.15f, 1f);
-	    RenderHelper.renderItemStack(pose, icon, (int)(this.x /1.15f) + 1, (int)(this.y / 1.15f), true);
+	    RenderHelper.renderItemStack(pose, icon, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), true);
 	    pose.popPose();
 	    RenderSystem.disableBlend();
 	    RenderSystem.disableDepthTest();
-	    
-	    if (isHoveredOrFocused())
-	    	this.renderToolTip(pose, x, y);
 	    
 	    if (isActive && list != null)
 	    {

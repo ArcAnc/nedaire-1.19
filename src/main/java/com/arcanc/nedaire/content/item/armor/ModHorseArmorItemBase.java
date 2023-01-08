@@ -10,7 +10,6 @@ package com.arcanc.nedaire.content.item.armor;
 
 import java.util.List;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.armor.horse.ModHorseArmorMaterial;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -27,7 +26,7 @@ public class ModHorseArmorItemBase extends HorseArmorItem
 {
 	public ModHorseArmorItemBase(ModHorseArmorMaterial material) 
 	{
-		super(material.getDefense(), material.getTexturePath(), new Item.Properties().tab(Nedaire.getInstance().TAB));
+		super(material.getDefense(), material.getTexturePath(), new Item.Properties().stacksTo(1));
 	}
 
 	@Override

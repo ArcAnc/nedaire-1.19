@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 
-import com.arcanc.nedaire.data.FluidTagInput;
+import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 
 import net.minecraft.core.NonNullList;

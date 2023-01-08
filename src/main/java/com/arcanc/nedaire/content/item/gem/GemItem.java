@@ -12,10 +12,7 @@ import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
 import com.arcanc.nedaire.content.item.ModBaseItem;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.RegistryObject;
 
 public class GemItem extends ModBaseItem implements IGemItem
 {
@@ -33,9 +30,10 @@ public class GemItem extends ModBaseItem implements IGemItem
 		return stack;
 	}
 	
-	@Override
+/*	@Override
 	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) 
 	{
+		PotionItem
 		if (this.allowedIn(tab)) 
 		{
 			for (RegistryObject<GemEffect<?>> c : NRegistration.RegisterGemEffects.EFFECTS.getEntries())
@@ -44,4 +42,4 @@ public class GemItem extends ModBaseItem implements IGemItem
 			}
 	    }
 	}
-}
+*/}

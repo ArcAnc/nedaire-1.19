@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.weapon;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -19,7 +18,7 @@ public class ModSwordBase extends SwordItem
 {
 	public ModSwordBase(ModAbstractToolMaterial toolMat) 
 	{
-		super(toolMat, (int)toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties().tab(Nedaire.getInstance().TAB).defaultDurability(toolMat.getUses()));
+		super(toolMat, (int)toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties().defaultDurability(toolMat.getUses()));
 	}
 
 	@Override

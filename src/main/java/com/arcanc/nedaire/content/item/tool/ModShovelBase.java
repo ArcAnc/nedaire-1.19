@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -19,7 +18,7 @@ public class ModShovelBase extends ShovelItem
 {
 	public ModShovelBase(ModAbstractToolMaterial toolMat) 
 	{
-		super(toolMat, toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties().tab(Nedaire.getInstance().TAB));
+		super(toolMat, toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties());
 	}
 	
 	@Override

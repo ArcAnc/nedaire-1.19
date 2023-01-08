@@ -94,14 +94,14 @@ public class ItemHelper
 		return LazyOptional.empty();
 	}
 	
-/*	public static LazyOptional<IItemHandler> getNearbyItemHandler (TileEntity tile, Direction dir)
+	public static LazyOptional<IItemHandler> getNearbyItemHandler (BlockEntity tile, Direction dir)
 	{
 		if (tile != null)
 		{
-			World world = tile.getLevel();
+			Level world = tile.getLevel();
 			BlockPos pos = tile.getBlockPos();
 			
-			TileEntity t = BlockHelper.getTileEntity(world, pos.add(dir.getDirectionVec()));
+			BlockEntity t = BlockHelper.getTileEntity(world, pos.relative(dir));
 			if (t != null)
 			{
 				 return getItemHandler(t, dir.getOpposite());
@@ -109,7 +109,7 @@ public class ItemHelper
 		}
 		return LazyOptional.empty();
 	}
-*/	
+	
 	public static LazyOptional<IItemHandler> getItemHandler (BlockEntity tile)
 	{
 		return getItemHandler(tile, null);

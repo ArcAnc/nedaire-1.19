@@ -57,4 +57,14 @@ public interface IVim extends INBTSerializable<CompoundTag>
      */
     boolean isAllowedReceiving ();
 
+    
+    /**
+     * Directly changed current energy amount. Can not be lower than 0 or more than {@link #getMaxEnergyStored()}
+     */
+    void setEnergyStored(int count);
+    
+    /**
+     * Directly changed current max energy amount. Can not be lower than 0 
+     */
+    void setMaxEnergyStored(int count);
 }

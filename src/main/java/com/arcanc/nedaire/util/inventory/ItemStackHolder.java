@@ -89,33 +89,28 @@ public class ItemStackHolder implements IItemStackAcess
 	@Override
 	public void setCount(int newCount) 
 	{
+		int limit = stackLimit < stack.getMaxStackSize() ? stackLimit : stack.getMaxStackSize();
 		if (newCount <= 0)
-		{
 			stack = ItemStack.EMPTY;
-			onContentsChanged();
-		}
-		else if (newCount > stack.getMaxStackSize())
-		{
-			stack.setCount(stack.getMaxStackSize());
-			onContentsChanged();
-		}
+		else if (newCount > limit)
+			stack.setCount(limit);
+		else
+			stack.setCount(newCount);
+		onContentsChanged();
 	}
 
 	@Override
 	public int modify(int amount) 
 	{
 		int newCount = stack.getCount() + amount;
-		
+
 		if (newCount <= 0)
-		{
 			stack = ItemStack.EMPTY;
-			onContentsChanged();
-		}
 		else if (newCount > stack.getMaxStackSize())
-		{
 			stack.setCount(stack.getMaxStackSize());
-			onContentsChanged();
-		}
+		else
+			stack.setCount(newCount);
+		onContentsChanged();
 		
 		return newCount;
 	}
@@ -143,7 +138,6 @@ public class ItemStackHolder implements IItemStackAcess
 
         int limit =  Math.min(stackLimit, stack.getMaxStackSize());
 
-        
         if (!isEmpty())
         {
         	if (!ItemHandlerHelper.canItemStacksStack(stack, getItemStack()))
@@ -155,22 +149,22 @@ public class ItemStackHolder implements IItemStackAcess
         if (limit <= 0)
             return stack;
 
-        boolean reachedLimit = stack.getCount() > limit;
+        boolean reachedLimit = stack.getCount() >= limit;
         
         
         if (!simulate)
         {
-            if (getItemStack().isEmpty())
+           if (getItemStack().isEmpty())
             {
             	setItemStack(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack);
             }
             else
             {
-                modify(reachedLimit ? limit : stack.getCount());
+            	modify(reachedLimit ? limit : stack.getCount());
             }
         }
 
-        return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount()- limit) : ItemStack.EMPTY;
+        return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - limit) : ItemStack.EMPTY;
 	}
 
 	@Override

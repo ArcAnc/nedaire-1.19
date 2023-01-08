@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-import com.arcanc.nedaire.data.FluidTagInput;
+import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
@@ -23,7 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -240,7 +240,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	public JsonObject serializeItemStack(ItemStack stack)
 	{
 		JsonObject obj = new JsonObject();
-		obj.addProperty("item", Registry.ITEM.getKey(stack.getItem()).toString());
+		obj.addProperty("item", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
 		if(stack.getCount() > 1)
 			obj.addProperty("count", stack.getCount());
 		if(stack.hasTag())
@@ -251,7 +251,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	@SuppressWarnings("deprecation")
 	protected T addSimpleItem(String key, ItemLike item)
 	{
-		return addWriter(json -> json.addProperty(key, Registry.ITEM.getKey(item.asItem()).toString()));
+		return addWriter(json -> json.addProperty(key, BuiltInRegistries.ITEM.getKey(item.asItem()).toString()));
 	}
 
 	public T addItem(String key, ItemLike item)

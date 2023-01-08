@@ -8,19 +8,20 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
-import com.arcanc.nedaire.content.block.entities.ModBEHolder;
-import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import org.joml.Quaternionf;
 
-import net.minecraft.client.Minecraft;
+import com.arcanc.nedaire.content.block.entities.NBEHolder;
+import com.arcanc.nedaire.util.helpers.ItemHelper;
+import com.arcanc.nedaire.util.helpers.RenderHelper;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemStack;
 
-public class HolderRenderer implements BlockEntityRenderer<ModBEHolder>  
+public class HolderRenderer implements BlockEntityRenderer<NBEHolder>  
 {
 
 	public HolderRenderer(BlockEntityRendererProvider.Context ctx) 
@@ -28,7 +29,7 @@ public class HolderRenderer implements BlockEntityRenderer<ModBEHolder>
 	}
 	
 	@Override
-	public void render(ModBEHolder blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(NBEHolder blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
 	{
 		
 		if(blockEntity != null)
@@ -45,8 +46,8 @@ public class HolderRenderer implements BlockEntityRenderer<ModBEHolder>
 					mStack.scale(0.75F, 0.75F, 0.75F);
 			        long time = blockEntity.getLevel().getGameTime();
 			        float angle = (time) % 360;
-			        mStack.mulPose(Vector3f.YP.rotationDegrees(angle));
-			        Minecraft.getInstance().getItemRenderer().renderStatic(
+			        mStack.mulPose(new Quaternionf().fromAxisAngleDeg(angle, 0, 1, 0));
+			        RenderHelper.renderItem().renderStatic(
 			        		stack, 
 			        		ItemTransforms.TransformType.GROUND, 
 			        		combinedLight, 

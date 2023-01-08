@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.armor;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.armor.player.ModAbstractPlayerArmorMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -22,7 +21,7 @@ public class ModArmorBase extends ArmorItem
 {
 	public ModArmorBase(ModAbstractPlayerArmorMaterial armorMat, EquipmentSlot slot) 
 	{
-		super(armorMat, slot, new Item.Properties().tab(Nedaire.getInstance().TAB).stacksTo(1));
+		super(armorMat, slot, new Item.Properties().stacksTo(1));
 	}
 
 	@Override

@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -19,7 +18,7 @@ public class ModHoeBase extends HoeItem
 {
 	public ModHoeBase(ModAbstractToolMaterial toolMat) 
 	{
-		super(toolMat, (int) toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties().tab(Nedaire.getInstance().TAB));
+		super(toolMat, (int) toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties());
 	
 	}
 

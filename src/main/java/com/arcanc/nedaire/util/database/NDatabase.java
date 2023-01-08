@@ -88,6 +88,7 @@ public class NDatabase
 				public static final String SWORD = "sword";
 			}
 			
+			
 		}
 	}
 
@@ -109,6 +110,9 @@ public class NDatabase
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
 				public static final String MANUAL_CRUSHER = "manual_crusher";
+				public static final String VIM_STORAGE = "vim_storage";
+				public static final String DELIVERY_STATION = "delivery_station";
+				public static final String HOOVER = "hoover";
 			}
 			
 			public static class TagAddress
@@ -119,8 +123,14 @@ public class NDatabase
 					{
 						public static final String REDSTONE_MOD = "redstone_mod";
 					}
+					
+					public static class Manual_Crusher
+					{
+						public static final String LAST_ACTIVE_TIME = "last_active_time";
+						public static final String CURRENT_ANGLE = "current_angle";
+						public static final String USED_ENERGY = "used_energy";
+					}
 				}
-				
 			}
 			
 		}
@@ -162,6 +172,15 @@ public class NDatabase
 		}
 	}
 
+	public static class Entities
+	{
+		public static final String DEFAULT_TEXTURE_PATH = "textures/entity";
+		public static class Names
+		{
+			public static final String DELIVERY_DRONE = "delivery_drone";
+		}
+	}
+	
 	public static class Capabilities
 	{
 		public static class ItemHandler
@@ -223,6 +242,24 @@ public class NDatabase
 				public static final String INPUT = Slots.PATH + "input";
 				public static final String OUTPUT = Slots.PATH + "output";
 				public static final String BOTH = Slots.PATH + "both";
+			}
+		}
+		public static class Background
+		{
+			public static final String PATH = GUI.PATH + "background/";
+			public static final class Textures
+			{
+				public static final String MIDDLE = Background.PATH + "middle";
+
+				public static final String MIDDLE_LEFT = MIDDLE + "_left"; 
+				public static final String MIDDLE_RIGHT = MIDDLE + "_right"; 
+				public static final String MIDDLE_TOP = MIDDLE + "_top"; 
+				public static final String MIDDLE_BOTTOM = MIDDLE + "_bottom"; 
+
+				public static final String LEFT_TOP = Background.PATH + "corner_left_top";
+				public static final String LEFT_BOTTOM = Background.PATH + "corner_left_bottom";
+				public static final String RIGHT_TOP = Background.PATH + "corner_right_top";
+				public static final String RIGHT_BOTTOM = Background.PATH + "corner_right_bottom";
 			}
 		}
 		public static class Enchiridion
@@ -342,6 +379,6 @@ public class NDatabase
 				return StringHelper.getLocFStr(StringHelper.symbolPlacer('.', ENCHIRIDION, part, path));  
 			}
 		}
-
+		
 	}
 }

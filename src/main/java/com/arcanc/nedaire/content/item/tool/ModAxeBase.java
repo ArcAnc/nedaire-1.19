@@ -8,7 +8,6 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -20,7 +19,7 @@ public class ModAxeBase extends AxeItem
 
 	public ModAxeBase(ModAbstractToolMaterial toolMat, float attackDamage, float attackSpeed)  
 	{
-		super(toolMat, attackDamage, attackSpeed, new Item.Properties().tab(Nedaire.getInstance().TAB));
+		super(toolMat, attackDamage, attackSpeed, new Item.Properties());
 	}
 
 	@Override

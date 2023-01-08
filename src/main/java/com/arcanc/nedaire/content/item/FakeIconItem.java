@@ -8,10 +8,6 @@
  */
 package com.arcanc.nedaire.content.item;
 
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-
 public class FakeIconItem extends ModBaseItem 
 {
 
@@ -20,16 +16,4 @@ public class FakeIconItem extends ModBaseItem
 		super(new Properties().stacksTo(1));
 	}
 	
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) 
-	{
-		
-	}
-	
-	@Override
-	protected boolean allowedIn(CreativeModeTab tab) 
-	{
-		return false;
-	}
-
 }

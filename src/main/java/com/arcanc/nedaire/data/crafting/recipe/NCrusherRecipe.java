@@ -10,6 +10,7 @@ package com.arcanc.nedaire.data.crafting.recipe;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.compress.utils.Lists;
 
@@ -85,12 +86,16 @@ public class NCrusherRecipe extends NRecipe
 		return this;
 	}
 	
-	public static NCrusherRecipe findRecipe(Level level, ItemStack input)
+	public static Optional<NCrusherRecipe> findRecipe(Level level, ItemStack input)
 	{
-		for (NCrusherRecipe recipe : RECIPES.getRecipes(level))
+		
+/*		for (NCrusherRecipe recipe : RECIPES.getRecipes(level))
 			if (recipe.input.test(input))
 				return recipe;
-		return null;
+*/		return RECIPES.getRecipes(level).stream().
+		filter(recipe -> recipe.input.test(input)).
+		findFirst();
+
 	}
 	
 	@Override

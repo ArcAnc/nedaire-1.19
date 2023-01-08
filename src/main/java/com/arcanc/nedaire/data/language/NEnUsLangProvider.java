@@ -14,21 +14,21 @@ import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class NEnUsLangProvider extends LanguageProvider 
 {
 
-	public NEnUsLangProvider(DataGenerator gen) 
+	public NEnUsLangProvider(PackOutput output) 
 	{
-		super(gen, NDatabase.MOD_ID, "en_us");
+		super(output, NDatabase.MOD_ID, "en_us");
 	}
 
 	@Override
 	protected void addTranslations() 
 	{
-		add(Nedaire.getInstance().TAB.getDisplayName().getString(), "Nedaire");
+		add(Nedaire.TAB.getDisplayName().getString(), "Nedaire");
 		
 		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
@@ -76,11 +76,13 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.PEDESTAL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PEDESTAL));
 		add(NRegistration.RegisterBlocks.HOLDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOLDER));
 		add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER.replace("_c", " C")));
-		
+		add(NRegistration.RegisterBlocks.VIM_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE.replace("_s", "S")));
+		add(NRegistration.RegisterBlocks.DELIVERY_STATION.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION.replace("_s", "S")));
+		add(NRegistration.RegisterBlocks.HOOVER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOOVER));
 		
 		//************************************************************************
 		//SOCKET
-		add(NDatabase.MOD_ID + ".socket.contains", "Contains Unside:");
+		add(NDatabase.MOD_ID + ".socket.contains", "Contains Inside:");
 		add(NDatabase.MOD_ID + ".socket.number", "Slot #%s : %s");
 		add(NDatabase.MOD_ID + ".socket.empty", "Empty");
 		add(NDatabase.MOD_ID + ".socket.unknown", "Wrong Item");

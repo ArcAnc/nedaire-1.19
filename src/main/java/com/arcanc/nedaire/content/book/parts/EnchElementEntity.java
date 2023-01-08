@@ -10,11 +10,13 @@ package com.arcanc.nedaire.content.book.parts;
 
 import javax.annotation.Nullable;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -108,12 +110,12 @@ public class EnchElementEntity extends EnchElementAbstract
 		modelViewStack.translate(this.x + (this.width / 2) + (entity.getBbWidth() * 16) / 4, this.y + (this.height / 2) + (entity.getBbHeight() * 16) / 2 , 50);
 		modelViewStack.scale(-scale < 1 ? scale * entity.getBbWidth() : scale / entity.getBbWidth(), entity.getBbHeight() > 1 ? scale / entity.getBbHeight() : scale * entity.getBbHeight(), scale);
 		PoseStack mobPoseStack = new PoseStack();
-		mobPoseStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+		mobPoseStack.mulPose(new Quaternionf().fromAxisAngleDeg(new Vector3f(0, 0, 1), 180));
 
 		float pitch = this.y + (this.height / 2) + (entity.getBbHeight() * 16) / 4 - mouseY;
 		float yaw = this.x + (this.width / 2) + (entity.getBbWidth() * 16) / 4 - mouseX;
 
-		mobPoseStack.mulPose(Vector3f.XN.rotationDegrees(((float)Math.atan((pitch/40f)))*20f));
+		mobPoseStack.mulPose(new Quaternionf().fromAxisAngleDeg(new Vector3f(-1, 0, 0), (float)Math.atan((pitch/40f))*20f));
 		entity.yo = (float)Math.atan(yaw/40f)*20f;
 		float yRot = -(float)Math.atan(yaw/40f)*40f;
 		float xRot = -((float)Math.atan(pitch/40f))*20f;

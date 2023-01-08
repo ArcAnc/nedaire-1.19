@@ -19,6 +19,7 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.GUI.Enchiridion.Section.SectionData;
 import com.google.common.collect.Maps;
 
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -57,10 +58,8 @@ public class EnchiridionInstance
 					INSTANCE, 
 					data.icon(), 
 					but -> {}, 
-					(but, stack, x, y) -> 
-					{
-						screen.renderTooltip(stack, Component.translatable(data.name().toLanguageKey()), x, y);
-					}).addData(new EnchElementList(INSTANCE, data.data())));
+					Tooltip.create(Component.translatable(data.name().toLanguageKey()))
+					).addData(new EnchElementList(INSTANCE, data.data())));
 			if (isNative)
 			{
 				upper++;

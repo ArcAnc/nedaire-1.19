@@ -8,17 +8,21 @@
  */
 package com.arcanc.nedaire.content.block;
 
-import net.minecraft.client.renderer.RenderType;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.google.common.base.Preconditions;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class BlockInterfaces 
 {
-	public interface IBlockRenderLayer
-	{
-		RenderType getRenderLayer(); 
-		
-		void setRenderLayer(RenderType renderLayer); 
-	}
-	
 	public interface IInventoryCallback
 	{
 	    default void onInventoryChange(int slot) 
@@ -31,7 +35,7 @@ public class BlockInterfaces
 
 	    }
 	    
-	    default void onVimChange (int slot)
+	    default void onVimChange ()
 	    {
 	    	
 	    }
@@ -49,6 +53,38 @@ public class BlockInterfaces
 	    /**
 	     * FIXME: add essence or another energy which will be implemented soon
 	     */
+	}
+	/*
+	 * taken from Immersive Engineering*/
+	public interface IInteractionObjectN<T extends BlockEntity & IInteractionObjectN<T>> extends MenuProvider
+	{
+		@Nullable
+		T getBE();
+
+		BEContainer<? super T, ?> getContainerType();
+
+		boolean canUseGui(Player player);
+
+		default boolean isValid()
+		{
+			return getBE()!=null;
+		}
+
+		@Nonnull//Super is annotated nullable, but Forge assumes Nonnull in at least one place
+		@Override
+		default AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player playerEntity)
+		{
+			T tile = getBE();
+			Preconditions.checkNotNull(tile);
+			BEContainer<? super T, ?> type = getContainerType();
+			return type.create(id, playerInventory, tile);
+		}
+
+		@Override
+		default Component getDisplayName()
+		{
+			return Component.literal("");
+		}
 	}
 
 }

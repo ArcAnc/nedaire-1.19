@@ -8,8 +8,6 @@
  */
 package com.arcanc.nedaire.content.block;
 
-import java.util.function.BiFunction;
-
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -31,43 +29,32 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 
-public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher> 
+public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher> 
 {
 
 	private static final VoxelShape SHAPE = Shapes.or(
 			box(2, 0, 2, 14, 6, 14), 
 			box(2, 14, 2, 14, 16, 14),
 			box(3, 6, 3, 13, 14, 13));
-	public static final DirectionProperty FACING = BlockHelper.BlockProperties.FACING;
 
-	public NBlockManualCrusher(Properties properties, BiFunction<BlockPos, BlockState, NBEManualCrusher> tile) 
-	{
-		super(properties, tile);
-		
-		this.registerDefaultState(getInitDefaultState());
-	}
-	
 	public NBlockManualCrusher(Properties props) 
 	{
 		super (props, NRegistration.RegisterBlockEntities.BE_MANUAL_CRUSHER);
-
-		this.registerDefaultState(getInitDefaultState());
 	}
 
 	@Override
 	protected BlockState getInitDefaultState() 
 	{
 		BlockState state = super.getInitDefaultState();
-		if (state.hasProperty(FACING))
+		if (state.hasProperty(BlockHelper.BlockProperties.FACING))
 		{
-			state = state.setValue(FACING, Direction.SOUTH);
+			state = state.setValue(BlockHelper.BlockProperties.FACING, Direction.SOUTH);
 		}
 		return state;
 	}
@@ -81,11 +68,14 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 			dropBlock(level, pos);
 			return InteractionResult.sidedSuccess(level.isClientSide());
 		}
-		
 		return BlockHelper.castTileEntity(level, pos, NBEManualCrusher.class).map(tile -> 
 		{
-			tile.power();
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			if (hitResult.getDirection() == Direction.UP)
+			{
+				tile.power();				
+				return InteractionResult.sidedSuccess(level.isClientSide());
+			}
+			return super.use(state, level, pos, player, hand, hitResult);
 		}).
 		orElse(super.use(state, level, pos, player, hand, hitResult));
 	}
@@ -126,20 +116,20 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) 
 	{
-		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
+		return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.FACING, context.getHorizontalDirection().getOpposite());
 	}
 	
 	@Override
 	public BlockState rotate(BlockState state, Rotation rot) 
 	{
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+		return state.setValue(BlockHelper.BlockProperties.FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.FACING)));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirror) 
 	{
-		return state.rotate(mirror.getRotation(state.getValue(FACING)));
+		return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.FACING)));
 	}
 	
 	private void dropBlock(Level level, BlockPos pos)
@@ -149,7 +139,7 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 	}
 	
 	@Override
-	public RenderShape getRenderShape(BlockState p_60550_) 
+	public RenderShape getRenderShape(BlockState state) 
 	{
 		return RenderShape.MODEL;
 	}
@@ -171,11 +161,23 @@ public class NBlockManualCrusher extends ModTileProviderBlock<NBEManualCrusher>
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
 	{
-		builder.add(FACING);
+		builder.add(BlockHelper.BlockProperties.FACING, BlockHelper.BlockProperties.WATERLOGGED);
 	}
 	
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	{
+		return SHAPE;
+	}
+	
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	{
+		return SHAPE;
+	}
+	
+	@Override
+	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
 	{
 		return SHAPE;
 	}
