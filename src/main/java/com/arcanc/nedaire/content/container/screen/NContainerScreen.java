@@ -8,6 +8,11 @@
  */
 package com.arcanc.nedaire.content.container.screen;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.arcanc.nedaire.content.container.NSlot;
+import com.arcanc.nedaire.content.container.widget.Panel;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,6 +20,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -37,12 +43,59 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	public static final ResourceLocation RIGHT_TOP = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.RIGHT_TOP + ".png"); 
 	public static final ResourceLocation RIGHT_BOT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.RIGHT_BOTTOM + ".png"); 
 	
+	protected List<Panel> panelList = new ArrayList<>();
+	protected int currentPanel = 0;
+	protected Checkbox panelSwitcher;
+	
 	public NContainerScreen(T slots, Inventory player, Component title) 
 	{
 		super(slots, player, title);
 		this.inventoryLabelY = this.imageHeight - 91;
 	}
 
+	@Override
+	protected void init() 
+	{
+		super.init();
+		
+		addPanel(new Panel(0, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
+		addPanel(new Panel(10, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
+		panelSwitcher = addRenderableWidget(new Checkbox(20, 50, 20, 20, Component.literal("Test checkbox"), false));
+	}
+	
+	@Override
+	protected void containerTick() 
+	{
+		for (Slot s : this.menu.slots)
+		{
+			if (s instanceof NSlot slot)
+			{
+				if (slot.getPanelIndex() == currentPanel)
+					slot.setActive(true);
+				else
+					slot.setActive(false);
+			}
+		}
+		
+		if (panelSwitcher != null)
+		{
+			if (panelSwitcher.selected())
+				currentPanel = 0;
+			else
+				currentPanel = 10;
+		}
+		
+		for (Panel p : panelList)
+		{
+			if (p.index == currentPanel)
+			{
+				p.visible = true;
+			}
+			else
+				p.visible = false;
+		}
+	}
+	
 	@Override
 	protected void renderBg(PoseStack stack, float partialTicks, int x, int y) 
 	{
@@ -83,6 +136,13 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 		stack.popPose();
 	    
+	}
+	
+	protected Panel addPanel(Panel panel)
+	{
+		addRenderableOnly(panel);
+		panelList.add(panel);
+		return panel;
 	}
 	
 	@Override

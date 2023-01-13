@@ -16,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter;
+import com.arcanc.nedaire.content.capabilities.filter.ItemFilter;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -45,9 +48,12 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 	private final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> inv);
 	
 	public static final int INVENTORY_SIZE = 9;
-	
+
 	private static final AABB SUCK_ZONE = new AABB(-2, -2, -2, 3, 3, 3);
 	private static final AABB EAT_ZONE = new AABB(0, 0.5f, 0, 1, 1.1f, 1);
+
+	private ItemFilter filter;
+	private final LazyOptional<IFilter<IItemHandler, ItemStack>> itemFilter = LazyOptional.of(() -> filter);
 	
 	private final AABB suck_zone_local;
 	private final Vec3 suck_zone_center; 
@@ -59,6 +65,7 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 	{
 		super(NRegistration.RegisterBlockEntities.BE_HOOVER.get(), pos, state);
 		inv = new NSimpleItemStorage(this, INVENTORY_SIZE);
+		filter = new ItemFilter(true, this, INVENTORY_SIZE);
 		
 		this.suck_zone_center = new Vec3(pos.getX() + 0.5f, pos.getY() + 1.1f, pos.getZ() + 0.5f);
 		this.suck_zone_local = SUCK_ZONE.move(pos);
@@ -74,11 +81,10 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 			if (ItemHelper.hasEmptySpace(itemHandler))
 			{
 				//sucking items to self
-				/*FIXME: add predicate to filter suckuble items*/
 				List<ItemEntity> list = getLevel().getEntitiesOfClass(ItemEntity.class, suck_zone_local, EntitySelector.NO_SPECTATORS);
 				if (!list.isEmpty())
 				{
-					list.stream().forEach(entity -> 
+					list.stream().filter(ent -> filter.filter(ent.getItem())).forEach(entity -> 
 					{
 						Vec3 moveVector = new Vec3(suck_zone_center.x() - entity.getX(), suck_zone_center.y() - entity.getY(), suck_zone_center.z() - entity.getZ()).
 								normalize().scale(0.02f); 
@@ -99,10 +105,10 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 								{
 									ItemHelper.getItemHandler(tile).ifPresent(handler -> 
 									{
-										/*FIXME: add filter items*/
 										for (int q = 0; q < handler.getSlots(); q++)
 										{
-											if (!handler.getStackInSlot(q).isEmpty())
+											ItemStack filterStack = handler.getStackInSlot(q);
+											if (!filterStack.isEmpty() && filter.filter(filterStack))
 											{
 												ItemStack stack = handler.extractItem(q, 1, false);
 												WorldHelper.spawnItemEntity(level, tile.getBlockPos().getX() + 0.5d, tile.getBlockPos().getY() + 0.5d, tile.getBlockPos().getZ() + 0.5d, stack);
@@ -128,7 +134,7 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 						ItemStack stack = ent.getItem().copy();
 						for(int q = 0; q < inv.getSlots(); q++)
 						{
-							if(!stack.isEmpty())
+							if(!stack.isEmpty() && filter.filter(stack))
 							{
 								stack = inv.insertItem(q, stack, false);
 							}
@@ -146,6 +152,8 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 		super.readCustomTag(tag, descPacket);
 		if (tag.contains(NDatabase.Capabilities.ItemHandler.TAG_LOCATION))
 			inv.deserializeNBT(tag.getCompound(NDatabase.Capabilities.ItemHandler.TAG_LOCATION));
+		if (tag.contains(NDatabase.Capabilities.Filter.TAG_LOCATION_ITEM))
+			filter.deserializeNBT(tag.getCompound(NDatabase.Capabilities.Filter.TAG_LOCATION_ITEM));
 	}
 	
 	@Override
@@ -153,12 +161,14 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 	{
 		super.writeCustomTag(tag, descPacket);
 		tag.put(NDatabase.Capabilities.ItemHandler.TAG_LOCATION, inv.serializeNBT());
+		tag.put(NDatabase.Capabilities.Filter.TAG_LOCATION_ITEM, filter.serializeNBT());
 	}
 	
 	@Override
 	public void invalidateCaps() 
 	{
 		itemHandler.invalidate();
+		itemFilter.invalidate();
 		super.invalidateCaps();
 	}
 	
@@ -167,6 +177,8 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 	{
 		if (cap == ItemHelper.itemHandler)
 			return itemHandler.cast();
+		if (cap == CapabilityFilter.FILTER_ITEM)
+			return itemFilter.cast();
 		return super.getCapability(cap, side);
 	}
 	

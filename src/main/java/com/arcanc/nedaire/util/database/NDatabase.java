@@ -204,6 +204,18 @@ public class NDatabase
 			public static final String EXTRACT = "extracting";
 		}
 		
+		public static class Filter
+		{
+			public static final String TAG_LOCATION = StringHelper.getStrLocFStr("filter");
+			public static final String TAG_LOCATION_ITEM = TAG_LOCATION + "_item";
+			public static final String TAG_LOCATION_FLUID = TAG_LOCATION + "_fluid";
+			public static final String TAG_LOCATION_VIM = TAG_LOCATION + "_vim";
+			
+			public static final String SIZE = "size";
+			public static final String CONTENT = "content";
+			public static final String WHITELIST = "whitelist";
+		}
+		
 		public static class Socket
 		{
 			public static final String TAG_LOCATION = StringHelper.getStrLocFStr("socket");
@@ -262,6 +274,12 @@ public class NDatabase
 				public static final String RIGHT_BOTTOM = Background.PATH + "corner_right_bottom";
 			}
 		}
+		
+		public static class Filter
+		{
+			public static final String PATH = GUI.PATH + "filter/filter";
+		}
+		
 		public static class Enchiridion
 		{
 			public static class Recipes

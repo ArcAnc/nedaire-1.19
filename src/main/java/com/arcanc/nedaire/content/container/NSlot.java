@@ -16,7 +16,6 @@ import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
@@ -28,13 +27,13 @@ public class NSlot extends SlotItemHandler
 	public static final ResourceLocation BACKGROUND_INPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.INPUT);
 	public static final ResourceLocation BACKGROUND_OUPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.OUTPUT);
 	public static final ResourceLocation BACKGROUND_BOTH = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.BOTH);
+	protected boolean active = true;
+	protected int panelIndex = 0;
 	
-	private final AbstractContainerMenu containerMenu;
-
-	public NSlot(AbstractContainerMenu menu, IItemHandler inv, int id, int x, int y) 
+	public NSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
 	{
 		super(inv, id, x, y);
-		this.containerMenu = menu;
+		this.panelIndex = panelIndex;
 	}
 	
 	@Override
@@ -96,11 +95,33 @@ public class NSlot extends SlotItemHandler
 		return this;
 	}
 	
+	/**
+	 * 
+	 * @param active New state of slot
+	 * @return this, to allow chaining.
+	 */
+	public NSlot setActive(boolean active) 
+	{
+		this.active = active;
+		return this;
+	}
+	
+	@Override
+	public boolean isActive() 
+	{
+		return active;
+	}
+	
+	public int getPanelIndex() 
+	{
+		return panelIndex;
+	}
+	
 	public static class Output extends NSlot 
 	{
-		public Output(AbstractContainerMenu menu, IItemHandler inv, int id, int x, int y) 
+		public Output(IItemHandler inv, int panelIndex, int id, int x, int y) 
 		{
-			super(menu, inv, id, x, y);
+			super(inv, panelIndex, id, x, y);
 		}
 	
 		@Override
@@ -110,12 +131,12 @@ public class NSlot extends SlotItemHandler
 		}
 	}
 	
-	public static class ItemHandlerGhost extends SlotItemHandler
+	public static class ItemHandlerGhost extends NSlot
 	{
 
-		public ItemHandlerGhost(IItemHandler itemHandler, int index, int xPosition, int yPosition) 
+		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
 		{
-			super(itemHandler, index, xPosition, yPosition);
+			super(itemHandler, panelIndex, index, xPosition, yPosition);
 		}
 
 		@Override

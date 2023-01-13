@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
+import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.screen.NHooverScreen;
@@ -127,6 +128,7 @@ public class Nedaire
 	private void registerCapability(final RegisterCapabilitiesEvent event )
 	{
 		CapabilityVim.register(event);
+		CapabilityFilter.register(event);
 	}
 	
 	private void updatedTags(final TagsUpdatedEvent event)

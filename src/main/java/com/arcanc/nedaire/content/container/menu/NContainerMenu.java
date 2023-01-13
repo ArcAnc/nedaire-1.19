@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import com.arcanc.nedaire.content.capabilities.filter.IFilter;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.sync.GenericContainerData;
 import com.arcanc.nedaire.content.container.sync.GenericDataSerializers.DataPair;
@@ -36,7 +37,10 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkDirection;
 
 public abstract class NContainerMenu extends AbstractContainerMenu 
@@ -53,7 +57,35 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		this.setChanged = ctx.setChanged();
 		this.isValid = ctx.isValid();
 	}
-
+	
+	/**
+	 * Slot index = 10
+	 */
+	protected void addItemFilterSlots(LazyOptional<IFilter<IItemHandler, ItemStack>> filter, int xPos, int yPos)
+	{
+		filter.ifPresent(fil -> 
+		{
+			for (int q = 0; q < fil.getContent().getSlots(); q++)
+			{
+				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 10, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+			}
+		});
+	}
+	
+	/**
+	 * Slot index = 11
+	 */
+	protected void addFluidFilterSlots(LazyOptional<IFilter<IItemHandler, FluidStack>> filter, int xPos, int yPos)
+	{
+		filter.ifPresent(fil -> 
+		{
+			for (int q = 0; q < fil.getContent().getSlots(); q++)
+			{
+				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+			}
+		});
+	}
+	
     private int addSlotRange(Inventory handler, int index, int x, int y, int amount, int dx) 
     {
         for (int i = 0; i < amount ; i++) 
@@ -117,7 +149,6 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 			super.clicked(id, dragType, clickType, player);
 			return;
 		}
-		
 		ItemStack stackSlot = slot.getItem();
 		
 		if (dragType == 2)
@@ -125,6 +156,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		else if(dragType == 0 || dragType == 1)
 		{
 			ItemStack stackHeld = getCarried();
+			
 			int amount = Math.min(slot.getMaxStackSize(), stackHeld.getCount());
 			if (dragType == 1)
 				amount = 1;
