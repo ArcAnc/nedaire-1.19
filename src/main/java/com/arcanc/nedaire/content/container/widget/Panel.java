@@ -14,6 +14,7 @@ import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.container.screen.NContainerScreen;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -52,6 +53,11 @@ public class Panel extends AbstractButton
 		Preconditions.checkNotNull(widget);
 		objects.add(widget);
 		return this;
+	}
+	
+	public List<AbstractWidget> getObjects() 
+	{
+		return ImmutableList.copyOf(objects);
 	}
 	
 	@Override

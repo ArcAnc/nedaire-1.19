@@ -202,6 +202,11 @@ public class NDatabase
 			public static final String MAX_ENERGY = "max_vim";
 			public static final String INPUT = "input";
 			public static final String EXTRACT = "extracting";
+			public static class Lang 
+			{
+				public static final String DESCRIPTION_MAIN = TAG_LOCATION.replace(':', '.').replace('/', '.') + ".description";
+			
+			}
 		}
 		
 		public static class Filter
@@ -272,6 +277,15 @@ public class NDatabase
 				public static final String LEFT_BOTTOM = Background.PATH + "corner_left_bottom";
 				public static final String RIGHT_TOP = Background.PATH + "corner_right_top";
 				public static final String RIGHT_BOTTOM = Background.PATH + "corner_right_bottom";
+			}
+		}
+		
+		public static class Elements
+		{
+			public static final String PATH = GUI.PATH + "elements/";
+			public static class Vim
+			{
+				public static final String PATH = GUI.Elements.PATH + "vim/vim";
 			}
 		}
 		
@@ -397,6 +411,10 @@ public class NDatabase
 				return StringHelper.getLocFStr(StringHelper.symbolPlacer('.', ENCHIRIDION, part, path));  
 			}
 		}
-		
+	
+		public static String getTexturePath(String str)
+		{
+			return "textures/" + str + ".png";
+		}
 	}
 }

@@ -13,17 +13,22 @@ import java.util.List;
 
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.widget.Panel;
+import com.arcanc.nedaire.content.container.widget.info.InfoArea;
+import com.arcanc.nedaire.content.network.NNetworkEngine;
+import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -45,22 +50,30 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	
 	protected List<Panel> panelList = new ArrayList<>();
 	protected int currentPanel = 0;
-	protected Checkbox panelSwitcher;
 	
 	public NContainerScreen(T slots, Inventory player, Component title) 
 	{
 		super(slots, player, title);
 		this.inventoryLabelY = this.imageHeight - 91;
 	}
-
+	
+	protected List<InfoArea> makeInfoAreas()
+	{
+		return ImmutableList.of();
+	}
+	
 	@Override
 	protected void init() 
 	{
 		super.init();
-		
-		addPanel(new Panel(0, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
-		addPanel(new Panel(10, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
-		panelSwitcher = addRenderableWidget(new Checkbox(20, 50, 20, 20, Component.literal("Test checkbox"), false));
+	}
+	
+	@Override
+	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	{
+		this.renderBackground(stack);
+		super.render(stack, mouseX, mouseY, partialTicks);
+		this.renderTooltip(stack, mouseX, mouseY);
 	}
 	
 	@Override
@@ -77,14 +90,14 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 			}
 		}
 		
-		if (panelSwitcher != null)
+/*		if (panelSwitcher != null)
 		{
 			if (panelSwitcher.selected())
 				currentPanel = 0;
 			else
 				currentPanel = 10;
 		}
-		
+*/		
 		for (Panel p : panelList)
 		{
 			if (p.index == currentPanel)
@@ -135,13 +148,14 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		blit(stack, x_pos + 8, y_pos + 8, this.getBlitOffset(), 0, 0, imageWidth - 8, imageHeight - 8, 8, 8);
 
 		stack.popPose();
-	    
 	}
 	
 	protected Panel addPanel(Panel panel)
 	{
 		addRenderableOnly(panel);
 		panelList.add(panel);
+		for (AbstractWidget comp : panel.getObjects())
+			addRenderableWidget(comp);
 		return panel;
 	}
 	
@@ -250,6 +264,11 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 			}
 		}
+	}
+	
+	protected void SendUpdateToServer(CompoundTag message)
+	{
+		NNetworkEngine.packetHandler.sendToServer(new MessageContainerUpdate(menu.containerId, message));
 	}
 	
 }	

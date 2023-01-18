@@ -93,6 +93,11 @@ public class NEnUsLangProvider extends LanguageProvider
 		//Full Book Content
 		addEnchiridionContent();
 		//************************************************************************
+		//GUI Descriptions 
+		// 			Vim Energy
+		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "In this tanks contains:\n%d | %d Vim");
+		
+		//************************************************************************
 		
 		
 	}
