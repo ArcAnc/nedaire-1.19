@@ -9,9 +9,11 @@
 package com.arcanc.nedaire.content.container.screen;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.arcanc.nedaire.content.container.NSlot;
+import com.arcanc.nedaire.content.container.widget.DropPanel;
 import com.arcanc.nedaire.content.container.widget.Panel;
 import com.arcanc.nedaire.content.container.widget.info.InfoArea;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
@@ -27,6 +29,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -50,6 +53,8 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	
 	protected List<Panel> panelList = new ArrayList<>();
 	protected int currentPanel = 0;
+	
+	protected List<DropPanel> dropPanelList = new LinkedList<>();
 	
 	public NContainerScreen(T slots, Inventory player, Component title) 
 	{
@@ -79,6 +84,23 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	@Override
 	protected void containerTick() 
 	{
+		for (int q = 0; q < dropPanelList.size(); q++)
+		{
+			DropPanel panel = dropPanelList.get(q);
+			DropPanel prevPanel = q > 0 ? dropPanelList.get(q - 1) : null;
+			
+			Rect2i coord = prevPanel == null ? new Rect2i(0, 0, 0, 0) : new Rect2i(prevPanel.getX(), prevPanel.getY(), prevPanel.getWidth(), prevPanel.getHeight());
+			Rect2i relativeCoord = new Rect2i(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight());
+			panel.setX(q == 0 ? this.getGuiLeft() + 2 : coord.getX() + coord.getWidth());
+			panel.setY(this.getGuiTop() - panel.getHeight() + 3);
+		
+			for (AbstractWidget widget : panel.getWidgets())
+			{
+				widget.setX(widget.getX() - relativeCoord.getX() + panel.getX());
+				widget.setY(widget.getY() - relativeCoord.getY() + panel.getY());
+			}
+		}
+		
 		for (Slot s : this.menu.slots)
 		{
 			if (s instanceof NSlot slot)
@@ -155,6 +177,15 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		addRenderableOnly(panel);
 		panelList.add(panel);
 		for (AbstractWidget comp : panel.getObjects())
+			addRenderableWidget(comp);
+		return panel;
+	}
+	
+	protected DropPanel addDropPanel(DropPanel panel)
+	{
+		addRenderableWidget(panel);
+		dropPanelList.add(panel);
+		for (AbstractWidget comp : panel.getWidgets())
 			addRenderableWidget(comp);
 		return panel;
 	}
