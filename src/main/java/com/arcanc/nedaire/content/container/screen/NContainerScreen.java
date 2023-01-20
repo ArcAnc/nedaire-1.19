@@ -140,34 +140,34 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 		stack.pushPose();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		RenderSystem.setShaderTexture(0, LEFT_TOP);
+		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
 		blit(stack, x_pos, y_pos, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, MIDDLE_TOP);
-		blit(stack, x_pos + 8, y_pos, this.getBlitOffset(), 0, 0, imageWidth - 8, 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
+		blit(stack, x_pos + 8, y_pos, this.getBlitOffset(), 0, 0, this.imageWidth - 16, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, RIGHT_TOP);
-		blit(stack, x_pos + this.imageWidth,  y_pos, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, MIDDLE_LEFT);
-		blit(stack, x_pos, y_pos + 8, this.getBlitOffset(), 0, 0, 8, imageHeight - 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
+		blit(stack, x_pos, y_pos + 8, this.getBlitOffset(), 0, 0, 8, this.imageHeight - 16, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, LEFT_BOT);
-		blit(stack, x_pos, y_pos + this.imageHeight, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
+		blit(stack, x_pos, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, MIDDLE_BOT);
-		blit(stack, x_pos + 8, y_pos + this.imageHeight, this.getBlitOffset(), 0, 0, this.imageWidth - 8, 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
+		blit(stack, x_pos + 8, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, this.imageWidth - 16, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, RIGHT_BOT);
-		blit(stack, x_pos + this.imageWidth, y_pos + this.imageHeight, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, MIDDLE_RIGHT);
-		blit(stack, x_pos + this.imageWidth, y_pos + 8, this.getBlitOffset(), 0, 0, 8, imageHeight - 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos + 8, this.getBlitOffset(), 0, 0, 8, this.imageHeight - 16, 8, 8);
 
-		RenderSystem.setShaderTexture(0, MIDDLE);
-		blit(stack, x_pos + 8, y_pos + 8, this.getBlitOffset(), 0, 0, imageWidth - 8, imageHeight - 8, 8, 8);
+		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
+		blit(stack, x_pos + 8, y_pos + 8, this.getBlitOffset(), 0, 0, this.imageWidth - 16, this.imageHeight - 16, 8, 8);
 
 		stack.popPose();
 	}

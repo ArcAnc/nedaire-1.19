@@ -209,6 +209,15 @@ public class NDatabase
 			}
 		}
 		
+		public static class FluidHandler
+		{
+			public static final String TAG_LOCATION = StringHelper.getStrLocFStr("fluid");
+			public static class Lang
+			{
+				public static final String DESCRIPTION_MAIN = TAG_LOCATION.replace(':', '.').replace('/', '.') + ".description";
+			}
+		}
+		
 		public static class Filter
 		{
 			public static final String TAG_LOCATION = StringHelper.getStrLocFStr("filter");
@@ -286,6 +295,14 @@ public class NDatabase
 			public static class Vim
 			{
 				public static final String PATH = GUI.Elements.PATH + "vim/vim";
+			}
+			public static class FluidHandler
+			{
+				public static final String PATH = GUI.Elements.PATH + "fluid/fluid";
+			}
+			public static class RadioButton
+			{
+				public static final String PATH = GUI.Elements.PATH + "radiobutton/radiobutton";
 			}
 		}
 		

@@ -182,6 +182,16 @@ public class FluidHelper
 		}).orElse(true);
 	}
 	
+	public static boolean isEmpty(IFluidHandler handler)
+	{
+		for (int q = 0; q < handler.getTanks(); q++)
+		{
+			if (!handler.getFluidInTank(q).isEmpty())
+				return false;
+		}
+		return true;
+	}
+	
 	public static ResourceLocation getRegistryName (Item item) 
 	{
 		return ForgeRegistries.ITEMS.getKey(item);

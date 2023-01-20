@@ -95,7 +95,9 @@ public class NEnUsLangProvider extends LanguageProvider
 		//************************************************************************
 		//GUI Descriptions 
 		// 			Vim Energy
-		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "In this tanks contains:\n%d | %d Vim");
+		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d Vim");
+		//          Fluid Handler
+		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contanis:\n%d | %d %s");
 		
 		//************************************************************************
 		

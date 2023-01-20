@@ -187,7 +187,7 @@ public class DropPanel extends AbstractWidget
 		boolean canClick = true;
 		for (AbstractWidget widget : this.widgets)
 		{
-			if (widget.mouseClicked(mouseX, mouseY, button))
+			if (widget.isMouseOver(mouseX, mouseY))
 			{
 				canClick = false;
 			}
@@ -234,8 +234,6 @@ public class DropPanel extends AbstractWidget
 		{
 			return id;
 		}
-		
-		
 	}
 
 }
