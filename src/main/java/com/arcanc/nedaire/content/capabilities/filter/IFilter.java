@@ -22,6 +22,22 @@ public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
 	
 	void setWhitelist(boolean value);
 	
+	boolean isModOwner();
+	
+	void setModOwner(boolean value);
+	
+	boolean isCheckTag();
+	
+	void setCheckTag(boolean value);
+	
+	int getExtraction();
+	
+	void setExtracion(int value);
+	
+	int getMaxInInventory();
+	
+	void setMaxInInventory(int value);
+	
 	Inv getContent();
 	
 }

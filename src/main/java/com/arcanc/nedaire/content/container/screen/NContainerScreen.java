@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.container.NSlot;
+import com.arcanc.nedaire.content.container.widget.ChangeSizeButton;
 import com.arcanc.nedaire.content.container.widget.DropPanel;
 import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
 import com.arcanc.nedaire.content.container.widget.Label;
@@ -25,6 +26,7 @@ import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
+import com.arcanc.nedaire.util.helpers.FilterHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -220,7 +222,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		return panel;
 	}
 	
-	protected DropPanel addRedstoneSensitivePanel(BlockEntity be)
+	protected DropPanel addRedstoneSensitiveDropPanel(BlockEntity be)
 	{
 		return BlockHelper.castTileEntity(be, NBERedstoneSensitive.class).map(tile -> 
 		{
@@ -278,6 +280,51 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 								}).build()).
 					finishRadioButton()));
 		}).orElse(null);
+	}
+	
+	
+	protected DropPanel addPanelSwitcherDropPanel(BlockEntity be)
+	{
+		/**
+		 * FIXME: implement this method!
+		 */
+		return null;
+	}
+	
+	protected Panel addItemFilterPanel(BlockEntity be)
+	{
+		
+		/**
+		 * FIXME: finish method implementing
+		 */
+		
+		Panel panel = addPanel(new Panel(10, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 ));
+		FilterHelper.getItemFilter(be).ifPresent(filter -> panel.
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 80, this.getGuiTop() + 50, 40, 80, filter.getExtraction(), but -> 
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK, but.getCurrentValue());
+					
+					tag.putInt("x", be.getBlockPos().getX());
+					tag.putInt("y", be.getBlockPos().getY());
+					tag.putInt("z", be.getBlockPos().getZ());
+					
+					sendUpdateToServer(tag);
+				})).addWidget(new ChangeSizeButton(this.getGuiLeft() + 80, this.getGuiTop() + 20, 40, 80, filter.getMaxInInventory(), but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN, but.getCurrentValue());
+					
+					tag.putInt("x", be.getBlockPos().getX());
+					tag.putInt("y", be.getBlockPos().getY());
+					tag.putInt("z", be.getBlockPos().getZ());
+					
+					sendUpdateToServer(tag);
+				})));
+		
+		return panel;
 	}
 	
 	@Override

@@ -225,9 +225,13 @@ public class NDatabase
 			public static final String TAG_LOCATION_FLUID = TAG_LOCATION + "_fluid";
 			public static final String TAG_LOCATION_VIM = TAG_LOCATION + "_vim";
 			
-			public static final String SIZE = "size";
-			public static final String CONTENT = "content";
 			public static final String WHITELIST = "whitelist";
+			public static final String MAX_EXTRACTING_STACK = "max_extracting_stack";
+			public static final String MAX_AMOUNT_IN = "max_amount_in";
+			public static final String MOD_OWNER = "mod_owner";
+			public static final String CHECK_TAG = "check_tag";
+			
+			public static final String CONTENT = "content";
 		}
 		
 		public static class Socket

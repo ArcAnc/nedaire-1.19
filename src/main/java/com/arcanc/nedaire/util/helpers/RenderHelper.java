@@ -55,7 +55,7 @@ public class RenderHelper
 			{
 				// Use the Item's font renderer, if available
 				Font font = IClientItemExtensions.of(stack.getItem()).getFont(stack, FontContext.ITEM_COUNT);
-				font = font!=null?font: Minecraft.getInstance().font;
+				font = font!=null? font: mc().font;
 				itemRenderer.renderGuiItemDecorations(font, stack, x, y, count);
 			}
 			modelViewStack.popPose();

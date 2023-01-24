@@ -8,20 +8,11 @@
  */
 package com.arcanc.nedaire.content.container.screen;
 
-import java.awt.Color;
-
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
-import com.arcanc.nedaire.content.container.widget.DropPanel;
-import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
 import com.arcanc.nedaire.content.container.widget.Panel;
-import com.arcanc.nedaire.util.helpers.RenderHelper;
 
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 public class NHooverScreen extends NContainerScreen<NHooverMenu> 
 {
@@ -39,18 +30,25 @@ public class NHooverScreen extends NContainerScreen<NHooverMenu>
 	{
 		super.init();
 		
-		addRedstoneSensitivePanel(menu.be);
+		addRedstoneSensitiveDropPanel(menu.be);
 		
 		/**
 		 * FIXME: add filter panel
 		 */
 		
-		addDropPanel(new DropPanel(34, 45, Side.LEFT, false, Color.BLUE, new ItemStack(Items.ENDER_PEARL), () -> Tooltip.create(Component.literal("Test Drop Panel"))).addWidget(Button.builder(Component.empty(), (but) -> 
+/*		addDropPanel(new DropPanel(34, 45, Side.LEFT, false, Color.BLUE, new ItemStack(Items.ENDER_PEARL), () -> Tooltip.create(Component.literal("Test Drop Panel"))).addWidget(Button.builder(Component.empty(), (but) -> 
 		{
 			but.setMessage(Component.literal(RenderHelper.mc().level.random.nextInt(20) + ""));
 		}).pos(5, 10).size(20, 20).build()));
-
+*/
 		addPanel(new Panel(0, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
+		
+		addItemFilterPanel(menu.be);
+		
+		if(panelList.size() > 1)
+		{
+			addPanelSwitcherDropPanel(menu.be);
+		}
 	}
 	
 	@Override

@@ -61,6 +61,8 @@ public class DropPanel extends AbstractWidget
 		this.icon = icon;
 		this.tooltip = closeTootip;
 		
+		setBlitOffset(-10);
+		
 	}
 
 	public DropPanel addWidget (AbstractWidget widget)
