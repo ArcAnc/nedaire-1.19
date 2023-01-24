@@ -95,7 +95,7 @@ public class FluidInfoArea extends InfoArea
 		
 				RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 				RenderSystem.setShaderTexture(0, still.atlasLocation());
-				Screen.blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
+				blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
 //				localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0f, 46f / 64f, (46f + 18f) / 64f, f1/64f, 42f/64f);
 
 				RenderSystem.setShaderColor(1f, 1f, 1f, 1f);

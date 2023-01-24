@@ -303,6 +303,25 @@ public class NDatabase
 			public static class RadioButton
 			{
 				public static final String PATH = GUI.Elements.PATH + "radiobutton/radiobutton";
+				public static final String BACKGROUND = GUI.Elements.PATH + "radiobutton/radiobutton_background";
+			}
+			public static class DropPanel
+			{
+				public static final String PATH = GUI.PATH + "drop_panel/";
+				public static class RedstoneSensitivePanel
+				{
+					public static final String PATH = DropPanel.PATH + "redstone_sensitive";
+					
+					public static final String DESCRIPTION_NAME = PATH.replace(':', '.').replace('/', '.') + ".description";
+					public static final String DESCRIPTION_CONTROL_MODE = PATH.replace(':', '.').replace('/', '.') + ".control_mode";
+					public static final String DESCRIPTION_CONTROL_MODE_DISABLED = DESCRIPTION_CONTROL_MODE + ".disabled";
+					public static final String DESCRIPTION_CONTROL_MODE_ENABLED = DESCRIPTION_CONTROL_MODE + ".enabled";
+					
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_NAME = PATH.replace(':', '.').replace('/', '.') + ".required_signal";
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_LOW = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".low";
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_HIGHT = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".hight";
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_DISABLED = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".disabled";
+				}
 			}
 		}
 		

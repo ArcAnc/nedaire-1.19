@@ -28,9 +28,11 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -39,6 +41,7 @@ public class RadioButton extends Button
 {
 
 	public static final ResourceLocation TEXTURE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.PATH));
+	public static final ResourceLocation BACKGROUND = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.BACKGROUND));
 	
 	protected Supplier<Component> mainLabel;
 	protected List<CustomCheckbox> buttons = new LinkedList<>();
@@ -80,19 +83,22 @@ public class RadioButton extends Button
 		return this;
 	}
 	
+	/**
+	 * FIXME: fix vertical positioning 
+	 */
 	public RadioButton finishRadioButton()
 	{
 		
-		int buttonWidth = (this.width / countInRow) - (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0);
-		int rowsCount = this.width / ((countInRow * buttonWidth) + (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0));
-		int buttonHeight = (this.height / rowsCount) - (rowsCount > 1 ? (distanceBetweenButtons.y() * (rowsCount - 1)) : 0);
+		int buttonWidth = (this.width - (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0)) / countInRow ;
+		int rowsCount = Mth.ceil((float)((this.buttons.size() * buttonWidth) + (distanceBetweenButtons.x() * (buttons.size() - 1))) / ((countInRow * buttonWidth) + (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0)));
+		int buttonHeight = (this.height - (rowsCount > 1 ? (distanceBetweenButtons.y() * (rowsCount - 1)) : 0)) / rowsCount;
 		
 		for (int q = 0; q < this.buttons.size(); q++)
 		{
 			CustomCheckbox cc = buttons.get(q);
 			
 			cc.setX(this.getX() + (q % countInRow) * buttonWidth + (q % countInRow) * distanceBetweenButtons.x());
-			cc.setY(this.getY() + (q % rowsCount) * buttonHeight + (q % rowsCount) * distanceBetweenButtons.y());
+			cc.setY(this.getY() + (q / (rowsCount == 1 ? countInRow : rowsCount)) * buttonHeight + (q / (rowsCount == 1 ? countInRow : rowsCount)) * distanceBetweenButtons.y());
 			cc.setWidth(buttonWidth);
 			cc.setHeight(buttonHeight);
 		}
@@ -187,7 +193,17 @@ public class RadioButton extends Button
 	@Override
 	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
-		
+	    stack.pushPose(); 
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+	    RenderSystem.setShaderTexture(0, BACKGROUND);
+	    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75f);
+	    RenderSystem.enableBlend();
+	    RenderSystem.defaultBlendFunc();
+	    RenderSystem.enableDepthTest();	    
+	    
+		blit(stack, this.getX() - 3, this.getY() - 2, this.width + 3, this.height + 4, 0.0F, 0.0F, 16, 16, 16, 16);
+	    
+	    stack.popPose();
 	}
 	
 	@Override
@@ -196,6 +212,7 @@ public class RadioButton extends Button
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
+			this.renderButton(stack, mouseX, mouseY, partialTicks);
 			if (!buttons.isEmpty())
 			{
 				finishRadioButton();
@@ -204,7 +221,6 @@ public class RadioButton extends Button
 					cc.render(stack, mouseX, mouseY, partialTicks);
 				}
 			}
-			this.renderButton(stack, mouseX, mouseY, partialTicks);
 		}
 	}
 	
@@ -248,7 +264,7 @@ public class RadioButton extends Button
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 			
-			blit(stack, this.getX(), this.getY(), this.isFocused() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, this.width, this.height, 64, 64);
+			blit(stack, this.getX(), this.getY(), this.width, this.height, this.isHoveredOrFocused() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
 			
 			RenderHelper.renderItemStack(stack, icon, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, false);
 			

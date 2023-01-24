@@ -74,7 +74,7 @@ public class EnergyInfoArea extends InfoArea
 
 			RenderSystem.setShaderTexture(0, TEXTURE);
 
-			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 1, 0, 14, 42, 32, 64);
+			blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 1, 0, 14, 42, 32, 64);
 			
 			float energyPercent = (float)energy.getEnergyStored() / energy.getMaxEnergyStored();
 			

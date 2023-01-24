@@ -8,17 +8,23 @@
  */
 package com.arcanc.nedaire.content.container.screen;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.widget.DropPanel;
+import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
+import com.arcanc.nedaire.content.container.widget.Label;
 import com.arcanc.nedaire.content.container.widget.Panel;
+import com.arcanc.nedaire.content.container.widget.RadioButton;
 import com.arcanc.nedaire.content.container.widget.info.InfoArea;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -27,6 +33,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.Rect2i;
@@ -38,6 +45,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class NContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> 
 {
@@ -84,16 +93,37 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	@Override
 	protected void containerTick() 
 	{
+		DropPanel prevPanelLeft = null;
+		DropPanel prevPanelRight = null;
+
 		for (int q = 0; q < dropPanelList.size(); q++)
 		{
 			DropPanel panel = dropPanelList.get(q);
-			DropPanel prevPanel = q > 0 ? dropPanelList.get(q - 1) : null;
+
+			Rect2i coordLeft = prevPanelLeft == null ? new Rect2i(0, this.getGuiTop() + 2, 0, 0) : new Rect2i(prevPanelLeft.getX(), prevPanelLeft.getY(), prevPanelLeft.getWidth(), prevPanelLeft.getHeight());
+			Rect2i coordRight = prevPanelRight == null ? new Rect2i(0, this.getGuiTop() + 2, 0, 0) : new Rect2i(prevPanelRight.getX(), prevPanelRight.getY(), prevPanelRight.getWidth(), prevPanelRight.getHeight());
 			
-			Rect2i coord = prevPanel == null ? new Rect2i(0, 0, 0, 0) : new Rect2i(prevPanel.getX(), prevPanel.getY(), prevPanel.getWidth(), prevPanel.getHeight());
 			Rect2i relativeCoord = new Rect2i(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight());
-			panel.setX(q == 0 ? this.getGuiLeft() + 2 : coord.getX() + coord.getWidth());
-			panel.setY(this.getGuiTop() - panel.getHeight() + 3);
-		
+			if (panel.getSide() == Side.LEFT)
+			{
+				panel.setX(this.getGuiLeft() + 3 - panel.getWidth());
+				panel.setY(coordLeft.getY() + coordLeft.getHeight());
+			}
+			else
+			{
+				panel.setX(this.getGuiLeft() + this.imageWidth - 3 );
+				panel.setY(coordRight.getY() + coordRight.getHeight());
+			}
+
+			if (panel.getSide() == Side.LEFT)
+			{
+				prevPanelLeft = panel;
+			}
+			else
+			{
+				prevPanelRight = panel;
+			}
+			
 			for (AbstractWidget widget : panel.getWidgets())
 			{
 				widget.setX(widget.getX() - relativeCoord.getX() + panel.getX());
@@ -188,6 +218,66 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		for (AbstractWidget comp : panel.getWidgets())
 			addRenderableWidget(comp);
 		return panel;
+	}
+	
+	protected DropPanel addRedstoneSensitivePanel(BlockEntity be)
+	{
+		return BlockHelper.castTileEntity(be, NBERedstoneSensitive.class).map(tile -> 
+		{
+			return addDropPanel(new DropPanel(100, 90, Side.LEFT, false, new Color (150, 40, 40),new ItemStack(Items.REDSTONE),() -> Tooltip.create(Component.literal("Redstone Control"))).
+					addWidget(new Label(50, 5, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME).withStyle(ChatFormatting.YELLOW))).
+					
+					addWidget(new Label(50, 15, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE).withStyle(ChatFormatting.BLACK))).
+					addWidget(new Label(50, 25, 20, 10, () -> Component.translatable(tile.getCurrentRedstoneMod() == 2 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_DISABLED : 
+																								NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_ENABLED).withStyle(ChatFormatting.GRAY))).
+					addWidget(new Label(50, 35, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_NAME).withStyle(ChatFormatting.YELLOW))).
+					addWidget(new Label(50, 45, 20, 10, () -> Component.translatable(tile.getCurrentRedstoneMod() == 0 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT :
+																					 tile.getCurrentRedstoneMod() == 1 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW :
+																								NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED).withStyle(ChatFormatting.GRAY))).
+					
+					addWidget(RadioButton.newRadioButton(3, 2).
+					setPos(13, 55).
+					setSize(60, 20).
+					setCurrentButtonId(tile.getCurrentRedstoneMod()).
+					build().
+						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE_BLOCK), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT))).
+								pressAction(but -> 
+								{
+									CompoundTag tag = new CompoundTag();
+									
+									tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, 0);
+									tag.putInt("x", tile.getBlockPos().getX());
+									tag.putInt("y", tile.getBlockPos().getY());
+									tag.putInt("z", tile.getBlockPos().getZ());
+									
+									sendUpdateToServer(tag);
+								}).build()).
+						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE_TORCH), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW))).
+								pressAction(but ->
+								{
+									CompoundTag tag = new CompoundTag();
+									
+									tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, 1);
+									tag.putInt("x", tile.getBlockPos().getX());
+									tag.putInt("y", tile.getBlockPos().getY());
+									tag.putInt("z", tile.getBlockPos().getZ());
+									
+									sendUpdateToServer(tag);
+								}).build()).
+						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED))).
+								pressAction(but -> 
+								{
+									CompoundTag tag = new CompoundTag();
+									
+									tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, 2);
+									tag.putInt("x", tile.getBlockPos().getX());
+									tag.putInt("y", tile.getBlockPos().getY());
+									tag.putInt("z", tile.getBlockPos().getZ());
+									
+									sendUpdateToServer(tag);
+								}).build()).
+					finishRadioButton()));
+		}).orElse(null);
 	}
 	
 	@Override
@@ -297,7 +387,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		}
 	}
 	
-	protected void SendUpdateToServer(CompoundTag message)
+	protected void sendUpdateToServer(CompoundTag message)
 	{
 		NNetworkEngine.packetHandler.sendToServer(new MessageContainerUpdate(menu.containerId, message));
 	}

@@ -1,4 +1,12 @@
 {
+  "gui.drop_panel.redstone_sensitive.control_mode": "Control Mode: ",
+  "gui.drop_panel.redstone_sensitive.control_mode.disabled": "Disabled",
+  "gui.drop_panel.redstone_sensitive.control_mode.enabled": "Enabled",
+  "gui.drop_panel.redstone_sensitive.description": "Restone Control",
+  "gui.drop_panel.redstone_sensitive.required_signal": "Required Signal:",
+  "gui.drop_panel.redstone_sensitive.required_signal.disabled": "Disabled",
+  "gui.drop_panel.redstone_sensitive.required_signal.hight": "Hight",
+  "gui.drop_panel.redstone_sensitive.required_signal.low": "Low",
   "nedaire.armor.horse.corium": "Corium Horse Armor",
   "nedaire.armor.player.chest.corium": "Corium Chestplate",
   "nedaire.armor.player.feet.corium": "Corium Boots",

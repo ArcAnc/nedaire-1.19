@@ -42,23 +42,25 @@ public class DropPanel extends AbstractWidget
 	private final Vec2 openSize;
 	private final Vec2 closedSize = new Vec2(24, 24);
 	private State state;
+	private final Side side;
 	private Color color;
 	
 	private List<AbstractWidget> widgets = Lists.newArrayList();
 	private ItemStack icon;
 	private Supplier<Tooltip> tooltip;
 	
-	public DropPanel(int width, int height, boolean isOpen, Color color, ItemStack icon, Supplier<Tooltip> closeTootip) 
+	public DropPanel(int width, int height, Side side, boolean isOpen, Color color, ItemStack icon, Supplier<Tooltip> closeTootip) 
 	{
 		super(0, 0, isOpen ? width : 24, isOpen ? height: 24, Component.empty());
 		this.openSize = new Vec2(width, height);
 		state = isOpen ? State.OPEN : State.CLOSED;
-		
+		this.side = side;
 		changeSize = openSize.add(closedSize.negated()).scale(1f/8f);
 		
 		this.color = color;
 		this.icon = icon;
 		this.tooltip = closeTootip;
+		
 	}
 
 	public DropPanel addWidget (AbstractWidget widget)
@@ -110,18 +112,16 @@ public class DropPanel extends AbstractWidget
 				state = State.CLOSED;
 			}		
 		} 
+		
+		if (state == State.OPEN)
+		{
+			for (AbstractWidget widget : widgets)
+				widget.visible = true;
+		}
 		else
 		{
-			if (state == State.OPEN)
-			{
-				for (AbstractWidget widget : widgets)
-					widget.visible = true;
-			}
-			else
-			{
-				for (AbstractWidget widget : widgets)
-					widget.visible = false;
-			}
+			for (AbstractWidget widget : widgets)
+				widget.visible = false;
 		}
 		stack.pushPose();
 		
@@ -211,6 +211,11 @@ public class DropPanel extends AbstractWidget
 		}
 	}
 	
+	public Side getSide() 
+	{
+		return side;
+	}
+	
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput p_259858_) 
 	{
@@ -234,6 +239,11 @@ public class DropPanel extends AbstractWidget
 		{
 			return id;
 		}
+	}
+	public static enum Side
+	{
+		LEFT, 
+		RIGHT;
 	}
 
 }

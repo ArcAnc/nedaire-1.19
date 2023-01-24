@@ -98,6 +98,16 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d Vim");
 		//          Fluid Handler
 		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contanis:\n%d | %d %s");
+		//          RedStroneSensitivePanel
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME, "Restone Control");
+		
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE, "Control Mode: ");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_DISABLED, "Disabled");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_ENABLED, "Enabled");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_NAME, "Required Signal:");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW, "Low");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT, "Hight");
+		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED, "Disabled");
 		
 		//************************************************************************
 		

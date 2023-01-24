@@ -14,17 +14,21 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.sync.GenericContainerData;
 import com.arcanc.nedaire.content.container.sync.GenericDataSerializers.DataPair;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerData;
+import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -235,7 +239,17 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 	
 	public void receiveMessageFromScreen(CompoundTag tag)
 	{
-		
+		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockHelper.castTileEntity(level, pos, NBERedstoneSensitive.class).ifPresent(tile -> 
+			{
+				tile.setCurrentRedstoneMod(tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD));
+				tile.setChanged();
+			});
+		}
 	}
 	
 	@Override
