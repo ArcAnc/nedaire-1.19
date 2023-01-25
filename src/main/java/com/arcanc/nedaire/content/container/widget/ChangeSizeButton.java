@@ -8,6 +8,8 @@
  */
 package com.arcanc.nedaire.content.container.widget;
 
+import java.util.function.Supplier;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
@@ -28,7 +30,7 @@ public class ChangeSizeButton extends Button
 	private int currentValue;
 	private OnPress pressAction;
 	
-	public ChangeSizeButton(int x, int y, int minValue, int maxValue, int currentValue, OnPress pressAction) 
+	public ChangeSizeButton(int x, int y, int minValue, int maxValue, int currentValue, OnPress pressAction, ButtonCtx leftButton, ButtonCtx rightButton) 
 	{
 		super(x, y, 65, 55, Component.empty(), but -> {}, Button.DEFAULT_NARRATION);
 		this.minValue = minValue;
@@ -40,7 +42,7 @@ public class ChangeSizeButton extends Button
 		//ctrl + 8
 		//alt + 4
 		
-		decrease = Button.builder(Component.literal("-"), but -> 
+		decrease = Button.builder(Component.translatable(leftButton.name().get()), but -> 
 		{
 			if (Screen.hasShiftDown())
 				this.currentValue -= 16;
@@ -53,11 +55,11 @@ public class ChangeSizeButton extends Button
 
 			increase.active = true;
 			checkButtonsBounds();
-		}).pos(x + 10,  y + 25).
+		}).pos(x + 10,  y + 10).
 		   size(20, 20).
-		   tooltip(Tooltip.create(Component.translatable("Decrease Max Size"))).
+		   tooltip(Tooltip.create(Component.translatable(leftButton.tooltip().get()))).
 		   build();
-		increase = Button.builder(Component.literal("+"), but -> 
+		increase = Button.builder(Component.translatable(rightButton.name().get()), but -> 
 		{
 			if (Screen.hasShiftDown())
 				this.currentValue += 16;
@@ -70,12 +72,12 @@ public class ChangeSizeButton extends Button
 
 			decrease.active = true;
 			checkButtonsBounds();
-		}).pos(x + 35,  y + 25).
+		}).pos(x + 35,  y + 10).
 		   size(20, 20).
-		   tooltip(Tooltip.create(Component.translatable("Increase Max Size"))).
+		   tooltip(Tooltip.create(Component.translatable(rightButton.tooltip().get()))).
 		   build();
 		
-		label = new Label(x + 30, y + 10, 5, 5, () -> Component.literal(Integer.toString(this.currentValue)));
+		label = new Label(x + 30, y , 5, 5, () -> Component.literal(Integer.toString(this.currentValue)));
 	}
 
 	@Override
@@ -83,7 +85,6 @@ public class ChangeSizeButton extends Button
 	{
 		if (visible)
 		{
-			
 			renderButton(stack, mouseX, mouseY, partialTicks);
 			
 			this.decrease.visible = true;
@@ -146,6 +147,9 @@ public class ChangeSizeButton extends Button
 		}
 
 	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public record ButtonCtx(Supplier<String> name, Supplier<String> tooltip) {}
 	
 	@OnlyIn(Dist.CLIENT)
 	public interface OnPress 

@@ -59,7 +59,7 @@ public class NHooverMenu extends NContainerMenu
 			this.addSlot(new NSlot(inv, 0, q, 62 + (q % 3) * 18, 15 + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(true));
 		}
 		
-		addItemFilterSlots(FilterHelper.getItemFilter(be), 67, 18);
+		addItemFilterSlots(FilterHelper.getItemFilter(be), 62, 15);
 	}
 
 }

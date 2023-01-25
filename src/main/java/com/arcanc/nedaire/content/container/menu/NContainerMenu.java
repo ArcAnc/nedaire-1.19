@@ -15,7 +15,8 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
-import com.arcanc.nedaire.content.capabilities.filter.IFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IFluidFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.sync.GenericContainerData;
 import com.arcanc.nedaire.content.container.sync.GenericDataSerializers.DataPair;
@@ -23,6 +24,7 @@ import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerData;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
+import com.arcanc.nedaire.util.helpers.FilterHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.mojang.datafixers.util.Pair;
 
@@ -43,8 +45,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkDirection;
 
 public abstract class NContainerMenu extends AbstractContainerMenu 
@@ -65,7 +65,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 	/**
 	 * Slot index = 10
 	 */
-	protected void addItemFilterSlots(LazyOptional<IFilter<IItemHandler, ItemStack>> filter, int xPos, int yPos)
+	protected void addItemFilterSlots(LazyOptional<IItemFilter> filter, int xPos, int yPos)
 	{
 		filter.ifPresent(fil -> 
 		{
@@ -79,7 +79,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 	/**
 	 * Slot index = 11
 	 */
-	protected void addFluidFilterSlots(LazyOptional<IFilter<IItemHandler, FluidStack>> filter, int xPos, int yPos)
+	protected void addFluidFilterSlots(LazyOptional<IFluidFilter> filter, int xPos, int yPos)
 	{
 		filter.ifPresent(fil -> 
 		{
@@ -249,6 +249,51 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 				tile.setCurrentRedstoneMod(tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD));
 				tile.setChanged();
 			});
+		}
+		
+		if (tag.contains(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
+			FilterHelper.getItemFilter(tile).ifPresent( filter -> filter.setExtracion(tag.getInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK)));
+		}
+		
+		if (tag.contains(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
+			FilterHelper.getItemFilter(tile).ifPresent( filter -> filter.setMaxInInventory(tag.getInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN)));
+		}
+		
+		if (tag.contains(NDatabase.Capabilities.Filter.WHITELIST))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
+			FilterHelper.getItemFilter(tile).ifPresent( filter -> filter.setWhitelist(tag.getBoolean(NDatabase.Capabilities.Filter.WHITELIST)));
+		}
+		
+		if (tag.contains(NDatabase.Capabilities.Filter.MOD_OWNER))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
+			FilterHelper.getItemFilter(tile).ifPresent( filter -> filter.setModOwner(tag.getBoolean(NDatabase.Capabilities.Filter.MOD_OWNER)));
+		}
+		
+		if (tag.contains(NDatabase.Capabilities.Filter.CHECK_TAG))
+		{
+			ServerPlayer player = usingPlayers.get(0);
+			ServerLevel level = player.getLevel();
+			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
+			FilterHelper.getItemFilter(tile).ifPresent( filter -> filter.setCheckTag(tag.getBoolean(NDatabase.Capabilities.Filter.CHECK_TAG)));
 		}
 	}
 	

@@ -8,8 +8,13 @@
  */
 package com.arcanc.nedaire.content.capabilities.filter;
 
+import com.arcanc.nedaire.content.capabilities.vim.IVim;
+
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.items.IItemHandler;
 
 public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
 {
@@ -39,5 +44,9 @@ public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
 	void setMaxInInventory(int value);
 	
 	Inv getContent();
+	
+	interface IItemFilter extends IFilter<IItemHandler, ItemStack>{}
+	interface IFluidFilter extends IFilter<IItemHandler, FluidStack>{}
+	interface IVimFilter extends IFilter<IVim, Integer>{}
 	
 }

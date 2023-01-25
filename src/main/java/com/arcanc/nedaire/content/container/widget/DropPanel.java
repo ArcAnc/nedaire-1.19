@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.container.screen.NContainerScreen;
+import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -28,7 +29,6 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
 
 public class DropPanel extends AbstractWidget 
@@ -46,10 +46,10 @@ public class DropPanel extends AbstractWidget
 	private Color color;
 	
 	private List<AbstractWidget> widgets = Lists.newArrayList();
-	private ItemStack icon;
+	private Supplier<Icon<?>> icon;
 	private Supplier<Tooltip> tooltip;
 	
-	public DropPanel(int width, int height, Side side, boolean isOpen, Color color, ItemStack icon, Supplier<Tooltip> closeTootip) 
+	public DropPanel(int width, int height, Side side, boolean isOpen, Color color, Supplier<Icon<?>> icon, Supplier<Tooltip> closeTootip) 
 	{
 		super(0, 0, isOpen ? width : 24, isOpen ? height: 24, Component.empty());
 		this.openSize = new Vec2(width, height);
@@ -159,7 +159,7 @@ public class DropPanel extends AbstractWidget
 
 		if (state == State.CLOSED)
 		{
-			RenderHelper.renderItemStack(stack, icon, this.getX() + (this.getWidth() / 2) - 8, this.getY() + (this.getHeight() / 2) - 8, false);
+			icon.get().render(stack, this.getX() + (this.getWidth() / 2) - 8, this.getY() + (this.getHeight() / 2) - 8, 16, 16);
 			renderTootip();
 		}
 		

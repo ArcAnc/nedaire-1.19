@@ -96,7 +96,6 @@ public class FluidInfoArea extends InfoArea
 				RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 				RenderSystem.setShaderTexture(0, still.atlasLocation());
 				blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
-//				localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0f, 46f / 64f, (46f + 18f) / 64f, f1/64f, 42f/64f);
 
 				RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 				RenderSystem.setShaderTexture(0, TEXTURE);
@@ -108,18 +107,6 @@ public class FluidInfoArea extends InfoArea
 		stack.popPose();
 	}
 	
-/*	private void localBlit(Matrix4f matrix, float x0, float x1, float y0, float y1, float z, float u0, float u1, float v0, float v1)
-	{
-	      RenderSystem.setShader(GameRenderer::getPositionTexShader);
-	      BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-	      bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-	      bufferbuilder.vertex(matrix, x0, y1, z).uv(u0, v1).endVertex();
-	      bufferbuilder.vertex(matrix, x1, y1, z).uv(u1, v1).endVertex();
-	      bufferbuilder.vertex(matrix, x1, y0, z).uv(u1, v0).endVertex();
-	      bufferbuilder.vertex(matrix, x0, y0, z).uv(u0, v0).endVertex();
-	      BufferUploader.drawWithShader(bufferbuilder.end());
-	}
-*/	
 	protected void renderTooltip() 
 	{
 		if (isHoveredOrFocused())

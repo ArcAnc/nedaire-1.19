@@ -8,21 +8,20 @@
  */
 package com.arcanc.nedaire.content.capabilities.filter;
 
-import com.arcanc.nedaire.content.capabilities.vim.IVim;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IFluidFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IVimFilter;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.IItemHandler;
 
 public class CapabilityFilter 
 {
-    public static final Capability<IFilter<IItemHandler, ItemStack>> FILTER_ITEM = CapabilityManager.get(new CapabilityToken<>(){});
-    public static final Capability<IFilter<IItemHandler, FluidStack>> FILTER_FLUID = CapabilityManager.get(new CapabilityToken<>(){});
-    public static final Capability<IFilter<IVim, Integer>> FILTER_VIM = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IItemFilter> FILTER_ITEM = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IFluidFilter> FILTER_FLUID = CapabilityManager.get(new CapabilityToken<>(){});
+    public static final Capability<IVimFilter> FILTER_VIM = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static void register(RegisterCapabilitiesEvent event)
     {

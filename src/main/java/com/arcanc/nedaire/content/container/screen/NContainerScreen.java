@@ -16,11 +16,15 @@ import java.util.List;
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.widget.ChangeSizeButton;
+import com.arcanc.nedaire.content.container.widget.ChangeSizeButton.ButtonCtx;
 import com.arcanc.nedaire.content.container.widget.DropPanel;
 import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
 import com.arcanc.nedaire.content.container.widget.Label;
 import com.arcanc.nedaire.content.container.widget.Panel;
 import com.arcanc.nedaire.content.container.widget.RadioButton;
+import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox;
+import com.arcanc.nedaire.content.container.widget.icon.Icon;
+import com.arcanc.nedaire.content.container.widget.info.IconCheckbox;
 import com.arcanc.nedaire.content.container.widget.info.InfoArea;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
@@ -48,19 +52,24 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class NContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> 
 {
-	public static final ResourceLocation MIDDLE = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.MIDDLE + ".png"); 
-	public static final ResourceLocation MIDDLE_TOP = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.MIDDLE_TOP + ".png"); 
-	public static final ResourceLocation MIDDLE_BOT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.MIDDLE_BOTTOM + ".png"); 
-	public static final ResourceLocation MIDDLE_LEFT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.MIDDLE_LEFT + ".png"); 
-	public static final ResourceLocation MIDDLE_RIGHT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.MIDDLE_RIGHT + ".png"); 
-	public static final ResourceLocation LEFT_TOP = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.LEFT_TOP + ".png"); 
-	public static final ResourceLocation LEFT_BOT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.LEFT_BOTTOM + ".png"); 
-	public static final ResourceLocation RIGHT_TOP = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.RIGHT_TOP + ".png"); 
-	public static final ResourceLocation RIGHT_BOT = StringHelper.getLocFStr("textures/" + NDatabase.GUI.Background.Textures.RIGHT_BOTTOM + ".png"); 
+	public static final ResourceLocation MIDDLE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE)); 
+	public static final ResourceLocation MIDDLE_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_TOP)); 
+	public static final ResourceLocation MIDDLE_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_BOTTOM)); 
+	public static final ResourceLocation MIDDLE_LEFT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_LEFT)); 
+	public static final ResourceLocation MIDDLE_RIGHT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_RIGHT)); 
+	public static final ResourceLocation LEFT_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_TOP)); 
+	public static final ResourceLocation LEFT_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_BOTTOM)); 
+	public static final ResourceLocation RIGHT_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_TOP)); 
+	public static final ResourceLocation RIGHT_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_BOTTOM)); 
+	
+	public static final ResourceLocation FILTER_WHITELIST = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.WHITELIST));
+	public static final ResourceLocation FILTER_TAG = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.TAG));
+	public static final ResourceLocation FILTER_MOD_OWNER = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.MOD_OWNER));
 	
 	protected List<Panel> panelList = new ArrayList<>();
 	protected int currentPanel = 0;
@@ -226,7 +235,8 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	{
 		return BlockHelper.castTileEntity(be, NBERedstoneSensitive.class).map(tile -> 
 		{
-			return addDropPanel(new DropPanel(100, 90, Side.LEFT, false, new Color (150, 40, 40),new ItemStack(Items.REDSTONE),() -> Tooltip.create(Component.literal("Redstone Control"))).
+			return addDropPanel(new DropPanel(100, 90, Side.LEFT, false, new Color (150, 40, 40), () -> Icon.of(new ItemStack(Items.REDSTONE), false),
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME))).
 					addWidget(new Label(50, 5, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME).withStyle(ChatFormatting.YELLOW))).
 					
 					addWidget(new Label(50, 15, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE).withStyle(ChatFormatting.BLACK))).
@@ -285,22 +295,70 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	
 	protected DropPanel addPanelSwitcherDropPanel(BlockEntity be)
 	{
-		/**
-		 * FIXME: implement this method!
-		 */
-		return null;
+		DropPanel panel = null;
+		
+		if (this.panelList.size() > 1)
+		{
+			RadioButton button = RadioButton.newRadioButton(this.panelList.size(), 2).
+					setPos(5, 7).
+					setSize(this.panelList.size() * 20 + (this.panelList.size() - 1) * 5, 20).
+					setCurrentButtonId(this.currentPanel).
+					build();
+			
+			CustomCheckbox main = RadioButton.newButton(new ItemStack(be.getBlockState().getBlock()), 
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_NAME))).
+					pressAction(but -> 
+					{
+						this.currentPanel = 0;
+					}).build();
+			
+			CustomCheckbox itemFilter = FilterHelper.getItemFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Blocks.DIRT), 
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_ITEM))).
+					pressAction(but -> 
+					{
+						this.currentPanel = 10;
+					}).build()).orElse(null);
+			
+			CustomCheckbox fluidFilter = FilterHelper.getFluidFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Items.BUCKET), 
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_FLUID))).
+					pressAction(but -> 
+					{
+						this.currentPanel = 11;
+					}).build()).orElse(null);
+			
+			CustomCheckbox vimFilter = FilterHelper.getVimFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Items.QUARTZ), 
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM))).
+					pressAction(but -> 
+					{
+						this.currentPanel = 12;
+					}).build()).orElse(null);
+
+			
+			panel = addDropPanel(new DropPanel(this.panelList.size() * 20 + (this.panelList.size() - 1) * 5 + 10, 35, Side.LEFT, false, new Color(40, 40, 150), 
+					() -> Icon.of(button.getButtons().get(button.currentButtonId).getIcon(), false), 
+					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_MAIN,
+							be.getBlockState().getBlock().asItem().getDescription()))).
+				addWidget(button.
+							addButton(main)));
+			
+			if (itemFilter != null)
+				button.addButton(itemFilter);
+			if (fluidFilter != null)
+				button.addButton(fluidFilter);
+			if (vimFilter != null)
+				button.addButton(vimFilter);
+			
+			button.finishRadioButton();
+		}
+		
+		return panel;
 	}
 	
 	protected Panel addItemFilterPanel(BlockEntity be)
 	{
-		
-		/**
-		 * FIXME: finish method implementing
-		 */
-		
-		Panel panel = addPanel(new Panel(10, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 ));
+		Panel panel = new Panel(10, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
 		FilterHelper.getItemFilter(be).ifPresent(filter -> panel.
-				addWidget(new ChangeSizeButton(this.getGuiLeft() + 80, this.getGuiTop() + 50, 40, 80, filter.getExtraction(), but -> 
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 5, 40, 80, filter.getExtraction(), but -> 
 				{
 					CompoundTag tag = new CompoundTag();
 					
@@ -311,7 +369,10 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					tag.putInt("z", be.getBlockPos().getZ());
 					
 					sendUpdateToServer(tag);
-				})).addWidget(new ChangeSizeButton(this.getGuiLeft() + 80, this.getGuiTop() + 20, 40, 80, filter.getMaxInInventory(), but ->
+				}, 
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE))).
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 40, 80, filter.getMaxInInventory(), but ->
 				{
 					CompoundTag tag = new CompoundTag();
 					
@@ -322,9 +383,66 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					tag.putInt("z", be.getBlockPos().getZ());
 					
 					sendUpdateToServer(tag);
-				})));
+				},
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 15, this.getGuiTop() + 10, 20, 20, filter.isWhitelist(), FILTER_WHITELIST, but -> 
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.WHITELIST, but.selected());
+					
+					tag.putInt("x", be.getBlockPos().getX());
+					tag.putInt("y", be.getBlockPos().getY());
+					tag.putInt("z", be.getBlockPos().getZ());
+					
+					sendUpdateToServer(tag);
+				}, () -> Tooltip.create(Component.translatable(filter.isWhitelist() ? NDatabase.GUI.Filter.Description.WHITELIST : NDatabase.GUI.Filter.Description.BLACKLIST)
+						))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 15, this.getGuiTop() + 40, 20, 20, filter.isModOwner(), FILTER_MOD_OWNER, but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.MOD_OWNER, but.selected());
+					
+					tag.putInt("x", be.getBlockPos().getX());
+					tag.putInt("y", be.getBlockPos().getY());
+					tag.putInt("z", be.getBlockPos().getZ());
+					
+					sendUpdateToServer(tag);
+				}, () -> Tooltip.create(Component.translatable(filter.isModOwner() ? NDatabase.GUI.Filter.Description.MOD_OWNER : NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE)
+						))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 40, this.getGuiTop() + 40, 20, 20, filter.isCheckTag(), FILTER_TAG, but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.CHECK_TAG, but.selected());
+					
+					tag.putInt("x", be.getBlockPos().getX());
+					tag.putInt("y", be.getBlockPos().getY());
+					tag.putInt("z", be.getBlockPos().getZ());
+					
+					sendUpdateToServer(tag);
+				}, () -> Tooltip.create(Component.translatable(filter.isCheckTag() ? NDatabase.GUI.Filter.Description.TAG_USE : NDatabase.GUI.Filter.Description.TAG_IGNORE)
+						))));
 		
-		return panel;
+		return addPanel(panel);
+	}
+
+	protected Panel addFluidFilterPanel(BlockEntity be)
+	{
+		/**
+		 * FIXME: implement this method; Add some dividers for every filters in tag compound
+		 */
+		return null;
+	}
+	
+	protected Panel addVimFilterPanel(BlockEntity be)
+	{
+		/**
+		 * FIXME: implement this method; Add some dividers for every filters in tag compound
+		 */
+		return null;
 	}
 	
 	@Override

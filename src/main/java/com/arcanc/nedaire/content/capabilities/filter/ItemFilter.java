@@ -9,15 +9,15 @@
 package com.arcanc.nedaire.content.capabilities.filter;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 
-public class ItemFilter implements IFilter<IItemHandler, ItemStack> 
+public class ItemFilter implements IItemFilter 
 {
 	
 	public NSimpleItemStorage content;

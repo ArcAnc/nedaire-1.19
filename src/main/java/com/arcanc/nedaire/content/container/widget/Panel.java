@@ -66,6 +66,17 @@ public class Panel extends AbstractButton
 		return false;
 	}
 
+	@Override
+	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	{
+		super.render(stack, mouseX, mouseY, partialTicks);
+		if (visible)
+			for(AbstractWidget w : this.objects)
+				w.visible = true;
+		else
+			for(AbstractWidget w : this.objects)
+				w.visible = false;
+	}
 	
 	@Override
 	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 

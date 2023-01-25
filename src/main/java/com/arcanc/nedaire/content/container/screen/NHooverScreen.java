@@ -32,23 +32,11 @@ public class NHooverScreen extends NContainerScreen<NHooverMenu>
 		
 		addRedstoneSensitiveDropPanel(menu.be);
 		
-		/**
-		 * FIXME: add filter panel
-		 */
-		
-/*		addDropPanel(new DropPanel(34, 45, Side.LEFT, false, Color.BLUE, new ItemStack(Items.ENDER_PEARL), () -> Tooltip.create(Component.literal("Test Drop Panel"))).addWidget(Button.builder(Component.empty(), (but) -> 
-		{
-			but.setMessage(Component.literal(RenderHelper.mc().level.random.nextInt(20) + ""));
-		}).pos(5, 10).size(20, 20).build()));
-*/
 		addPanel(new Panel(0, this.leftPos, this.topPos, this.imageWidth, this.imageHeight - (this.imageHeight / 2) - 10));
 		
 		addItemFilterPanel(menu.be);
 		
-		if(panelList.size() > 1)
-		{
-			addPanelSwitcherDropPanel(menu.be);
-		}
+		addPanelSwitcherDropPanel(menu.be);
 	}
 	
 	@Override

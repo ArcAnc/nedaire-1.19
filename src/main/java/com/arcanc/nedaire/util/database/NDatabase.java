@@ -326,12 +326,44 @@ public class NDatabase
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_HIGHT = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".hight";
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_DISABLED = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".disabled";
 				}
+				public static class PanelSwitcherPanel 
+				{
+					public static final String PATH = DropPanel.PATH + "panel_swither";
+					
+					public static final String DESCRIPTION_NAME = PATH.replace(':','.').replace('/', '.') + ".description";
+					public static final String DESCRIPTION_MAIN = PATH.replace(':','.').replace('/', '.') + ".main";
+					public static final String DESCRIPTION_FILTER_ITEM = PATH.replace(':','.').replace('/', '.') + ".filter_item";
+					public static final String DESCRIPTION_FILTER_FLUID = PATH.replace(':','.').replace('/', '.') + ".filter_fluid";
+					public static final String DESCRIPTION_FILTER_VIM = PATH.replace(':','.').replace('/', '.') + ".filter_vim";
+				}
 			}
 		}
 		
 		public static class Filter
 		{
-			public static final String PATH = GUI.PATH + "filter/filter";
+			public static final String PATH = GUI.PATH + "filter/";
+			
+			public static final String WHITELIST = PATH + "whitelist";
+			public static final String TAG = PATH + "tag";
+			public static final String MOD_OWNER = PATH + "mod_owner";
+			
+			public static class Description
+			{
+				public static final String WHITELIST = Filter.WHITELIST.replace('/', '.').replace(':', '.');
+				public static final String BLACKLIST = Filter.PATH.replace('/', '.').replace(':', '.') + "blackList";
+				
+				public static final String TAG_USE = Filter.TAG.replace('/', '.').replace(':', '.');
+				public static final String TAG_IGNORE = Filter.TAG.replace('/', '.').replace(':', '.') + "_ignore";
+				
+				public static final String MOD_OWNER = Filter.MOD_OWNER.replace('/', '.').replace(':', '.');
+				public static final String MOD_OWNER_IGNORE = Filter.MOD_OWNER.replace('/', '.').replace(':', '.') + "_ignore";
+
+				public static final String EXTRACTING_STACK_INCREASE = Filter.PATH.replace('/', '.').replace(':', '.') + "extracting_stack_increase";
+				public static final String EXTRACTING_STACK_DECREASE = Filter.PATH.replace('/', '.').replace(':', '.') + "extracting_stack_decrease";
+
+				public static final String AMOUNT_IN_INCREASE = Filter.PATH.replace('/', '.').replace(':', '.') + "amount_in_increase";
+				public static final String AMOUNT_IN_DECREASE = Filter.PATH.replace('/', '.').replace(':', '.') + "amount_in_decrease";
+			}
 		}
 		
 		public static class Enchiridion

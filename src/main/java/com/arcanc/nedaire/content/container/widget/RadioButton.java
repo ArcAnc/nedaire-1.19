@@ -19,6 +19,7 @@ import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox.Bu
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -83,6 +84,11 @@ public class RadioButton extends Button
 		return this;
 	}
 	
+	public List<CustomCheckbox> getButtons() 
+	{
+		return ImmutableList.copyOf(this.buttons);
+	}
+	
 	/**
 	 * FIXME: fix vertical positioning 
 	 */
@@ -119,7 +125,7 @@ public class RadioButton extends Button
 				for (int q = 0; q < buttons.size(); q++)
 				{
 					CustomCheckbox cc = buttons.get(q);
-					if (cc.mouseClicked(mouseX, mouseY, buttonId))
+					if (cc.isMouseOver(mouseX, mouseY))
 					{
 						clicked = true;
 						if (q != currentButtonId)
@@ -130,6 +136,7 @@ public class RadioButton extends Button
 								box.selected = false;
 							}
 							buttons.get(q).selected = true;
+							cc.mouseClicked(mouseX, mouseY, buttonId);
 						}
 					}
 				}
@@ -298,6 +305,11 @@ public class RadioButton extends Button
 				}
 	       }
 			
+		}
+		
+		public ItemStack getIcon() 
+		{
+			return icon;
 		}
 
 		@Override

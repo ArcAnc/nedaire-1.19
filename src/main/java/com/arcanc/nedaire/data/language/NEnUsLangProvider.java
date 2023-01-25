@@ -97,7 +97,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		// 			Vim Energy
 		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d Vim");
 		//          Fluid Handler
-		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contanis:\n%d | %d %s");
+		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d %s");
 		//          RedStroneSensitivePanel
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME, "Restone Control");
 		
@@ -108,6 +108,28 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW, "Low");
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT, "Hight");
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED, "Disabled");
+		//			PanelFilter
+		add(NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE, "Decrease Extraction");
+		add(NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE, "Increase Extraction");
+		
+		add(NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE, "Decrease Max Amount In Inventory");
+		add(NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE, "Increase Max Amount In Inventory");
+		
+		add(NDatabase.GUI.Filter.Description.WHITELIST, "Whitelist");
+		add(NDatabase.GUI.Filter.Description.BLACKLIST, "Blacklist");
+		
+		add(NDatabase.GUI.Filter.Description.MOD_OWNER, "Check Mod Owner");
+		add(NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE, "Ignore Mod Owner");
+		
+		add(NDatabase.GUI.Filter.Description.TAG_USE, "Check Tag Similarity");
+		add(NDatabase.GUI.Filter.Description.TAG_IGNORE, "Ignore Tag Similarity");
+			
+		//			PanelSwitcherPanel
+		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_NAME, "Main Panel");
+		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_MAIN, "Panel Swither: %s");
+		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_ITEM, "Item Filter Panel");
+		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_FLUID, "Fluid Filter Panel");
+		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM, "Vim Filter panel");
 		
 		//************************************************************************
 		
