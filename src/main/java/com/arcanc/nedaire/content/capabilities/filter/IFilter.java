@@ -27,21 +27,31 @@ public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
 	
 	void setWhitelist(boolean value);
 	
+	boolean filterWhiteList(T obj);
+	
 	boolean isModOwner();
 	
 	void setModOwner(boolean value);
 	
+	boolean filterModOwner(T obj);
+	
 	boolean isCheckTag();
 	
 	void setCheckTag(boolean value);
+
+	boolean filterCheckTag(T obj);
 	
 	int getExtraction();
 	
 	void setExtracion(int value);
 	
+	int filterExtraction(Inv tileInv, T obj);
+	
 	int getMaxInInventory();
 	
 	void setMaxInInventory(int value);
+	
+	int filterMaxInInventory(Inv tileInv, T obj);
 	
 	Inv getContent();
 	

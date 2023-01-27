@@ -57,7 +57,7 @@ public class IconCheckbox extends Checkbox
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		
-		blit(stack, this.getX(), this.getY(), this.width, this.height, selected() ? 20.0F : 0.0F, this.isHoveredOrFocused() ? 20.0F : 0.0F, 20, 20, 64, 64);
+		blit(stack, this.getX(), this.getY(), this.width, this.height, selected() ? 0.0f : 20.0F, this.isHoveredOrFocused() ? 20.0F : 0.0F, 20, 20, 64, 64);
 		
 		RenderSystem.disableBlend();
 		

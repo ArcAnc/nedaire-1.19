@@ -40,7 +40,7 @@
   "nedaire.enchiridion.section.alchemy": "Alchemy",
   "nedaire.enchiridion.section.jewelry": "Jewelry",
   "nedaire.enchiridion.section.magic": "Magic",
-  "nedaire.fluid.description": "This tank contanis:\n%d | %d %s",
+  "nedaire.fluid.description": "This tank contains:\n%d | %d %s",
   "nedaire.holder": "Holder",
   "nedaire.hoover": "Hoover",
   "nedaire.ingot.corium": "Corium Ingot",

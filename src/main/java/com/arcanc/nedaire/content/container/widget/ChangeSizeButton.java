@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -77,7 +78,9 @@ public class ChangeSizeButton extends Button
 		   tooltip(Tooltip.create(Component.translatable(rightButton.tooltip().get()))).
 		   build();
 		
-		label = new Label(x + 30, y , 5, 5, () -> Component.literal(Integer.toString(this.currentValue)));
+		label = new Label(x + 30, y , 5, 5, () -> Component.literal(Integer.toString(this.currentValue)).withStyle(ChatFormatting.DARK_GRAY));
+		
+		checkButtonsBounds();
 	}
 
 	@Override

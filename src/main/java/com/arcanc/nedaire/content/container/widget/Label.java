@@ -37,7 +37,7 @@ public class Label extends AbstractWidget
 		Minecraft mc = RenderHelper.mc();
 		Font font = mc.font;
 
-		drawCenteredString(stack, font, text.get(), this.getX(), this.getY(), 16777215);
+		font.draw(stack, text.get(), this.getX() - font.width(text.get()) / 2, this.getY(), 16777215);
 		
 		stack.popPose();
 	}

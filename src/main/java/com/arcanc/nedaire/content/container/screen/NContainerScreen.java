@@ -31,6 +31,7 @@ import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FilterHelper;
+import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -52,7 +53,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class NContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> 
@@ -70,6 +70,10 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	public static final ResourceLocation FILTER_WHITELIST = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.WHITELIST));
 	public static final ResourceLocation FILTER_TAG = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.TAG));
 	public static final ResourceLocation FILTER_MOD_OWNER = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.MOD_OWNER));
+
+	public static final ResourceLocation ICON_FILTER_ITEM = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_ITEM));
+	public static final ResourceLocation ICON_FILTER_FLUID = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_FLUID));
+	public static final ResourceLocation ICON_FILTER_VIM = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_VIM));
 	
 	protected List<Panel> panelList = new ArrayList<>();
 	protected int currentPanel = 0;
@@ -248,11 +252,11 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 																								NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED).withStyle(ChatFormatting.GRAY))).
 					
 					addWidget(RadioButton.newRadioButton(3, 2).
-					setPos(13, 55).
+					setPos(18, 62).
 					setSize(60, 20).
 					setCurrentButtonId(tile.getCurrentRedstoneMod()).
 					build().
-						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE_BLOCK), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT))).
+						addButton(RadioButton.newButton(Icon.of(new ItemStack(Items.REDSTONE_BLOCK), false), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT))).
 								pressAction(but -> 
 								{
 									CompoundTag tag = new CompoundTag();
@@ -264,7 +268,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 									
 									sendUpdateToServer(tag);
 								}).build()).
-						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE_TORCH), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW))).
+						addButton(RadioButton.newButton(Icon.of(new ItemStack(Items.REDSTONE_TORCH), false), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW))).
 								pressAction(but ->
 								{
 									CompoundTag tag = new CompoundTag();
@@ -276,7 +280,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 									
 									sendUpdateToServer(tag);
 								}).build()).
-						addButton(RadioButton.newButton(new ItemStack(Items.REDSTONE), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED))).
+						addButton(RadioButton.newButton(Icon.of(new ItemStack(Items.REDSTONE), false), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED))).
 								pressAction(but -> 
 								{
 									CompoundTag tag = new CompoundTag();
@@ -305,28 +309,28 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					setCurrentButtonId(this.currentPanel).
 					build();
 			
-			CustomCheckbox main = RadioButton.newButton(new ItemStack(be.getBlockState().getBlock()), 
+			CustomCheckbox main = RadioButton.newButton(Icon.of(new ItemStack(be.getBlockState().getBlock()), false), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_NAME))).
 					pressAction(but -> 
 					{
 						this.currentPanel = 0;
 					}).build();
 			
-			CustomCheckbox itemFilter = FilterHelper.getItemFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Blocks.DIRT), 
+			CustomCheckbox itemFilter = FilterHelper.getItemFilter(be).map(handler -> RadioButton.newButton(Icon.of(ICON_FILTER_ITEM, 0, 0, 0, 16, 16, 16, 16), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_ITEM))).
 					pressAction(but -> 
 					{
 						this.currentPanel = 10;
 					}).build()).orElse(null);
 			
-			CustomCheckbox fluidFilter = FilterHelper.getFluidFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Items.BUCKET), 
+			CustomCheckbox fluidFilter = FilterHelper.getFluidFilter(be).map(handler -> RadioButton.newButton(Icon.of(new ItemStack(Items.BUCKET), false), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_FLUID))).
 					pressAction(but -> 
 					{
 						this.currentPanel = 11;
 					}).build()).orElse(null);
 			
-			CustomCheckbox vimFilter = FilterHelper.getVimFilter(be).map(handler -> RadioButton.newButton(new ItemStack(Items.QUARTZ), 
+			CustomCheckbox vimFilter = FilterHelper.getVimFilter(be).map(handler -> RadioButton.newButton(Icon.of(new ItemStack(Items.QUARTZ), false), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM))).
 					pressAction(but -> 
 					{
@@ -335,7 +339,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 			
 			panel = addDropPanel(new DropPanel(this.panelList.size() * 20 + (this.panelList.size() - 1) * 5 + 10, 35, Side.LEFT, false, new Color(40, 40, 150), 
-					() -> Icon.of(button.getButtons().get(button.currentButtonId).getIcon(), false), 
+					() -> button.getButtons().get(button.currentButtonId).getIcon(), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_MAIN,
 							be.getBlockState().getBlock().asItem().getDescription()))).
 				addWidget(button.
@@ -358,7 +362,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	{
 		Panel panel = new Panel(10, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
 		FilterHelper.getItemFilter(be).ifPresent(filter -> panel.
-				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 5, 40, 80, filter.getExtraction(), but -> 
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 5, 0, 64, filter.getExtraction(), but -> 
 				{
 					CompoundTag tag = new CompoundTag();
 					
@@ -372,7 +376,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 				}, 
 				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE),
 				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE))).
-				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 40, 80, filter.getMaxInInventory(), but ->
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 0, 64 * ItemHelper.getItemHandler(be).map(handler -> handler.getSlots()).orElse(0), filter.getMaxInInventory(), but ->
 				{
 					CompoundTag tag = new CompoundTag();
 					
@@ -412,7 +416,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					sendUpdateToServer(tag);
 				}, () -> Tooltip.create(Component.translatable(filter.isModOwner() ? NDatabase.GUI.Filter.Description.MOD_OWNER : NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE)
 						))).
-				addWidget(new IconCheckbox(this.getGuiLeft() + 40, this.getGuiTop() + 40, 20, 20, filter.isCheckTag(), FILTER_TAG, but ->
+				addWidget(new IconCheckbox(this.getGuiLeft() + 40, this.getGuiTop() + 25, 20, 20, filter.isCheckTag(), FILTER_TAG, but ->
 				{
 					CompoundTag tag = new CompoundTag();
 					

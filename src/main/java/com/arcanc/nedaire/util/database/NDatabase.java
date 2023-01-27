@@ -346,6 +346,10 @@ public class NDatabase
 			public static final String WHITELIST = PATH + "whitelist";
 			public static final String TAG = PATH + "tag";
 			public static final String MOD_OWNER = PATH + "mod_owner";
+
+			public static final String ICON_FILTER_ITEM = PATH + "filter_item";
+			public static final String ICON_FILTER_FLUID = PATH + "fliter_fluid";
+			public static final String ICON_FILTER_VIM = PATH + "filter_vim";
 			
 			public static class Description
 			{

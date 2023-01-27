@@ -150,6 +150,19 @@ public class ItemHelper
 		}).orElse(false);
 	}
 
+	public static boolean hasEmptySpace(IItemHandler in)
+	{
+		for (int q = 0; q < in.getSlots(); q++)
+		{
+			ItemStack stack = in.getStackInSlot(q);
+			if (stack.isEmpty() || stack.getCount() < stack.getMaxStackSize())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static int getEmptySpace(LazyOptional<IItemHandler> in) 
 	{
 		if (hasEmptySpace(in))
@@ -175,6 +188,29 @@ public class ItemHelper
 		return 0;
 	}
 
+	public static int getEmptySpace(IItemHandler in) 
+	{
+		if (hasEmptySpace(in))
+		{
+			int space = 0;
+			for (int q = 0; q < in.getSlots(); q++)
+			{
+					ItemStack stack = in.getStackInSlot(q);
+					if (stack.isEmpty())
+					{
+						space += in.getSlotLimit(q);
+					}
+					else if (stack.getCount() < stack.getMaxStackSize())
+					{
+						space += stack.getMaxStackSize() - stack.getCount();
+					}
+				}
+				return space;
+		}
+		return 0;
+	}
+
+	
 	public static boolean isEmpty(BlockEntity tile) 
 	{
 		LazyOptional<IItemHandler> hand = ItemHelper.getItemHandler(tile);

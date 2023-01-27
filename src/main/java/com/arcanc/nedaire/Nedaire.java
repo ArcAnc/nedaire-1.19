@@ -41,6 +41,7 @@ import com.arcanc.nedaire.data.NRecipeProvider;
 import com.arcanc.nedaire.data.NSpriteSourceProvider;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
 import com.arcanc.nedaire.data.loot.NLootProvider;
+import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
@@ -213,6 +214,7 @@ public class Nedaire
         PackOutput packOutput = gen.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
        
+        gen.addProvider(event.includeServer(), new NBiomeTags(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), NLootProvider :: create);
         NBlockTagsProvider btp = new NBlockTagsProvider(packOutput, lookupProvider, ext);
     		

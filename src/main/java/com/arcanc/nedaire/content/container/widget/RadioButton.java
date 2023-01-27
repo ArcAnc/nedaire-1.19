@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 import org.joml.Vector2i;
 
 import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox.ButtonBuilder;
+import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -34,7 +35,6 @@ import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -73,7 +73,7 @@ public class RadioButton extends Button
 		return new RadioButtonBuilder(countInRow, distanceBetweenButtons);
 	}
 	
-	public static ButtonBuilder newButton(ItemStack icon, Supplier<Tooltip> tooltip)
+	public static ButtonBuilder newButton(Icon<?> icon, Supplier<Tooltip> tooltip)
 	{
 		return new ButtonBuilder(icon, tooltip);
 	}
@@ -236,10 +236,10 @@ public class RadioButton extends Button
 		
 		private Supplier<Tooltip> tooltip;
 		private boolean selected = false;
-		private ItemStack icon;
+		private Icon<?> icon;
 		private CustomCheckbox.OnPress press;
 		
-		public CustomCheckbox(Rect2i pos, boolean active, Supplier<Tooltip> tooltip, ItemStack icon, CustomCheckbox.OnPress press) 
+		public CustomCheckbox(Rect2i pos, boolean active, Supplier<Tooltip> tooltip, Icon<?> icon, CustomCheckbox.OnPress press) 
 		{
 			super(pos.getX(), pos.getY(), pos.getWidth(), pos.getHeight(), Component.empty());
 			
@@ -273,7 +273,7 @@ public class RadioButton extends Button
 			
 			blit(stack, this.getX(), this.getY(), this.width, this.height, this.isHoveredOrFocused() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
 			
-			RenderHelper.renderItemStack(stack, icon, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, false);
+			icon.render(stack, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, 16, 16);
 			
 			RenderSystem.disableBlend();
 			stack.popPose();
@@ -307,7 +307,7 @@ public class RadioButton extends Button
 			
 		}
 		
-		public ItemStack getIcon() 
+		public Icon<?> getIcon() 
 		{
 			return icon;
 		}
@@ -329,10 +329,10 @@ public class RadioButton extends Button
 			private Rect2i bounds = new Rect2i(0, 0, 0, 0);
 		
 			private Supplier<Tooltip> tooltip;
-			private ItemStack icon;
+			private Icon<?> icon;
 			private CustomCheckbox.OnPress pressAction;
 			
-			private ButtonBuilder(ItemStack icon, Supplier<Tooltip> tooltip)
+			private ButtonBuilder(Icon<?> icon, Supplier<Tooltip> tooltip)
 			{
 				this.tooltip = tooltip;
 				this.icon = icon;

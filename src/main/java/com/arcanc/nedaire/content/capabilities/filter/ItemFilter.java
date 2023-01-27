@@ -11,17 +11,20 @@ package com.arcanc.nedaire.content.capabilities.filter;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemFilter implements IItemFilter 
 {
 	
 	public NSimpleItemStorage content;
-	public boolean whitelist = false;
+	public boolean whitelist = true;
 	public boolean modOwner = false;
 	public boolean checkTag = false;
 	public int extraction = 0;
@@ -44,6 +47,12 @@ public class ItemFilter implements IItemFilter
 	{
 		if (obj == null || obj.isEmpty())
 			return false;
+		return filterWhiteList(obj) && filterModOwner(obj) && filterCheckTag(obj);
+	}
+	
+	@Override
+	public boolean filterWhiteList(ItemStack obj) 
+	{
 		if (whitelist)
 		{
 			for (int q = 0; q < content.getSlots(); q++)
@@ -65,10 +74,75 @@ public class ItemFilter implements IItemFilter
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
+	@Override
+	public boolean filterModOwner(ItemStack obj) 
+	{
+		if (modOwner)
+		{
+			String locObj = ForgeRegistries.ITEMS.getKey(obj.getItem()).getNamespace();
+			for (int q = 0; q < content.getSlots(); q++)
+			{
+				ItemStack stack = content.getStackInSlot(q);
+				String loc = ForgeRegistries.ITEMS.getKey(stack.getItem()).getNamespace();
+				if (locObj.equals(loc))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+		return true;
+	}
+
+	@Override
+	public boolean filterCheckTag(ItemStack obj) 
+	{
+		if (checkTag)
+		{
+			for (int q = 0; q < content.getSlots(); q++)
+			{
+				ItemStack stack = content.getStackInSlot(q);
+				if (ItemStack.tagMatches(stack, obj))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+		return true;
+	}
+	
+	@Override
+	public int filterExtraction(IItemHandler tileInv, ItemStack obj) 
+	{
+		int emptySpace = ItemHelper.getEmptySpace(tileInv);
+		return Math.min(emptySpace, extraction);
+	}
+
+	@Override
+	public int filterMaxInInventory(IItemHandler tileInv, ItemStack obj) 
+	{
+		int amountInInv = 0;
+		
+		for (int q = 0; q < tileInv.getSlots(); q++)
+		{
+			ItemStack stack = tileInv.getStackInSlot(q);
+			if (filter(obj))
+			{
+				amountInInv += stack.getCount();
+			}
+		}
+		
+		int ret = amountInInv - maxInInventory;
+		
+		return ret > 0 ? ret : 0;
+	}
 	@Override
 	public boolean isWhitelist() 
 	{
