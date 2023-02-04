@@ -331,7 +331,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		return isValid.test(player);
 	}
 	
-	public static void onContainerOpen(PlayerContainerEvent.Open event)
+	public static void onContainerOpen(final PlayerContainerEvent.Open event)
 	{
 		if (event.getContainer() instanceof NContainerMenu cont && event.getEntity() instanceof ServerPlayer serverPlayer)
 		{
@@ -343,7 +343,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		}
 	}
 	
-	public static void onContainerClosed(PlayerContainerEvent.Close event)
+	public static void onContainerClosed(final PlayerContainerEvent.Close event)
 	{
 		if (event.getContainer() instanceof NContainerMenu cont && event.getEntity() instanceof ServerPlayer serverPlayer)
 			cont.usingPlayers.remove(serverPlayer);

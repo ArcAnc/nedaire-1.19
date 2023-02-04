@@ -60,6 +60,8 @@ public class NItemModelProvider extends ItemModelProvider
 		simpleItem(mat.getPlayerArmorLegs().getId());
 		simpleItem(mat.getPlayerArmorFeet().getId());
 		
+		simpleItem(NRegistration.RegisterItems.NUGGET_SKYSTONE.getId());
+		
 		handheld(NRegistration.RegisterItems.HAMMER.getId());
 		simpleItem(NRegistration.RegisterItems.CHALK.getId());
 		handheld(NRegistration.RegisterItems.BOOK.getId());

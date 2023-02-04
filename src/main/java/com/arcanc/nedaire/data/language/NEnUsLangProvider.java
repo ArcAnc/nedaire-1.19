@@ -68,6 +68,8 @@ public class NEnUsLangProvider extends LanguageProvider
 			add(mat.getDeepSlateOre().get(), StringHelper.capitalize(NDatabase.Items.Names.DEEPSLATE) + " " + StringHelper.capitalize(mat.getName()) + " " + StringHelper.capitalize(NDatabase.Blocks.Names.ORE));
 		}
 		
+		add(NRegistration.RegisterItems.NUGGET_SKYSTONE.get(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE) + " " + "Nugget");
+		
 		add(NRegistration.RegisterItems.HAMMER.get(), StringHelper.capitalize(NDatabase.Items.Names.HAMMER));
 		add(NRegistration.RegisterItems.CHALK.get(), StringHelper.capitalize(NDatabase.Items.Names.CHALK));
 
@@ -132,7 +134,10 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM, "Vim Filter panel");
 		
 		//************************************************************************
+		//Village
 		
+		//Villagers
+		add("entity.minecraft.villager.nedaire." + NDatabase.Village.Villagers.UNDERGROUNDER, "Undergrounder");
 		
 	}
 	

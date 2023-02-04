@@ -33,12 +33,15 @@ import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
 import com.arcanc.nedaire.content.renderer.entity.DeliveryDroneRenderer;
+import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
+import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
 import com.arcanc.nedaire.data.NBlockStatesProvider;
 import com.arcanc.nedaire.data.NBlockTagsProvider;
 import com.arcanc.nedaire.data.NItemModelProvider;
 import com.arcanc.nedaire.data.NItemTagsProvider;
 import com.arcanc.nedaire.data.NRecipeProvider;
 import com.arcanc.nedaire.data.NSpriteSourceProvider;
+import com.arcanc.nedaire.data.NVillagersTags;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
 import com.arcanc.nedaire.data.loot.NLootProvider;
 import com.arcanc.nedaire.data.worldgen.NBiomeTags;
@@ -98,7 +101,10 @@ public class Nedaire
 	    NRegistration.RegisterMaterials.init();
 	    NRegistration.RegisterWorldGen.FEATURES.register(modEventBus);
 	    NRegistration.RegisterGemEffects.EFFECTS.register(modEventBus);
-		
+	    
+	    NRegistration.RegisterVillage.POI_TYPES.register(modEventBus);
+	    NRegistration.RegisterVillage.VILLAGER_PROFESSIONS.register(modEventBus);
+	    
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
 //	    modEventBus.addListener(this :: registerItemColors);
@@ -116,6 +122,8 @@ public class Nedaire
 	    MinecraftForge.EVENT_BUS.addListener(this :: updatedTags);
 	    MinecraftForge.EVENT_BUS.addListener(NContainerMenu :: onContainerClosed);
 	    MinecraftForge.EVENT_BUS.addListener(NContainerMenu :: onContainerOpen);
+	    MinecraftForge.EVENT_BUS.addListener(NVillage :: addCustomTrades);
+	    MinecraftForge.EVENT_BUS.addListener(NVillageAddition :: addNewVillageBuilding);
 	    
 	    modEventBus.addListener(this :: registerCreativeTabs);
 	}
@@ -124,6 +132,10 @@ public class Nedaire
 	private void serverSetup(final FMLCommonSetupEvent event)
     {
 		NNetworkEngine.init();
+		event.enqueueWork(() -> 
+		{
+			NRegistration.RegisterVillage.registerPois();
+		});
     }
 
 	private void registerCapability(final RegisterCapabilitiesEvent event )
@@ -208,13 +220,13 @@ public class Nedaire
 	
     public void gatherData(GatherDataEvent event)
     {
-    	
     	ExistingFileHelper ext = event.getExistingFileHelper();
     	DataGenerator gen = event.getGenerator();
         PackOutput packOutput = gen.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
        
         gen.addProvider(event.includeServer(), new NBiomeTags(packOutput, lookupProvider, ext));
+        gen.addProvider(event.includeServer(), new NVillagersTags(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), NLootProvider :: create);
         NBlockTagsProvider btp = new NBlockTagsProvider(packOutput, lookupProvider, ext);
     		

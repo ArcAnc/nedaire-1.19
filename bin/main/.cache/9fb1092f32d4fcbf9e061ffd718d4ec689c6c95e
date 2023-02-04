@@ -1,4 +1,4 @@
-// 1.19.3	2023-01-03T15:35:59.741914	Recipes
+// 1.19.3	2023-02-04T00:21:10.5542684	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -15,6 +15,8 @@ f7545acd7740eb8ab7e141e5b002d77bd489f491 data/nedaire/advancements/recipes/misc/
 67ed13002c4e6007033c30eb20013b3ae322b29a data/nedaire/advancements/recipes/misc/blasting/raw_materials/corium_to_ingot/corium.json
 ace3c0e28b665d3d0e94aad4011502e4269fcd88 data/nedaire/advancements/recipes/misc/conversion/ingot/corium_to_nugget/corium.json
 f99dc2725f54f894f5bedc26a0ac5afded58a1a2 data/nedaire/advancements/recipes/misc/conversion/nugget/corium_to_ingot/corium.json
+2218e000c658e583e6424fc34da762d6838fa88d data/nedaire/advancements/recipes/misc/conversion/nugget/skystone_to_skystone.json
+6c72bcab4e631390f427075737def17e74426d0c data/nedaire/advancements/recipes/misc/conversion/skystone_to_nugget/skystone.json
 03a6895e47430423e9718ac20ad430af03a9c46b data/nedaire/advancements/recipes/misc/conversion/storage_block/corium_to_ingot/corium.json
 557ea076f93c68822237bc221c39b4e9795f2c63 data/nedaire/advancements/recipes/misc/conversion/storage_block/raw/corium_to_raw/corium.json
 ec4b28aeb185ad1453d6c1dadba9ce14b4515bbf data/nedaire/advancements/recipes/misc/smelting/dusts/corium_to_ingot/corium.json
@@ -38,7 +40,9 @@ c6786101e49c685a9072808a17879c90647feaa8 data/nedaire/recipes/blasting/dusts/cor
 62a0eba6d1e033d369be8dd3f44615371275bc91 data/nedaire/recipes/conversion/ingot/corium_to_nugget/corium.json
 13c14a74b16692500bbe5645c2e93d10320165a3 data/nedaire/recipes/conversion/ingot/corium_to_storage_block/corium.json
 edc995dc3e475abe3f4a01ce6db715e7b653ae57 data/nedaire/recipes/conversion/nugget/corium_to_ingot/corium.json
+9558c0a6729ffa7c8eba762be4acbdf0614c6fce data/nedaire/recipes/conversion/nugget/skystone_to_skystone.json
 564e2732295f4d4d1b94aa5685c5fe393d676d71 data/nedaire/recipes/conversion/raw/corium_to_storage_block/raw/corium.json
+a4c603971b94bc85648cf117978af845ce6d790c data/nedaire/recipes/conversion/skystone_to_nugget/skystone.json
 3488c8ebb2b7960dd3cf69c95a0f5ddf5a4968f1 data/nedaire/recipes/conversion/storage_block/corium_to_ingot/corium.json
 62d189b881ba1282a7f072116ba101ffbfe5c696 data/nedaire/recipes/conversion/storage_block/raw/corium_to_raw/corium.json
 f10a60f2fad2f67f2179e715dd2629e534b12027 data/nedaire/recipes/crusher/tool/chalk.json

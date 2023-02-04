@@ -9,6 +9,8 @@
 package com.arcanc.nedaire.content.registration;
 
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiFunction;
@@ -53,6 +55,7 @@ import com.arcanc.nedaire.data.crafting.recipe.ModShieldRecipes;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableSet;
@@ -72,6 +75,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityType.Builder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -93,6 +98,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -106,6 +112,11 @@ public class NRegistration
 		public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NDatabase.MOD_ID);
 
 		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties();
+		
+		public static final ItemRegObject<ModBaseItem> NUGGET_SKYSTONE = simple(
+				StringHelper.slashPlacer(
+						NDatabase.Blocks.Names.SKYSTONE, 
+						Items.Names.NUGGET));
 		
 		public static final ItemRegObject<ModHammer> HAMMER = new ItemRegObject<>(
 				StringHelper.slashPlacer(
@@ -474,6 +485,35 @@ public class NRegistration
 		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, NDatabase.MOD_ID);
 	}
 	
+	public static class RegisterVillage
+	{
+		public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, NDatabase.MOD_ID);
+		
+		public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, NDatabase.MOD_ID);
+	
+		public static final RegistryObject<PoiType> UNDERGROUNDER_POI = POI_TYPES.register(NDatabase.Village.Villagers.Poi_Types.UNDERGROUNDER_POI, 
+				() -> new PoiType(ImmutableSet.copyOf(NRegistration.RegisterBlocks.PEDESTAL.get().getStateDefinition().getPossibleStates()), 1, 1));
+		
+		public static final RegistryObject<VillagerProfession> UNDERGROUNDER = VILLAGER_PROFESSIONS.register(NDatabase.Village.Villagers.UNDERGROUNDER, 
+				() -> new VillagerProfession(NDatabase.Village.Villagers.UNDERGROUNDER, x -> x.get() == UNDERGROUNDER_POI.get(), 
+				x -> x.get() == UNDERGROUNDER_POI.get(), ImmutableSet.of(), ImmutableSet.of(), 
+				SoundEvents.VILLAGER_WORK_CLERIC)); 
+	
+	
+		public static void registerPois()
+		{
+			try
+			{
+				Method m = ObfuscationReflectionHelper.findMethod(PoiType.class, "registerBlockStates", PoiType.class);
+				m.invoke(null, UNDERGROUNDER_POI.get());
+			} 
+			catch (InvocationTargetException | IllegalAccessException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static class RegisterGemEffects
 	{
 		public static final ResourceKey<Registry<GemEffect<?>>> EFFECT_KEY = ResourceKey.createRegistryKey(new ResourceLocation(NDatabase.Capabilities.Socket.TAG_LOCATION));
@@ -533,7 +573,8 @@ public class NRegistration
 		public static <C extends AbstractContainerMenu>	ItemContainerType<C> register(String name, ItemContainerConstructor<C> container)
 		{
 			RegistryObject<MenuType<C>> typeRef = MENU_TYPES.register(
-					name, () -> {
+					name, () -> 
+					{
 						Mutable<MenuType<C>> typeBox = new MutableObject<>();
 						MenuType<C> type = IForgeMenuType.create((windowId, inv, data) -> 
 						{

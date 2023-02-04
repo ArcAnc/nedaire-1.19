@@ -111,6 +111,24 @@ public class NRecipeProvider extends RecipeProvider
 			save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + mat.getRawStorageBlock().getId().getPath() + "_to_" + mat.getRaw().getId().getPath()));
 		}
 		
+		
+		//=========================
+		//Skystone nuggets to Block and back
+		//=========================
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.SKYSTONE.get()).
+		define('A', Ingredient.of(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		pattern("AAA").
+		pattern("AAA").
+		pattern("AAA").
+		unlockedBy("has_" + NDatabase.Items.Names.NUGGET + "_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId().getPath(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId().getPath() + "_to_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath()));
+	
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, NRegistration.RegisterItems.NUGGET_SKYSTONE.get(), 9).
+		requires(Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.get())).
+		unlockedBy("has_" + NDatabase.Items.Names.NUGGET + "_" + NDatabase.Blocks.Names.SKYSTONE, has(NRegistration.RegisterBlocks.SKYSTONE.get())).
+		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath() + "_to_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId().getPath()));
+		
+		
 		//==========================
 		//Tools
 		//==========================

@@ -107,6 +107,7 @@ public class NDatabase
 		{
 			public static class Names
 			{
+				public static final String TERRAMORFER = "terramorfer";
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
 				public static final String MANUAL_CRUSHER = "manual_crusher";
@@ -491,6 +492,19 @@ public class NDatabase
 		public static String getTexturePath(String str)
 		{
 			return "textures/" + str + ".png";
+		}
+	}
+
+	public static class Village
+	{
+		public static class Villagers
+		{
+			public static final String UNDERGROUNDER = "undergrounder";
+			
+			public static class Poi_Types
+			{
+				public static final String UNDERGROUNDER_POI = "poi_" + UNDERGROUNDER;
+			}
 		}
 	}
 }

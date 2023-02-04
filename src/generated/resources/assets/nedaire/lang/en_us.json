@@ -1,4 +1,5 @@
 {
+  "entity.minecraft.villager.nedaire.undergrounder": "Undergrounder",
   "gui.drop_panel.panel_swither.description": "Main Panel",
   "gui.drop_panel.panel_swither.filter_fluid": "Fluid Filter Panel",
   "gui.drop_panel.panel_swither.filter_item": "Item Filter Panel",
@@ -48,6 +49,7 @@
   "nedaire.itemgroup.main": "Nedaire",
   "nedaire.manual_crusher": "Manual Crusher",
   "nedaire.nugget.corium": "Corium Nugget",
+  "nedaire.nugget.skystone": "Skystone Nugget",
   "nedaire.ore.corium": "Corium Ore",
   "nedaire.pedestal": "Pedestal",
   "nedaire.raw.corium": "Raw Corium",
