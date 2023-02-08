@@ -4,7 +4,11 @@ import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -15,8 +19,21 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends EntityModel<T> 
+public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends HierarchicalModel<T> 
 {
+	public static final AnimationDefinition DRONE_IDLE = AnimationDefinition.Builder.withLength(1f).looping()
+			.addAnimation("cabin",
+					new AnimationChannel(AnimationChannel.Targets.ROTATION,
+							new Keyframe(0f, KeyframeAnimations.degreeVec(18.5f, 0f, 0f),
+									AnimationChannel.Interpolations.CATMULLROM)))
+			.addAnimation("vanes_base",
+					new AnimationChannel(AnimationChannel.Targets.ROTATION,
+							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, Mth.sin(System.currentTimeMillis() % 360), 0f),
+									AnimationChannel.Interpolations.LINEAR)))
+			.addAnimation("vanes_tail",
+					new AnimationChannel(AnimationChannel.Targets.ROTATION,
+							new Keyframe(0f, KeyframeAnimations.degreeVec(Mth.sin(System.currentTimeMillis() % 360), 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR))).build();
 	private static final String CABIN = "cabin";
 	private static final String TAIL = "tail";
 	private static final String NOSE = "nose";
@@ -70,7 +87,8 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends EntityMod
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) 
 	{
-		setupAnim(State.FLYING);
+		this.animate(null, DRONE_IDLE, headPitch);
+		//		setupAnim(State.FLYING);
 	}
 
 	public void setupAnim(DeliveryDroneModel.State state)
@@ -87,16 +105,22 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends EntityMod
 		}
 	}
 	
-	@Override
+/*	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) 
 	{
 		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
-	
+*/	
 	@OnlyIn(Dist.CLIENT)
 	public static enum State 
 	{
 		FLYING,
 	    STANDING
+	}
+
+	@Override
+	public ModelPart root() 
+	{
+		return this.root;
 	}
 }

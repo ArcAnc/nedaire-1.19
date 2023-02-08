@@ -1,4 +1,4 @@
-// 1.19.3	2023-01-03T15:35:59.7409137	Nedaire Block States
+// 1.19.3	2023-02-05T12:26:14.8454753	Nedaire Block States
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 bd5c804587cde8f8d41e0fec4c4a80ab63a87c5f assets/nedaire/blockstates/delivery_station.json
 3295d546b61fe8f68f54f65914707e27d601aadf assets/nedaire/blockstates/holder.json
@@ -9,6 +9,7 @@ a65d08ea21081d12b4b0c4840c4a02f136170bed assets/nedaire/blockstates/ore/corium.j
 af014dcfafe19f0dd12073ff143a26e2b8d9c2ba assets/nedaire/blockstates/skystone.json
 73ad65f2a6a80159f43ac105dafc033239e12a78 assets/nedaire/blockstates/storage_block/corium.json
 d49da51c847b38b10c0794c411379a9262c5f25f assets/nedaire/blockstates/storage_block/raw/corium.json
+f1b0077cb2f3d88972d029951cb2251faa609c41 assets/nedaire/blockstates/terramorfer.json
 5ef24b2c6ee50cef9181d4c79770bd84032b3980 assets/nedaire/blockstates/vim_storage.json
 706ddcbcaf044d8e87bbb4a9a873a223cae2613d assets/nedaire/models/block/deepslate/corium.json
 c6084073152e93c4fd2db5d25f104f8fab9f65f4 assets/nedaire/models/block/delivery_station.json
@@ -21,6 +22,7 @@ cb3696a63705c5b1ce28f5710cdd49d7a186cad4 assets/nedaire/models/block/pedestal.js
 98fb51fa7a7e0937cb32a4045f8dfb6331998060 assets/nedaire/models/block/skystone.json
 ede951dd917ef3135a4313c3adb936a1d4bdf1b6 assets/nedaire/models/block/storage_block/corium.json
 d0e6f696554536b8bd591889d2d8976875658112 assets/nedaire/models/block/storage_block/raw/corium.json
+5c95c18ae63e6020f0e983b08b626f1a35a43b1e assets/nedaire/models/block/terramorfer.json
 cdaf05124cefe8c5759a406ebb0a0187f9758215 assets/nedaire/models/block/vim_storage.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json
@@ -32,4 +34,5 @@ f9c7fce4c1a1c579c318a1262df5dac623de021b assets/nedaire/models/item/ore/corium.j
 8c269f39267173c02adb3a55903ad895e29d10c9 assets/nedaire/models/item/skystone.json
 cd028df5af5901a5041154f6d3579b5ddbd0cea8 assets/nedaire/models/item/storage_block/corium.json
 b9fecbdc0cea36f6e789dfb3e2a9736088ca86f3 assets/nedaire/models/item/storage_block/raw/corium.json
+8f4ec2657be1bc0cebcaf6de88668f5951a49037 assets/nedaire/models/item/terramorfer.json
 7b53d4b11c3624aec035013bc5e88e4eb8855e76 assets/nedaire/models/item/vim_storage.json

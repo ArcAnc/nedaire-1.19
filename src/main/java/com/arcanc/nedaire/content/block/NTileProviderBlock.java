@@ -52,7 +52,6 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 		this(props, (bp, state) -> type.get().create(bp, state));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
 	{

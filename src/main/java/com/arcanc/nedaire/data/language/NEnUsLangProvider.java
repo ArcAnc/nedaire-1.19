@@ -75,6 +75,7 @@ public class NEnUsLangProvider extends LanguageProvider
 
 		add(NRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
 		
+		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
 		add(NRegistration.RegisterBlocks.PEDESTAL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PEDESTAL));
 		add(NRegistration.RegisterBlocks.HOLDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOLDER));
 		add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER.replace("_c", " C")));

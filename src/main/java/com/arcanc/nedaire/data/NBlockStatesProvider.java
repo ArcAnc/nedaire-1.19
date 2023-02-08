@@ -58,6 +58,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerVimStorage(NRegistration.RegisterBlocks.VIM_STORAGE.get());
 		registerDeliveryStation(NRegistration.RegisterBlocks.DELIVERY_STATION.get());
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
+		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -1272,6 +1273,125 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 		end();
 		
+		registerModels(block, model);
+	}
+	
+	private void registerTerramorfer(Block block)
+	{
+		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_glass"));
+		ResourceLocation texStone = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_stone"));
+		ResourceLocation texPedestal = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_pedestal"));
+	
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("glass", texGlass).
+				texture("stone", texStone).
+				texture("pedestal", texPedestal).
+				texture("particle", texPedestal).
+				//nw leg
+				element().
+					from(4, 0, 4).
+					to(5, 4, 5).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(7, 5, 8, 9);
+						else
+							builder.uvs(6, 8, 5, 7).cullface(face);
+						builder.texture("#stone");
+					}).
+				end().
+				//sw leg
+				element().
+					from(4, 0, 11).
+					to(5, 4, 12).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(7, 5, 8, 9);
+						else
+							builder.uvs(6, 8, 5, 7).cullface(face);
+						builder.texture("#stone");
+					}).
+				end().
+				//ne leg
+				element().
+					from(11, 0, 4).
+					to(12, 4, 5).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(7, 5, 8, 9);
+						else
+							builder.uvs(6, 8, 5, 7).cullface(face);
+						builder.texture("#stone");
+					}).
+				end().
+				//se leg
+				element().
+					from(11, 0, 11).
+					to(12, 4, 12).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(7, 5, 8, 9);
+						else
+							builder.uvs(6, 8, 5, 7).cullface(face);
+						builder.texture("#stone");
+					}).
+				end().
+				//platform
+				element().
+					from(3, 4, 3).
+					to(13, 6, 13).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(0, 0, 10, 2).cullface(face);
+						else
+							builder.uvs(6, 6, 16, 16);
+						builder.texture("#stone");
+					}).
+				end().
+				//glass_block
+				element().
+					from(5, 6, 5).
+					to(11, 13, 11).
+					allFaces((face, builder) -> 
+					{
+						if (face == Direction.DOWN)
+							builder.uvs(4, 4, 16, 16);
+						else
+							builder.uvs(0, 0, 16, 16);
+						builder.texture("#glass");
+					}).
+				end().
+				//glass_block_inverted
+				element().
+					from(11, 13, 11).
+					to(5, 6, 5).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(0, 16, 16, 0);
+						else
+							if (face == Direction.DOWN)
+								builder.uvs(16, 0, 0, 16);
+							if (face == Direction.UP)
+								builder.uvs(13, 4, 4, 13);
+						builder.texture("#glass");
+					}).
+				end().
+				//pedestal
+				element().
+					from(7, 6, 7).
+					to(9, 8, 9).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#pedestal");
+					}).
+				end();
+
 		registerModels(block, model);
 	}
 	

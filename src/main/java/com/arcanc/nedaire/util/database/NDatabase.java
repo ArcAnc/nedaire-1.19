@@ -131,6 +131,10 @@ public class NDatabase
 						public static final String CURRENT_ANGLE = "current_angle";
 						public static final String USED_ENERGY = "used_energy";
 					}
+					public static class Terramorfer
+					{
+						public static final String PLACED_TIME = "placed_time";
+					}
 				}
 			}
 			
@@ -489,9 +493,9 @@ public class NDatabase
 			}
 		}
 	
-		public static String getTexturePath(String str)
+		public static ResourceLocation getTexturePath(String str)
 		{
-			return "textures/" + str + ".png";
+			return StringHelper.getLocFStr("textures/" + str + ".png");
 		}
 	}
 

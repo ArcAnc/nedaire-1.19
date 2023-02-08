@@ -59,7 +59,6 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 		return InteractionResult.SUCCESS;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update) 
 	{

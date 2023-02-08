@@ -32,7 +32,6 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FilterHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -57,23 +56,23 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public abstract class NContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> 
 {
-	public static final ResourceLocation MIDDLE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE)); 
-	public static final ResourceLocation MIDDLE_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_TOP)); 
-	public static final ResourceLocation MIDDLE_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_BOTTOM)); 
-	public static final ResourceLocation MIDDLE_LEFT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_LEFT)); 
-	public static final ResourceLocation MIDDLE_RIGHT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_RIGHT)); 
-	public static final ResourceLocation LEFT_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_TOP)); 
-	public static final ResourceLocation LEFT_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_BOTTOM)); 
-	public static final ResourceLocation RIGHT_TOP = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_TOP)); 
-	public static final ResourceLocation RIGHT_BOT = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_BOTTOM)); 
+	public static final ResourceLocation MIDDLE = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE); 
+	public static final ResourceLocation MIDDLE_TOP = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_TOP); 
+	public static final ResourceLocation MIDDLE_BOT = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_BOTTOM); 
+	public static final ResourceLocation MIDDLE_LEFT = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_LEFT); 
+	public static final ResourceLocation MIDDLE_RIGHT = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.MIDDLE_RIGHT); 
+	public static final ResourceLocation LEFT_TOP = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_TOP); 
+	public static final ResourceLocation LEFT_BOT = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.LEFT_BOTTOM); 
+	public static final ResourceLocation RIGHT_TOP = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_TOP); 
+	public static final ResourceLocation RIGHT_BOT = NDatabase.GUI.getTexturePath(NDatabase.GUI.Background.Textures.RIGHT_BOTTOM); 
 	
-	public static final ResourceLocation FILTER_WHITELIST = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.WHITELIST));
-	public static final ResourceLocation FILTER_TAG = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.TAG));
-	public static final ResourceLocation FILTER_MOD_OWNER = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.MOD_OWNER));
+	public static final ResourceLocation FILTER_WHITELIST = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.WHITELIST);
+	public static final ResourceLocation FILTER_TAG = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.TAG);
+	public static final ResourceLocation FILTER_MOD_OWNER = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.MOD_OWNER);
 
-	public static final ResourceLocation ICON_FILTER_ITEM = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_ITEM));
-	public static final ResourceLocation ICON_FILTER_FLUID = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_FLUID));
-	public static final ResourceLocation ICON_FILTER_VIM = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_VIM));
+	public static final ResourceLocation ICON_FILTER_ITEM = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_ITEM);
+	public static final ResourceLocation ICON_FILTER_FLUID = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_FLUID);
+	public static final ResourceLocation ICON_FILTER_VIM = NDatabase.GUI.getTexturePath(NDatabase.GUI.Filter.ICON_FILTER_VIM);
 	
 	protected List<Panel> panelList = new ArrayList<>();
 	protected int currentPanel = 0;

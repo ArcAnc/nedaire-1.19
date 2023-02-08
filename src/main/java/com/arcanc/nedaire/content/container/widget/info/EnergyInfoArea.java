@@ -15,7 +15,6 @@ import org.joml.Matrix4f;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -36,7 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 public class EnergyInfoArea extends InfoArea
 {
 
-	public static final ResourceLocation TEXTURE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.Vim.PATH));
+	public static final ResourceLocation TEXTURE = NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.Vim.PATH);
 	
 	protected IVim energy;
 	protected Supplier<Tooltip> tooltip;

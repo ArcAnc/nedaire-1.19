@@ -19,7 +19,6 @@ import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox.Bu
 import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,8 +40,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RadioButton extends Button 
 {
 
-	public static final ResourceLocation TEXTURE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.PATH));
-	public static final ResourceLocation BACKGROUND = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.BACKGROUND));
+	public static final ResourceLocation TEXTURE = NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.PATH);
+	public static final ResourceLocation BACKGROUND = NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.RadioButton.BACKGROUND);
 	
 	protected Supplier<Component> mainLabel;
 	protected List<CustomCheckbox> buttons = new LinkedList<>();

@@ -14,7 +14,6 @@ import java.util.function.Supplier;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -34,7 +33,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class FluidInfoArea extends InfoArea 
 {
-	public static final ResourceLocation TEXTURE = StringHelper.getLocFStr(NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.FluidHandler.PATH));
+	public static final ResourceLocation TEXTURE = NDatabase.GUI.getTexturePath(NDatabase.GUI.Elements.FluidHandler.PATH);
 
 	protected IFluidHandler fluid;
 	protected Supplier<Tooltip> tooltip;

@@ -27,6 +27,14 @@
     {
       "type": "minecraft:single",
       "resource": "nedaire:block/manual_crusher/manual_crusher"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "nedaire:misc/vortex"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "nedaire:mist/essence"
     }
   ]
 }

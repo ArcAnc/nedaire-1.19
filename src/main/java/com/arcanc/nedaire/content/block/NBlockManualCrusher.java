@@ -59,7 +59,6 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 		return state;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
 	{
@@ -144,7 +143,6 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 		return RenderShape.MODEL;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update) 
 	{

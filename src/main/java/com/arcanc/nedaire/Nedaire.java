@@ -29,9 +29,11 @@ import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
 import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.content.renderer.EssenseRender;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
+import com.arcanc.nedaire.content.renderer.blockEntity.TerramorferRenderer;
 import com.arcanc.nedaire.content.renderer.entity.DeliveryDroneRenderer;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
@@ -124,6 +126,7 @@ public class Nedaire
 	    MinecraftForge.EVENT_BUS.addListener(NContainerMenu :: onContainerOpen);
 	    MinecraftForge.EVENT_BUS.addListener(NVillage :: addCustomTrades);
 	    MinecraftForge.EVENT_BUS.addListener(NVillageAddition :: addNewVillageBuilding);
+	    MinecraftForge.EVENT_BUS.addListener(EssenseRender :: worldRender);
 	    
 	    modEventBus.addListener(this :: registerCreativeTabs);
 	}
@@ -183,6 +186,7 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_PEDESTAL.get(), PedestalRenderer :: new);	
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_HOLDER.get(), HolderRenderer :: new);	
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_MANUAL_CRUSHER.get(), ManualCrusherRenderer :: new);
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_TERRAMORFER.get(), TerramorferRenderer :: new);
 	}
 	
 	private void registerBECustomModels(IEventBus bus)

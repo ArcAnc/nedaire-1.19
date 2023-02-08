@@ -31,12 +31,14 @@ import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
 import com.arcanc.nedaire.content.block.NBlockPedestal;
+import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
+import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
@@ -236,7 +238,13 @@ public class NRegistration
 		public static final BlockRegObject<NBaseBlock, ModBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
 				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
-
+		
+		public static final BlockRegObject<NBlockTerramorfer, ModBaseBlockItem> TERRAMORFER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER,
+				baseMachineProps,
+				NBlockTerramorfer :: new,
+				NRegistration.RegisterItems.baseProps, 
+				(b, p) -> new ModBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
@@ -379,7 +387,11 @@ public class NRegistration
 	{
 		public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, NDatabase.MOD_ID);
 	
-
+		public static final RegistryObject<BlockEntityType<NBETerramorfer>> BE_TERRAMORFER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER, 
+				makeType(NBETerramorfer :: new,
+						RegisterBlocks.TERRAMORFER));
+		
 		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
 				makeType(NBEPedestal :: new, 
