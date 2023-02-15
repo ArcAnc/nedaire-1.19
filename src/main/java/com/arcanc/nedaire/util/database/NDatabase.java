@@ -107,6 +107,13 @@ public class NDatabase
 		{
 			public static class Names
 			{
+				public static final String GENERATOR = "generator";
+				
+				public static class Generators
+				{
+					public static final String SOLAR = GENERATOR + "/solar";
+				}
+				
 				public static final String TERRAMORFER = "terramorfer";
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
@@ -134,6 +141,11 @@ public class NDatabase
 					public static class Terramorfer
 					{
 						public static final String PLACED_TIME = "placed_time";
+					}
+					public static class DeliveryStation
+					{
+						public static final String ATTACHED_POSES = "poses";
+						public static final String MODE = "delivery_mode";
 					}
 				}
 			}

@@ -1,9 +1,10 @@
-// 1.19.3	2023-02-04T00:21:10.5542684	Nedaire Item Models
+// 1.19.3	2023-02-15T14:56:32.6572292	Nedaire Item Models
 06c3ccfac4f748146590f5f73374ea9f738ce039 assets/nedaire/models/item/armor/horse/corium.json
 62b40966b1675af70347cf2200ea2c5049257cbb assets/nedaire/models/item/armor/player/chest/corium.json
 80b8521fe02610d3ba523b93bc908e1aee98ca05 assets/nedaire/models/item/armor/player/feet/corium.json
 096316f728f3ed79160354a558d4aaee559d416e assets/nedaire/models/item/armor/player/head/corium.json
 05d02dc759ab553ee7414348390c760fbc77b6c7 assets/nedaire/models/item/armor/player/legs/corium.json
+63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/nedaire/models/item/drone_spawn_egg.json
 de1332d4fad12f66ea90ccc25ebcd8efb1efc5a6 assets/nedaire/models/item/dust/corium.json
 3b2f2ed59bb0214f9406a0bba420e6e76bdcd2a5 assets/nedaire/models/item/ingot/corium.json
 b5e093c05703ae8f6e7617c38984edfc78daf3e5 assets/nedaire/models/item/nugget/corium.json

@@ -1,8 +1,6 @@
 package com.arcanc.nedaire.content.renderer.entity.model;
 
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -16,24 +14,36 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends HierarchicalModel<T> 
 {
-	public static final AnimationDefinition DRONE_IDLE = AnimationDefinition.Builder.withLength(1f).looping()
-			.addAnimation("cabin",
-					new AnimationChannel(AnimationChannel.Targets.ROTATION,
-							new Keyframe(0f, KeyframeAnimations.degreeVec(18.5f, 0f, 0f),
-									AnimationChannel.Interpolations.CATMULLROM)))
-			.addAnimation("vanes_base",
+	public static final AnimationDefinition DRONE_IDLE = AnimationDefinition.Builder.withLength(1f).looping().
+			addAnimation("vanes_base",
 					new AnimationChannel(AnimationChannel.Targets.ROTATION,
 							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, Mth.sin(System.currentTimeMillis() % 360), 0f),
-									AnimationChannel.Interpolations.LINEAR)))
-			.addAnimation("vanes_tail",
+									AnimationChannel.Interpolations.LINEAR))).
+			addAnimation("vanes_tail",
 					new AnimationChannel(AnimationChannel.Targets.ROTATION,
 							new Keyframe(0f, KeyframeAnimations.degreeVec(Mth.sin(System.currentTimeMillis() % 360), 0f, 0f),
 									AnimationChannel.Interpolations.LINEAR))).build();
+	
+	public static final AnimationDefinition DRONE_FLIGHT_START = AnimationDefinition.Builder.withLength(0.5f).
+			addAnimation("cabin",
+					new AnimationChannel(AnimationChannel.Targets.ROTATION,
+							new Keyframe(0f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR),
+							new Keyframe(0.5f, KeyframeAnimations.degreeVec(18.5f, 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR))).build();
+	public static final AnimationDefinition DRONE_FLIGHT_STOP = AnimationDefinition.Builder.withLength(0.75f).
+			addAnimation("cabin",
+					new AnimationChannel(AnimationChannel.Targets.ROTATION,
+							new Keyframe(0f, KeyframeAnimations.degreeVec(18.5f, 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR),
+							new Keyframe(0.5f, KeyframeAnimations.degreeVec(-10f, 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR),
+							new Keyframe(0.75f, KeyframeAnimations.degreeVec(0f, 0f, 0f),
+									AnimationChannel.Interpolations.LINEAR))).build();
+	
 	private static final String CABIN = "cabin";
 	private static final String TAIL = "tail";
 	private static final String NOSE = "nose";
@@ -70,7 +80,7 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends Hierarchi
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition root = meshdefinition.getRoot();
 
-		PartDefinition cabin = root.addOrReplaceChild(CABIN, CubeListBuilder.create().texOffs(0, 2).addBox(-1.5F, -2.0F, -1.5F, 3.0F, 2.0F, 3.0F), PartPose.ZERO);
+		PartDefinition cabin = root.addOrReplaceChild(CABIN, CubeListBuilder.create().texOffs(0, 2).addBox(-1.5F, -2.0F, -1.5F, 3.0F, 2.0F, 3.0F), PartPose.offset(0, 24f, 0));
 		PartDefinition tail = cabin.addOrReplaceChild(TAIL, CubeListBuilder.create().texOffs(5, 7).addBox(-1.0F, -1.0F, -2.5F, 2.0F, 1.0F, 1.0F), PartPose.ZERO);
 		cabin.addOrReplaceChild(NOSE, CubeListBuilder.create().texOffs(0, 7).addBox(-0.5F, -1.0F, 1.5F, 1.0F, 1.0F, 3.0F), PartPose.ZERO);
 		PartDefinition vanes = cabin.addOrReplaceChild(VANES_BASE, CubeListBuilder.create().texOffs(9, 2).addBox(-0.5F, -3.0F, -0.5F, 1.0F, 1.0F, 1.0F), PartPose.ZERO);
@@ -87,11 +97,14 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends Hierarchi
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) 
 	{
-		this.animate(null, DRONE_IDLE, headPitch);
+		this.root().getAllParts().forEach(ModelPart :: resetPose);
+		this.animate(entity.flightIdle, DRONE_IDLE, ageInTicks);
+		this.animate(entity.startFlight, DRONE_FLIGHT_START, ageInTicks);
+		this.animate(entity.stopFlight, DRONE_FLIGHT_STOP, ageInTicks);
 		//		setupAnim(State.FLYING);
 	}
 
-	public void setupAnim(DeliveryDroneModel.State state)
+/*	public void setupAnim(DeliveryDroneModel.State state)
 	{
 		switch (state) 
 		{
@@ -104,20 +117,7 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends Hierarchi
 				break;
 		}
 	}
-	
-/*	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) 
-	{
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
 */	
-	@OnlyIn(Dist.CLIENT)
-	public static enum State 
-	{
-		FLYING,
-	    STANDING
-	}
-
 	@Override
 	public ModelPart root() 
 	{

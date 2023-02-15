@@ -15,7 +15,10 @@ import java.util.function.Supplier;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 
+import com.arcanc.nedaire.content.container.sync.GetterAndSetter;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.Maps;
@@ -31,11 +34,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 
-public class EssenseRender 
+public class EssenceRender 
 {
 	/**
 	 * FIXME: add a bit more smooth transit from start to finish essence effect. Fix bug with add/remove work and add effect to moving this from start to finish
@@ -46,7 +48,8 @@ public class EssenseRender
 	private static final double SHIFT = 0.0015d;
 	private static final double MAX_SHIFT = 0.05;
 	
-	private static final Map<Vec3, List<PointsData>> ESSENCE_MAP = Maps.newHashMap();
+	private static final Map<Vector3d, List<PointsData>> ESSENCE_MAP = Maps.newHashMap();
+	private static final Map<Vector3d, List<RenderData>> MAP = Maps.newHashMap();
 	
 	public static final ResourceLocation ESSENCE_TEXURE = StringHelper.getLocFStr("misc/essence");
 
@@ -60,7 +63,7 @@ public class EssenseRender
 			float texW = tex.getU1() - tex.getU0();
 			float texH = tex.getV1() - tex.getV0();
 
-			for (Map.Entry<Vec3, List<PointsData>> e : ESSENCE_MAP.entrySet())
+			for (Map.Entry<Vector3d, List<PointsData>> e : ESSENCE_MAP.entrySet())
 			{
 				for(PointsData data : e.getValue())
 				{
@@ -76,7 +79,7 @@ public class EssenseRender
 							if(data.way()[q][t] >= MAX_SHIFT)
 							{
 								data.way[q][t] = 0;
-								data.dir[q][t] = data.dir()[q][t].reverse();
+								data.dir[q][t] = data.dir()[q][t].negate();
 							}
 						}
 					}							
@@ -186,26 +189,26 @@ public class EssenseRender
 		}
 	}
 	
-	public static boolean addNewPoint(Vec3 startPoint, Vec3 finishPoint)
+	public static boolean addNewPoint(Vector3d startPoint, Vector3d finishPoint)
 	{
 		Minecraft mc = RenderHelper.mc();
 		ClientLevel level = mc.level;
 		
-		double distance = finishPoint.distanceTo(startPoint);
+		double distance = finishPoint.distance(startPoint);
 		
 		RandomSource rand = level.getRandom();
 		Supplier<Double> rD = () -> (rand.nextDouble() - 0.5d) * 2;
 		
-		Vec3 s1 = startPoint.multiply(rD.get(), rD.get(), rD.get()).normalize().scale(distance);
-		Vec3 s2 = finishPoint.multiply(rD.get(), rD.get(), rD.get()).normalize().scale(distance);
+		Vector3d s1 = startPoint.mul(rD.get(), rD.get(), rD.get()).normalize().mul(distance);
+		Vector3d s2 = finishPoint.mul(rD.get(), rD.get(), rD.get()).normalize().mul(distance);
 		
-		Vec3 p1 = startPoint.add(s1.scale(1/3d));
-		Vec3 p2 = finishPoint.subtract(s2.scale(1/3d));
+		Vector3d p1 = startPoint.add(s1.mul(1/3d));
+		Vector3d p2 = finishPoint.sub(s2.mul(1/3d));
 
-		Vec3[][] tube = new Vec3[LENGTH_POINT_COUNT][RADIUS_POINT_COUNT];
-		Vec3[][] dir = new Vec3[LENGTH_POINT_COUNT][RADIUS_POINT_COUNT];
+		Vector3d[][] tube = new Vector3d[LENGTH_POINT_COUNT][RADIUS_POINT_COUNT];
+		Vector3d[][] dir = new Vector3d[LENGTH_POINT_COUNT][RADIUS_POINT_COUNT];
 		double[][] way = new double[LENGTH_POINT_COUNT][RADIUS_POINT_COUNT];
-		Vec3[] curve = new Vec3[LENGTH_POINT_COUNT];
+		Vector3d[] curve = getBerzierCurve(startPoint, p1, p2, finishPoint);
 		
 		int angleMod = 360 / RADIUS_POINT_COUNT;
 		
@@ -213,17 +216,17 @@ public class EssenseRender
 		{
 			tube[0][q] = startPoint;
 			tube[LENGTH_POINT_COUNT - 1][q] = finishPoint;
-			dir[0][q] = Vec3.ZERO;
-			dir[LENGTH_POINT_COUNT - 1][q] = Vec3.ZERO;
+			dir[0][q] = new Vector3d();
+			dir[LENGTH_POINT_COUNT - 1][q] = new Vector3d();
 		}
-		curve[0] = startPoint;
-		curve[LENGTH_POINT_COUNT - 1] = finishPoint;
+//		curve[0] = startPoint;
+//		curve[LENGTH_POINT_COUNT - 1] = finishPoint;
 		for(int q = 1; q < LENGTH_POINT_COUNT-1; q++)
 		{
-			float t = q / (float)LENGTH_POINT_COUNT;
-			curve[q] = calculateBezierPoint(t, startPoint, p1, p2, finishPoint);
-			int vec = level.random.nextFloat() <= 0.5d ? -1 : 1;
-			float scale = level.random.nextFloat() + 0.5f;
+//			float t = q / (float)LENGTH_POINT_COUNT;
+//			curve[q] = calculateBezierPoint(t, startPoint, p1, p2, finishPoint);
+			int vec = level.random.nextFloat() <= 0.5d ? - 1 : 1;
+			float mul = level.random.nextFloat() + 0.5f;
 			for (int angle = 0; angle < RADIUS_POINT_COUNT; angle++)
 			{
 				double angR = Math.toRadians(angle * angleMod);
@@ -232,16 +235,19 @@ public class EssenseRender
 					return 0.3d + (Math.sin(level.getRandom().nextDouble() * 360)) * 0.015d + Math.sin(angR) * 0.015d;  
 				};
 				
-				Vec3 curvePoint = new Vec3(r.get() * Math.sin(angR) * Math.cos(Math.toRadians(90)), r.get() * Math.sin(angR) * Math.sin(Math.toRadians(90)), r.get() * Math.cos(angR)).add(curve[q]);
+				Vector3d direction = curve[q + 1].sub(curve[q]);
+				Vector3d angleX = new Vector3d(direction.x()/direction.length(), direction.y()/direction.length(), direction.z()/direction.length());
+				
+				Vector3d curvePoint = new Vector3d(r.get() * Math.sin(angR) * Math.cos(Math.toRadians(90)), r.get() * Math.sin(angR) * Math.sin(Math.toRadians(90)) , r.get() * Math.cos(angR)).add(curve[q]);
 
 				tube[q][angle] = curvePoint;
 				
-				dir[q][angle] = curvePoint.subtract(curve[q]).scale(vec);
+				dir[q][angle] = curvePoint.sub(curve[q]).mul(vec);
 
 				double length = dir[q][angle].length();
-				dir[q][angle] = new Vec3(dir[q][angle].x()/length, dir[q][angle].y() / length, dir[q][angle].z() / length);
+				dir[q][angle] = new Vector3d(dir[q][angle].x()/length, dir[q][angle].y() / length, dir[q][angle].z() / length);
 				
-				tube[q][angle] = tube[q][angle].add(MAX_SHIFT * scale * dir[q][angle].x() * -vec, MAX_SHIFT * scale * dir[q][angle].y() * -vec, MAX_SHIFT * scale * dir[q][angle].z() * -vec);
+				tube[q][angle] = tube[q][angle].add(MAX_SHIFT * mul * dir[q][angle].x() * -vec, MAX_SHIFT * mul * dir[q][angle].y() * -vec, MAX_SHIFT * mul * dir[q][angle].z() * -vec);
 			}
 		}
 
@@ -254,32 +260,121 @@ public class EssenseRender
 		return false;
 	}
 	
-	public static boolean removePoint(Vec3 startPoint, Vec3 finishPoint)
+	public static boolean removePoint(Vector3d startPoint, Vector3d finishPoint)
 	{
 		List<PointsData> list = ESSENCE_MAP.getOrDefault(startPoint, new ArrayList<>());
 		PointsData data = list.stream().filter(d -> d.finishPoint().equals(finishPoint)).findFirst().orElse(new PointsData(null, null, null, null, null, null, null));
 		return list.remove(data);
 	}
 	
-	public static Vec3 calculateBezierPoint(float t, Vec3 start, Vec3 p1, Vec3 p2, Vec3 finish)
+	public static Vector3d[] getBerzierCurve(Vector3d start, Vector3d p1, Vector3d p2, Vector3d finish)
 	{
-	    float oneMinusT = 1 - t;
-	    return start.scale(Math.pow(oneMinusT, 3)).
-	    		add(p1.scale(3f * oneMinusT * oneMinusT * t)).
-	    		add(p2.scale(3f * oneMinusT * t * t)).
-	    		add(finish.scale(t * t * t));
+		Vector3d[] points = new Vector3d[LENGTH_POINT_COUNT];
+		for (int q = 0; q < LENGTH_POINT_COUNT; q++)
+		{
+			float t = q / (float)LENGTH_POINT_COUNT;
+			points[q] = calculateBezierPoint(t, start, p1, p2, finish);
+		}
+		
+		return points;
 	}
 	
-	public static Vec3 getFirstDerivative (float t, Vec3 start, Vec3 p1, Vec3 p2, Vec3 finish)
+	public static Vector3d calculateBezierPoint(float t, Vector3d start, Vector3d p1, Vector3d p2, Vector3d finish)
+	{
+	    float oneMinusT = 1 - t;
+	    Vector3d vec0 = new Vector3d();
+	    Vector3d vec1 = new Vector3d();
+	    Vector3d vec2 = new Vector3d();
+	    Vector3d vec3 = new Vector3d();
+	    
+	    return start.mul(Math.pow(oneMinusT, 3), vec0).
+	    		add(p1.mul(3f * oneMinusT * oneMinusT * t, vec1), vec1).
+	    		add(p2.mul(3f * oneMinusT * t * t, vec2), vec2).
+	    		add(finish.mul(t * t * t, vec3), vec3);
+	}
+	
+	public static Vector3d getFirstDerivative (float t, Vector3d start, Vector3d p1, Vector3d p2, Vector3d finish)
 	{
 		float oneMinusT = 1 - t;
 		
-		return p1.subtract(start).scale(3f * oneMinusT * oneMinusT).
-				add(p2.subtract(p1).scale(6f * oneMinusT * t)).
-				add(finish.subtract(p2).scale(t * t * 3f));
+		return p1.sub(start).mul(3f * oneMinusT * oneMinusT).
+				add(p2.sub(p1).mul(6f * oneMinusT * t)).
+				add(finish.sub(p2).mul(t * t * 3f));
 	}
 	
-	private record PointsData(Vec3 p1, Vec3 p2, Vec3 finishPoint, Vec3[][] tube, Vec3[][] dir, double[][] way, Vec3[] curve)
+	private record PointsData(Vector3d p1, Vector3d p2, Vector3d finishPoint, Vector3d[][] tube, Vector3d[][] dir, double[][] way, Vector3d[] curve)
 	{
 	}
+
+	public static void worldRenderPatricle(final RenderLevelStageEvent evt) 
+	{
+		if (evt.getStage() == Stage.AFTER_PARTICLES)
+		{
+			Minecraft mc = RenderHelper.mc();
+			ClientLevel level = mc.level;
+			if (level.getGameTime() % 5 == 0)
+			{
+				for (Map.Entry<Vector3d, List<RenderData>> entry : MAP.entrySet())
+				{
+					for (RenderData data : entry.getValue())
+					{
+						int step = data.currentStep().get();
+						
+						level.addParticle(NRegistration.RegisterParticleTypes.ESSENCE.get(), 
+								data.curve()[step].x(), data.curve()[step].y(), data.curve()[step].z(), 102/255f, 0/255f, 204/255f);
+						
+						if (++step > LENGTH_POINT_COUNT - 1)
+							step = 0;
+						
+						data.currentStep().set(step);
+					}
+				}
+			}
+		}
+	}
+	
+	public static boolean addNewPointPatricle(Vector3d startPoint, Vector3d finishPoint)
+	{
+		Minecraft mc = RenderHelper.mc();
+		ClientLevel level = mc.level;
+		
+		double distance = finishPoint.distance(startPoint);
+		
+		RandomSource rand = level.getRandom();
+		Supplier<Double> rD = () -> (rand.nextDouble() - 0.5d) * 2;
+		
+		
+		Vector3d s1 = new Vector3d();
+		Vector3d s2 = new Vector3d();
+		Vector3d p1 = new Vector3d();
+		Vector3d p2 = new Vector3d();
+		
+		startPoint.mul(rD.get(), rD.get(), rD.get(), s1).normalize().mul(distance);
+		
+		finishPoint.mul(rD.get(), rD.get(), rD.get(), s2).normalize().mul(distance);
+		
+		startPoint.add(s1.mul(1/3d), p1);
+		finishPoint.sub(s2.mul(1/3d), p2);
+
+		Vector3d[] curve = getBerzierCurve(startPoint, p1, p2, finishPoint);
+
+		RenderData data = new RenderData(p1, p2, finishPoint, curve, GetterAndSetter.standalone(0));
+		
+		
+		MAP.putIfAbsent(startPoint, new ArrayList<>());
+		List<RenderData> list = MAP.getOrDefault(startPoint, new ArrayList<>());
+		if (!list.contains(data))
+			return list.add(data);
+		return false;
+		}
+	
+	public static boolean removePointParticle(Vector3d startPoint, Vector3d finishPoint)
+	{
+		List<RenderData> list = MAP.getOrDefault(startPoint, new ArrayList<>());
+		RenderData data = list.stream().filter(d -> d.finishPoint().equals(finishPoint)).findFirst().orElse(new RenderData(null, null, null, null, GetterAndSetter.standalone(0)));
+		return list.remove(data);
+	}
+	
+	private record RenderData(Vector3d p1, Vector3d p2, Vector3d finishPoint, Vector3d[] curve, GetterAndSetter<Integer> currentStep)
+	{}
 }

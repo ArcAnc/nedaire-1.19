@@ -40,15 +40,9 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldBase().texture(), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldNoPattern().texture(), Optional.empty()));
 		
-/*		//BACKGROUND
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr(NDatabase.GUI.Background.Textures.MIDDLE), Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr(NDatabase.GUI.Background.Textures.LEFT_TOP), Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr(NDatabase.GUI.Background.Textures.LEFT_BOTTOM), Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr(NDatabase.GUI.Background.Textures.RIGHT_TOP), Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr(NDatabase.GUI.Background.Textures.RIGHT_BOTTOM), Optional.empty()));
-*/		
 		//SLOTS
-		//	atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(NDatabase.GUI.Slots.PATH.substring(0, NDatabase.GUI.Slots.PATH.length()-1), ""));
+		//		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH.substring(0, NDatabase.GUI.Slots.PATH.length()-1)),
+		//																			   StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH)));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_STANDART, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_INPUT, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_OUPUT, Optional.empty()));
@@ -58,6 +52,7 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 		
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/vortex"), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/essence"), Optional.empty()));
+//		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr("misc"), StringHelper.getStrLocFStr("misc/")));
 
 	}
 

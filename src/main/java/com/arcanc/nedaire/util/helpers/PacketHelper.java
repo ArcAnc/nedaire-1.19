@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import org.joml.Vector3d;
+
 import net.minecraft.network.FriendlyByteBuf;
 
 public class PacketHelper 
@@ -36,5 +38,12 @@ public class PacketHelper
 		buf.writeVarInt(toWrite.size());
 		for (T element : toWrite)
 			writeElement.accept(element, buf);
+	}
+	
+	public static void writeVector3d (FriendlyByteBuf buf, Vector3d vec)
+	{
+		buf.writeDouble(vec.x());
+		buf.writeDouble(vec.y());
+		buf.writeDouble(vec.z());
 	}
 }

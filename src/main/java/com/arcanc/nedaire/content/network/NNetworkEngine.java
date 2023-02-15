@@ -16,11 +16,13 @@ import java.util.function.Function;
 import com.arcanc.nedaire.content.network.messages.IMessage;
 import com.arcanc.nedaire.content.network.messages.MessageContainerData;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
+import com.arcanc.nedaire.content.network.messages.MessageEssenceParticle;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class NNetworkEngine 
@@ -42,6 +44,12 @@ public class NNetworkEngine
 	{
 		registerMessage(MessageContainerData.class, MessageContainerData :: new, NetworkDirection.PLAY_TO_CLIENT);
 		registerMessage(MessageContainerUpdate.class, MessageContainerUpdate :: new, NetworkDirection.PLAY_TO_SERVER);
+		registerMessage(MessageEssenceParticle.class, MessageEssenceParticle :: new, NetworkDirection.PLAY_TO_CLIENT);
+	}
+	
+	public static void sendToAllPlayers(IMessage message)
+	{
+		packetHandler.send(PacketDistributor.ALL.noArg(), message);
 	}
 	
 	private static <T extends IMessage> void registerMessage(Class<T> packetType, Function<FriendlyByteBuf, T> decoder)

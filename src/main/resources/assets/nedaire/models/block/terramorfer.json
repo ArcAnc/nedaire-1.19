@@ -561,6 +561,7 @@
   "render_type": "minecraft:cutout",
   "textures": {
     "glass": "nedaire:block/terramorfer/terramorfer_glass",
+    "particle": "nedaire:block/terramorfer/terramorfer_pedestal",
     "pedestal": "nedaire:block/terramorfer/terramorfer_pedestal",
     "stone": "nedaire:block/terramorfer/terramorfer_stone"
   }

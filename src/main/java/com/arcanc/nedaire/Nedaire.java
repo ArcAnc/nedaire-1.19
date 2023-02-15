@@ -20,6 +20,7 @@ import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.screen.NGeneratorSolarScreen;
 import com.arcanc.nedaire.content.container.screen.NHooverScreen;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
@@ -29,12 +30,13 @@ import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
 import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
-import com.arcanc.nedaire.content.renderer.EssenseRender;
+import com.arcanc.nedaire.content.renderer.EssenceRender;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.TerramorferRenderer;
 import com.arcanc.nedaire.content.renderer.entity.DeliveryDroneRenderer;
+import com.arcanc.nedaire.content.renderer.particle.EssenceParticle;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
 import com.arcanc.nedaire.data.NBlockStatesProvider;
@@ -60,6 +62,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -106,12 +109,14 @@ public class Nedaire
 	    
 	    NRegistration.RegisterVillage.POI_TYPES.register(modEventBus);
 	    NRegistration.RegisterVillage.VILLAGER_PROFESSIONS.register(modEventBus);
+	    NRegistration.RegisterParticleTypes.PARTICLE_TYPES.register(modEventBus);
 	    
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
 //	    modEventBus.addListener(this :: registerItemColors);
 	    modEventBus.addListener(ModShieldBase :: registerReloadListener);
 	    modEventBus.addListener(this :: registerCapability);
+	    modEventBus.addListener(this :: registerParticles);
 	    
 	    registerBECustomModels(modEventBus);
 	    registerEntityCustomModels(modEventBus);
@@ -126,11 +131,11 @@ public class Nedaire
 	    MinecraftForge.EVENT_BUS.addListener(NContainerMenu :: onContainerOpen);
 	    MinecraftForge.EVENT_BUS.addListener(NVillage :: addCustomTrades);
 	    MinecraftForge.EVENT_BUS.addListener(NVillageAddition :: addNewVillageBuilding);
-	    MinecraftForge.EVENT_BUS.addListener(EssenseRender :: worldRender);
+//	    MinecraftForge.EVENT_BUS.addListener(EssenceRender :: worldRender);
+	    MinecraftForge.EVENT_BUS.addListener(EssenceRender :: worldRenderPatricle);
 	    
 	    modEventBus.addListener(this :: registerCreativeTabs);
 	}
-	
 	
 	private void serverSetup(final FMLCommonSetupEvent event)
     {
@@ -172,6 +177,7 @@ public class Nedaire
 	private void registerMenuScreens() 
 	{
 		MenuScreens.register(NRegistration.RegisterMenuTypes.HOOVER.getType(), NHooverScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_SOLAR.getType(), NGeneratorSolarScreen :: new);
 	}
 
 
@@ -189,6 +195,11 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_TERRAMORFER.get(), TerramorferRenderer :: new);
 	}
 	
+	private void registerParticles(final RegisterParticleProvidersEvent event)
+	{
+		event.register(NRegistration.RegisterParticleTypes.ESSENCE.get(), EssenceParticle.Provider :: new);
+	}
+	
 	private void registerBECustomModels(IEventBus bus)
 	{
 	    //ManualCrusher
@@ -201,7 +212,7 @@ public class Nedaire
 		//DeliveryDrone
 		bus.addListener(DeliveryDroneRenderer :: registerModelLocation);
 	}
-	
+
 	private void registerEntityAttributes(IEventBus bus)
 	{
 		//Delivery Drone

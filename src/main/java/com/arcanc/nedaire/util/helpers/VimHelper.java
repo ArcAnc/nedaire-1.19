@@ -87,6 +87,11 @@ public class VimHelper
 			return handler.getMaxEnergyStored() - handler.getEnergyStored() > 0;
 		}).orElse(false);
 	}
+	
+	public static boolean hasEmptySpace (IVim in)
+	{
+		return in.getMaxEnergyStored() - in.getEnergyStored() > 0;
+	}
 
 	public static int getEmptySpace (LazyOptional<IVim> in)
 	{
@@ -96,6 +101,15 @@ public class VimHelper
 			{
 				return handler.getMaxEnergyStored() - handler.getEnergyStored();
 			}).orElse(0);
+		}
+		return 0;
+	}
+	
+	public static int getEmptySpace (IVim in)
+	{
+		if (hasEmptySpace(in))
+		{
+			return in.getMaxEnergyStored() - in.getEnergyStored();
 		}
 		return 0;
 	}

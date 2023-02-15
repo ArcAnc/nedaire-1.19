@@ -59,6 +59,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerDeliveryStation(NRegistration.RegisterBlocks.DELIVERY_STATION.get());
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
+		registerSolarGenerator(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -1394,6 +1395,41 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 		registerModels(block, model);
 	}
+	
+	private void registerSolarGenerator(Block block) 
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR +"/side"));
+		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/top"));
+		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/bot"));
+
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("solid").
+				texture("side", texSide).
+				texture("top", texTop).
+				texture("bot", texBot).
+				texture("particle", texTop).
+				element().
+					from(0, 0, 0).
+					to(16, 4, 16).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(0, 0, 16, 4).texture("#side").cullface(face);
+						else
+						{
+							builder.uvs(0, 0, 16, 16);
+							if(face == Direction.DOWN)
+								builder.texture("#bot").cullface(face);
+							else
+								builder.texture("#top");
+						}
+					}).
+				end();
+		
+		registerModels(block, model);
+	}
+
+
 	
 	private void registerModels(Block block, ModelFile model)
 	{

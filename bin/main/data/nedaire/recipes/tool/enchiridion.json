@@ -3,7 +3,10 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "nedaire:dust/corium"
+      "item": "nedaire:nugget/skystone"
+    },
+    {
+      "item": "minecraft:book"
     }
   ],
   "result": {

@@ -34,7 +34,7 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "nedaire:mist/essence"
+      "resource": "nedaire:misc/essence"
     }
   ]
 }

@@ -27,6 +27,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
+import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
@@ -34,6 +35,7 @@ import com.arcanc.nedaire.content.block.NBlockPedestal;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
@@ -41,6 +43,7 @@ import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
@@ -66,6 +69,8 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -98,6 +103,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -138,6 +144,11 @@ public class NRegistration
 						NDatabase.Items.Names.TOOL), 
 				() -> baseProps.get().durability(220), 
 				ModBaseItem :: new);
+		
+		public static final ItemRegObject<Item> DRONE_SPAWN_EGG = new ItemRegObject<>(
+				"drone_spawn_egg", 
+				() -> baseProps.get(), 
+				(p) -> new ForgeSpawnEggItem(RegisterEntities.DELIVERY_DRONE, 0x22b341, 0x19732e, p));
 		
 		public static void init()
 		{
@@ -244,6 +255,13 @@ public class NRegistration
 				baseMachineProps,
 				NBlockTerramorfer :: new,
 				NRegistration.RegisterItems.baseProps, 
+				(b, p) -> new ModBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockGeneratorSolar, ModBaseBlockItem> GENERATOR_SOLAR = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR,
+				baseMachineProps,
+				NBlockGeneratorSolar :: new,
+				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new ModBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
@@ -391,6 +409,10 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER, 
 				makeType(NBETerramorfer :: new,
 						RegisterBlocks.TERRAMORFER));
+		
+		public static final RegistryObject<BlockEntityType<NBEGeneratorSolar>> BE_GENERATOR_SOLAR = BLOCK_ENTITIES.register(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, 
+				makeType(NBEGeneratorSolar :: new, 
+						RegisterBlocks.GENERATOR_SOLAR));
 		
 		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
@@ -555,6 +577,9 @@ public class NRegistration
 		public static final BEContainer<NBEHoover, NHooverMenu> HOOVER = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.HOOVER, NHooverMenu :: makeServer, NHooverMenu :: makeClient);
 		
+		public static final BEContainer<NBEGeneratorSolar, NGeneratorSolarMenu> GENERATOR_SOLAR = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, NGeneratorSolarMenu :: makeServer, NGeneratorSolarMenu :: makeClient);
+		
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)
 		{
@@ -672,6 +697,13 @@ public class NRegistration
 			C construct(MenuType<?> type, int windowId, Inventory inventoryPlayer);
 		}
 
+	}
+	
+	public static class RegisterParticleTypes
+	{
+		public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, NDatabase.MOD_ID);
+		
+		public static final RegistryObject<SimpleParticleType> ESSENCE = PARTICLE_TYPES.register("essence", () -> new SimpleParticleType(false));
 	}
 	
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)

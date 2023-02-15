@@ -16,14 +16,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 
 public class DeliveryDroneEntity extends PathfinderMob 
@@ -32,10 +38,14 @@ public class DeliveryDroneEntity extends PathfinderMob
 	private static final EntityDataAccessor<Optional<BlockPos>> BASE_POS = SynchedEntityData.defineId(DeliveryDroneEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 	private static final EntityDataAccessor<Optional<BlockPos>> TARGET_POS = SynchedEntityData.defineId(DeliveryDroneEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 
+	public AnimationState flightIdle = new AnimationState();
+	public AnimationState startFlight = new AnimationState();
+	public AnimationState stopFlight = new AnimationState();
+	
 	public DeliveryDroneEntity(EntityType<? extends DeliveryDroneEntity> type, Level level) 
 	{
 		super(type, level);
-		this.moveControl = new FlyingMoveControl(this, 20, true);
+		this.moveControl = new FlyingMoveControl(this, 0, true);
 	}
 	
 	public DeliveryDroneEntity(Level level, float x, float y, float z)
@@ -46,7 +56,8 @@ public class DeliveryDroneEntity extends PathfinderMob
 	@Override
 	protected void registerGoals() 
 	{
-	      this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		this.goalSelector.addGoal(0, new MoveTowardsRestrictionGoal(this, 1.0D));
+		//	      this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, Player.class, 6.0F));
 	}
 
 	public static void createAttributes(EntityAttributeCreationEvent event) 
@@ -59,6 +70,34 @@ public class DeliveryDroneEntity extends PathfinderMob
 		build());
 		
 	}
-
 	
+	@Override
+	protected SoundEvent getDeathSound() 
+	{
+		return super.getDeathSound();
+	}
+	
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) 
+	{
+		return super.getHurtSound(source);
+	}
+	
+	@Override
+	protected SoundEvent getAmbientSound() 
+	{
+		return super.getAmbientSound();
+	}
+	
+	@Override
+	public boolean causeFallDamage(float p_147187_, float p_147188_, DamageSource p_147189_) 
+	{
+		return false;
+	}
+	
+	public static enum State 
+	{
+		FLYING,
+	    STANDING
+	}
 }

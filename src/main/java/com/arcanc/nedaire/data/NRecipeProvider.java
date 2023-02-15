@@ -151,9 +151,22 @@ public class NRecipeProvider extends RecipeProvider
 		//BOOK
 		//==========================
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, NRegistration.RegisterItems.BOOK.get()).
-		requires(Ingredient.of(mat.getDust().get())).
-		unlockedBy("has_" + NDatabase.Items.Names.DUST + "_" + mat.getName(), has(mat.getDust().get())).
+		requires(Ingredient.of(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		requires(Ingredient.of(net.minecraft.world.item.Items.BOOK)).
+		unlockedBy("has_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
 		save(out, NRegistration.RegisterItems.BOOK.getId());
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.TERRAMORFER.get()).
+		define('A', Ingredient.of(Tags.Items.GLASS_PANES)).
+		define('B', Ingredient.of(Tags.Items.STONE)).
+		define('C', Ingredient.of(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		pattern(" A ").
+		pattern("ACA").
+		pattern("BBB").
+		unlockedBy("has_" + Tags.Items.GLASS_PANES.location().getPath(), has(Tags.Items.GLASS_PANES)).
+		unlockedBy("has_" + Tags.Items.STONE.location().getPath(), has(Tags.Items.STONE)).
+		unlockedBy("has_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		save(out, NRegistration.RegisterBlocks.TERRAMORFER.getId());
 		
 		crusherRecipes(out);
 	}
