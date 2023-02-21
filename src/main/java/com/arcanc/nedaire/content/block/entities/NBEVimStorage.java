@@ -11,10 +11,12 @@ package com.arcanc.nedaire.content.block.entities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
@@ -22,11 +24,12 @@ import com.arcanc.nedaire.util.helpers.VimHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallback
+public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallback, IInteractionObjectN<NBEVimStorage>
 {
 
 	protected VimStorage energy;
@@ -65,7 +68,7 @@ public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallbac
 		if (cap == VimHelper.vimHandler)
 		{
 			Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.FACING); 
-			if ((dir.getAxis().isHorizontal() && dir.getAxis() != side.getAxis()) || side == null)
+			if ((side != null && dir.getAxis().isHorizontal() && dir.getAxis() != side.getAxis()) || side == null)
 			{
 				return energyHandler.cast();
 			}
@@ -77,5 +80,23 @@ public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallbac
 	public void onVimChange() 
 	{
 		setChanged();
+	}
+
+	@Override
+	public NBEVimStorage getBE() 
+	{
+		return this;
+	}
+
+	@Override
+	public BEContainer<NBEVimStorage, ?> getContainerType() 
+	{
+		return NRegistration.RegisterMenuTypes.VIM_STORAGE;
+	}
+
+	@Override
+	public boolean canUseGui(Player player) 
+	{
+		return true;
 	}
 }

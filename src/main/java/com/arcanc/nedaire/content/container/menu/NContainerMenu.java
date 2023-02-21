@@ -85,7 +85,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		{
 			for (int q = 0; q < fil.getContent().getSlots(); q++)
 			{
-				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+				this.addSlot(new NSlot.FluidHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
 			}
 		});
 	}
@@ -239,11 +239,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 	
 	public void receiveMessageFromScreen(CompoundTag tag)
 	{
+		ServerPlayer player = usingPlayers.get(0);
+		ServerLevel level = player.getLevel();
+		BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockHelper.castTileEntity(level, pos, NBERedstoneSensitive.class).ifPresent(tile -> 
 			{
 				tile.setCurrentRedstoneMod(tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD));
@@ -253,11 +253,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			FilterHelper.getItemFilter(tile).ifPresent(filter -> 
+			
+			String type = tag.getString("type"); 
+			
+			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
 			{
 				filter.setExtracion(tag.getInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK));
 				tile.setChanged();
@@ -266,11 +266,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			FilterHelper.getItemFilter(tile).ifPresent(filter -> 
+			
+			String type = tag.getString("type"); 
+
+			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
 			{
 				filter.setMaxInInventory(tag.getInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN));
 				tile.setChanged();
@@ -279,11 +279,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.WHITELIST))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			FilterHelper.getItemFilter(tile).ifPresent(filter -> 
+			
+			String type = tag.getString("type"); 
+
+			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
 			{
 				filter.setWhitelist(tag.getBoolean(NDatabase.Capabilities.Filter.WHITELIST));
 				tile.setChanged();
@@ -292,11 +292,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MOD_OWNER))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			FilterHelper.getItemFilter(tile).ifPresent(filter ->
+
+			String type = tag.getString("type"); 
+
+			FilterHelper.getFilterFromString(tile, type).ifPresent(filter ->
 			{
 				filter.setModOwner(tag.getBoolean(NDatabase.Capabilities.Filter.MOD_OWNER));
 				tile.setChanged();
@@ -306,11 +306,11 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.CHECK_TAG))
 		{
-			ServerPlayer player = usingPlayers.get(0);
-			ServerLevel level = player.getLevel();
-			BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			FilterHelper.getItemFilter(tile).ifPresent( filter -> 
+
+			String type = tag.getString("type"); 
+			
+			FilterHelper.getFilterFromString(tile, type).ifPresent( filter -> 
 			{
 				filter.setCheckTag(tag.getBoolean(NDatabase.Capabilities.Filter.CHECK_TAG));
 				tile.setChanged();

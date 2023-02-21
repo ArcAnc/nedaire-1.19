@@ -8,6 +8,8 @@
  */
 package com.arcanc.nedaire.util.helpers;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -15,16 +17,17 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class FluidHelper 
@@ -38,6 +41,14 @@ public class FluidHelper
 			return null;
 		return new FluidStack(stack, amount);
 	}
+	
+    public static boolean canFluidStacksStack(@NotNull FluidStack a, @NotNull FluidStack b)
+    {
+        if (a.isEmpty() || !a.isFluidEqual(b) || a.hasTag() != b.hasTag())
+            return false;
+
+        return (!a.hasTag() || a.getTag().equals(b.getTag()));
+    }
 	
 	public static boolean hasEmptySpace(BlockEntity tile) 
 	{
@@ -108,6 +119,16 @@ public class FluidHelper
 		return LazyOptional.empty();
 	}
 	
+	public static boolean hasEmptySpace(ItemStack stack)
+	{
+		LazyOptional<IFluidHandler> handler = getFluidHandler(stack);
+		if (handler.isPresent())
+		{
+			return hasEmptySpace(handler);
+		}
+		return false;
+	}
+	
 	public static boolean hasEmptySpace(BlockEntity tile, Direction dir) 
 	{
 		LazyOptional<IFluidHandler> handler = getFluidHandler(tile, dir);
@@ -133,32 +154,70 @@ public class FluidHelper
 			return false;
 		}).orElse(false);
 	}
+	
+	public static boolean hasEmptySpace(IItemHandler in)
+	{
+		for (int q = 0; q < in.getSlots(); q++)
+		{
+			ItemStack stack = in.getStackInSlot(q);
+			if (hasEmptySpace(stack))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public static int getEmptySpace(IFluidHandler handler)
+	{
+		int space = 0;
+		for (int q = 0; q < handler.getTanks(); q++)
+		{
+			FluidStack stack = handler.getFluidInTank(q);
+			if (stack.isEmpty())
+			{
+				space += handler.getTankCapacity(q);
+			}
+			else if (stack.getAmount() < handler.getTankCapacity(q))
+			{
+				space += handler.getTankCapacity(q) - stack.getAmount();
+			}
+		}
+		return space;
+	}
+	
 	public static int getEmptySpace(LazyOptional<IFluidHandler> in) 
 	{
 		if (hasEmptySpace(in))
 		{
 			return in.map(handler -> 
 			{
-				int space = 0;
-				for (int q = 0; q < handler.getTanks(); q++)
-				{
-					FluidStack stack = handler.getFluidInTank(q);
-					if (stack.isEmpty())
-					{
-						space += handler.getTankCapacity(q);
-					}
-					else if (stack.getAmount() < handler.getTankCapacity(q))
-					{
-						space += handler.getTankCapacity(q) - stack.getAmount();
-					}
-				}
-				return space;
+				return getEmptySpace(handler);
 			}).orElse(0);
 		}
 		return 0;
 	}
 
+	public static int getEmptySpace(ItemStack in)
+	{
+		return getEmptySpace(getFluidHandler(in));
+	}
+	
+	public static int getEmptySpace(IItemHandler in) 
+	{
+		if (hasEmptySpace(in))
+		{
+			int space = 0;
+			for (int q = 0; q < in.getSlots(); q++)
+			{
+				ItemStack stack = in.getStackInSlot(q);
+				space += getEmptySpace(stack);
+			}
+			return space;
+		}
+		return 0;
+	}
+	
 	public static boolean isEmpty(BlockEntity tile) 
 	{
 		LazyOptional<IFluidHandler> hand = getFluidHandler(tile);
@@ -192,9 +251,25 @@ public class FluidHelper
 		return true;
 	}
 	
-	public static ResourceLocation getRegistryName (Item item) 
+	public static boolean contains(LazyOptional<IFluidHandler> in, FluidStack stack)
 	{
-		return ForgeRegistries.ITEMS.getKey(item);
+		return in.map(handler -> 
+		{
+			for (int q = 0 ; q < handler.getTanks(); q++)
+			{
+				FluidStack fluid = handler.getFluidInTank(q);
+				if (fluid.isFluidEqual(stack))
+				{
+					return true;
+				}
+			}
+			return false;
+		}).orElse(false);
+	}
+	
+	public static ResourceLocation getRegistryName (Fluid item) 
+	{
+		return ForgeRegistries.FLUIDS.getKey(item);
 	}
 
 	

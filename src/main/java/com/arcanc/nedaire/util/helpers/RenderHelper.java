@@ -8,19 +8,31 @@
  */
 package com.arcanc.nedaire.util.helpers;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions.FontContext;
 
 public class RenderHelper 
 {
-	public static Minecraft mc()
+    private static final RenderType TRANSLUCENT = RenderType.entityTranslucentCull(InventoryMenu.BLOCK_ATLAS);
+
+    public static Minecraft mc()
 	{
 		return Minecraft.getInstance();
 	}
@@ -63,206 +75,160 @@ public class RenderHelper
 		}
 	}
 	
-	
-/*	private static Font tooltipFont = null;
-	private static ItemStack tooltipStack = ItemStack.EMPTY;
-	
-	public static void renderTooltip(PoseStack p_96566_, ItemStack p_96567_, int p_96568_, int p_96569_) 
-	{
-		tooltipStack = p_96567_;
-		renderTooltip(p_96566_, getTooltipFromItem(p_96567_), p_96567_.getTooltipImage(), p_96568_, p_96569_);
-		tooltipStack = ItemStack.EMPTY;
-	}
 
-	public static void renderTooltip(PoseStack poseStack, List<Component> textComponents, Optional<TooltipComponent> tooltipComponent, int x, int y, ItemStack stack) 
-	{
-		renderTooltip(poseStack, textComponents, tooltipComponent, x, y, null, stack);
-	}
-	
-	public static void renderTooltip(PoseStack poseStack, List<Component> textComponents, Optional<TooltipComponent> tooltipComponent, int x, int y, @Nullable Font font) 
-	{
-		renderTooltip(poseStack, textComponents, tooltipComponent, x, y, font, ItemStack.EMPTY);
-	}
-	
-	public static void renderTooltip(PoseStack poseStack, List<Component> textComponents, Optional<TooltipComponent> tooltipComponent, int x, int y, @Nullable Font font, ItemStack stack) 
-	{
-		tooltipFont = font;
-		tooltipStack = stack;
-		renderTooltip(poseStack, textComponents, tooltipComponent, x, y);
-		tooltipFont = null;
-		tooltipStack = ItemStack.EMPTY;
-	}
-	
-	public static void renderTooltip(PoseStack p_169389_, List<Component> p_169390_, Optional<TooltipComponent> p_169391_, int p_169392_, int p_169393_) 
-	{
-		Minecraft mc = mc();
-		Screen screen = mc.screen;
-		if (screen == null)
-			return;
-		List<ClientTooltipComponent> list = net.minecraftforge.client.ForgeHooksClient.gatherTooltipComponents(tooltipStack, p_169390_, p_169391_, p_169392_, screen.width, screen.height, tooltipFont, mc.font);
-		renderTooltipInternal(p_169389_, list, p_169392_, p_169393_);
-	}
+    public static void renderFakeItemTransparent(ItemStack stack, int x, int y, float alpha)
+    {
+        renderFakeItemColored(stack, x, y, 1F, 1F, 1F, alpha);
+    }
 
-	public static List<Component> getTooltipFromItem(ItemStack p_96556_) 
-	{
-		Minecraft mc = mc();
-		return p_96556_.getTooltipLines(mc.player, mc.options.advancedItemTooltips ? TooltipFlag.Default.ADVANCED : TooltipFlag.Default.NORMAL);
-	}
+	public static void renderFakeItemColored(ItemStack stack, int x, int y, float red, float green, float blue, float alpha)
+    {
+        if (stack.isEmpty()) 
+        	return; 
 
-	public static void renderTooltip(PoseStack p_96603_, Component p_96604_, int p_96605_, int p_96606_) 
-	{
-		renderTooltip(p_96603_, Arrays.asList(p_96604_.getVisualOrderText()), p_96605_, p_96606_);
-	}
+        Minecraft mc = mc();
+		BakedModel model = renderItem().getModel(stack, null, mc.player, 0);
+        renderItem().blitOffset += 50;
+        renderItemModel(stack, x, y, red, green, blue, alpha, model);
+        renderItem().blitOffset -= 50;
+    }
 
-	public static void renderComponentTooltip(PoseStack p_96598_, List<Component> p_96599_, int p_96600_, int p_96601_) 
-	{
-		Minecraft mc = mc();
-		Screen screen = mc.screen;
-		if (screen == null)
-			return;
-		List<ClientTooltipComponent> components = net.minecraftforge.client.ForgeHooksClient.gatherTooltipComponents(tooltipStack, p_96599_, p_96600_, screen.width, screen.height, tooltipFont, mc.font);
-		renderTooltipInternal(p_96598_, components, p_96600_, p_96601_);
-	}
-	
-	public static void renderComponentTooltip(PoseStack poseStack, List<? extends net.minecraft.network.chat.FormattedText> tooltips, int mouseX, int mouseY, ItemStack stack) 
-	{
-		renderComponentTooltip(poseStack, tooltips, mouseX, mouseY, null, stack);
-	}
-	
-	public static void renderComponentTooltip(PoseStack poseStack, List<? extends net.minecraft.network.chat.FormattedText> tooltips, int mouseX, int mouseY, @Nullable Font font) 
-	{
-		renderComponentTooltip(poseStack, tooltips, mouseX, mouseY, font, ItemStack.EMPTY);
-	}
+    /**
+     * {@link ItemRenderer::renderGuiItem} but with color
+     */
+    public static void renderItemModel(ItemStack stack, int x, int y, float red, float green, float blue, float alpha, BakedModel model)
+    {
+        mc().getTextureManager().getTexture(InventoryMenu.BLOCK_ATLAS).setFilter(false, false);
 
-	public static void renderComponentTooltip(PoseStack poseStack, List<? extends net.minecraft.network.chat.FormattedText> tooltips, int mouseX, int mouseY, @Nullable Font font, ItemStack stack) 
-	{
-		Minecraft mc = mc();
-		Screen screen = mc.screen;
-		if (screen == null)
-			return;
-		tooltipFont = font;
-		tooltipStack = stack;
-		List<ClientTooltipComponent> components = net.minecraftforge.client.ForgeHooksClient.gatherTooltipComponents(stack, tooltips, mouseX, screen.width, screen.height, tooltipFont, mc.font);
-		renderTooltipInternal(poseStack, components, mouseX, mouseY);
-		tooltipFont = null;
-		tooltipStack = ItemStack.EMPTY;
-	}
+        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 
-	public static void renderTooltip(PoseStack p_96618_, List<? extends FormattedCharSequence> p_96619_, int p_96620_, int p_96621_) 
-	{
-		renderTooltipInternal(p_96618_, p_96619_.stream().map(ClientTooltipComponent::create).collect(Collectors.toList()), p_96620_, p_96621_);
-	}
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-	public static void renderTooltip(PoseStack poseStack, List<? extends FormattedCharSequence> lines, int x, int y, Font font) 
-	{
-		tooltipFont = font;
-		renderTooltip(poseStack, lines, x, y);
-		tooltipFont = null;
-	}
+        PoseStack modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushPose();
+        modelViewStack.translate(x, y, 100.0F + renderItem().blitOffset);
+        modelViewStack.translate(8.0D, 8.0D, 0.0D);
+        modelViewStack.scale(1.0F, -1.0F, 1.0F);
+        modelViewStack.scale(16.0F, 16.0F, 16.0F);
+        RenderSystem.applyModelViewMatrix();
 
-	private static void renderTooltipInternal(PoseStack p_169384_, List<ClientTooltipComponent> p_169385_, int p_169386_, int p_169387_) 
-	{
-		Minecraft mc = mc();
-		Screen screen = mc.screen;
-		if (screen == null)
-			return;
-		if (!p_169385_.isEmpty()) 
-		{
-			net.minecraftforge.client.event.RenderTooltipEvent.Pre preEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipPre(tooltipStack, p_169384_, p_169386_, p_169387_, screen.width, screen.height, p_169385_, tooltipFont, mc.font);
-		    if (preEvent.isCanceled()) 
-		    	return;
-		    int i = 0;
-		    int j = p_169385_.size() == 1 ? -2 : 0;
+        boolean flatLight = !model.usesBlockLight();
+        if (flatLight)
+        {
+            Lighting.setupForFlatItems();
+        }
 
-		    for(ClientTooltipComponent clienttooltipcomponent : p_169385_) 
-		    {
-		    	int k = clienttooltipcomponent.getWidth(preEvent.getFont());
-		        if (k > i) 
-		        {
-		        	i = k;
-		        }
+        MultiBufferSource.BufferSource buffer = mc().renderBuffers().bufferSource();
+        renderItem().render(
+                stack,
+                ItemTransforms.TransformType.GUI,
+                false,
+                new PoseStack(),
+                wrapBuffer(buffer, red, green, blue, alpha, alpha < 1F),
+                LightTexture.FULL_BRIGHT,
+                OverlayTexture.NO_OVERLAY,
+                model
+        );
+        buffer.endBatch();
 
-		        j += clienttooltipcomponent.getHeight();
-		    }
+        RenderSystem.enableDepthTest();
 
-		    int j2 = preEvent.getX() + 12;
-		    int k2 = preEvent.getY() - 12;
-		    if (j2 + i > screen.width) 
-		    {
-		    	j2 -= 28 + i;
-		    }
+        if (flatLight)
+        {
+            Lighting.setupFor3DItems();
+        }
 
-		    if (k2 + j + 6 > screen.height) 
-		    {
-		    	k2 = screen.height - j - 6;
-		    }
+        modelViewStack.popPose();
+        RenderSystem.applyModelViewMatrix();
+    }
 
-		    p_169384_.pushPose();
-		    ItemRenderer itemRenderer = renderItem();
-		    float f = itemRenderer.blitOffset;
-		    itemRenderer.blitOffset = 400.0F;
-		    Tesselator tesselator = Tesselator.getInstance();
-		    BufferBuilder bufferbuilder = tesselator.getBuilder();
-		    RenderSystem.setShader(GameRenderer::getPositionColorShader);
-		    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-		    Matrix4f matrix4f = p_169384_.last().pose();
-		    net.minecraftforge.client.event.RenderTooltipEvent.Color colorEvent = net.minecraftforge.client.ForgeHooksClient.onRenderTooltipColor(tooltipStack, p_169384_, j2, k2, preEvent.getFont(), p_169385_);
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 4, j2 + i + 3, k2 - 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundStart());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 + j + 3, j2 + i + 3, k2 + j + 4, 400, colorEvent.getBackgroundEnd(), colorEvent.getBackgroundEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 3, j2 + i + 3, k2 + j + 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 4, k2 - 3, j2 - 3, k2 + j + 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 + i + 3, k2 - 3, j2 + i + 4, k2 + j + 3, 400, colorEvent.getBackgroundStart(), colorEvent.getBackgroundEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 3 + 1, j2 - 3 + 1, k2 + j + 3 - 1, 400, colorEvent.getBorderStart(), colorEvent.getBorderEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 + i + 2, k2 - 3 + 1, j2 + i + 3, k2 + j + 3 - 1, 400, colorEvent.getBorderStart(), colorEvent.getBorderEnd());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 - 3, j2 + i + 3, k2 - 3 + 1, 400, colorEvent.getBorderStart(), colorEvent.getBorderStart());
-		    fillGradient(matrix4f, bufferbuilder, j2 - 3, k2 + j + 2, j2 + i + 3, k2 + j + 3, 400, colorEvent.getBorderEnd(), colorEvent.getBorderEnd());
-		    RenderSystem.enableDepthTest();
-		    RenderSystem.disableTexture();
-		    RenderSystem.enableBlend();
-		    RenderSystem.defaultBlendFunc();
-		    BufferUploader.drawWithShader(bufferbuilder.end());
-		    RenderSystem.disableBlend();
-		    RenderSystem.enableTexture();
-		    MultiBufferSource.BufferSource multibuffersource$buffersource = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-		    p_169384_.translate(0.0D, 0.0D, 400.0D);
-		    int l1 = k2;
+    private static MultiBufferSource wrapBuffer(MultiBufferSource buffer, float red, float green, float blue, float alpha, boolean forceTranslucent)
+    {
+        return renderType -> new TintedVertexConsumer(buffer.getBuffer(forceTranslucent ? TRANSLUCENT : renderType), red, green, blue, alpha);
+    }	
+    
+    public static final class TintedVertexConsumer implements VertexConsumer
+    {
+        private final VertexConsumer wrapped;
+        private final float red;
+        private final float green;
+        private final float blue;
+        private final float alpha;
 
-		    for(int i2 = 0; i2 < p_169385_.size(); ++i2) 
-		    {
-		    	ClientTooltipComponent clienttooltipcomponent1 = p_169385_.get(i2);
-		        clienttooltipcomponent1.renderText(preEvent.getFont(), j2, l1, matrix4f, multibuffersource$buffersource);
-		        l1 += clienttooltipcomponent1.getHeight() + (i2 == 0 ? 2 : 0);
-		    }
+        public TintedVertexConsumer(VertexConsumer wrapped, float red, float green, float blue, float alpha)
+        {
+            this.wrapped = wrapped;
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+            this.alpha = alpha;
+        }
 
-		    multibuffersource$buffersource.endBatch();
-		    p_169384_.popPose();
-		    l1 = k2;
+        public TintedVertexConsumer(VertexConsumer wrapped, int red, int green, int blue, int alpha)
+        {
+            this(wrapped, red / 255F, green / 255F, blue / 255F, alpha / 255F);
+        }
 
-		    for(int l2 = 0; l2 < p_169385_.size(); ++l2) 
-		    {
-		    	ClientTooltipComponent clienttooltipcomponent2 = p_169385_.get(l2);
-		        clienttooltipcomponent2.renderImage(preEvent.getFont(), j2, l1, p_169384_, itemRenderer, 400);
-		        l1 += clienttooltipcomponent2.getHeight() + (l2 == 0 ? 2 : 0);
-		    }
+        @Override
+        public VertexConsumer vertex(double x, double y, double z) 
+        { 
+        	return wrapped.vertex(x, y, z); 
+        }
 
-		    itemRenderer.blitOffset = f;
-		}
-	}
-	
-	public static void fillGradient(Matrix4f p_93124_, BufferBuilder p_93125_, int p_93126_, int p_93127_, int p_93128_, int p_93129_, int p_93130_, int p_93131_, int p_93132_) 
-	{
-		float f = (float)(p_93131_ >> 24 & 255) / 255.0F;
-		float f1 = (float)(p_93131_ >> 16 & 255) / 255.0F;
-		float f2 = (float)(p_93131_ >> 8 & 255) / 255.0F;
-		float f3 = (float)(p_93131_ & 255) / 255.0F;
-		float f4 = (float)(p_93132_ >> 24 & 255) / 255.0F;
-		float f5 = (float)(p_93132_ >> 16 & 255) / 255.0F;
-		float f6 = (float)(p_93132_ >> 8 & 255) / 255.0F;
-		float f7 = (float)(p_93132_ & 255) / 255.0F;
-		p_93125_.vertex(p_93124_, (float)p_93128_, (float)p_93127_, (float)p_93130_).color(f1, f2, f3, f).endVertex();
-		p_93125_.vertex(p_93124_, (float)p_93126_, (float)p_93127_, (float)p_93130_).color(f1, f2, f3, f).endVertex();
-		p_93125_.vertex(p_93124_, (float)p_93126_, (float)p_93129_, (float)p_93130_).color(f5, f6, f7, f4).endVertex();
-		p_93125_.vertex(p_93124_, (float)p_93128_, (float)p_93129_, (float)p_93130_).color(f5, f6, f7, f4).endVertex();
-	}
-*/
+        @Override
+        public VertexConsumer color(int red, int green, int blue, int alpha)
+        {
+            return wrapped.color(
+                    (int) (red * this.red),
+                    (int) (green * this.green),
+                    (int) (blue * this.blue),
+                    (int) (alpha * this.alpha)
+            );
+        }
+
+        @Override
+        public VertexConsumer uv(float u, float v) 
+        { 
+        	return wrapped.uv(u, v); 
+        }
+
+        @Override
+        public VertexConsumer overlayCoords(int u, int v) 
+        { 
+        	return wrapped.overlayCoords(u, v); 
+        }
+
+        @Override
+        public VertexConsumer uv2(int u, int v) 
+        { 
+        	return wrapped.uv2(u, v); 
+        }
+
+        @Override
+        public VertexConsumer normal(float x, float y, float z) 
+        { 
+        	return wrapped.normal(x, y, z); 
+        }
+
+        @Override
+        public void endVertex() 
+        { 
+        	wrapped.endVertex(); 
+        }
+
+        @Override
+        public void defaultColor(int r, int g, int b, int a) 
+        { 
+        	wrapped.defaultColor(r, g, b, a); 
+        }
+
+        @Override
+        public void unsetDefaultColor() 
+        { 
+        	wrapped.unsetDefaultColor(); 
+        }
+    }
+    
 }

@@ -43,8 +43,10 @@ import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
+import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.ModBaseBlockItem;
@@ -579,6 +581,12 @@ public class NRegistration
 		
 		public static final BEContainer<NBEGeneratorSolar, NGeneratorSolarMenu> GENERATOR_SOLAR = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, NGeneratorSolarMenu :: makeServer, NGeneratorSolarMenu :: makeClient);
+		
+		public static final BEContainer<NBEDeliveryStation, NDeliveryStationMenu> DELIVERY_STATION = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION, NDeliveryStationMenu :: makeServer, NDeliveryStationMenu :: makeClient);
+		
+		public static final BEContainer<NBEVimStorage, NVimStorageMenu> VIM_STORAGE = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, NVimStorageMenu :: makeServer, NVimStorageMenu :: makeClient);
 		
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)

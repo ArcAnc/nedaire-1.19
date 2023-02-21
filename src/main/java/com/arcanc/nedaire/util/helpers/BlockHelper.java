@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockHelper 
@@ -81,6 +82,15 @@ public class BlockHelper
 		{
 			BlockEntity tile = getTileEntity(world, pos);
 			return castTileEntity(tile, to);
+		}
+		return Optional.empty();
+	}
+	
+	public static <T> Optional<T> castTileEntity(Level world, Vec3 pos, Class<T> to)
+	{
+		if (world != null && pos != null)
+		{
+			return castTileEntity(world, new BlockPos(pos.x(), pos.y(), pos.z()), to);
 		}
 		return Optional.empty();
 	}

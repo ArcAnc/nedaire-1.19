@@ -71,6 +71,11 @@ public class VimHelper
 		return LazyOptional.empty();
 	}
 	
+	public static boolean hasEmptySpace(BlockEntity tile)
+	{
+		return hasEmptySpace(tile, null);
+	}
+	
 	public static boolean hasEmptySpace(BlockEntity tile, Direction dir) 
 	{
 		LazyOptional<IVim> handler = getVimHandler(tile, dir);

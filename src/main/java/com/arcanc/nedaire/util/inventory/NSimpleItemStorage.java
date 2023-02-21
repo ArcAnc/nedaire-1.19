@@ -31,7 +31,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 {
 	@Nullable
 	protected IInventoryCallback tileInv;
-	protected List<IItemStackAcess> items;
+	protected List<IItemStackAccess> items;
 	
 	public NSimpleItemStorage() 
 	{
@@ -41,7 +41,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv)
 	{
 		this.tileInv = tileInv;
-		items = new ArrayList<IItemStackAcess>();
+		items = new ArrayList<IItemStackAccess>();
 	}
 	
 	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv, int size)
@@ -50,7 +50,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 		items = Stream.generate(ItemStackHolder :: new).limit(size).collect(Collectors.toList());
 	}
 	
-	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv, @Nonnull List<IItemStackAcess> stacks)
+	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv, @Nonnull List<IItemStackAccess> stacks)
 	{
 		this.tileInv = tileInv;
 		items = stacks;
@@ -67,7 +67,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
     	return this;
     }
     
-    public NSimpleItemStorage addSlots(@Nonnull List<IItemStackAcess> slots)
+    public NSimpleItemStorage addSlots(@Nonnull List<IItemStackAccess> slots)
     {
     	this.items.addAll(slots);
     	return this;
@@ -79,12 +79,12 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 		return items.size();
 	}
 	
-	public List<IItemStackAcess> getItems() 
+	public List<IItemStackAccess> getItems() 
 	{
 		return items;
 	}
 	
-	public IItemStackAcess getSlot (int slot)
+	public IItemStackAccess getSlot (int slot)
 	{
 		validateSlotIndex(slot);
 		return items.get(slot);
@@ -177,7 +177,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	@Override
 	public void deserializeNBT(CompoundTag nbt) 
 	{
-        for (IItemStackAcess slot : items) 
+        for (IItemStackAccess slot : items) 
         {
             slot.clear();
         }

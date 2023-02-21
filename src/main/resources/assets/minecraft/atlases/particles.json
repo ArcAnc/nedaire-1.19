@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "nedaire:misc/lightning"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "nedaire:misc/sphere"
+    }
+  ]
+}

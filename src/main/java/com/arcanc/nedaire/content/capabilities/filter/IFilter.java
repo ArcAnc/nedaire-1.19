@@ -14,9 +14,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
+public interface IFilter<Inv, FFilt, T> extends INBTSerializable<CompoundTag>
 {
 	/**
 	 * Return true if obj is eligible for next manipulations. If contains in whitelist or missing is blacklist
@@ -45,18 +46,18 @@ public interface IFilter<Inv, T> extends INBTSerializable<CompoundTag>
 	
 	void setExtracion(int value);
 	
-	int filterExtraction(Inv tileInv, T obj);
+	boolean filterExtraction(FFilt tileInv, T obj);
 	
 	int getMaxInInventory();
 	
 	void setMaxInInventory(int value);
 	
-	int filterMaxInInventory(Inv tileInv, T obj);
+	boolean filterMaxInInventory(FFilt tileInv, T obj);
 	
 	Inv getContent();
 	
-	interface IItemFilter extends IFilter<IItemHandler, ItemStack>{}
-	interface IFluidFilter extends IFilter<IItemHandler, FluidStack>{}
-	interface IVimFilter extends IFilter<IVim, Integer>{}
+	interface IItemFilter extends IFilter<IItemHandler, IItemHandler, ItemStack>{}
+	interface IFluidFilter extends IFilter<IItemHandler, IFluidHandler, FluidStack>{}
+	interface IVimFilter extends IFilter<IVim, IVim, Integer>{}
 	
 }

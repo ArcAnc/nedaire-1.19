@@ -9,8 +9,9 @@
 package com.arcanc.nedaire.content.container;
 
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-import com.arcanc.nedaire.util.inventory.IItemStackAcess;
+import com.arcanc.nedaire.util.inventory.IItemStackAccess;
 import com.arcanc.nedaire.util.inventory.ModManagedItemStorage;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 
@@ -66,7 +67,7 @@ public class NSlot extends SlotItemHandler
 	{
 		if (getItemHandler() instanceof ModManagedItemStorage storage)
 		{
-			IItemStackAcess slot = storage.getFullHandler().getSlot(getSlotIndex());
+			IItemStackAccess slot = storage.getFullHandler().getSlot(getSlotIndex());
 			if (storage.getInputHandler().getItems().contains(slot))
 			{
 				setBackground(InventoryMenu.BLOCK_ATLAS, BACKGROUND_INPUT);
@@ -143,6 +144,21 @@ public class NSlot extends SlotItemHandler
 		public boolean mayPickup(Player playerIn) 
 		{
 			return false;
+		}
+	}
+	
+	public static class FluidHandlerGhost extends ItemHandlerGhost
+	{
+
+		public FluidHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
+		{
+			super(itemHandler, panelIndex, index, xPosition, yPosition);
+		}
+		
+		@Override
+		public boolean mayPlace(ItemStack stack) 
+		{
+			return FluidHelper.isFluidHandler(stack);
 		}
 	}
 }

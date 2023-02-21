@@ -119,29 +119,27 @@ public class ItemFilter implements IItemFilter
 	}
 	
 	@Override
-	public int filterExtraction(IItemHandler tileInv, ItemStack obj) 
+	public boolean filterExtraction(IItemHandler tileInv, ItemStack obj) 
 	{
 		int emptySpace = ItemHelper.getEmptySpace(tileInv);
-		return Math.min(emptySpace, extraction);
+		return Math.min(emptySpace, extraction) > 0;
 	}
 
 	@Override
-	public int filterMaxInInventory(IItemHandler tileInv, ItemStack obj) 
+	public boolean filterMaxInInventory(IItemHandler tileInv, ItemStack obj) 
 	{
 		int amountInInv = 0;
-		
+	
 		for (int q = 0; q < tileInv.getSlots(); q++)
 		{
 			ItemStack stack = tileInv.getStackInSlot(q);
-			if (filter(obj))
+			if (ItemStack.isSameItemSameTags(stack, obj))
 			{
 				amountInInv += stack.getCount();
 			}
 		}
 		
-		int ret = amountInInv - maxInInventory;
-		
-		return ret > 0 ? ret : 0;
+		return maxInInventory > amountInInv;
 	}
 	@Override
 	public boolean isWhitelist() 

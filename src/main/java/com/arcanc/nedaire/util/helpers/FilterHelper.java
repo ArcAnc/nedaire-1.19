@@ -11,6 +11,7 @@ package com.arcanc.nedaire.util.helpers;
 import org.jetbrains.annotations.NotNull;
 
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
+import com.arcanc.nedaire.content.capabilities.filter.IFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IFluidFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IVimFilter;
@@ -81,5 +82,16 @@ public class FilterHelper
 	public static @NotNull LazyOptional<IVimFilter> getVimFilter (BlockEntity tile)
 	{
 		return getVimFilter(tile, null);
+	}
+	
+	public static @NotNull LazyOptional<IFilter<?, ?, ?>> getFilterFromString(BlockEntity tile, String str)
+	{
+		return switch (str)
+		{
+			case "item" -> getItemFilter(tile).cast();
+			case "fluid" -> getFluidFilter(tile).cast();
+			case "vim" -> getVimFilter(tile).cast();
+			default -> LazyOptional.empty();
+		};
 	}
 }

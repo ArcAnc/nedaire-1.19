@@ -33,27 +33,31 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 	protected void addSources() 
 	{
 		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
-
 		
-		
-		//SHIELD
+		//										SHIELD
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldBase().texture(), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldNoPattern().texture(), Optional.empty()));
 		
-		//SLOTS
+		//										SLOTS
 		//		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH.substring(0, NDatabase.GUI.Slots.PATH.length()-1)),
 		//																			   StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH)));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_STANDART, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_INPUT, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_OUPUT, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_BOTH, Optional.empty()));
-		//MANUAL CRUSHER
+		//										MANUAL CRUSHER
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("block/manual_crusher/manual_crusher"), Optional.empty()));
 		
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/vortex"), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/essence"), Optional.empty()));
 //		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr("misc"), StringHelper.getStrLocFStr("misc/")));
 
+		//----------------------------------------------------------------------------
+		//										PARTICLES
+		//----------------------------------------------------------------------------
+		atlas(SpriteSourceProvider.PARTICLES_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/lightning"), Optional.empty()));
+		atlas(SpriteSourceProvider.PARTICLES_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("misc/sphere"), Optional.empty()));
+		
 	}
 
 }

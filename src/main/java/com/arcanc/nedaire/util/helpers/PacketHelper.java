@@ -16,6 +16,7 @@ import java.util.function.Function;
 import org.joml.Vector3d;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.phys.Vec3;
 
 public class PacketHelper 
 {
@@ -41,6 +42,13 @@ public class PacketHelper
 	}
 	
 	public static void writeVector3d (FriendlyByteBuf buf, Vector3d vec)
+	{
+		buf.writeDouble(vec.x());
+		buf.writeDouble(vec.y());
+		buf.writeDouble(vec.z());
+	}
+	
+	public static void writeVector3d (FriendlyByteBuf buf, Vec3 vec)
 	{
 		buf.writeDouble(vec.x());
 		buf.writeDouble(vec.y());

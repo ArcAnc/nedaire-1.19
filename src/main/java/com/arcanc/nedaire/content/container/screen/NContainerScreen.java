@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.container.NSlot;
+import com.arcanc.nedaire.content.container.NSlot.ItemHandlerGhost;
 import com.arcanc.nedaire.content.container.widget.ChangeSizeButton;
 import com.arcanc.nedaire.content.container.widget.ChangeSizeButton.ButtonCtx;
 import com.arcanc.nedaire.content.container.widget.DropPanel;
@@ -31,7 +32,10 @@ import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FilterHelper;
+import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
+import com.arcanc.nedaire.util.helpers.RenderHelper;
+import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -47,6 +51,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -302,9 +307,12 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		
 		if (this.panelList.size() > 1)
 		{
-			RadioButton button = RadioButton.newRadioButton(this.panelList.size(), 2).
+			int countInRow = 2;
+			int rowCount = Mth.ceil((float)this.panelList.size() / countInRow);
+			
+			RadioButton button = RadioButton.newRadioButton(countInRow, 2).
 					setPos(5, 7).
-					setSize(this.panelList.size() * 20 + (this.panelList.size() - 1) * 5, 20).
+					setSize((countInRow * 20) + ((countInRow - 1) * 2), (rowCount * 20) + ((rowCount - 1) * 2)).
 					setCurrentButtonId(this.currentPanel).
 					build();
 			
@@ -337,7 +345,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					}).build()).orElse(null);
 
 			
-			panel = addDropPanel(new DropPanel(this.panelList.size() * 20 + (this.panelList.size() - 1) * 5 + 10, 35, Side.LEFT, false, new Color(40, 40, 150), 
+			panel = addDropPanel(new DropPanel(button.getWidth() + 10, button.getHeight() + 15, Side.LEFT, false, new Color(40, 40, 150), 
 					() -> button.getButtons().get(button.currentButtonId).getIcon(), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_MAIN,
 							be.getBlockState().getBlock().asItem().getDescription()))).
@@ -366,26 +374,18 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					CompoundTag tag = new CompoundTag();
 					
 					tag.putInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK, but.getCurrentValue());
-					
-					tag.putInt("x", be.getBlockPos().getX());
-					tag.putInt("y", be.getBlockPos().getY());
-					tag.putInt("z", be.getBlockPos().getZ());
-					
-					sendUpdateToServer(tag);
+				
+					sendItemFilterUpdate(tag, be);
 				}, 
 				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE),
 				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE))).
-				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 0, 64 * ItemHelper.getItemHandler(be).map(handler -> handler.getSlots()).orElse(0), filter.getMaxInInventory(), but ->
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 0, 64 * ItemHelper.getItemHandler(be).map(handler -> handler.getSlots()).orElse(9), filter.getMaxInInventory(), but ->
 				{
 					CompoundTag tag = new CompoundTag();
 					
 					tag.putInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN, but.getCurrentValue());
 					
-					tag.putInt("x", be.getBlockPos().getX());
-					tag.putInt("y", be.getBlockPos().getY());
-					tag.putInt("z", be.getBlockPos().getZ());
-					
-					sendUpdateToServer(tag);
+					sendItemFilterUpdate(tag, be);
 				},
 				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE),
 				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE))).
@@ -395,11 +395,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					
 					tag.putBoolean(NDatabase.Capabilities.Filter.WHITELIST, but.selected());
 					
-					tag.putInt("x", be.getBlockPos().getX());
-					tag.putInt("y", be.getBlockPos().getY());
-					tag.putInt("z", be.getBlockPos().getZ());
-					
-					sendUpdateToServer(tag);
+					sendItemFilterUpdate(tag, be);
 				}, () -> Tooltip.create(Component.translatable(filter.isWhitelist() ? NDatabase.GUI.Filter.Description.WHITELIST : NDatabase.GUI.Filter.Description.BLACKLIST)
 						))).
 				addWidget(new IconCheckbox(this.getGuiLeft() + 15, this.getGuiTop() + 40, 20, 20, filter.isModOwner(), FILTER_MOD_OWNER, but ->
@@ -408,11 +404,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					
 					tag.putBoolean(NDatabase.Capabilities.Filter.MOD_OWNER, but.selected());
 					
-					tag.putInt("x", be.getBlockPos().getX());
-					tag.putInt("y", be.getBlockPos().getY());
-					tag.putInt("z", be.getBlockPos().getZ());
-					
-					sendUpdateToServer(tag);
+					sendItemFilterUpdate(tag, be);
 				}, () -> Tooltip.create(Component.translatable(filter.isModOwner() ? NDatabase.GUI.Filter.Description.MOD_OWNER : NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE)
 						))).
 				addWidget(new IconCheckbox(this.getGuiLeft() + 40, this.getGuiTop() + 25, 20, 20, filter.isCheckTag(), FILTER_TAG, but ->
@@ -421,11 +413,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					
 					tag.putBoolean(NDatabase.Capabilities.Filter.CHECK_TAG, but.selected());
 					
-					tag.putInt("x", be.getBlockPos().getX());
-					tag.putInt("y", be.getBlockPos().getY());
-					tag.putInt("z", be.getBlockPos().getZ());
-					
-					sendUpdateToServer(tag);
+					sendItemFilterUpdate(tag, be);
 				}, () -> Tooltip.create(Component.translatable(filter.isCheckTag() ? NDatabase.GUI.Filter.Description.TAG_USE : NDatabase.GUI.Filter.Description.TAG_IGNORE)
 						))));
 		
@@ -434,18 +422,86 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 	protected Panel addFluidFilterPanel(BlockEntity be)
 	{
-		/**
-		 * FIXME: implement this method; Add some dividers for every filters in tag compound
-		 */
-		return null;
+		Panel panel = new Panel(11, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
+		FilterHelper.getFluidFilter(be).ifPresent(filter -> panel.
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 5, 0, 1000, filter.getExtraction(), but -> 
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK, but.getCurrentValue());
+					
+					sendFluidFilterUpdate(tag, be);
+				}, 
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE))).
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 0, FluidHelper.getFluidHandler(be).map(handler -> handler.getTanks() * handler.getTankCapacity(0)).orElse(10000), filter.getMaxInInventory(), but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN, but.getCurrentValue());
+					
+					sendFluidFilterUpdate(tag, be);
+				},
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 15, this.getGuiTop() + 10, 20, 20, filter.isWhitelist(), FILTER_WHITELIST, but -> 
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.WHITELIST, but.selected());
+					
+					sendFluidFilterUpdate(tag, be);
+				}, () -> Tooltip.create(Component.translatable(filter.isWhitelist() ? NDatabase.GUI.Filter.Description.WHITELIST : NDatabase.GUI.Filter.Description.BLACKLIST)
+						))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 15, this.getGuiTop() + 40, 20, 20, filter.isModOwner(), FILTER_MOD_OWNER, but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.MOD_OWNER, but.selected());
+					
+					sendFluidFilterUpdate(tag, be);
+				}, () -> Tooltip.create(Component.translatable(filter.isModOwner() ? NDatabase.GUI.Filter.Description.MOD_OWNER : NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE)
+						))).
+				addWidget(new IconCheckbox(this.getGuiLeft() + 40, this.getGuiTop() + 25, 20, 20, filter.isCheckTag(), FILTER_TAG, but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putBoolean(NDatabase.Capabilities.Filter.CHECK_TAG, but.selected());
+					
+					sendFluidFilterUpdate(tag, be);
+				}, () -> Tooltip.create(Component.translatable(filter.isCheckTag() ? NDatabase.GUI.Filter.Description.TAG_USE : NDatabase.GUI.Filter.Description.TAG_IGNORE)
+						))));
+		
+		return addPanel(panel);
+
 	}
 	
 	protected Panel addVimFilterPanel(BlockEntity be)
 	{
-		/**
-		 * FIXME: implement this method; Add some dividers for every filters in tag compound
-		 */
-		return null;
+		Panel panel = new Panel(12, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
+		FilterHelper.getVimFilter(be).ifPresent(filter -> panel.
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 5, 0, 1000, filter.getExtraction(), but -> 
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK, but.getCurrentValue());
+				
+					sendVimFilterUpdate(tag, be);
+				}, 
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.EXTRACTING_STACK_INCREASE))).
+				addWidget(new ChangeSizeButton(this.getGuiLeft() + 115, this.getGuiTop() + 38, 0, VimHelper.getVimHandler(be).map(handler -> handler.getMaxEnergyStored()).orElse(10000), filter.getMaxInInventory(), but ->
+				{
+					CompoundTag tag = new CompoundTag();
+					
+					tag.putInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN, but.getCurrentValue());
+					
+					sendVimFilterUpdate(tag, be);
+				},
+				new ButtonCtx(() -> "-", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE),
+				new ButtonCtx(() -> "+", () -> NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE))));
+	
+		return addPanel(panel);
 	}
 	
 	@Override
@@ -514,8 +570,15 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         }
 
 	         RenderSystem.enableDepthTest();
-	         this.itemRenderer.renderAndDecorateItem(this.minecraft.player, itemstack, i, j, slot.x + slot.y * this.imageWidth);
-	         this.itemRenderer.renderGuiItemDecorations(this.font, itemstack, i, j, s);
+	         if (slot instanceof ItemHandlerGhost)
+	         {
+	        	 RenderHelper.renderFakeItemTransparent(itemstack, i, j, 0.5f);
+	         }
+	         else 
+	         {
+		         this.itemRenderer.renderAndDecorateItem(this.minecraft.player, itemstack, i, j, slot.x + slot.y * this.imageWidth);
+		         this.itemRenderer.renderGuiItemDecorations(this.font, itemstack, i, j, s);
+	         }
 	      }
 
 	      this.itemRenderer.blitOffset = 0.0F;
@@ -555,6 +618,39 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		}
 	}
 	
+	protected void sendItemFilterUpdate(CompoundTag message, BlockEntity be)
+	{
+		message.putInt("x", be.getBlockPos().getX());
+		message.putInt("y", be.getBlockPos().getY());
+		message.putInt("z", be.getBlockPos().getZ());
+		
+		message.putString("type", "item");
+		
+		sendUpdateToServer(message);
+	}
+	
+	protected void sendFluidFilterUpdate(CompoundTag message, BlockEntity be)
+	{
+		message.putInt("x", be.getBlockPos().getX());
+		message.putInt("y", be.getBlockPos().getY());
+		message.putInt("z", be.getBlockPos().getZ());
+		
+		message.putString("type", "fluid");
+		
+		sendUpdateToServer(message);
+	}
+
+	protected void sendVimFilterUpdate(CompoundTag message, BlockEntity be)
+	{
+		message.putInt("x", be.getBlockPos().getX());
+		message.putInt("y", be.getBlockPos().getY());
+		message.putInt("z", be.getBlockPos().getZ());
+		
+		message.putString("type", "vim");
+		
+		sendUpdateToServer(message);
+	}
+
 	protected void sendUpdateToServer(CompoundTag message)
 	{
 		NNetworkEngine.packetHandler.sendToServer(new MessageContainerUpdate(menu.containerId, message));

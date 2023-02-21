@@ -88,25 +88,29 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 					list.stream().filter(ent -> filter.filter(ent.getItem())).findAny().ifPresent(entity -> 
 					{
 						ItemStack stack = entity.getItem();
-						int stackCount = stack.getCount();
-						int fExt = filter.getExtraction();
-						int fMax = filter.getMaxInInventory();
-						
-						if (stack.getCount() > Math.min(fExt, fMax))
+						if (filter.filterMaxInInventory(inv, stack));
 						{
-							ItemEntity ent = entity.copy();
-							ent.setItem(ItemHelper.copyStackWithAmount(stack, Math.min(fExt, fMax)));
-							getLevel().addFreshEntity(ent);
-							entity.setItem(ItemHelper.copyStackWithAmount(stack, stackCount - ent.getItem().getCount()));
-							Vec3 moveVector = new Vec3(suck_zone_center.x() - ent.getX(), suck_zone_center.y() - ent.getY(), suck_zone_center.z() - ent.getZ()).
-									normalize().scale(0.04f); 
-							ent.push(moveVector.x(), moveVector.y(), moveVector.z());
-						}
-						else
-						{
-							Vec3 moveVector = new Vec3(suck_zone_center.x() - entity.getX(), suck_zone_center.y() - entity.getY(), suck_zone_center.z() - entity.getZ()).
-									normalize().scale(0.04f); 
-							entity.push(moveVector.x(), moveVector.y(), moveVector.z());
+							int stackCount = stack.getCount();
+							int fExt = filter.getExtraction();
+							int fMax = filter.getMaxInInventory();
+							
+							if (stack.getCount() > Math.min(fExt, fMax))
+							{
+								ItemEntity ent = entity.copy();
+								ent.setItem(ItemHelper.copyStackWithAmount(stack, Math.min(fExt, fMax)));
+								ent.setDefaultPickUpDelay();
+								getLevel().addFreshEntity(ent);
+								entity.setItem(ItemHelper.copyStackWithAmount(stack, stackCount - ent.getItem().getCount()));
+								Vec3 moveVector = new Vec3(suck_zone_center.x() - ent.getX(), suck_zone_center.y() - ent.getY(), suck_zone_center.z() - ent.getZ()).
+										normalize().scale(0.04f); 
+								ent.push(moveVector.x(), moveVector.y(), moveVector.z());
+							}
+							else
+							{
+								Vec3 moveVector = new Vec3(suck_zone_center.x() - entity.getX(), suck_zone_center.y() - entity.getY(), suck_zone_center.z() - entity.getZ()).
+										normalize().scale(0.04f); 
+								entity.push(moveVector.x(), moveVector.y(), moveVector.z());
+							}
 						}
 					});
 				}
@@ -129,9 +133,11 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 											ItemStack filterStack = handler.getStackInSlot(q);
 											if (!filterStack.isEmpty() && filter.filter(filterStack))
 											{
-												ItemStack stack = handler.extractItem(q, Math.min(filter.getExtraction(), filter.getMaxInInventory()), false);
-												WorldHelper.spawnItemEntity(level, tile.getBlockPos().getX() + 0.5d, tile.getBlockPos().getY() + 0.5d, tile.getBlockPos().getZ() + 0.5d, stack);
-												
+												if (filter.filterMaxInInventory(inv, handler.getStackInSlot(q)))
+												{
+													ItemStack stack = handler.extractItem(q, Math.min(filter.getExtraction(), filter.getMaxInInventory()), false);
+													WorldHelper.spawnItemEntity(level, tile.getBlockPos().getX() + 0.5d, tile.getBlockPos().getY() + 0.5d, tile.getBlockPos().getZ() + 0.5d, stack);
+												}
 												break;
 											}
 										}
@@ -151,11 +157,14 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 					{
 						ItemEntity ent = list.get(i);
 						ItemStack stack = ent.getItem().copy();
-						for(int q = 0; q < inv.getSlots(); q++)
+						if (filter.filterMaxInInventory(inv, stack))
 						{
-							if(!stack.isEmpty() && filter.filter(stack))
+							for(int q = 0; q < inv.getSlots(); q++)
 							{
-								stack = inv.insertItem(q, stack, false);
+								if(!stack.isEmpty() && filter.filter(stack))
+								{
+									stack = inv.insertItem(q, stack, false);
+								}
 							}
 						}
 						ent.setItem(stack);

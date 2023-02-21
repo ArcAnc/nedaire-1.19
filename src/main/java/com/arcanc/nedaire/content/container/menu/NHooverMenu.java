@@ -27,8 +27,6 @@ public class NHooverMenu extends NContainerMenu
 {
 
 	public final NBEHoover be;
-//	public final IItemHandler inv;
-//	public final LazyOptional<IFilter<IItemHandler, ItemStack>> itemFilter;
 	
 	public static NHooverMenu makeServer(MenuType<?> type, int id, Inventory player, NBEHoover be)
 	{

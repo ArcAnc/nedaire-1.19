@@ -269,11 +269,19 @@ public class ItemHelper
 		{
 			inventory.ifPresent(handler -> 
 			{
-				for (int q = 0; q < handler.getSlots() ; q++)
-				{
-					Containers.dropItemStack(level, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, handler.getStackInSlot(q));
-				}
+				dropContents(level, pos, handler);
 			});
+		}
+	}
+	
+	public static void dropContents (Level level, BlockPos pos, IItemHandler inventory)
+	{
+		if (level != null && pos != null)
+		{
+			for (int q = 0; q < inventory.getSlots() ; q++)
+			{
+				Containers.dropItemStack(level, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, inventory.getStackInSlot(q));
+			}
 		}
 	}
 }

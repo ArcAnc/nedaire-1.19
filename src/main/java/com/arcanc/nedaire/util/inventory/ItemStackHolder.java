@@ -17,7 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class ItemStackHolder implements IItemStackAcess 
+public class ItemStackHolder implements IItemStackAccess 
 {
 
 	private ItemStack stack = ItemStack.EMPTY;
@@ -211,7 +211,7 @@ public class ItemStackHolder implements IItemStackAcess
 	}
 
 	@Override
-	public IItemStackAcess load(CompoundTag nbt) 
+	public IItemStackAccess load(CompoundTag nbt) 
 	{
 		this.stackLimit = nbt.getInt(NDatabase.Capabilities.ItemHandler.ItemHolder.SLOT_LIMIT);
 		this.stack = ItemStack.of(nbt);
@@ -231,7 +231,7 @@ public class ItemStackHolder implements IItemStackAcess
 	}
 
 	@Override
-	public IItemStackAcess setValidator(Predicate<ItemStack> validator) 
+	public IItemStackAccess setValidator(Predicate<ItemStack> validator) 
 	{
 		if (validator != null)
 		{

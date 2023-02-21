@@ -1,26 +1,27 @@
 /**
  * @author ArcAnc
- * Created at: 2022-04-09
- * Copyright (c) 2022
+ * Created at: 2023-02-16
+ * Copyright (c) 2023
  * 
  * This code is licensed under "Ancient's License of Common Sense"	
  * Details can be found in the license file in the root folder of this project
  */
-package com.arcanc.nedaire.util.inventory;
+package com.arcanc.nedaire.util.fluid;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Predicate;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public interface IItemStackAcess 
+public interface IFluidStackAccess 
 {
     @Nonnull
-    ItemStack getItemStack();
+    FluidStack getFluidStack();
     
-    void setItemStack(@Nonnull ItemStack stack);
+    void setFluidStack(@Nonnull FluidStack stack);
 
     int getCount();
     
@@ -37,23 +38,27 @@ public interface IItemStackAcess
     boolean isEmpty();
 
     @Nonnull
-    ItemStack insert(@Nonnull ItemStack stack, boolean simulate);
+    int insert(@Nonnull FluidStack stack, FluidAction simulate);
     
     @Nonnull
-    ItemStack extract(int amount, boolean simulate);
+    FluidStack extract (FluidStack stack, FluidAction simulate);
+    
+    @Nonnull
+    FluidStack extract(int amount, FluidAction simulate);
     
     void clear();
     
-    IItemStackAcess load(CompoundTag nbt);
+    IFluidStackAccess load(CompoundTag nbt);
     
     CompoundTag save();
     
-    IItemStackAcess setValidator(Predicate<ItemStack> validator);
+    IFluidStackAccess setValidator(Predicate<FluidStack> validator);
     
-    boolean isValid(@Nonnull ItemStack stack);
+    boolean isValid(@Nonnull FluidStack stack);
     
     default void onContentsChanged()
     {
     	
     }
+
 }

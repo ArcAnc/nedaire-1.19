@@ -88,14 +88,11 @@ public class RadioButton extends Button
 		return ImmutableList.copyOf(this.buttons);
 	}
 	
-	/**
-	 * FIXME: fix vertical positioning 
-	 */
 	public RadioButton finishRadioButton()
 	{
 		
 		int buttonWidth = (this.width - (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0)) / countInRow ;
-		int rowsCount = Mth.ceil((float)((this.buttons.size() * buttonWidth) + (distanceBetweenButtons.x() * (buttons.size() - 1))) / ((countInRow * buttonWidth) + (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0)));
+		int rowsCount = Mth.ceil((float)this.buttons.size() / countInRow);
 		int buttonHeight = (this.height - (rowsCount > 1 ? (distanceBetweenButtons.y() * (rowsCount - 1)) : 0)) / rowsCount;
 		
 		for (int q = 0; q < this.buttons.size(); q++)

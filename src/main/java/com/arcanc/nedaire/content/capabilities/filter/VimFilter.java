@@ -102,10 +102,10 @@ public class VimFilter implements IVimFilter
 	}
 
 	@Override
-	public int filterExtraction(IVim tileInv, Integer obj) 
+	public boolean filterExtraction(IVim tileInv, Integer obj) 
 	{
 		int emptySpace = VimHelper.getEmptySpace(tileInv);
-		return Math.min(emptySpace, extraction);
+		return Math.min(emptySpace, extraction) > 0;
 	}
 
 	@Override
@@ -121,10 +121,9 @@ public class VimFilter implements IVimFilter
 	}
 
 	@Override
-	public int filterMaxInInventory(IVim tileInv, Integer obj) 
+	public boolean filterMaxInInventory(IVim tileInv, Integer obj) 
 	{
-		int ret = tileInv.getEnergyStored() - maxInInventory;
-		return ret > 0 ? ret : 0;
+		return maxInInventory > tileInv.getEnergyStored();
 	}
 
 	@Override

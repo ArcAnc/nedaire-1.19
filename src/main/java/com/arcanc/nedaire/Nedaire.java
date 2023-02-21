@@ -20,8 +20,10 @@ import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.screen.NDeliveryStationScreen;
 import com.arcanc.nedaire.content.container.screen.NGeneratorSolarScreen;
 import com.arcanc.nedaire.content.container.screen.NHooverScreen;
+import com.arcanc.nedaire.content.container.screen.NVimStorageScreen;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.ItemInterfaces.ICustomModelProperties;
@@ -178,6 +180,8 @@ public class Nedaire
 	{
 		MenuScreens.register(NRegistration.RegisterMenuTypes.HOOVER.getType(), NHooverScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_SOLAR.getType(), NGeneratorSolarScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.DELIVERY_STATION.getType(), NDeliveryStationScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.VIM_STORAGE.getType(), NVimStorageScreen :: new);
 	}
 
 

@@ -55,7 +55,9 @@ public class DropPanel extends AbstractWidget
 		this.openSize = new Vec2(width, height);
 		state = isOpen ? State.OPEN : State.CLOSED;
 		this.side = side;
-		changeSize = openSize.add(closedSize.negated()).scale(1f/8f);
+		Vec2 temp = openSize.add(closedSize.negated()).scale(1f/8f);
+		
+		changeSize = new Vec2(temp.x < 1 ? 1 : temp.x, temp.y < 1 ? 1 : temp.y);
 		
 		this.color = color;
 		this.icon = icon;

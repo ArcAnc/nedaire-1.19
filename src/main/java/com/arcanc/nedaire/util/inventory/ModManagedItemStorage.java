@@ -21,8 +21,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ModManagedItemStorage extends NSimpleItemStorage 
 {
-	protected List<IItemStackAcess> inputSlots;
-	protected List<IItemStackAcess> outputSlots;
+	protected List<IItemStackAccess> inputSlots;
+	protected List<IItemStackAccess> outputSlots;
 
 	protected NSimpleItemStorage inputHandler = new NSimpleItemStorage();
 	protected NSimpleItemStorage outputHandler = new NSimpleItemStorage();
@@ -32,7 +32,7 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 	protected final LazyOptional<IItemHandler> output = LazyOptional.of(() -> outputHandler);
 	protected final LazyOptional<IItemHandler> full = LazyOptional.of(() -> fullHandler);
 
-	public ModManagedItemStorage(@Nonnull List<IItemStackAcess> inputSlots, @Nonnull List<IItemStackAcess> outputSlots) 
+	public ModManagedItemStorage(@Nonnull List<IItemStackAccess> inputSlots, @Nonnull List<IItemStackAccess> outputSlots) 
 	{
 		super();
 		this.inputSlots = inputSlots;
@@ -42,7 +42,7 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		this.items.addAll(outputSlots);
 	}
 	
-	public ModManagedItemStorage addInputSlot(@Nonnull IItemStackAcess slot)
+	public ModManagedItemStorage addInputSlot(@Nonnull IItemStackAccess slot)
 	{
 		this.inputSlots.add(slot);
 		
@@ -56,7 +56,7 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		return addInputSlot(new ItemStackHolder(capacity, validator));
 	}
 
-	public ModManagedItemStorage addOutputSlot(@Nonnull IItemStackAcess slot)
+	public ModManagedItemStorage addOutputSlot(@Nonnull IItemStackAccess slot)
 	{
 		this.outputSlots.add(slot);
 		

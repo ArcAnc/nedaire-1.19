@@ -146,6 +146,7 @@ public class NDatabase
 					{
 						public static final String ATTACHED_POSES = "poses";
 						public static final String MODE = "delivery_mode";
+						public static final String PATH = "path";
 					}
 				}
 			}
@@ -229,6 +230,11 @@ public class NDatabase
 		public static class FluidHandler
 		{
 			public static final String TAG_LOCATION = StringHelper.getStrLocFStr("fluid");
+			public static final String TANKS = "tanks";
+			public static class FluidHolder
+			{
+				public static final String SLOT_LIMIT = "slot_limit";
+			}
 			public static class Lang
 			{
 				public static final String DESCRIPTION_MAIN = TAG_LOCATION.replace(':', '.').replace('/', '.') + ".description";
