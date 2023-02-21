@@ -24,16 +24,25 @@
 hs_err_pid*
 replay_pid*
 
-.gradle/
-gradle/
-.settings/
-bin/
-build/
-run/
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+/logs/
 
 .classpath
 runServer.launch
 runGameTestServer.launch
 runClient.launch
 .project
-.gitattributes
+
+#eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
