@@ -56,6 +56,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerHolder(NRegistration.RegisterBlocks.HOLDER.get());
 		registerManualChusher(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get());
 		registerVimStorage(NRegistration.RegisterBlocks.VIM_STORAGE.get());
+		registerFluidStorage(NRegistration.RegisterBlocks.FLUID_STORAGE.get());
 		registerDeliveryStation(NRegistration.RegisterBlocks.DELIVERY_STATION.get());
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
@@ -772,6 +773,54 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 	}
 
+	private void registerFluidStorage(Block block) 
+	{
+		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_glass"));
+		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_updown"));
+	
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("glass", texGlass).
+				texture("updown", texTop).
+				texture("particle", texGlass).
+				ao(false).
+				element().
+					from(3, 0, 3).
+					to(13, 16, 13).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16);
+						if (face.getAxis().isHorizontal())
+							builder.texture("#glass");
+						else
+							builder.texture("#updown").cullface(face);
+					}).
+				end().
+				element().
+					from(13, 16, 13).
+					to(3, 0, 3).
+					face(Direction.NORTH).
+						uvs(0, 16, 16, 0).
+						texture("#glass").
+						end().
+					face(Direction.SOUTH).
+						uvs(0, 16, 16, 0).
+						texture("#glass").
+						end().
+					face(Direction.WEST).
+						uvs(0, 16, 16, 0).
+						texture("#glass").
+						end().
+					face(Direction.EAST).
+						uvs(0, 16, 16, 0).
+						texture("#glass").
+						end().
+				end();
+		
+		registerModels(block, model);
+	}
+
+	
 	private void registerDeliveryStation(Block block) 
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "_side"));

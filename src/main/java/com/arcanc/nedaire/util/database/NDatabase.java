@@ -119,6 +119,7 @@ public class NDatabase
 				public static final String HOLDER = "holder";
 				public static final String MANUAL_CRUSHER = "manual_crusher";
 				public static final String VIM_STORAGE = "vim_storage";
+				public static final String FLUID_STORAGE = "fluid_storage";
 				public static final String DELIVERY_STATION = "delivery_station";
 				public static final String HOOVER = "hoover";
 			}

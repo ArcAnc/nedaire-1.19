@@ -1,0 +1,35 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "nedaire:block/fluid_storage/glass",
+		"glass": "nedaire:block/fluid_storage/glass",
+		"updown": "nedaire:textures/block/fluid_storage/updown"
+	},
+	"elements": [
+		{
+			"name": "middle",
+			"from": [3, 0, 3],
+			"to": [13, 16, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#updown"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#updown"}
+			}
+		},
+		{
+			"name": "middle inverted",
+			"from": [13, 16, 13],
+			"to": [3, 0, 3],
+			"faces": {
+				"north": {"uv": [0, 16, 16, 0], "texture": "#glass"},
+				"east": {"uv": [0, 16, 16, 0], "texture": "#glass"},
+				"south": {"uv": [0, 16, 16, 0], "texture": "#glass"},
+				"west": {"uv": [0, 16, 16, 0], "texture": "#glass"}
+			}
+		}
+	]
+}

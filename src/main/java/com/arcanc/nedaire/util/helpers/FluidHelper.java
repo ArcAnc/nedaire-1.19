@@ -80,6 +80,17 @@ public class FluidHelper
 		return !stack.isEmpty() && stack.getCapability(fluidHandlerItem).isPresent();
 	}
 	
+	public static LazyOptional<IFluidHandler> getFluidHandler (Level level, BlockPos pos)
+	{
+		return getFluidHandler(level, pos, null);
+	}
+	
+	public static LazyOptional<IFluidHandler> getFluidHandler (Level level, BlockPos pos, Direction dir)
+	{
+		BlockEntity t = BlockHelper.getTileEntity(level, pos);
+		return getFluidHandler(t, dir);
+	}
+	
 	public static LazyOptional<IFluidHandler> getFluidHandler (BlockEntity tile, Direction dir)
 	{
 		if (isFluidHandler(tile, dir))

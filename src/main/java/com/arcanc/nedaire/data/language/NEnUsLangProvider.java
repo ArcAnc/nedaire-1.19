@@ -80,8 +80,9 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.PEDESTAL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PEDESTAL));
 		add(NRegistration.RegisterBlocks.HOLDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOLDER));
 		add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER.replace("_c", " C")));
-		add(NRegistration.RegisterBlocks.VIM_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE.replace("_s", "S")));
-		add(NRegistration.RegisterBlocks.DELIVERY_STATION.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION.replace("_s", "S")));
+		add(NRegistration.RegisterBlocks.FLUID_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE.replace("_s", " S")));
+		add(NRegistration.RegisterBlocks.VIM_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE.replace("_s", " S")));
+		add(NRegistration.RegisterBlocks.DELIVERY_STATION.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION.replace("_s", " S")));
 		add(NRegistration.RegisterBlocks.HOOVER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOOVER));
 		
 		//************************************************************************

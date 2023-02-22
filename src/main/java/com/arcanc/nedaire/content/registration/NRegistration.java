@@ -27,6 +27,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
+import com.arcanc.nedaire.content.block.NBlockFluidStorage;
 import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
@@ -35,6 +36,7 @@ import com.arcanc.nedaire.content.block.NBlockPedestal;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
@@ -44,6 +46,7 @@ import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
+import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
 import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
@@ -287,6 +290,13 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new ModBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockFluidStorage, ModBaseBlockItem> FLUID_STORAGE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE, 
+				baseMachineProps, 
+				NBlockFluidStorage :: new, 
+				NRegistration.RegisterItems.baseProps, 
+				(b, p) -> new ModBaseBlockItem(b, p));
+		
 		public static final BlockRegObject<NBlockVimStorage, ModBaseBlockItem> VIM_STORAGE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
 				baseMachineProps, 
@@ -430,6 +440,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER, 
 				makeType(NBEManualCrusher :: new,
 						RegisterBlocks.MANUAL_CRUSHER));
+
+		public static final RegistryObject<BlockEntityType<NBEFluidStorage>> BE_FLUID_STORAGE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE, 
+				makeType(NBEFluidStorage :: new, 
+						RegisterBlocks.FLUID_STORAGE));
 		
 		public static final RegistryObject<BlockEntityType<NBEVimStorage>> BE_VIM_STORAGE = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
@@ -584,6 +599,9 @@ public class NRegistration
 		
 		public static final BEContainer<NBEDeliveryStation, NDeliveryStationMenu> DELIVERY_STATION = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION, NDeliveryStationMenu :: makeServer, NDeliveryStationMenu :: makeClient);
+
+		public static final BEContainer<NBEFluidStorage, NFluidStorageMenu> FLUID_STORAGE = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE, NFluidStorageMenu :: makeServer, NFluidStorageMenu :: makeClient);
 		
 		public static final BEContainer<NBEVimStorage, NVimStorageMenu> VIM_STORAGE = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, NVimStorageMenu :: makeServer, NVimStorageMenu :: makeClient);

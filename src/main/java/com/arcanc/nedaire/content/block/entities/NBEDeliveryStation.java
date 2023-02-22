@@ -73,7 +73,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 	 * 1 - transfer Liquids
 	 * 2 - transfer Vim
 	 */
-	private int mode = 2;
+	private int mode = 1;
 	
 	private ItemFilter itemFilter;
 	private final LazyOptional<IItemFilter> itemFilterHanlder = LazyOptional.of(() -> itemFilter);
@@ -179,7 +179,10 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 										{
 											FluidStack stack = handler.getFluidInTank(q);
 											
-											if(fluidFilter.filter(stack) && fluidFilter.filterMaxInInventory(handler, stack))
+											/**
+											 * FIXME: add check for max amount in TARGET inv. Not attach inventory
+											 */
+											if(fluidFilter.filter(stack))// && fluidFilter.filterMaxInInventory(handler, stack))
 											{
 												Optional<BlockEntity> tr = getTargetBlock(1);
 												if(tr.isPresent())
@@ -347,7 +350,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 						{
 							FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
 							{
-								FluidStack s = FluidHelper.copyFluidStackWithAmount(stack, handler.fill(stack, FluidAction.EXECUTE));
+								FluidStack s = FluidHelper.copyFluidStackWithAmount(stack, stack.getAmount() - handler.fill(stack, FluidAction.EXECUTE));
 							
 								if (!s.isEmpty())
 								{

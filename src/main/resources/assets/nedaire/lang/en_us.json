@@ -43,6 +43,7 @@
   "nedaire.enchiridion.section.jewelry": "Jewelry",
   "nedaire.enchiridion.section.magic": "Magic",
   "nedaire.fluid.description": "This tank contains:\n%d | %d %s",
+  "nedaire.fluid_storage": "FluidStorage",
   "nedaire.generator.solar": "Solar Generator",
   "nedaire.holder": "Holder",
   "nedaire.hoover": "Hoover",
