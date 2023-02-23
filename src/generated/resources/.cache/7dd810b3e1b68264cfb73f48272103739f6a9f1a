@@ -1,7 +1,8 @@
-// 1.19.3	2023-02-22T20:24:43.1563444	Nedaire Block States
+// 1.19.3	2023-02-23T20:24:35.1952349	Nedaire Block States
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 bd5c804587cde8f8d41e0fec4c4a80ab63a87c5f assets/nedaire/blockstates/delivery_station.json
 b3e05dc4d9cb035570f23256fd0d523d1d09177f assets/nedaire/blockstates/fluid_storage.json
+fbb05483538c6262e1693703d89f8fd6fb4c78bc assets/nedaire/blockstates/generator/food.json
 4e08a9989888cc30602cbb25f6d752b6688d7e87 assets/nedaire/blockstates/generator/solar.json
 3295d546b61fe8f68f54f65914707e27d601aadf assets/nedaire/blockstates/holder.json
 14e2ab1a3ab75c5ceb3db7c78be1956f97438786 assets/nedaire/blockstates/hoover.json
@@ -17,6 +18,8 @@ f1b0077cb2f3d88972d029951cb2251faa609c41 assets/nedaire/blockstates/terramorfer.
 c6084073152e93c4fd2db5d25f104f8fab9f65f4 assets/nedaire/models/block/delivery_station.json
 5c5fbd1abd2b7718ca764b9094ac8411c27d847e assets/nedaire/models/block/delivery_station_connector.json
 826d76f9300c6b64ae8e9c323d288d7693b86e33 assets/nedaire/models/block/fluid_storage.json
+663a923042832afd0d44dfda519ea22f64c97263 assets/nedaire/models/block/generator/food_off.json
+73fec4af85f83fbf1ce4b4a10e8530cf07ff80b8 assets/nedaire/models/block/generator/food_on.json
 483279fc4f215dbe152a862a768cb8da28283713 assets/nedaire/models/block/generator/solar.json
 cfa042a8faf257e3a8ee6832b36c4ca19bd288b0 assets/nedaire/models/block/holder.json
 1f6978be18872c9a1eb219945e136c68b06dd013 assets/nedaire/models/block/hoover.json
@@ -31,6 +34,7 @@ cdaf05124cefe8c5759a406ebb0a0187f9758215 assets/nedaire/models/block/vim_storage
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json
 bc20cc74054c889bed63f44d9daaf0e50f9f01e4 assets/nedaire/models/item/fluid_storage.json
+390a90081cde0dc5722b680f22fcfbafde6121e1 assets/nedaire/models/item/generator/food.json
 01bc49c1f1d41009c70fef8eec3b3f57ee77810e assets/nedaire/models/item/generator/solar.json
 5396426a5e8200b12d11befaf52f74a426277423 assets/nedaire/models/item/holder.json
 bdf30b1e825dda292e8e7358e0eea81dd389a196 assets/nedaire/models/item/hoover.json

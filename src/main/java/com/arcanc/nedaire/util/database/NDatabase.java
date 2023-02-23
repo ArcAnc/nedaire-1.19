@@ -112,6 +112,7 @@ public class NDatabase
 				public static class Generators
 				{
 					public static final String SOLAR = GENERATOR + "/solar";
+					public static final String FOOD = GENERATOR + "/food";
 				}
 				
 				public static final String TERRAMORFER = "terramorfer";

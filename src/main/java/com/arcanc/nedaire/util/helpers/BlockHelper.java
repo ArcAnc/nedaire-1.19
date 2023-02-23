@@ -34,6 +34,7 @@ public class BlockHelper
 	{
 		public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+		public static final BooleanProperty LIT = BlockStateProperties.LIT;
 		public static class Pipe
 		{
 			public static final BooleanProperty NORTH = BlockStateProperties.NORTH;

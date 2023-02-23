@@ -60,7 +60,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerDeliveryStation(NRegistration.RegisterBlocks.DELIVERY_STATION.get());
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
-		registerSolarGenerator(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
+		registerGeneratorSolar(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
+		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -1445,7 +1446,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 	
-	private void registerSolarGenerator(Block block) 
+	private void registerGeneratorSolar(Block block) 
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR +"/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/top"));
@@ -1478,7 +1479,54 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
+	private void registerGeneratorFood(Block block) 
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/side"));
+		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/face"));
+		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/face_off"));
+	
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFace).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissive();
+					}).
+				end();
+		
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFaceOff).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissivity(0);
+					}).
+				end();
+	
+		horizontalBlock(block, (state) -> 
+		{
+			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
 
+			return lit ? modelOn : modelOff;
+		}, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(modelOff);
+	}
 	
 	private void registerModels(Block block, ModelFile model)
 	{

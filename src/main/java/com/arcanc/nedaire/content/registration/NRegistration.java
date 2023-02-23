@@ -28,6 +28,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
+import com.arcanc.nedaire.content.block.NBlockGeneratorFood;
 import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
@@ -37,6 +38,7 @@ import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
+import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
@@ -47,6 +49,7 @@ import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
+import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
 import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
@@ -269,6 +272,13 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new ModBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockGeneratorFood, ModBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD,
+				baseMachineProps,
+				NBlockGeneratorFood :: new,
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new ModBaseBlockItem(b, p));
+		
 		public static final BlockRegObject<NBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
 				baseMachineProps,
@@ -422,9 +432,15 @@ public class NRegistration
 				makeType(NBETerramorfer :: new,
 						RegisterBlocks.TERRAMORFER));
 		
-		public static final RegistryObject<BlockEntityType<NBEGeneratorSolar>> BE_GENERATOR_SOLAR = BLOCK_ENTITIES.register(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, 
+		public static final RegistryObject<BlockEntityType<NBEGeneratorSolar>> BE_GENERATOR_SOLAR = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, 
 				makeType(NBEGeneratorSolar :: new, 
 						RegisterBlocks.GENERATOR_SOLAR));
+		
+		public static final RegistryObject<BlockEntityType<NBEGeneratorFood>> BE_GENERATOR_FOOD = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD, 
+				makeType(NBEGeneratorFood :: new, 
+						RegisterBlocks.GENERATOR_FOOD));
 		
 		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
@@ -596,6 +612,9 @@ public class NRegistration
 		
 		public static final BEContainer<NBEGeneratorSolar, NGeneratorSolarMenu> GENERATOR_SOLAR = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, NGeneratorSolarMenu :: makeServer, NGeneratorSolarMenu :: makeClient);
+
+		public static final BEContainer<NBEGeneratorFood, NGeneratorFoodMenu> GENERATOR_FOOD = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD, NGeneratorFoodMenu :: makeServer, NGeneratorFoodMenu :: makeClient);
 		
 		public static final BEContainer<NBEDeliveryStation, NDeliveryStationMenu> DELIVERY_STATION = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION, NDeliveryStationMenu :: makeServer, NDeliveryStationMenu :: makeClient);

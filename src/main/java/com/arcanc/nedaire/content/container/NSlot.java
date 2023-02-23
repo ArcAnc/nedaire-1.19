@@ -132,6 +132,21 @@ public class NSlot extends SlotItemHandler
 		}
 	}
 	
+	public static class GeneratorFoodSlot extends NSlot
+	{
+
+		public GeneratorFoodSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
+		{
+			super(inv, panelIndex, id, x, y);
+		}
+		
+		@Override
+		public boolean mayPlace(ItemStack stack) 
+		{
+			return stack.isEdible();
+		}
+	}
+	
 	public static class ItemHandlerGhost extends NSlot
 	{
 

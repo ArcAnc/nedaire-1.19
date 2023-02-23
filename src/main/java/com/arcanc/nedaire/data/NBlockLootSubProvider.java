@@ -77,6 +77,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		
 		this.add(NRegistration.RegisterBlocks.TERRAMORFER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.TERRAMORFER.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get()));
+		this.add(NRegistration.RegisterBlocks.GENERATOR_FOOD.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_FOOD.get()));
 		this.add(NRegistration.RegisterBlocks.PEDESTAL.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PEDESTAL.get()));
 		this.add(NRegistration.RegisterBlocks.HOLDER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOLDER.get()));
 		this.add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get()));

@@ -22,6 +22,7 @@ import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.screen.NDeliveryStationScreen;
 import com.arcanc.nedaire.content.container.screen.NFluidStorageScreen;
+import com.arcanc.nedaire.content.container.screen.NGeneratorFoodScreen;
 import com.arcanc.nedaire.content.container.screen.NGeneratorSolarScreen;
 import com.arcanc.nedaire.content.container.screen.NHooverScreen;
 import com.arcanc.nedaire.content.container.screen.NVimStorageScreen;
@@ -182,6 +183,7 @@ public class Nedaire
 	{
 		MenuScreens.register(NRegistration.RegisterMenuTypes.HOOVER.getType(), NHooverScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_SOLAR.getType(), NGeneratorSolarScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_FOOD.getType(), NGeneratorFoodScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.DELIVERY_STATION.getType(), NDeliveryStationScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.VIM_STORAGE.getType(), NVimStorageScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.FLUID_STORAGE.getType(), NFluidStorageScreen :: new);
