@@ -73,6 +73,8 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterItems.HAMMER.get(), StringHelper.capitalize(NDatabase.Items.Names.HAMMER));
 		add(NRegistration.RegisterItems.CHALK.get(), StringHelper.capitalize(NDatabase.Items.Names.CHALK));
 
+		add(NRegistration.RegisterItems.CRYSTAL_PRISON.get(), StringHelper.capitalize(NDatabase.Items.Names.CRYSTAL_PRISON.replace("_p", " P")));
+
 		add(NRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
 		
 		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));

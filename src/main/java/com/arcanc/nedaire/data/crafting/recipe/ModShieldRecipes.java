@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.data.crafting.recipe;
 
-import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
+import com.arcanc.nedaire.content.item.weapon.NShieldBase;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.nbt.CompoundTag;
@@ -57,7 +57,7 @@ public class ModShieldRecipes extends ShieldDecorationRecipe
 		        } 
 		    	else 
 		        {
-		    		if (!(itemstack2.getItem() instanceof ModShieldBase)) 
+		    		if (!(itemstack2.getItem() instanceof NShieldBase)) 
 		        	{
 		    			return false;
 		            }
@@ -95,7 +95,7 @@ public class ModShieldRecipes extends ShieldDecorationRecipe
 				{
 					itemstack = itemstack2;
 				} 
-				else if (itemstack2.getItem() instanceof ModShieldBase) 
+				else if (itemstack2.getItem() instanceof NShieldBase) 
 				{
 					itemstack1 = itemstack2.copy();
 				}

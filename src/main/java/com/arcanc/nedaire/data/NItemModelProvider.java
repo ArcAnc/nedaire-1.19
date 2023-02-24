@@ -65,6 +65,8 @@ public class NItemModelProvider extends ItemModelProvider
 		handheld(NRegistration.RegisterItems.HAMMER.getId());
 		simpleItem(NRegistration.RegisterItems.CHALK.getId());
 		handheld(NRegistration.RegisterItems.BOOK.getId());
+
+		simpleItem(NRegistration.RegisterItems.CRYSTAL_PRISON.getId());
 		
 		getBuilder(name(NRegistration.RegisterItems.DRONE_SPAWN_EGG.getId().getPath())).
 		parent(getExistingFile(mcLoc("item/template_spawn_egg")));

@@ -57,6 +57,9 @@ public class NDatabase
 			public static final String PLAYER_ARMOR = "player";
 			
 			public static final String HAMMER = "hammer";
+			
+			public static final String CRYSTAL_PRISON = "crystal_prison";
+			
 			public static final String CHALK = "chalk";
 			
 			public static class Tools
@@ -198,6 +201,7 @@ public class NDatabase
 		public static class Names
 		{
 			public static final String DELIVERY_DRONE = "delivery_drone";
+			public static final String CRYSTAL_PRISON = Items.Names.CRYSTAL_PRISON;
 		}
 	}
 	

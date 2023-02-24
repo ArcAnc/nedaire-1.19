@@ -11,19 +11,19 @@ package com.arcanc.nedaire.content.material;
 import java.util.List;
 
 import com.arcanc.nedaire.content.block.NOreBlock;
-import com.arcanc.nedaire.content.item.ModBaseBlockItem;
-import com.arcanc.nedaire.content.item.armor.ModArmorBase;
-import com.arcanc.nedaire.content.item.armor.ModHorseArmorItemBase;
-import com.arcanc.nedaire.content.item.tool.ModAxeBase;
-import com.arcanc.nedaire.content.item.tool.ModFishingRodBase;
-import com.arcanc.nedaire.content.item.tool.ModHoeBase;
-import com.arcanc.nedaire.content.item.tool.ModPickaxeBase;
-import com.arcanc.nedaire.content.item.tool.ModShearsBase;
-import com.arcanc.nedaire.content.item.tool.ModShovelBase;
-import com.arcanc.nedaire.content.item.weapon.ModBowBase;
-import com.arcanc.nedaire.content.item.weapon.ModCrossbowBase;
-import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
-import com.arcanc.nedaire.content.item.weapon.ModSwordBase;
+import com.arcanc.nedaire.content.item.NBaseBlockItem;
+import com.arcanc.nedaire.content.item.armor.NArmorBase;
+import com.arcanc.nedaire.content.item.armor.NHorseArmorItemBase;
+import com.arcanc.nedaire.content.item.tool.NAxeBase;
+import com.arcanc.nedaire.content.item.tool.NFishingRodBase;
+import com.arcanc.nedaire.content.item.tool.NHoeBase;
+import com.arcanc.nedaire.content.item.tool.NPickaxeBase;
+import com.arcanc.nedaire.content.item.tool.NShearsBase;
+import com.arcanc.nedaire.content.item.tool.NShovelBase;
+import com.arcanc.nedaire.content.item.weapon.NBowBase;
+import com.arcanc.nedaire.content.item.weapon.NCrossbowBase;
+import com.arcanc.nedaire.content.item.weapon.NShieldBase;
+import com.arcanc.nedaire.content.item.weapon.NSwordBase;
 import com.arcanc.nedaire.content.material.armor.horse.ModHorseArmorMaterial;
 import com.arcanc.nedaire.content.material.armor.player.ModAbstractPlayerArmorMaterial;
 import com.arcanc.nedaire.content.material.armor.player.ModPlayerArmorMaterial;
@@ -116,23 +116,23 @@ public class ModMaterial
 		this.nugget = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.NUGGET));
 		this.dust = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.DUST));
 		
-		this.pickaxe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.PICKAXE), (p) -> new ModPickaxeBase(toolMat));
-		this.axe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.AXE), (p) -> new ModAxeBase(toolMat, toolMat.getAttackDamageBonus() + 5 - 1, -3.2f));
-		this.shovel = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHOVEL), (p) -> new ModShovelBase(toolMat));
-		this.hoe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.HOE), (p) -> new ModHoeBase(toolMat));
-		this.shears = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHEARS), (p) -> new ModShearsBase(toolMat));
-		this.fishingRod = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.FISHING_ROD), (p) -> new ModFishingRodBase(toolMat));
+		this.pickaxe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.PICKAXE), (p) -> new NPickaxeBase(toolMat));
+		this.axe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.AXE), (p) -> new NAxeBase(toolMat, toolMat.getAttackDamageBonus() + 5 - 1, -3.2f));
+		this.shovel = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHOVEL), (p) -> new NShovelBase(toolMat));
+		this.hoe = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.HOE), (p) -> new NHoeBase(toolMat));
+		this.shears = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.SHEARS), (p) -> new NShearsBase(toolMat));
+		this.fishingRod = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.TOOL, Items.Names.Tools.FISHING_ROD), (p) -> new NFishingRodBase(toolMat));
 	
-		this.sword = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SWORD), (p) -> new ModSwordBase(toolMat));
-		this.shield = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SHIELD), (p) -> new ModShieldBase(toolMat));
-		this.bow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.BOW), (p) -> new ModBowBase(toolMat));
-		this.crossbow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.CROSSBOW), (p) -> new ModCrossbowBase(toolMat));
+		this.sword = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SWORD), (p) -> new NSwordBase(toolMat));
+		this.shield = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.SHIELD), (p) -> new NShieldBase(toolMat));
+		this.bow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.BOW), (p) -> new NBowBase(toolMat));
+		this.crossbow = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.WEAPON, Items.Names.Weapon.CROSSBOW), (p) -> new NCrossbowBase(toolMat));
 	
-		this.armorHorse = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.Armor.ARMOR_HORSE), (p) -> new ModHorseArmorItemBase(horseArmorMat));
-		this.playerArmorHead = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_HEAD), (p) -> new ModArmorBase(armorMat, EquipmentSlot.HEAD));
-		this.playerArmorChest = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_CHEST), (p) -> new ModArmorBase(armorMat, EquipmentSlot.CHEST));
-		this.playerArmorLegs = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), (p) -> new ModArmorBase(armorMat, EquipmentSlot.LEGS));
-		this.playerArmorFeet = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), (p) -> new ModArmorBase(armorMat, EquipmentSlot.FEET));
+		this.armorHorse = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.Armor.ARMOR_HORSE), (p) -> new NHorseArmorItemBase(horseArmorMat));
+		this.playerArmorHead = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_HEAD), (p) -> new NArmorBase(armorMat, EquipmentSlot.HEAD));
+		this.playerArmorChest = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_CHEST), (p) -> new NArmorBase(armorMat, EquipmentSlot.CHEST));
+		this.playerArmorLegs = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), (p) -> new NArmorBase(armorMat, EquipmentSlot.LEGS));
+		this.playerArmorFeet = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), (p) -> new NArmorBase(armorMat, EquipmentSlot.FEET));
 	
 		this.storageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK), () -> Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL));
 	
@@ -146,7 +146,7 @@ public class ModMaterial
 					() -> Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), 
 					NOreBlock :: new, 
 					baseProps, 
-					ModBaseBlockItem :: new);
+					NBaseBlockItem :: new);
 			
 			this.rawStorageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK, 
 					NDatabase.Items.Names.RAW), 
@@ -156,7 +156,7 @@ public class ModMaterial
 					() -> Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE),
 					NOreBlock :: new,
 					baseProps,
-					ModBaseBlockItem :: new);
+					NBaseBlockItem :: new);
 		}
 		else
 		{

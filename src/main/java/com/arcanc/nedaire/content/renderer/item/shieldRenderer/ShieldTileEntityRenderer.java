@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.renderer.item.shieldRenderer;
 
 import java.util.List;
 
-import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
+import com.arcanc.nedaire.content.item.weapon.NShieldBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
@@ -63,9 +63,9 @@ public class ShieldTileEntityRenderer extends BlockEntityWithoutLevelRenderer
 
 		Item shield = stack.getItem();
 
-		if (shield instanceof ModShieldBase)
+		if (shield instanceof NShieldBase)
 		{
-			ModShieldBase nShield = (ModShieldBase)shield;
+			NShieldBase nShield = (NShieldBase)shield;
 			
 			renderMaterial = flag ? nShield.getMaterial().getShieldBase() : nShield.getMaterial().getShieldNoPattern();
 		}

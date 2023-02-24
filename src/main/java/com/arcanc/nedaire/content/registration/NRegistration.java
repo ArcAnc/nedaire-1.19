@@ -54,14 +54,16 @@ import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
 import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
+import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
+import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.content.item.FakeIconItem;
-import com.arcanc.nedaire.content.item.ModBaseBlockItem;
-import com.arcanc.nedaire.content.item.ModBaseItem;
+import com.arcanc.nedaire.content.item.NBaseBlockItem;
+import com.arcanc.nedaire.content.item.NBaseItem;
 import com.arcanc.nedaire.content.item.gem.GemEffect;
 import com.arcanc.nedaire.content.item.gem.GemEffectHealth;
 import com.arcanc.nedaire.content.item.gem.GemEffectRegen;
-import com.arcanc.nedaire.content.item.tool.ModBook;
-import com.arcanc.nedaire.content.item.tool.ModHammer;
+import com.arcanc.nedaire.content.item.tool.NBook;
+import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.material.ModMaterial.ModMaterialProperties;
 import com.arcanc.nedaire.data.crafting.recipe.ModShieldRecipes;
@@ -129,29 +131,33 @@ public class NRegistration
 
 		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties();
 		
-		public static final ItemRegObject<ModBaseItem> NUGGET_SKYSTONE = simple(
+		public static final ItemRegObject<NBaseItem> NUGGET_SKYSTONE = simple(
 				StringHelper.slashPlacer(
 						NDatabase.Blocks.Names.SKYSTONE, 
 						Items.Names.NUGGET));
 		
-		public static final ItemRegObject<ModHammer> HAMMER = new ItemRegObject<>(
+		public static final ItemRegObject<NHammer> HAMMER = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						NDatabase.Items.Names.HAMMER, 
 						NDatabase.Items.Names.TOOL),
-				ModHammer :: new);
+				NHammer :: new);
 		
-		public static final ItemRegObject<ModBook> BOOK = new ItemRegObject<>(
+		public static final ItemRegObject<NBook> BOOK = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						NDatabase.GUI.Enchiridion.ENCHIRIDION, 
 						NDatabase.Items.Names.TOOL), 
-				ModBook :: new);
+				NBook :: new);
+
+		public static final ItemRegObject<CrystalPrisonItem> CRYSTAL_PRISON = new ItemRegObject<>(
+				NDatabase.Items.Names.CRYSTAL_PRISON,
+				CrystalPrisonItem :: new);
 		
-		public static final ItemRegObject<ModBaseItem> CHALK = new ItemRegObject<>(
+		public static final ItemRegObject<NBaseItem> CHALK = new ItemRegObject<>(
 				StringHelper.slashPlacer(
 						NDatabase.Items.Names.CHALK, 
 						NDatabase.Items.Names.TOOL), 
 				() -> baseProps.get().durability(220), 
-				ModBaseItem :: new);
+				NBaseItem :: new);
 		
 		public static final ItemRegObject<Item> DRONE_SPAWN_EGG = new ItemRegObject<>(
 				"drone_spawn_egg", 
@@ -167,19 +173,19 @@ public class NRegistration
 			return new ItemRegObject<>(name, Item.Properties :: new, prop -> new FakeIconItem());
 		}
 		
-		public static ItemRegObject<ModBaseItem> simpleWithStackSize(String name, int maxSize)
+		public static ItemRegObject<NBaseItem> simpleWithStackSize(String name, int maxSize)
 		{
 			return simple(name, props -> props.stacksTo(maxSize), item -> {});
 		}
 		
-		public static ItemRegObject<ModBaseItem> simple(String name)
+		public static ItemRegObject<NBaseItem> simple(String name)
 		{
 			return simple(name, props -> {}, item -> {});
 		}
 		
-		public static ItemRegObject<ModBaseItem> simple(String name, Consumer<Item.Properties> makeProps, Consumer<ModBaseItem> processItem)
+		public static ItemRegObject<NBaseItem> simple(String name, Consumer<Item.Properties> makeProps, Consumer<NBaseItem> processItem)
 		{
-			return new ItemRegObject<>(name, () -> Util.make(baseProps.get(), makeProps), (props) -> Util.make(new ModBaseItem(props), processItem));
+			return new ItemRegObject<>(name, () -> Util.make(baseProps.get(), makeProps), (props) -> Util.make(new NBaseItem(props), processItem));
 		}
 		
 		public static class ItemRegObject<T extends Item> implements Supplier<T>, ItemLike
@@ -254,79 +260,79 @@ public class NRegistration
 				requiresCorrectToolForDrops().
 				strength(2.0f);
 		
-		public static final BlockRegObject<NBaseBlock, ModBaseBlockItem> SKYSTONE = BlockRegObject.simple(
+		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
 				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
 		
-		public static final BlockRegObject<NBlockTerramorfer, ModBaseBlockItem> TERRAMORFER = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockTerramorfer, NBaseBlockItem> TERRAMORFER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER,
 				baseMachineProps,
 				NBlockTerramorfer :: new,
 				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockGeneratorSolar, ModBaseBlockItem> GENERATOR_SOLAR = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockGeneratorSolar, NBaseBlockItem> GENERATOR_SOLAR = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR,
 				baseMachineProps,
 				NBlockGeneratorSolar :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockGeneratorFood, ModBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockGeneratorFood, NBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD,
 				baseMachineProps,
 				NBlockGeneratorFood :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockPedestal, ModBaseBlockItem> PEDESTAL = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockPedestal, NBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
 				baseMachineProps,
 				NBlockPedestal :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));		
+				(b, p) -> new NBaseBlockItem(b, p));		
 		
-		public static final BlockRegObject<NBlockHolder, ModBaseBlockItem> HOLDER = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockHolder, NBaseBlockItem> HOLDER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.HOLDER,
 				baseMachineProps,
 				NBlockHolder :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockManualCrusher, ModBaseBlockItem> MANUAL_CRUSHER = new BlockRegObject<> (
+		public static final BlockRegObject<NBlockManualCrusher, NBaseBlockItem> MANUAL_CRUSHER = new BlockRegObject<> (
 				NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER,
 				baseMachineProps,
 				NBlockManualCrusher :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockFluidStorage, ModBaseBlockItem> FLUID_STORAGE = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockFluidStorage, NBaseBlockItem> FLUID_STORAGE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE, 
 				baseMachineProps, 
 				NBlockFluidStorage :: new, 
 				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockVimStorage, ModBaseBlockItem> VIM_STORAGE = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockVimStorage, NBaseBlockItem> VIM_STORAGE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
 				baseMachineProps, 
 				NBlockVimStorage :: new, 
 				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockDeliveryStation, ModBaseBlockItem> DELIVERY_STATION = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockDeliveryStation, NBaseBlockItem> DELIVERY_STATION = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION,
 				baseMachineProps,
 				NBlockDeliveryStation :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockHoover, ModBaseBlockItem> HOOVER = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockHoover, NBaseBlockItem> HOOVER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.HOOVER,
 				baseMachineProps,
 				NBlockHoover :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new ModBaseBlockItem(b, p));
+				(b, p) -> new NBaseBlockItem(b, p));
 		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
@@ -337,14 +343,14 @@ public class NRegistration
 			private final RegistryObject<I> itemBlock;
 			private final Supplier<Item.Properties> itemProps;
 			
-			public static BlockRegObject<NBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props)
+			public static BlockRegObject<NBaseBlock, NBaseBlockItem> simple (String name, Supplier<Block.Properties> props)
 			{
 				return simple(name, props, p -> {});
 			}
 			
-			public static BlockRegObject<NBaseBlock, ModBaseBlockItem> simple (String name, Supplier<Block.Properties> props, Consumer<NBaseBlock> extra)
+			public static BlockRegObject<NBaseBlock, NBaseBlockItem> simple (String name, Supplier<Block.Properties> props, Consumer<NBaseBlock> extra)
 			{
-				return new BlockRegObject<>(name, props, p -> Util.make(new NBaseBlock(p), extra), NRegistration.RegisterItems.baseProps, (b, t) -> new ModBaseBlockItem(b, t));
+				return new BlockRegObject<>(name, props, p -> Util.make(new NBaseBlock(p), extra), NRegistration.RegisterItems.baseProps, (b, t) -> new NBaseBlockItem(b, t));
 			}
 			
 			public BlockRegObject(String name, Supplier<Block.Properties> blockProps, Function<Block.Properties, T> makeBlock, Supplier<Item.Properties> itemProps, BiFunction<T, Item.Properties, I> makeItem)
@@ -540,6 +546,10 @@ public class NRegistration
 		public static final RegistryObject<EntityType<DeliveryDroneEntity>> DELIVERY_DRONE = register(
 				NDatabase.Entities.Names.DELIVERY_DRONE,
 				() -> Builder.<DeliveryDroneEntity>of(DeliveryDroneEntity :: new, MobCategory.MISC).sized(0.3125f, 0.3125f).clientTrackingRange(16));
+		
+		public static final RegistryObject<EntityType<ThrownCrystalPrison>> CRYSTAL_PRISON = register(
+				NDatabase.Entities.Names.CRYSTAL_PRISON,
+				() -> Builder.<ThrownCrystalPrison>of(ThrownCrystalPrison :: new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(4).updateInterval(10));
 		
 		private static <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<Builder<T>> builder)
 		{

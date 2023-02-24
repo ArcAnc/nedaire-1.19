@@ -29,7 +29,7 @@ import com.arcanc.nedaire.content.container.screen.NVimStorageScreen;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.ItemInterfaces.ICustomModelProperties;
-import com.arcanc.nedaire.content.item.weapon.ModShieldBase;
+import com.arcanc.nedaire.content.item.weapon.NShieldBase;
 import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
 import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
@@ -60,6 +60,7 @@ import com.arcanc.nedaire.util.helpers.StringHelper;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -119,7 +120,7 @@ public class Nedaire
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
 //	    modEventBus.addListener(this :: registerItemColors);
-	    modEventBus.addListener(ModShieldBase :: registerReloadListener);
+	    modEventBus.addListener(NShieldBase :: registerReloadListener);
 	    modEventBus.addListener(this :: registerCapability);
 	    modEventBus.addListener(this :: registerParticles);
 	    
@@ -193,6 +194,7 @@ public class Nedaire
 	private void registerEntityRenderers() 
 	{
 		EntityRenderers.register(NRegistration.RegisterEntities.DELIVERY_DRONE.get(), DeliveryDroneRenderer :: new);
+		EntityRenderers.register(NRegistration.RegisterEntities.CRYSTAL_PRISON.get(), ThrownItemRenderer :: new);
 	}
 
 

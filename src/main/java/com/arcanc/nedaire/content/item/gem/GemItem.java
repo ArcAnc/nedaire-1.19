@@ -9,12 +9,12 @@
 package com.arcanc.nedaire.content.item.gem;
 
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
-import com.arcanc.nedaire.content.item.ModBaseItem;
+import com.arcanc.nedaire.content.item.NBaseItem;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.world.item.ItemStack;
 
-public class GemItem extends ModBaseItem implements IGemItem
+public class GemItem extends NBaseItem implements IGemItem
 {
 	
 	public GemItem(Properties props) 

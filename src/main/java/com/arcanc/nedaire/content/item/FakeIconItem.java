@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item;
 
-public class FakeIconItem extends ModBaseItem 
+public class FakeIconItem extends NBaseItem 
 {
 
 	public FakeIconItem() 
