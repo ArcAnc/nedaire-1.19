@@ -39,7 +39,7 @@
 	</classpathentry>
 	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
-	<classpathentry sourcepath="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.3-44.0.48_mapped_official_1.19.3/forge-1.19.3-44.0.48_mapped_official_1.19.3-sources.jar" kind="lib" path="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.3-44.0.48_mapped_official_1.19.3/forge-1.19.3-44.0.48_mapped_official_1.19.3.jar">
+	<classpathentry sourcepath="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.3-44.0.48_mapped_official_1.19.3/forge-1.19.3-44.0.48_mapped_official_1.19.3-sources.jar" kind="lib" path="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.3-44.0.48_mapped_official_1.19.3/forge-1.19.3-44.0.48_mapped_official_1.19.3-recomp.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
