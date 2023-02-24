@@ -25,14 +25,16 @@ hs_err_pid*
 replay_pid*
 
 # gradle
-build
 .gradle
 
 # other
 eclipse
 run/
 bin/
-/logs/
+build/
+.settings/
+LICENSE
+LICENSE.txt
 
 .classpath
 runServer.launch
