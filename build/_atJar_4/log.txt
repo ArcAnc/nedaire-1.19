@@ -1,7 +1,0 @@
-Java Launcher: C:\Program Files\Java\jdk-17.0.4.1\bin\java.exe
-Arguments: '--inJar, S:\Programs\MC mods\nedaire 1.19\build\fg_cache\net\minecraftforge\forge\1.19.3-44.0.48\forge-1.19.3-44.0.48-injected.jar, --outJar, S:\Programs\MC mods\nedaire 1.19\build\fg_cache\net\minecraftforge\forge\1.19.3-44.0.48_mapped_official_1.19.3\forge-1.19.3-44.0.48_mapped_official_1.19.3.jar, --logFile, accesstransform.log, --atFile, S:\Programs\MC mods\nedaire 1.19\src\main\resources\META-INF\accesstransformer.cfg, --atFile, S:\Programs\MC mods\nedaire 1.19\build\_atJar_4\parent_at.cfg'
-Classpath:
- - C:\Users\Ancie\.gradle\caches\forge_gradle\maven_downloader\net\minecraftforge\accesstransformers\8.0.7\accesstransformers-8.0.7-fatjar.jar
-Working directory: S:\Programs\MC mods\nedaire 1.19\build\_atJar_4
-Main class: net.minecraftforge.accesstransformer.TransformerProcessor
-====================================
