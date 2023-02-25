@@ -276,6 +276,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
 				texture("main", tex).
+				texture("port", getPortTexture()).
 				texture("particle", tex).
 				element().
 					//base
@@ -424,6 +425,15 @@ public class NBlockStatesProvider extends BlockStateProvider
 							uvs(9, 9, 6, 12).
 							end().
 						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.DOWN).
+						texture("#port").
+						cullface(Direction.DOWN).
+						tintindex(Direction.DOWN.get3DDataValue()).
+						end().
 				end();
 	
 		horizontalBlock(block, model, 0);
@@ -566,6 +576,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("front", texFront).
 				texture("side", texSide).
 				texture("top", texTop).
+				texture("port", getPortTexture()).
 				texture("particle", texFront).
 				element().
 					from(0, 0, 2).
@@ -765,6 +776,20 @@ public class NBlockStatesProvider extends BlockStateProvider
 							if (face.getAxis() != Direction.Axis.Y)
 								builder.cullface(face);
 						}).
+				end().
+				element().
+					from(-0.001f, -0.001f, -0.001f).
+					to(16.001f, 16.001f, 16.001f).
+						face(Direction.WEST).
+							texture("#port").
+							cullface(Direction.WEST).
+							tintindex(Direction.WEST.get3DDataValue()).
+							end().
+						face(Direction.EAST).
+							texture("#port").
+							cullface(Direction.EAST).
+							tintindex(Direction.EAST.get3DDataValue()).
+							end().
 				end();
 	
 		horizontalBlock(block, model, 0);
@@ -784,6 +809,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("glass", texGlass).
 				texture("updown", texTop).
 				texture("particle", texGlass).
+				texture("port", getPortTexture()).
 				ao(false).
 				element().
 					from(3, 0, 3).
@@ -816,7 +842,22 @@ public class NBlockStatesProvider extends BlockStateProvider
 						uvs(0, 16, 16, 0).
 						texture("#glass").
 						end().
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.UP).
+						texture("#port").
+						cullface(Direction.UP).
+						tintindex(Direction.UP.get3DDataValue()).
+						end().
+					face(Direction.DOWN).
+						texture("#port").
+						cullface(Direction.DOWN).
+						tintindex(Direction.DOWN.get3DDataValue()).
+						end().
 				end();
+
 		
 		registerModels(block, model);
 	}
@@ -1143,11 +1184,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 		ResourceLocation texInside = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_inside"));
 		
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
-				renderType("solid").
+				renderType("cutout").
 				texture("side", texSide).
 				texture("top", texTop).
 				texture("bot", texBot).
 				texture("inside", texInside).
+				texture("port", getPortTexture()).
 				texture("particle", texSide).
 				element().
 					//base
@@ -1322,6 +1364,26 @@ public class NBlockStatesProvider extends BlockStateProvider
 						texture("#top").
 						rotation(FaceRotation.COUNTERCLOCKWISE_90).
 						end().
+		end().
+		element().
+		from(-0.001f, -0.001f, -0.001f).
+		to(16.001f, 16.001f, 16.001f).
+			face(Direction.DOWN).
+				end().
+			face(Direction.SOUTH).
+				end().
+			face(Direction.NORTH).
+				end().
+			face(Direction.EAST).
+				end().
+			face(Direction.WEST).
+				end().
+			faces((dir, builder) -> 
+			{
+				builder.texture("#port").
+				cullface(dir).
+				tintindex(dir.get3DDataValue());
+			}).
 		end();
 		
 		registerModels(block, model);
@@ -1453,10 +1515,11 @@ public class NBlockStatesProvider extends BlockStateProvider
 		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/bot"));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
-				renderType("solid").
+				renderType("cutout").
 				texture("side", texSide).
 				texture("top", texTop).
 				texture("bot", texBot).
+				texture("port", getPortTexture()).
 				texture("particle", texTop).
 				element().
 					from(0, 0, 0).
@@ -1474,7 +1537,17 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.texture("#top");
 						}
 					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.DOWN).
+						texture("#port").
+						cullface(Direction.DOWN).
+						tintindex(Direction.DOWN.get3DDataValue()).
+						end().
 				end();
+
 		
 		registerModels(block, model);
 	}
@@ -1489,6 +1562,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				renderType("cutout").
 				texture("side", texSide).
 				texture("face", texFace).
+				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
 					from(0, 0, 0).
@@ -1499,12 +1573,33 @@ public class NBlockStatesProvider extends BlockStateProvider
 						if (face == Direction.SOUTH)
 							builder.texture("#face").emissive();
 					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
 				end();
 		
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
 				texture("face", texFaceOff).
+				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
 					from(0, 0, 0).
@@ -1515,7 +1610,28 @@ public class NBlockStatesProvider extends BlockStateProvider
 						if (face == Direction.SOUTH)
 							builder.texture("#face").emissivity(0);
 					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
 				end();
+
 	
 		horizontalBlock(block, (state) -> 
 		{
@@ -1534,6 +1650,11 @@ public class NBlockStatesProvider extends BlockStateProvider
 		
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(model);
+	}
+	
+	private ResourceLocation getPortTexture()
+	{
+		return StringHelper.getLocFStr(blockPrefix("port"));
 	}
 	
 	private String itemPrefix(String str)

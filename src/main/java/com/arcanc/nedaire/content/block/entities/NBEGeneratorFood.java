@@ -20,6 +20,7 @@ import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -59,6 +60,14 @@ public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventory
 	{
 		super(NRegistration.RegisterBlockEntities.BE_GENERATOR_FOOD.get(), pos, state);
 	
+		for (Direction dir : Direction.values())
+		{
+			if (dir != Direction.SOUTH)
+			{
+				this.ports.put(dir, AccessType.FULL);
+			}
+		}
+		
 		Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.FACING);
 		suctionZone = new AABB(getBlockPos().offset(dir.getNormal()));
 		

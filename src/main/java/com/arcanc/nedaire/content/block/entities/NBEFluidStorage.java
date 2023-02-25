@@ -15,6 +15,7 @@ import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
 
@@ -23,15 +24,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
-public class NBEFluidStorage extends NBaseBlockEntity  implements IInventoryCallback, IInteractionObjectN<NBEFluidStorage> 
+public class NBEFluidStorage extends NBESidedAccess implements IInventoryCallback, IInteractionObjectN<NBEFluidStorage> 
 {
 
 	protected FluidTank fluid;
@@ -41,6 +39,13 @@ public class NBEFluidStorage extends NBaseBlockEntity  implements IInventoryCall
 	{
 		super(NRegistration.RegisterBlockEntities.BE_FLUID_STORAGE.get(), pos, state);
 
+		for (Direction dir : Direction.values())
+		{
+			if (dir.getAxis().isVertical())
+			{
+				this.ports.put(dir, AccessType.FULL);
+			}
+		}
 		
 		this.fluid = new FluidTank(5000)
 				{
@@ -50,19 +55,19 @@ public class NBEFluidStorage extends NBaseBlockEntity  implements IInventoryCall
 						setChanged();
 					}
 				};
-		
-		this.fluid.fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
 	}
 	
 	@Override
 	public void readCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+		super.readCustomTag(tag, descPacket);
 		fluid.readFromNBT(tag.getCompound(NDatabase.Capabilities.FluidHandler.TAG_LOCATION));
 	}
 	
 	@Override
 	public void writeCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+		super.writeCustomTag(tag, descPacket);
 		tag.put(NDatabase.Capabilities.FluidHandler.TAG_LOCATION, fluid.writeToNBT(new CompoundTag()));
 	}
 	

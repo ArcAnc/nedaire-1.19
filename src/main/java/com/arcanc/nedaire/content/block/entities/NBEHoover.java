@@ -22,6 +22,7 @@ import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.content.capabilities.filter.ItemFilter;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.WorldHelper;
@@ -72,6 +73,14 @@ public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallbac
 		this.suck_zone_local = SUCK_ZONE.move(pos);
 		
 		this.eat_zone_local = EAT_ZONE.move(pos);
+		
+		for (Direction dir : Direction.values())
+		{
+			if (dir != Direction.UP)
+			{
+				this.ports.put(dir, AccessType.FULL);
+			}
+		}
 	}
 
 	@Override

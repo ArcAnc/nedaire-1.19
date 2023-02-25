@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.arcanc.nedaire.content.block.entities.NBESidedAccess;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
@@ -57,17 +58,22 @@ import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -123,6 +129,7 @@ public class Nedaire
 	    modEventBus.addListener(NShieldBase :: registerReloadListener);
 	    modEventBus.addListener(this :: registerCapability);
 	    modEventBus.addListener(this :: registerParticles);
+	    modEventBus.addListener(this :: registerBlockColors);
 	    
 	    registerBECustomModels(modEventBus);
 	    registerEntityCustomModels(modEventBus);
@@ -243,6 +250,22 @@ public class Nedaire
 				modProps.registerModelProperties();
 			}
 		});
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void registerBlockColors(final RegisterColorHandlersEvent.Block event)
+	{
+		BlockColors colors = event.getBlockColors();
+		
+		colors.register( (state, level, pos, tintIndex) -> 
+		{
+			BlockEntity tile = level.getBlockEntity(pos);
+			if (tile != null && tile instanceof NBESidedAccess access)
+			{
+				return access.getAccessType(Direction.values()[tintIndex]).getColor();
+			}
+			return 0;
+		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> true).map(RegistryObject :: get).toArray(Block[] :: new));
 	}
 	
     public void gatherData(GatherDataEvent event)

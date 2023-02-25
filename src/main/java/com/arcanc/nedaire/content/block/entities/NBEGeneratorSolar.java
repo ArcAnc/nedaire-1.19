@@ -18,6 +18,7 @@ import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.VimHelper;
 
@@ -41,6 +42,8 @@ public class NBEGeneratorSolar extends NBERedstoneSensitive implements IInventor
 	public NBEGeneratorSolar(BlockPos pos, BlockState state) 
 	{
 		super(NRegistration.RegisterBlockEntities.BE_GENERATOR_SOLAR.get(), pos, state);
+		
+		this.ports.put(Direction.DOWN, AccessType.OUTPUT);
 		
 		energy = VimStorage.newConfig(this).setMaxEnergy(6000).build();
 	}
@@ -89,7 +92,7 @@ public class NBEGeneratorSolar extends NBERedstoneSensitive implements IInventor
 	{
 		if (cap == VimHelper.vimHandler)
 		{
-			if (side != Direction.UP)
+			if (side == Direction.DOWN)
 			{
 				return energyHandler.cast();
 			}

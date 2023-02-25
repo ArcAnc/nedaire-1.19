@@ -207,6 +207,8 @@ public class NDatabase
 	
 	public static class Capabilities
 	{
+		public static final String SIDED_ACCESS = StringHelper.getStrLocFStr("sided_access");
+		
 		public static class ItemHandler
 		{
 			public static final String SLOTS = "slots";

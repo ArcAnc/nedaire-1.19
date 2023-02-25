@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NBERedstoneSensitive extends NBaseBlockEntity 
+public class NBERedstoneSensitive extends NBESidedAccess 
 {
 
 	private int currentRedstoneMod = 2;
@@ -61,6 +61,8 @@ public class NBERedstoneSensitive extends NBaseBlockEntity
 	@Override
 	public void readCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+
+		super.readCustomTag(tag, descPacket);
 		
 		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
 		{
@@ -72,6 +74,8 @@ public class NBERedstoneSensitive extends NBaseBlockEntity
 	@Override
 	public void writeCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+		super.writeCustomTag(tag, descPacket);
+		
 		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD, this.currentRedstoneMod);
 	}
 

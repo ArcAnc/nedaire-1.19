@@ -19,7 +19,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -57,7 +57,7 @@ public class BlockHelper
 
 	
 	@SuppressWarnings("deprecation")
-	public static final BlockEntity getTileEntity(Level world, BlockPos pos)
+	public static final BlockEntity getTileEntity(LevelReader world, BlockPos pos)
 	{
 		if (world != null && world.hasChunkAt(pos))
 		{
@@ -77,7 +77,7 @@ public class BlockHelper
 		return Optional.empty();
 	}
 	
-	public static <T> Optional<T> castTileEntity(Level world, BlockPos pos, Class<T> to)
+	public static <T> Optional<T> castTileEntity(LevelReader world, BlockPos pos, Class<T> to)
 	{
 		if (world != null && pos != null)
 		{
@@ -87,7 +87,7 @@ public class BlockHelper
 		return Optional.empty();
 	}
 	
-	public static <T> Optional<T> castTileEntity(Level world, Vec3 pos, Class<T> to)
+	public static <T> Optional<T> castTileEntity(LevelReader world, Vec3 pos, Class<T> to)
 	{
 		if (world != null && pos != null)
 		{

@@ -19,6 +19,7 @@ import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -65,6 +66,8 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 		this.inv = new NSimpleItemStorage(this, 1);
 		
 		zone = new AABB(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + 1.2f, pos.getZ() + 1);
+	
+		this.ports.put(Direction.DOWN, AccessType.INPUT);
 	}
 
 	public void power() 
@@ -190,7 +193,7 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 	@Override
 	public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) 
 	{
-		if (cap == ItemHelper.itemHandler)
+		if (cap == ItemHelper.itemHandler && side == Direction.DOWN)
 		{
 			return itemHandler.cast();
 		} 

@@ -17,6 +17,7 @@ import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
@@ -29,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallback, IInteractionObjectN<NBEVimStorage>
+public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback, IInteractionObjectN<NBEVimStorage>
 {
 
 	protected VimStorage energy;
@@ -39,19 +40,23 @@ public class NBEVimStorage extends NBaseBlockEntity implements IInventoryCallbac
 	{
 		super(NRegistration.RegisterBlockEntities.BE_VIM_STORAGE.get(), pos, state);
 
-		
 		this.energy = VimStorage.newConfig(this).setMaxEnergy(5000).setEnergy(0).build();
+		
+		this.ports.put(Direction.WEST, AccessType.FULL);
+		this.ports.put(Direction.EAST, AccessType.FULL);
 	}
 
 	@Override
 	public void readCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+		super.readCustomTag(tag, descPacket);
 		energy.deserializeNBT(tag.getCompound(NDatabase.Capabilities.Vim.TAG_LOCATION));
 	}
 
 	@Override
 	public void writeCustomTag(CompoundTag tag, boolean descPacket) 
 	{
+		super.writeCustomTag(tag, descPacket);
 		tag.put(NDatabase.Capabilities.Vim.TAG_LOCATION, energy.serializeNBT());
 	}
 
