@@ -11,7 +11,6 @@ package com.arcanc.nedaire.content.registration;
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -33,6 +31,7 @@ import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
+import com.arcanc.nedaire.content.block.NBlockMobCatcher;
 import com.arcanc.nedaire.content.block.NBlockPedestal;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
@@ -43,6 +42,7 @@ import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
+import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
@@ -52,6 +52,7 @@ import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
+import com.arcanc.nedaire.content.container.menu.NMobCatcherMenu;
 import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
@@ -190,7 +191,7 @@ public class NRegistration
 		
 		public static class ItemRegObject<T extends Item> implements Supplier<T>, ItemLike
 		{
-			public static final Collection<ItemRegObject<? extends Item>> LIST = new ArrayList<>();
+//			public static final Collection<ItemRegObject<? extends Item>> LIST = new ArrayList<>();
 			
 			private final RegistryObject<T> regObject;
 			private final Supplier<Item.Properties> props;
@@ -205,7 +206,7 @@ public class NRegistration
 				this.props = props;
 				this.regObject = ITEMS.register(name, () -> make.apply(props.get()));
 				
-				LIST.add(this);
+//				LIST.add(this);
 			}
 			
 			public Item.Properties getProperties() 
@@ -334,9 +335,16 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockMobCatcher, NBaseBlockItem> MOB_CATHER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
+				baseMachineProps,
+				NBlockMobCatcher :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
-			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
+//			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
 			
 			private final RegistryObject<T> regObject;
 			private final Supplier<Block.Properties> blockProps;
@@ -360,7 +368,7 @@ public class NRegistration
 				this.itemProps = itemProps;
 				this.itemBlock = NRegistration.RegisterItems.ITEMS.register(name, () -> makeItem.apply(regObject.get(), itemProps.get()));
 				
-				ALL_ENTRIES.add(this);
+//				ALL_ENTRIES.add(this);
 			}
 			
 			@SuppressWarnings("deprecation")
@@ -482,6 +490,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.HOOVER,
 				makeType(NBEHoover :: new,
 						RegisterBlocks.HOOVER));
+		
+		public static final RegistryObject<BlockEntityType<NBEMobCatcher>> BE_MOB_CATHER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
+				makeType(NBEMobCatcher :: new,
+						RegisterBlocks.MOB_CATHER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
@@ -619,6 +632,9 @@ public class NRegistration
 	
 		public static final BEContainer<NBEHoover, NHooverMenu> HOOVER = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.HOOVER, NHooverMenu :: makeServer, NHooverMenu :: makeClient);
+
+		public static final BEContainer<NBEMobCatcher, NMobCatcherMenu> MOB_CATCHER = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER, NMobCatcherMenu :: makeServer, NMobCatcherMenu :: makeClient);
 		
 		public static final BEContainer<NBEGeneratorSolar, NGeneratorSolarMenu> GENERATOR_SOLAR = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR, NGeneratorSolarMenu :: makeServer, NGeneratorSolarMenu :: makeClient);

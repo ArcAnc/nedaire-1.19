@@ -87,6 +87,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.VIM_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE.replace("_s", " S")));
 		add(NRegistration.RegisterBlocks.DELIVERY_STATION.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION.replace("_s", " S")));
 		add(NRegistration.RegisterBlocks.HOOVER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOOVER));
+		add(NRegistration.RegisterBlocks.MOB_CATHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER.replace("_c", " C")));
 		
 		//************************************************************************
 		//SOCKET
@@ -103,7 +104,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		//************************************************************************
 		//GUI Descriptions 
 		// 			Vim Energy
-		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d Vim");
+		add(NDatabase.Capabilities.Vim.Lang.DESCRIPTION_MAIN, "This battery contains:\n%d | %d Vim");
 		//          Fluid Handler
 		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d %s");
 		//          RedStroneSensitivePanel

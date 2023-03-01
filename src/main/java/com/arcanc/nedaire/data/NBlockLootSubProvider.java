@@ -85,6 +85,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		this.add(NRegistration.RegisterBlocks.VIM_STORAGE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.VIM_STORAGE.get()));
 		this.add(NRegistration.RegisterBlocks.DELIVERY_STATION.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.DELIVERY_STATION.get()));
 		this.add(NRegistration.RegisterBlocks.HOOVER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOOVER.get()));
+		this.add(NRegistration.RegisterBlocks.MOB_CATHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MOB_CATHER.get()));
 	
 	}
 	

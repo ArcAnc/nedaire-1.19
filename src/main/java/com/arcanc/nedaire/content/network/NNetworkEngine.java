@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.arcanc.nedaire.content.network.messages.IMessage;
+import com.arcanc.nedaire.content.network.messages.MessageBlockEntitySync;
 import com.arcanc.nedaire.content.network.messages.MessageContainerData;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.content.network.messages.MessageDeliveryStationToClient;
@@ -47,6 +48,7 @@ public class NNetworkEngine
 		registerMessage(MessageContainerUpdate.class, MessageContainerUpdate :: new, NetworkDirection.PLAY_TO_SERVER);
 		registerMessage(MessageEssenceParticle.class, MessageEssenceParticle :: new, NetworkDirection.PLAY_TO_CLIENT);
 		registerMessage(MessageDeliveryStationToClient.class, MessageDeliveryStationToClient :: new, NetworkDirection.PLAY_TO_CLIENT);
+		registerMessage(MessageBlockEntitySync.class, MessageBlockEntitySync::new);
 	}
 	
 	public static void sendToAllPlayers(IMessage message)

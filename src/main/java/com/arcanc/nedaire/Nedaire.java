@@ -26,6 +26,7 @@ import com.arcanc.nedaire.content.container.screen.NFluidStorageScreen;
 import com.arcanc.nedaire.content.container.screen.NGeneratorFoodScreen;
 import com.arcanc.nedaire.content.container.screen.NGeneratorSolarScreen;
 import com.arcanc.nedaire.content.container.screen.NHooverScreen;
+import com.arcanc.nedaire.content.container.screen.NMobCatcherScreen;
 import com.arcanc.nedaire.content.container.screen.NVimStorageScreen;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.item.FakeIconItem;
@@ -39,6 +40,7 @@ import com.arcanc.nedaire.content.renderer.EssenceRender;
 import com.arcanc.nedaire.content.renderer.blockEntity.FluidStorageRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
+import com.arcanc.nedaire.content.renderer.blockEntity.MobCatcherRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.PedestalRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.TerramorferRenderer;
 import com.arcanc.nedaire.content.renderer.entity.DeliveryDroneRenderer;
@@ -190,6 +192,7 @@ public class Nedaire
 	private void registerMenuScreens() 
 	{
 		MenuScreens.register(NRegistration.RegisterMenuTypes.HOOVER.getType(), NHooverScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.MOB_CATCHER.getType(), NMobCatcherScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_SOLAR.getType(), NGeneratorSolarScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.GENERATOR_FOOD.getType(), NGeneratorFoodScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.DELIVERY_STATION.getType(), NDeliveryStationScreen :: new);
@@ -212,6 +215,7 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_MANUAL_CRUSHER.get(), ManualCrusherRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_TERRAMORFER.get(), TerramorferRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_FLUID_STORAGE.get(), FluidStorageRenderer :: new);
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_MOB_CATHER.get(), MobCatcherRenderer :: new);
 	}
 	
 	private void registerParticles(final RegisterParticleProvidersEvent event)
@@ -224,6 +228,7 @@ public class Nedaire
 	    //ManualCrusher
 		
 		bus.addListener(ManualCrusherRenderer :: registerModelLocation);
+		bus.addListener(MobCatcherRenderer :: registerModelLocation);
 	}
 	
 	private void registerEntityCustomModels(IEventBus bus)
@@ -257,10 +262,10 @@ public class Nedaire
 	{
 		BlockColors colors = event.getBlockColors();
 		
-		colors.register( (state, level, pos, tintIndex) -> 
+		colors.register((state, level, pos, tintIndex) -> 
 		{
 			BlockEntity tile = level.getBlockEntity(pos);
-			if (tile != null && tile instanceof NBESidedAccess access)
+			if (tile != null && tile instanceof NBESidedAccess access && tintIndex != -1)
 			{
 				return access.getAccessType(Direction.values()[tintIndex]).getColor();
 			}

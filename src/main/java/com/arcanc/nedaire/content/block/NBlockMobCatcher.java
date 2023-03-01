@@ -1,6 +1,6 @@
 /**
  * @author ArcAnc
- * Created at: 2023-02-05
+ * Created at: 2023-02-26
  * Copyright (c) 2023
  * 
  * This code is licensed under "Ancient's License of Common Sense"	
@@ -8,9 +8,7 @@
  */
 package com.arcanc.nedaire.content.block;
 
-import java.util.function.BiFunction;
-
-import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
+import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.core.BlockPos;
@@ -25,31 +23,19 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NBlockTerramorfer extends NTileProviderBlock<NBETerramorfer> 
+public class NBlockMobCatcher extends NTileProviderBlock<NBEMobCatcher> 
 {
 
-	private static final VoxelShape SHAPE = Shapes.or(
-			box(4, 0, 4, 5, 4, 5), 
-			box(4, 0, 11, 5, 4, 12),
-			box(11, 0, 4, 12, 4, 5),
-			box(11, 0, 11, 12, 4, 12),
-			box(3, 4, 3, 13, 6, 13),
-			box(5, 6, 5, 11, 13, 11)); 
+	public static final VoxelShape SHAPE = Shapes.block();
 	
-	public NBlockTerramorfer(Properties properties, BiFunction<BlockPos, BlockState, NBETerramorfer> tile) 
+	public NBlockMobCatcher(Properties props) 
 	{
-		super(properties, tile);
+		super (props, NRegistration.RegisterBlockEntities.BE_MOB_CATHER);
 	}
 
-	public NBlockTerramorfer(Properties props)
-	{
-		super (props, NRegistration.RegisterBlockEntities.BE_TERRAMORFER);
-	}
-	
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
 	{
-		//FIXME: add code to click behavior
 		return super.use(state, level, pos, player, hand, hitResult);
 	}
 	

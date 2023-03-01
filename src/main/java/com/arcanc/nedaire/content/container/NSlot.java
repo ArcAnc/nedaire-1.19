@@ -8,11 +8,12 @@
  */
 package com.arcanc.nedaire.content.container;
 
+import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.arcanc.nedaire.util.inventory.IItemStackAccess;
-import com.arcanc.nedaire.util.inventory.ModManagedItemStorage;
+import com.arcanc.nedaire.util.inventory.NManagedItemStorage;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 
 import net.minecraft.resources.ResourceLocation;
@@ -65,7 +66,7 @@ public class NSlot extends SlotItemHandler
 	
 	public NSlot setColoredBackground ()
 	{
-		if (getItemHandler() instanceof ModManagedItemStorage storage)
+		if (getItemHandler() instanceof NManagedItemStorage storage)
 		{
 			IItemStackAccess slot = storage.getFullHandler().getSlot(getSlotIndex());
 			if (storage.getInputHandler().getItems().contains(slot))
@@ -144,6 +145,21 @@ public class NSlot extends SlotItemHandler
 		public boolean mayPlace(ItemStack stack) 
 		{
 			return stack.isEdible();
+		}
+	}
+	
+	public static class MobCatcherSlot extends NSlot
+	{
+
+		public MobCatcherSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
+		{
+			super(inv, panelIndex, id, x, y);
+		}
+		
+		@Override
+		public boolean mayPlace(ItemStack stack) 
+		{
+			return stack.getItem() instanceof CrystalPrisonItem;
 		}
 	}
 	

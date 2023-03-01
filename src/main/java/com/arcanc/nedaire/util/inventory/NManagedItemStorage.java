@@ -8,18 +8,23 @@
  */
 package com.arcanc.nedaire.util.inventory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.AccessType;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.base.Predicate;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
-public class ModManagedItemStorage extends NSimpleItemStorage 
+public class NManagedItemStorage extends NSimpleItemStorage 
 {
 	protected List<IItemStackAccess> inputSlots;
 	protected List<IItemStackAccess> outputSlots;
@@ -32,7 +37,19 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 	protected final LazyOptional<IItemHandler> output = LazyOptional.of(() -> outputHandler);
 	protected final LazyOptional<IItemHandler> full = LazyOptional.of(() -> fullHandler);
 
-	public ModManagedItemStorage(@Nonnull List<IItemStackAccess> inputSlots, @Nonnull List<IItemStackAccess> outputSlots) 
+	public NManagedItemStorage(@Nullable IInventoryCallback tile)
+	{
+		super(tile);
+		this.items = new ArrayList<>();
+		this.inputSlots = new ArrayList<>();
+		this.outputSlots = new ArrayList<>();
+		
+		this.inputHandler = new NSimpleItemStorage(tile);
+		this.outputHandler = new NSimpleItemStorage(tile);
+		this.fullHandler = new NSimpleItemStorage(tile);
+	}
+	
+	public NManagedItemStorage(@Nonnull List<IItemStackAccess> inputSlots, @Nonnull List<IItemStackAccess> outputSlots) 
 	{
 		super();
 		this.inputSlots = inputSlots;
@@ -41,8 +58,8 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		this.items.addAll(inputSlots);
 		this.items.addAll(outputSlots);
 	}
-	
-	public ModManagedItemStorage addInputSlot(@Nonnull IItemStackAccess slot)
+
+	public NManagedItemStorage addInputSlot(@Nonnull IItemStackAccess slot)
 	{
 		this.inputSlots.add(slot);
 		
@@ -51,12 +68,12 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		return this;
 	}
 	
-	public ModManagedItemStorage addInputSlot(int capacity, Predicate<ItemStack> validator)
+	public NManagedItemStorage addInputSlot(int capacity, Predicate<ItemStack> validator)
 	{
 		return addInputSlot(new ItemStackHolder(capacity, validator));
 	}
 
-	public ModManagedItemStorage addOutputSlot(@Nonnull IItemStackAccess slot)
+	public NManagedItemStorage addOutputSlot(@Nonnull IItemStackAccess slot)
 	{
 		this.outputSlots.add(slot);
 		
@@ -65,12 +82,12 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		return this;
 	}
 	
-	public ModManagedItemStorage addOutputSlot(int capacity)
+	public NManagedItemStorage addOutputSlot(int capacity)
 	{
 		return addOutputSlot(new ItemStackHolder(capacity, val -> false));
 	}
 	
-	public ModManagedItemStorage build()
+	public NManagedItemStorage build()
 	{
 		inputHandler.addSlots(inputSlots);
 		outputHandler.addSlots(outputSlots);
@@ -118,5 +135,39 @@ public class ModManagedItemStorage extends NSimpleItemStorage
 		}
 	}
 	
-
+	@Override
+	public CompoundTag serializeNBT()
+	{
+		CompoundTag tag = super.serializeNBT();
+		
+		tag.putInt(NDatabase.Capabilities.ItemHandler.ManagedInventory.DIVIDER_INDEX, inputHandler.getSlots());
+		
+		return tag;	
+	}
+	
+	
+	@Override
+	public void deserializeNBT(CompoundTag tag)
+	{
+		
+		this.inputHandler = new NSimpleItemStorage(tileInv);
+		this.outputHandler = new NSimpleItemStorage(tileInv);
+		this.fullHandler = new NSimpleItemStorage(tileInv);
+		this.inputSlots.clear();
+		this.outputSlots.clear();
+		
+		super.deserializeNBT(tag);
+		
+		int div = tag.getInt(NDatabase.Capabilities.ItemHandler.ManagedInventory.DIVIDER_INDEX);
+		
+		for (int q = 0 ; q < this.items.size(); q++)
+		{
+			if(q < div)
+				this.inputSlots.add(items.get(q));
+			else
+				this.outputSlots.add(items.get(q));
+		}
+		
+		build();
+	}
 }

@@ -62,6 +62,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
 		registerGeneratorSolar(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
 		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
+		registerMobCather(NRegistration.RegisterBlocks.MOB_CATHER.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -1643,6 +1644,54 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff);
 	}
+	
+	private void registerMobCather(Block block) 
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/side"));
+		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/top"));
+	
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("top", texTop).
+				texture("port", getPortTexture()).
+				texture("particle", texTop).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).
+						texture("#side").
+						cullface(face);
+						if (face == Direction.UP)
+							builder.texture("#top");
+					}).
+				end().
+				element().
+					from(-0.001f, -0.001f, -0.001f).
+					to(16.001f, 16.001f, 16.001f).
+						face(Direction.WEST).
+							end().
+						face(Direction.EAST).
+							end().
+						face(Direction.DOWN).
+							end().
+						face(Direction.SOUTH).
+							end().
+						face(Direction.NORTH).
+							end().
+						faces((dir, builder) -> 
+						{
+							builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+						}).
+				end();
+		
+		registerModels(block, model);
+	}
+
 	
 	private void registerModels(Block block, ModelFile model)
 	{

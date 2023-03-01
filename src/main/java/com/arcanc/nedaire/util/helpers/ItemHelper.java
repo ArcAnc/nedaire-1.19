@@ -234,6 +234,22 @@ public class ItemHelper
 		}).orElse(true);
 	}
 	
+	public static boolean containsStack(ItemStack stack, IItemHandler handler)
+	{
+		if (stack == null || handler == null || stack.isEmpty())
+			return false;
+		for (int q = 0; q < handler.getSlots(); q++)
+		{
+			ItemStack invStack = handler.getStackInSlot(q);
+			
+			if (ItemStack.isSameItemSameTags(stack, invStack))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static JsonObject toJson(ItemStack stack)
 	{
 		Preconditions.checkNotNull(stack, "Can't write to json null stack");

@@ -126,6 +126,7 @@ public class NDatabase
 				public static final String FLUID_STORAGE = "fluid_storage";
 				public static final String DELIVERY_STATION = "delivery_station";
 				public static final String HOOVER = "hoover";
+				public static final String MOB_CATCHER = "mob_catcher";
 			}
 			
 			public static class TagAddress
@@ -152,6 +153,12 @@ public class NDatabase
 						public static final String ATTACHED_POSES = "poses";
 						public static final String MODE = "delivery_mode";
 						public static final String PATH = "path";
+					}
+					public static class MobCatcher
+					{
+						public static final String USED_ENERGY = "used_energy";
+						public static final String WORKING = "working";
+						public static final String MOB_STACK = "mob_stack";
 					}
 				}
 			}
@@ -217,6 +224,11 @@ public class NDatabase
 			public static class ItemHolder
 			{
 				public static final String SLOT_LIMIT = "slot_limit";
+			}
+		
+			public static class ManagedInventory
+			{
+				public static final String DIVIDER_INDEX = "divider";
 			}
 		}
 		

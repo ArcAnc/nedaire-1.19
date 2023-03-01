@@ -35,7 +35,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	
 	public NSimpleItemStorage() 
 	{
-		this(null, 1);
+		this(null, 0);
 	}
 	
 	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv)
@@ -195,6 +195,14 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 		validateSlotIndex(slot);
 		tileInv.onInventoryChange(slot);
 		items.get(slot).onContentsChanged();
+	}
+	
+	public void clear()
+	{
+		for (IItemStackAccess slot : items)
+		{
+			slot.clear();
+		}
 	}
 	
 	public boolean hasSlots()

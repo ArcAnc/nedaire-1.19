@@ -21,10 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -64,7 +61,7 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 		CompoundTag data = tag.getCompound(CrystalPrisonItem.ENTITY_DATA);
 		if (data.isEmpty())
 		{
-			if ((entity instanceof Mob) && !(entity instanceof EnderDragon) && !(entity instanceof WitherBoss) && !(entity instanceof Warden))
+			if ((entity instanceof Mob) && !CrystalPrisonItem.BLOCK_LIST.contains(entity.getType()))
 			{
 				tryCatchEntity(hitResult);
 			}
