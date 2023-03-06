@@ -159,7 +159,21 @@ public class NSlot extends SlotItemHandler
 		@Override
 		public boolean mayPlace(ItemStack stack) 
 		{
-			return stack.getItem() instanceof CrystalPrisonItem;
+			return stack.getItem() instanceof CrystalPrisonItem && stack.getOrCreateTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty();
+		}
+	}
+	
+	public static class GeneratorMobSlot extends NSlot
+	{
+		public GeneratorMobSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
+		{
+			super(inv, panelIndex, id, x, y);
+		}
+		
+		@Override
+		public boolean mayPlace(ItemStack stack) 
+		{
+			return stack.getItem() instanceof CrystalPrisonItem && !stack.getTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty();
 		}
 	}
 	

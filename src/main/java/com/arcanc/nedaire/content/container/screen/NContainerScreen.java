@@ -35,6 +35,7 @@ import com.arcanc.nedaire.util.helpers.FilterHelper;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
+import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -337,7 +338,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 						this.currentPanel = 11;
 					}).build()).orElse(null);
 			
-			CustomCheckbox vimFilter = FilterHelper.getVimFilter(be).map(handler -> RadioButton.newButton(Icon.of(new ItemStack(Items.QUARTZ), false), 
+			CustomCheckbox vimFilter = FilterHelper.getVimFilter(be).map(handler -> RadioButton.newButton(Icon.of(StringHelper.getLocFStr("textures/misc/lightning.png"), 5, 0, 0, 16, 16, 16, 64), 
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM))).
 					pressAction(but -> 
 					{

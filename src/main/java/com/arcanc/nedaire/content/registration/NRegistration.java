@@ -26,7 +26,9 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
+import com.arcanc.nedaire.content.block.NBlockFurnace;
 import com.arcanc.nedaire.content.block.NBlockGeneratorFood;
+import com.arcanc.nedaire.content.block.NBlockGeneratorMob;
 import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
@@ -35,9 +37,12 @@ import com.arcanc.nedaire.content.block.NBlockMobCatcher;
 import com.arcanc.nedaire.content.block.NBlockPedestal;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
+import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
+import com.arcanc.nedaire.content.block.entities.NBEFurnace;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
+import com.arcanc.nedaire.content.block.entities.NBEGeneratorMob;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
@@ -46,10 +51,13 @@ import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
+import com.arcanc.nedaire.content.block.entities.NBlockCrusher;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
+import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
+import com.arcanc.nedaire.content.container.menu.NGeneratorMobMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
 import com.arcanc.nedaire.content.container.menu.NHooverMenu;
 import com.arcanc.nedaire.content.container.menu.NMobCatcherMenu;
@@ -67,8 +75,8 @@ import com.arcanc.nedaire.content.item.tool.NBook;
 import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.material.ModMaterial.ModMaterialProperties;
-import com.arcanc.nedaire.data.crafting.recipe.ModShieldRecipes;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
+import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
@@ -285,6 +293,13 @@ public class NRegistration
 				NBlockGeneratorFood :: new,
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
+
+		public static final BlockRegObject<NBlockGeneratorMob, NBaseBlockItem> GENERATOR_MOB = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.Generators.MOB,
+				baseMachineProps,
+				NBlockGeneratorMob :: new,
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockPedestal, NBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
@@ -335,10 +350,24 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
-		public static final BlockRegObject<NBlockMobCatcher, NBaseBlockItem> MOB_CATHER = new BlockRegObject<>(
+		public static final BlockRegObject<NBlockMobCatcher, NBaseBlockItem> MOB_CATCHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
 				baseMachineProps,
 				NBlockMobCatcher :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+
+		public static final BlockRegObject<NBlockFurnace, NBaseBlockItem> FURNACE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.FURNACE,
+				baseMachineProps,
+				NBlockFurnace :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockCrusher, NBaseBlockItem> CRUSHER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
+				baseMachineProps,
+				NBlockCrusher :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
@@ -456,6 +485,11 @@ public class NRegistration
 				makeType(NBEGeneratorFood :: new, 
 						RegisterBlocks.GENERATOR_FOOD));
 		
+		public static final RegistryObject<BlockEntityType<NBEGeneratorMob>> BE_GENERATOR_MOB = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.Generators.MOB, 
+				makeType(NBEGeneratorMob :: new, 
+						RegisterBlocks.GENERATOR_MOB));
+		
 		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
 				makeType(NBEPedestal :: new, 
@@ -494,7 +528,17 @@ public class NRegistration
 		public static final RegistryObject<BlockEntityType<NBEMobCatcher>> BE_MOB_CATHER = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
 				makeType(NBEMobCatcher :: new,
-						RegisterBlocks.MOB_CATHER));
+						RegisterBlocks.MOB_CATCHER));
+		
+		public static final RegistryObject<BlockEntityType<NBEFurnace>> BE_FURNACE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.FURNACE,
+				makeType(NBEFurnace :: new,
+						RegisterBlocks.FURNACE));
+		
+		public static final RegistryObject<BlockEntityType<NBECrusher>> BE_CRUSHER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
+				makeType(NBECrusher :: new,
+						RegisterBlocks.CRUSHER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
@@ -513,9 +557,9 @@ public class NRegistration
 	{
 		public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, NDatabase.MOD_ID);
 
-		public static final RegistryObject<SimpleCraftingRecipeSerializer<ModShieldRecipes>> SHIELD_SERIALIZER = RECIPE_SERIALIZERS.register(
+		public static final RegistryObject<SimpleCraftingRecipeSerializer<NShieldRecipes>> SHIELD_SERIALIZER = RECIPE_SERIALIZERS.register(
 				NDatabase.Recipes.VanillaTypes.SHIELD_DECORATION, 
-				() -> new SimpleCraftingRecipeSerializer<>(ModShieldRecipes :: new));
+				() -> new SimpleCraftingRecipeSerializer<>(NShieldRecipes :: new));
 
 		public static final RegistryObject<NCrusherRecipeSerializer> CRUSHER_SERIALIZER = RECIPE_SERIALIZERS.register(
 				NDatabase.Recipes.Types.CRUSHER, 
@@ -641,6 +685,9 @@ public class NRegistration
 
 		public static final BEContainer<NBEGeneratorFood, NGeneratorFoodMenu> GENERATOR_FOOD = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD, NGeneratorFoodMenu :: makeServer, NGeneratorFoodMenu :: makeClient);
+
+		public static final BEContainer<NBEGeneratorMob, NGeneratorMobMenu> GENERATOR_MOB = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.Generators.MOB, NGeneratorMobMenu :: makeServer, NGeneratorMobMenu :: makeClient);
 		
 		public static final BEContainer<NBEDeliveryStation, NDeliveryStationMenu> DELIVERY_STATION = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION, NDeliveryStationMenu :: makeServer, NDeliveryStationMenu :: makeClient);
@@ -651,6 +698,9 @@ public class NRegistration
 		public static final BEContainer<NBEVimStorage, NVimStorageMenu> VIM_STORAGE = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, NVimStorageMenu :: makeServer, NVimStorageMenu :: makeClient);
 		
+		public static final BEContainer<NBECrusher, NCrusherMenu> CRUSHER = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.CRUSHER, NCrusherMenu :: makeServer, NCrusherMenu :: makeClient);
+
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)
 		{

@@ -9,10 +9,14 @@
 package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FilterHelper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
@@ -40,10 +44,30 @@ public class NDeliveryStationMenu extends NContainerMenu
 		super(ctx);
 		this.be = be;
 	
-		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
-
 		addItemFilterSlots(FilterHelper.getItemFilter(be), 62, 15);
 		
 		addFluidFilterSlots(FilterHelper.getFluidFilter(be), 62, 15);
+
+//		this.ownSlotCount = NBEDeliveryStation.INVENTORY_SIZE * 2;
+		
+		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
+	}
+	
+	@Override
+	public void receiveMessageFromScreen(CompoundTag tag) 
+	{
+		super.receiveMessageFromScreen(tag);
+		
+		ServerPlayer player = usingPlayers.get(0);
+		ServerLevel level = player.getLevel();
+		BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.DeliveryStation.MODE))
+		{
+			BlockHelper.castTileEntity(level, pos, NBEDeliveryStation.class).ifPresent(tile -> 
+			{
+				tile.setMode(tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.DeliveryStation.MODE));
+				tile.setChanged();
+			});
+		}
 	}
 }

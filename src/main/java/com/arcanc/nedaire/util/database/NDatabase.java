@@ -116,12 +116,15 @@ public class NDatabase
 				{
 					public static final String SOLAR = GENERATOR + "/solar";
 					public static final String FOOD = GENERATOR + "/food";
+					public static final String MOB = GENERATOR + "/mob";
 				}
 				
+				public static final String FURNACE = "furnace";
+				public static final String CRUSHER = "crusher";
 				public static final String TERRAMORFER = "terramorfer";
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
-				public static final String MANUAL_CRUSHER = "manual_crusher";
+				public static final String MANUAL_CRUSHER = "manual_" + CRUSHER;
 				public static final String VIM_STORAGE = "vim_storage";
 				public static final String FLUID_STORAGE = "fluid_storage";
 				public static final String DELIVERY_STATION = "delivery_station";
@@ -159,6 +162,16 @@ public class NDatabase
 						public static final String USED_ENERGY = "used_energy";
 						public static final String WORKING = "working";
 						public static final String MOB_STACK = "mob_stack";
+					}
+					public static class GeneratorMob
+					{
+						public static final String REMAINING_ENERGY = "remaining_energy";
+						public static final String ENTITY_TYPE = "entity_type";
+					}
+					public static class Crusher
+					{
+						public static final String USED_ENERGY = "used_energy";
+						public static final String CURRENT_RECIPE = "rec";
 					}
 				}
 			}
@@ -352,6 +365,16 @@ public class NDatabase
 				public static final String PATH = GUI.Elements.PATH + "radiobutton/radiobutton";
 				public static final String BACKGROUND = GUI.Elements.PATH + "radiobutton/radiobutton_background";
 			}
+			public static class ProgressBar
+			{
+				public static final String PATH = GUI.Elements.PATH + "progress_bar/";
+				public static final String ARROW_RIGHT = PATH + "arrow_right";
+				public static class Description
+				{
+					public static final String PERCENT = PATH.replace(':', '.').replace('/', '.') + ".percent";
+					public static final String PERCENT_FULL = PATH.replace(':', '.').replace('/', '.') + ".percent_full";
+				}
+			}
 			public static class DropPanel
 			{
 				public static final String PATH = GUI.PATH + "drop_panel/";
@@ -378,6 +401,22 @@ public class NDatabase
 					public static final String DESCRIPTION_FILTER_ITEM = PATH.replace(':','.').replace('/', '.') + ".filter_item";
 					public static final String DESCRIPTION_FILTER_FLUID = PATH.replace(':','.').replace('/', '.') + ".filter_fluid";
 					public static final String DESCRIPTION_FILTER_VIM = PATH.replace(':','.').replace('/', '.') + ".filter_vim";
+				}
+			}
+		}
+		
+		public static class BlockEntities
+		{
+			public static final String PATH = GUI.PATH + "block_entities/";
+			public static class DeliveryStation
+			{
+				public static final String PATH = GUI.BlockEntities.PATH + "delivery_station/";
+				public static final String MODE = PATH + "mode/";
+				public static class Description
+				{
+					public static final String MODE_ITEMS = MODE + "items";
+					public static final String MODE_FLUIDS = MODE + "fluids";
+					public static final String MODE_VIM = MODE + "vim";
 				}
 			}
 		}

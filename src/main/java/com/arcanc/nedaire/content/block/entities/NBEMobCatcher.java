@@ -27,6 +27,7 @@ import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.B
 import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
+import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.arcanc.nedaire.util.inventory.NManagedItemStorage;
 
 import net.minecraft.core.BlockPos;
@@ -81,7 +82,7 @@ public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCal
 		this.energy = VimStorage.newConfig(this).setMaxEnergy(5000).setEnergy(0).build();
 		
 		this.inv = new NManagedItemStorage(this).
-				addInputSlot(64, stack -> stack.getItem() instanceof CrystalPrisonItem).
+				addInputSlot(64, stack -> stack.getItem() instanceof CrystalPrisonItem && stack.getOrCreateTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty()).
 				addOutputSlot(1).
 				addOutputSlot(1).
 				addOutputSlot(1).
@@ -233,13 +234,12 @@ public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCal
 			else
 				return inv.getHandler(ports.get(side)).cast();
 		}
-		else
+		else if (cap == VimHelper.vimHandler)
 		{
 			if (side == null)
 				return energyHandler.cast();
 			else if (ports.get(side) != AccessType.NONE)
 				return energyHandler.cast();
-				
 		}
 		return super.getCapability(cap, side);
 	}

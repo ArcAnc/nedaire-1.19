@@ -50,7 +50,7 @@ import net.minecraftforge.network.NetworkDirection;
 public abstract class NContainerMenu extends AbstractContainerMenu 
 {
 	private final List<GenericContainerData<?>> genericData = new ArrayList<>();
-	private final List<ServerPlayer> usingPlayers = new ArrayList<>();
+	protected final List<ServerPlayer> usingPlayers = new ArrayList<>();
 	private final Runnable setChanged;
 	private final Predicate<Player> isValid;
 	public int ownSlotCount;

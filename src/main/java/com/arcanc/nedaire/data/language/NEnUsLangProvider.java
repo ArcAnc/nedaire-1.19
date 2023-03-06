@@ -80,6 +80,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
 		add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get().asItem(), "Solar Generator");
 		add(NRegistration.RegisterBlocks.GENERATOR_FOOD.get().asItem(), "Food Generator");
+		add(NRegistration.RegisterBlocks.GENERATOR_MOB.get().asItem(), "Mob Generator");
 		add(NRegistration.RegisterBlocks.PEDESTAL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PEDESTAL));
 		add(NRegistration.RegisterBlocks.HOLDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOLDER));
 		add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER.replace("_c", " C")));
@@ -87,7 +88,9 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.VIM_STORAGE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE.replace("_s", " S")));
 		add(NRegistration.RegisterBlocks.DELIVERY_STATION.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION.replace("_s", " S")));
 		add(NRegistration.RegisterBlocks.HOOVER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOOVER));
-		add(NRegistration.RegisterBlocks.MOB_CATHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER.replace("_c", " C")));
+		add(NRegistration.RegisterBlocks.MOB_CATCHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER.replace("_c", " C")));
+		add(NRegistration.RegisterBlocks.FURNACE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FURNACE));
+		add(NRegistration.RegisterBlocks.CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.CRUSHER));
 		
 		//************************************************************************
 		//SOCKET
@@ -109,6 +112,9 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN, "This tank contains:\n%d | %d %s");
 		//          RedStroneSensitivePanel
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME, "Restone Control");
+		//			Progress Bar
+		add(NDatabase.GUI.Elements.ProgressBar.Description.PERCENT, "%d ");
+		add(NDatabase.GUI.Elements.ProgressBar.Description.PERCENT_FULL, "%.2f | %.2f");
 		
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE, "Control Mode: ");
 		add(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_DISABLED, "Disabled");
@@ -139,7 +145,10 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_ITEM, "Item Filter Panel");
 		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_FLUID, "Fluid Filter Panel");
 		add(NDatabase.GUI.Elements.DropPanel.PanelSwitcherPanel.DESCRIPTION_FILTER_VIM, "Vim Filter panel");
-		
+		//			Delivery Station
+		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_ITEMS, "This Delivery Station will transfer Items");
+		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_FLUIDS, "This Delivery Station will transfer Fluids");
+		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_VIM, "This Delivery Station will transfer Vim Energy");
 		//************************************************************************
 		//Village
 		

@@ -78,6 +78,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		this.add(NRegistration.RegisterBlocks.TERRAMORFER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.TERRAMORFER.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_FOOD.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_FOOD.get()));
+		this.add(NRegistration.RegisterBlocks.GENERATOR_MOB.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_MOB.get()));
 		this.add(NRegistration.RegisterBlocks.PEDESTAL.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PEDESTAL.get()));
 		this.add(NRegistration.RegisterBlocks.HOLDER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOLDER.get()));
 		this.add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get()));
@@ -85,7 +86,9 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		this.add(NRegistration.RegisterBlocks.VIM_STORAGE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.VIM_STORAGE.get()));
 		this.add(NRegistration.RegisterBlocks.DELIVERY_STATION.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.DELIVERY_STATION.get()));
 		this.add(NRegistration.RegisterBlocks.HOOVER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOOVER.get()));
-		this.add(NRegistration.RegisterBlocks.MOB_CATHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MOB_CATHER.get()));
+		this.add(NRegistration.RegisterBlocks.MOB_CATCHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MOB_CATCHER.get()));
+		this.add(NRegistration.RegisterBlocks.FURNACE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.FURNACE.get()));
+		this.add(NRegistration.RegisterBlocks.CRUSHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.CRUSHER.get()));
 	
 	}
 	

@@ -47,8 +47,6 @@ public class NMobCatcherMenu extends NContainerMenu
 		super(ctx);
 		this.be = be;
 	
-		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
-
 		IItemHandler inv = ItemHelper.getItemHandler(be).
 				map(handler -> handler).
 				orElse(new ItemStackHandler(5));
@@ -60,6 +58,9 @@ public class NMobCatcherMenu extends NContainerMenu
 		{
 			this.addSlot(new Output(inv, 0, q, 70 + ((q - 1) % 2) * 18, 20 + ((q - 1) / 2) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 		}
+
+		this.ownSlotCount = inv.getSlots();
 		
+		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
 	}
 }

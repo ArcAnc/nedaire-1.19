@@ -46,7 +46,6 @@ public class NHooverMenu extends NContainerMenu
 		super(ctx);
 		this.be = be;
 	
-		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
 
 		IItemHandler inv = ItemHelper.getItemHandler(be).
 				map(handler -> handler).
@@ -57,7 +56,11 @@ public class NHooverMenu extends NContainerMenu
 			this.addSlot(new NSlot(inv, 0, q, 62 + (q % 3) * 18, 15 + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(true));
 		}
 		
+		this.ownSlotCount = NBEHoover.INVENTORY_SIZE;
+		
 		addItemFilterSlots(FilterHelper.getItemFilter(be), 62, 15);
+
+		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
 	}
 
 }

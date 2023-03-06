@@ -104,197 +104,209 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 			{
 				for (Direction dir : Direction.values())
 				{
-					if (dir.getAxis() != Direction.Axis.Y)
+					//extracting
+					
+					BlockHelper.castTileEntity(getLevel(), getBlockPos().offset(dir.getNormal()), BlockEntity.class).ifPresent(tile -> 
 					{
-						//extracting
-						
-						BlockHelper.castTileEntity(getLevel(), getBlockPos().offset(dir.getNormal()), BlockEntity.class).ifPresent(tile -> 
+						switch (mode)
 						{
-							switch (mode)
+							case 0 ->
 							{
-								case 0 ->
+								ItemHelper.getItemHandler(tile).ifPresent(handler ->
 								{
-									ItemHelper.getItemHandler(tile).ifPresent(handler ->
+									for (int q = 0; q < handler.getSlots(); q++)
 									{
-										for (int q = 0; q < handler.getSlots(); q++)
-										{
-											int index = q;
-											ItemStack stack = handler.getStackInSlot(q);
+										int index = q;
+										ItemStack stack = handler.getStackInSlot(q);
 											
-											if(itemFilter.filter(stack) && itemFilter.filterMaxInInventory(handler, stack))
+										if(itemFilter.filter(stack))
+										{
+											Optional<BlockEntity> tr = getTargetBlock(0);
+											if (tr.isPresent())
 											{
-												Optional<BlockEntity> tr = getTargetBlock(0);
-												if (tr.isPresent())
+												tr.ifPresent(target -> 
 												{
-													tr.ifPresent(target -> 
+													ItemHelper.getItemHandler(target).ifPresent(tarHand -> 
 													{
-														ItemStack st = handler.extractItem(index, Math.min(itemFilter.getExtraction(), itemFilter.getMaxInInventory()), false);
-														
-														NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
-																tile.getBlockPos(),
-																target.getBlockPos(),
-																getBlockPos(),
-																true, st.copy()));
-														
-														Vec3[] p = DeliveryParticle.calculatePath(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d, 
-																		tile.getBlockPos().getZ() + 0.5d), 
-																new Vec3(
-																		getBlockPos().getX() + 0.5d,
-																		getBlockPos().getY() + 0.5d,
-																		getBlockPos().getZ() + 0.5d),
-																getLevel());
-														
-														path.add(new TransferData(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d,
-																		tile.getBlockPos().getZ() + 0.5d),
-																new Vec3(
-																		target.getBlockPos().getX() + 0.5d,
-																		target.getBlockPos().getY() + 0.5d,
-																		target.getBlockPos().getZ() + 0.5d),
-																new Vec3(getBlockPos().getX() + 0.5d,
-																		 getBlockPos().getY() + 0.5d,
-																		 getBlockPos().getZ() + 0.5d),
-																new MutableBoolean(true), 
-																new MutableInt(0),
-																new MutableInt(p.length), 
-																st));
+														if (itemFilter.filterMaxInInventory(tarHand, stack))
+														{
+															ItemStack st = handler.extractItem(index, Math.min(itemFilter.getExtraction(), itemFilter.getMaxInInventory()), false);
+															
+															NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
+																	tile.getBlockPos(),
+																	target.getBlockPos(),
+																	getBlockPos(),
+																	true, st.copy()));
+																
+															Vec3[] p = DeliveryParticle.calculatePath(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d, 
+																			tile.getBlockPos().getZ() + 0.5d), 
+																	new Vec3(
+																			getBlockPos().getX() + 0.5d,
+																			getBlockPos().getY() + 0.5d,
+																			getBlockPos().getZ() + 0.5d),
+																	getLevel());
+																
+															path.add(new TransferData(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d,
+																			tile.getBlockPos().getZ() + 0.5d),
+																	new Vec3(
+																			target.getBlockPos().getX() + 0.5d,
+																			target.getBlockPos().getY() + 0.5d,
+																			target.getBlockPos().getZ() + 0.5d),
+																	new Vec3(getBlockPos().getX() + 0.5d,
+																			 getBlockPos().getY() + 0.5d,
+																			 getBlockPos().getZ() + 0.5d),
+																	new MutableBoolean(true), 
+																	new MutableInt(0),
+																	new MutableInt(p.length), 
+																	st));															
+														}
 													});
-													break;
-												}
+												});
+												break;
 											}
 										}
-									});
-									break;
-								}
-								case 1 ->
-								{
-									FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
-									{
-										for (int q = 0; q < handler.getTanks(); q++)
-										{
-											FluidStack stack = handler.getFluidInTank(q);
-											
-											/**
-											 * FIXME: add check for max amount in TARGET inv. Not attach inventory
-											 */
-											if(fluidFilter.filter(stack))// && fluidFilter.filterMaxInInventory(handler, stack))
-											{
-												Optional<BlockEntity> tr = getTargetBlock(1);
-												if(tr.isPresent())
-												{
-													tr.ifPresent(target -> 
-													{
-														FluidStack st = handler.drain(
-																FluidHelper.copyFluidStackWithAmount(
-																		stack, 
-																		Math.min(fluidFilter.getExtraction(), fluidFilter.getMaxInInventory())), 
-																FluidAction.EXECUTE);
-
-														NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
-																tile.getBlockPos(),
-																target.getBlockPos(),
-																getBlockPos(),
-																true, st));
-													
-														Vec3[] p = DeliveryParticle.calculatePath(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d, 
-																		tile.getBlockPos().getZ() + 0.5d), 
-																new Vec3(
-																		getBlockPos().getX() + 0.5d,
-																		getBlockPos().getY() + 0.5d,
-																		getBlockPos().getZ() + 0.5d),
-																getLevel());
-														
-														path.add(new TransferData(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d,
-																		tile.getBlockPos().getZ() + 0.5d),
-																new Vec3(
-																		target.getBlockPos().getX() + 0.5d,
-																		target.getBlockPos().getY() + 0.5d,
-																		target.getBlockPos().getZ() + 0.5d),
-																new Vec3(getBlockPos().getX() + 0.5d,
-																		 getBlockPos().getY() + 0.5d,
-																		 getBlockPos().getZ() + 0.5d),
-																new MutableBoolean(true), 
-																new MutableInt(0),
-																new MutableInt(p.length), 
-																st));
-													});
-												}
-											}
-										}
-									});
-									break;
-								}
-								case 2 -> 
-								{
-									VimHelper.getVimHandler(tile).ifPresent(handler -> 
-									{
-										int amount = handler.getEnergyStored();
-											
-											if(vimFilter.filter(amount) && vimFilter.filterMaxInInventory(handler, amount))
-											{
-												Optional<BlockEntity> tr = getTargetBlock(2);
-												if(tr.isPresent())
-												{
-													tr.ifPresent(target -> 
-													{
-														int st = handler.extract(
-																Math.min(vimFilter.getExtraction(), vimFilter.getMaxInInventory()), 
-																false);
-														
-														NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
-																tile.getBlockPos(),
-																target.getBlockPos(),
-																getBlockPos(),
-																true, st));
-													
-														Vec3[] p = DeliveryParticle.calculatePath(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d, 
-																		tile.getBlockPos().getZ() + 0.5d), 
-																new Vec3(
-																		getBlockPos().getX() + 0.5d,
-																		getBlockPos().getY() + 0.5d,
-																		getBlockPos().getZ() + 0.5d),
-																getLevel());
-														
-														path.add(new TransferData(
-																new Vec3(
-																		tile.getBlockPos().getX() + 0.5d,
-																		tile.getBlockPos().getY() + 0.5d,
-																		tile.getBlockPos().getZ() + 0.5d),
-																new Vec3(
-																		target.getBlockPos().getX() + 0.5d,
-																		target.getBlockPos().getY() + 0.5d,
-																		target.getBlockPos().getZ() + 0.5d),
-																new Vec3(getBlockPos().getX() + 0.5d,
-																		 getBlockPos().getY() + 0.5d,
-																		 getBlockPos().getZ() + 0.5d),
-																new MutableBoolean(true), 
-																new MutableInt(0),
-																new MutableInt(p.length), 
-																st));
-													});
-												}
-											}
-									});
-									break;
-								}
+									}
+								});
+								break;
 							}
-						});
-					}
+							case 1 ->
+							{
+								FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
+								{
+									for (int q = 0; q < handler.getTanks(); q++)
+									{
+										FluidStack stack = handler.getFluidInTank(q);
+											
+										if(fluidFilter.filter(stack))
+										{
+											Optional<BlockEntity> tr = getTargetBlock(1);
+											if(tr.isPresent())
+											{
+												tr.ifPresent(target -> 
+												{
+													FluidHelper.getFluidHandler(target).ifPresent(tarHand -> 
+													{
+														if (fluidFilter.filterMaxInInventory(tarHand, stack))
+														{
+															FluidStack st = handler.drain(
+																	FluidHelper.copyFluidStackWithAmount(
+																			stack, 
+																			Math.min(fluidFilter.getExtraction(), fluidFilter.getMaxInInventory())), 
+																	FluidAction.EXECUTE);
+																NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
+																	tile.getBlockPos(),
+																	target.getBlockPos(),
+																	getBlockPos(),
+																	true, st));
+														
+															Vec3[] p = DeliveryParticle.calculatePath(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d, 
+																			tile.getBlockPos().getZ() + 0.5d), 
+																	new Vec3(
+																			getBlockPos().getX() + 0.5d,
+																			getBlockPos().getY() + 0.5d,
+																			getBlockPos().getZ() + 0.5d),
+																	getLevel());
+															
+															path.add(new TransferData(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d,
+																			tile.getBlockPos().getZ() + 0.5d),
+																	new Vec3(
+																			target.getBlockPos().getX() + 0.5d,
+																			target.getBlockPos().getY() + 0.5d,
+																			target.getBlockPos().getZ() + 0.5d),
+																	new Vec3(getBlockPos().getX() + 0.5d,
+																			 getBlockPos().getY() + 0.5d,
+																			 getBlockPos().getZ() + 0.5d),
+																	new MutableBoolean(true), 
+																	new MutableInt(0),
+																	new MutableInt(p.length), 
+																	st));
+														}
+													});
+												});
+											}
+										}
+									}
+								});
+								break;
+							}
+							case 2 -> 
+							{
+								VimHelper.getVimHandler(tile).ifPresent(handler -> 
+								{
+									int amount = handler.getEnergyStored();
+										
+										if(vimFilter.filter(amount))
+										{
+											Optional<BlockEntity> tr = getTargetBlock(2);
+											if(tr.isPresent())
+											{
+												tr.ifPresent(target -> 
+												{
+													VimHelper.getVimHandler(target).ifPresent(tarHand -> 
+													{
+														if (vimFilter.filterMaxInInventory(tarHand, amount))
+														{
+															int st = handler.extract(
+																	Math.min(vimFilter.getExtraction(), vimFilter.getMaxInInventory()), 
+																	false);
+															
+															NNetworkEngine.sendToAllPlayers(new MessageDeliveryStationToClient(
+																	tile.getBlockPos(),
+																	target.getBlockPos(),
+																	getBlockPos(),
+																	true, st));
+														
+															Vec3[] p = DeliveryParticle.calculatePath(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d, 
+																			tile.getBlockPos().getZ() + 0.5d), 
+																	new Vec3(
+																			getBlockPos().getX() + 0.5d,
+																			getBlockPos().getY() + 0.5d,
+																			getBlockPos().getZ() + 0.5d),
+																	getLevel());
+															
+															path.add(new TransferData(
+																	new Vec3(
+																			tile.getBlockPos().getX() + 0.5d,
+																			tile.getBlockPos().getY() + 0.5d,
+																			tile.getBlockPos().getZ() + 0.5d),
+																	new Vec3(
+																			target.getBlockPos().getX() + 0.5d,
+																			target.getBlockPos().getY() + 0.5d,
+																			target.getBlockPos().getZ() + 0.5d),
+																	new Vec3(getBlockPos().getX() + 0.5d,
+																			 getBlockPos().getY() + 0.5d,
+																			 getBlockPos().getZ() + 0.5d),
+																	new MutableBoolean(true), 
+																	new MutableInt(0),
+																	new MutableInt(p.length), 
+																	st));
+														}
+													});
+												});
+											}
+										}
+								});
+								break;
+							}
+						}
+					});
 				}
+			
 			}
 		}
 		moveObjects();
@@ -623,6 +635,30 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		return this;
 	}
 
+	/**
+	 * @return the Delivery station working mode
+	 * @implNote 
+	 * 0 - transfer Items
+	 * 1 - transfer Liquids
+	 * 2 - transfer Vim
+	 */
+	public int getMode() 
+	{
+		return mode;
+	}
+	
+	/**
+	 * @param mode the working mod set
+	 * @implNote 
+	 * 0 - transfer Items
+	 * 1 - transfer Liquids
+	 * 2 - transfer Vim
+	 */
+	public void setMode(int mode) 
+	{
+		this.mode = mode;
+	}
+	
 	@Override
 	public BEContainer<NBEDeliveryStation, ?> getContainerType() 
 	{

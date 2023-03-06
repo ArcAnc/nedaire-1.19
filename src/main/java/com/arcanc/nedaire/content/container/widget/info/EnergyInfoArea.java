@@ -80,7 +80,7 @@ public class EnergyInfoArea extends InfoArea
 			float f = this.getY() + (this.getHeight() * (1 - energyPercent));
 			float f1 = 42 * (1 - energyPercent);
 			
-			localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0f, 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
+			localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), screen.getBlitOffset(), 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
 		}
 		
 		stack.popPose();

@@ -40,19 +40,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation> 
 {
 	
-	private static final VoxelShape SHAPE = Shapes.or(
-			box(1, 0, 1, 15, 6, 15),
-			box(7, 6, 7, 9, 8, 9),
-			box(7.5f, 8, 7.5f, 8.5f, 13, 8.5f),
-			box(7.75f, 13, 7.75f, 8.25f, 16, 8.25f),
-			box(11, 6, 11, 14, 9, 14),
-			box(11, 9, 11, 16, 10, 16),
-			box(11, 6, 2, 14, 9, 5),
-			box(11, 9, 0, 16, 10, 5),
-			box(2, 6, 11, 5, 9, 14),
-			box(0, 9, 11, 5, 10, 16),
-			box(2, 6, 2, 5, 9, 5),
-			box(0, 9, 0, 5, 10, 5));
+	private static final VoxelShape SHAPE = box(5, 5, 5, 11, 11, 11);
 	
 	private final Object2IntMap<BlockState> stateToIndex = new Object2IntOpenHashMap<>();
 	private final VoxelShape[] shapeByIndex = makeShapes();
@@ -87,16 +75,20 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 		{
 			state = state.setValue(BlockHelper.BlockProperties.Pipe.WEST, Boolean.FALSE);
 		}
+		if (state.hasProperty(BlockHelper.BlockProperties.Pipe.UP))
+		{
+			state = state.setValue(BlockHelper.BlockProperties.Pipe.UP, Boolean.FALSE);
+		}
+		if (state.hasProperty(BlockHelper.BlockProperties.Pipe.DOWN))
+		{
+			state = state.setValue(BlockHelper.BlockProperties.Pipe.DOWN, Boolean.FALSE);
+		}
 		return state;
 	}
 	
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
 	{
-		if(!level.isClientSide())
-		{
-//			NetworkHooks.openScreen(null, null);
-		}
 		return super.use(state, level, pos, player, hand, hitResult);
 	}
 	
@@ -116,13 +108,15 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 				setValue(BlockHelper.BlockProperties.Pipe.NORTH, connectsTo(level, pos, Direction.NORTH)).
 				setValue(BlockHelper.BlockProperties.Pipe.SOUTH, connectsTo(level, pos, Direction.SOUTH)).
 				setValue(BlockHelper.BlockProperties.Pipe.EAST, connectsTo(level, pos, Direction.EAST)).
-				setValue(BlockHelper.BlockProperties.Pipe.WEST, connectsTo(level, pos, Direction.WEST));
+				setValue(BlockHelper.BlockProperties.Pipe.WEST, connectsTo(level, pos, Direction.WEST)).
+				setValue(BlockHelper.BlockProperties.Pipe.UP, connectsTo(level, pos, Direction.UP)).
+				setValue(BlockHelper.BlockProperties.Pipe.DOWN, connectsTo(level, pos, Direction.DOWN));
 	}
 	
 	@Override
 	public BlockState updateShape(BlockState state, Direction dir, BlockState facingState, LevelAccessor level,	BlockPos currentPos, BlockPos facingPos) 
 	{
-		return dir.getAxis().getPlane() == Direction.Plane.HORIZONTAL ? state.setValue(BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.get(dir), connectsTo(level, currentPos, dir)) : super.updateShape(state, dir, facingState, level, currentPos, facingPos);
+		return state.setValue(BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.get(dir), connectsTo(level, currentPos, dir));
 	}
 	
 	public boolean connectsTo(LevelAccessor level, BlockPos pos, Direction direction) 
@@ -142,25 +136,61 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	private VoxelShape[] makeShapes()
 	{
 		
+		//new
+		//16
+		//old
 		//3
 		VoxelShape connector_w = Shapes.or(
-				box(1, 6, 7, 3, 8, 9),
-				box(0, 6, 6, 1, 10, 10));
+				box(11, 7.5f, 7.5f, 15, 8.5f, 8.5f),
+				box(15, 6, 6, 16, 10, 10));
 		
+		//new
+		//8
+		//old
 		//2
 		VoxelShape connector_s = Shapes.or(
-				box(6, 6, 15, 10, 10, 16),
-				box(7, 6, 13, 9, 8, 15));
+				box(7.5f, 7.5f, 11, 8.5f, 8.5f, 16),
+				box(6, 6, 15, 10, 10, 16));
+		
+		//new
+		//32
+		//old
 		//4
 		VoxelShape connector_e = Shapes.or(
-				box(13, 6, 7, 15, 8, 9),
-				box(15, 6, 6, 16, 10, 10));
+				box(1, 7.5f, 7.5f, 5, 8.5f, 8.5f),
+				box(0, 6, 6, 1, 10, 10));
+		//new
+		//4
+		//old
 		//1
 		VoxelShape connector_n = Shapes.or(
-				box(6, 6, 0, 10, 10, 1),
-				box(7, 6, 1, 9, 8, 3));
+				box(7.5f, 7.5f, 1, 8.5f, 8.5f, 5),
+				box(6, 6, 0, 10, 10, 1));
+		//2
+		VoxelShape connector_up = Shapes.or(
+				box(7.5f, 11, 7.5f, 8.5f, 15, 8.5f),
+				box(6, 15, 6, 10, 16, 10));
+		//1
+		VoxelShape connector_down = Shapes.or(
+				box(7.5f, 1, 7.5f, 8.5f, 5, 8.5f),
+				box(6, 0, 6, 10, 1, 10));
 		
-		//5
+		//3
+		VoxelShape connector_up_down = Shapes.or(connector_down, connector_up);
+		
+		//12
+		VoxelShape connector_s_n = Shapes.or(connector_s, connector_n);
+		
+		//20
+		VoxelShape connector_e_n = Shapes.or(connector_e, connector_n);
+		
+		//24
+		VoxelShape connector_e_s = Shapes.or(connector_e, connector_s);
+		
+		//28
+		VoxelShape connector_e_s_n = Shapes.or(connector_e, connector_s, connector_n);
+		
+/*		//5
 		VoxelShape connector_e_n = Shapes.or(
 				connector_s,
 				connector_n);
@@ -168,12 +198,79 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 		VoxelShape connector_s_w = Shapes.or(
 				connector_s, 
 				connector_w);
-		
+*/		
 		
 		VoxelShape[] voxelShapes = new VoxelShape[] 
 				{
-						Shapes.empty(),
-						connector_s,
+		/*0*/			Shapes.empty(),
+		/*1*/			connector_down,
+		/*2*/			connector_up,
+		/*3*/			connector_up_down,
+		/*4*/			connector_n,
+		/*5*/			Shapes.or(connector_n, connector_down),
+		/*6*/			Shapes.or(connector_n, connector_up),
+		/*7*/			Shapes.or(connector_n, connector_up_down),
+		/*8*/			connector_s,
+		/*9*/			Shapes.or(connector_s, connector_down),
+		/*10*/			Shapes.or(connector_s, connector_up),
+		/*11*/			Shapes.or(connector_s, connector_up_down),
+		/*12*/			connector_s_n,
+		/*13*/			Shapes.or(connector_s_n, connector_down),
+		/*14*/			Shapes.or(connector_s_n, connector_up),
+		/*15*/			Shapes.or(connector_s_n, connector_up_down),
+		/*16*/			connector_e,
+		/*17*/			Shapes.or(connector_e, connector_down),
+		/*18*/			Shapes.or(connector_e, connector_up),
+		/*19*/			Shapes.or(connector_e, connector_up_down),
+		/*20*/			connector_e_n,
+		/*21*/			Shapes.or(connector_e_n, connector_down),
+		/*22*/			Shapes.or(connector_e_n, connector_up),
+		/*23*/			Shapes.or(connector_e_n, connector_up_down),
+		/*24*/			connector_e_s,
+		/*25*/			Shapes.or(connector_e_s, connector_down),
+		/*26*/			Shapes.or(connector_e_s, connector_up),
+		/*27*/			Shapes.or(connector_e_s, connector_up_down),
+		/*28*/			connector_e_s_n,
+		/*29*/			Shapes.or(connector_e_s_n, connector_down),
+		/*30*/			Shapes.or(connector_e_s_n, connector_up),
+		/*31*/			Shapes.or(connector_e_s_n, connector_up_down),
+		/*32*/			connector_w,
+		/*33*/			Shapes.or(connector_w, connector_down),
+		/*34*/			Shapes.or(connector_w, connector_up),
+		/*35*/			Shapes.or(connector_w, connector_up_down),
+		/*36*/			Shapes.or(connector_w, connector_n),
+		/*37*/			Shapes.or(connector_w, connector_n, connector_down),
+		/*38*/			Shapes.or(connector_w, connector_n, connector_up),
+		/*39*/			Shapes.or(connector_w, connector_n, connector_up_down),
+		/*40*/			Shapes.or(connector_w, connector_s),
+		/*41*/			Shapes.or(connector_w, connector_s, connector_down),
+		/*42*/			Shapes.or(connector_w, connector_s, connector_up),
+		/*43*/			Shapes.or(connector_w, connector_s, connector_up_down),
+		/*44*/			Shapes.or(connector_w, connector_s_n),
+		/*45*/			Shapes.or(connector_w, connector_s_n, connector_down),
+		/*46*/			Shapes.or(connector_w, connector_s_n, connector_up),
+		/*47*/			Shapes.or(connector_w, connector_s_n, connector_up_down),
+		/*48*/			Shapes.or(connector_w, connector_w),
+		/*49*/			Shapes.or(connector_w, connector_w, connector_down),
+		/*50*/			Shapes.or(connector_w, connector_w, connector_up),
+		/*51*/			Shapes.or(connector_w, connector_w, connector_up_down),
+		/*52*/			Shapes.or(connector_w, connector_e_n),
+		/*53*/			Shapes.or(connector_w, connector_e_n, connector_down),
+		/*54*/			Shapes.or(connector_w, connector_e_n, connector_up),
+		/*55*/			Shapes.or(connector_w, connector_e_n, connector_up_down),
+		/*56*/			Shapes.or(connector_w, connector_e_s),
+		/*57*/			Shapes.or(connector_w, connector_e_s, connector_down),
+		/*58*/			Shapes.or(connector_w, connector_e_s, connector_up),
+		/*59*/			Shapes.or(connector_w, connector_e_s, connector_up_down),
+		/*60*/			Shapes.or(connector_w, connector_e_s_n),
+		/*61*/			Shapes.or(connector_w, connector_e_s_n, connector_down),
+		/*62*/			Shapes.or(connector_w, connector_e_s_n, connector_up),
+		/*63*/			Shapes.or(connector_w, connector_e_s_n, connector_up_down),
+		
+						
+						
+						
+/*						connector_s,
 						connector_w, 
 						connector_s_w,
 						connector_n,
@@ -188,9 +285,9 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 						Shapes.or(connector_s, connector_e_n),
 						Shapes.or(connector_w, connector_e_n),
 						Shapes.or(connector_s_w, connector_e_n)
-				};
+*/				};
 		
-		for (int q = 0; q < 16; q++)
+		for (int q = 0; q < 64; q++)
 		{
 			voxelShapes[q] = Shapes.or(SHAPE, voxelShapes[q]);
 		}
@@ -200,7 +297,7 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	
 	private static int indexFor(Direction direction) 
 	{
-		return 1 << direction.get2DDataValue();
+		return 1 << direction.get3DDataValue();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -224,6 +321,14 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 		        if (st.getValue(BlockHelper.BlockProperties.Pipe.WEST)) 
 		        {
 		        	i |= indexFor(Direction.WEST);
+		        }
+		        if(st.getValue(BlockHelper.BlockProperties.Pipe.UP))
+		        {
+		        	i |= indexFor(Direction.UP);
+		        }
+		        if(st.getValue(BlockHelper.BlockProperties.Pipe.DOWN))
+		        {
+		        	i |= indexFor(Direction.DOWN);
 		        }
 		        return i;
 		     });
@@ -250,6 +355,6 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
 	{
-		builder.add(BlockHelper.BlockProperties.Pipe.NORTH, BlockHelper.BlockProperties.Pipe.SOUTH, BlockHelper.BlockProperties.Pipe.EAST, BlockHelper.BlockProperties.Pipe.WEST);
+		builder.add(BlockHelper.BlockProperties.Pipe.NORTH, BlockHelper.BlockProperties.Pipe.SOUTH, BlockHelper.BlockProperties.Pipe.EAST, BlockHelper.BlockProperties.Pipe.WEST, BlockHelper.BlockProperties.Pipe.UP, BlockHelper.BlockProperties.Pipe.DOWN);
 	}
 }

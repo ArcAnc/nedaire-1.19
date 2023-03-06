@@ -73,6 +73,11 @@ public class NManagedItemStorage extends NSimpleItemStorage
 		return addInputSlot(new ItemStackHolder(capacity, validator));
 	}
 
+	public NManagedItemStorage addOutputSlot(int capacity, Predicate<ItemStack> validator)
+	{
+		return addOutputSlot(new ItemStackHolder(capacity, validator));
+	}
+	
 	public NManagedItemStorage addOutputSlot(@Nonnull IItemStackAccess slot)
 	{
 		this.outputSlots.add(slot);
@@ -84,7 +89,7 @@ public class NManagedItemStorage extends NSimpleItemStorage
 	
 	public NManagedItemStorage addOutputSlot(int capacity)
 	{
-		return addOutputSlot(new ItemStackHolder(capacity, val -> false));
+		return addOutputSlot(capacity, val -> false);
 	}
 	
 	public NManagedItemStorage build()

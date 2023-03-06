@@ -8,6 +8,24 @@
     {
       "apply": {
         "model": "nedaire:block/delivery_station_connector",
+        "x": -90
+      },
+      "when": {
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "nedaire:block/delivery_station_connector",
+        "x": 90
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "nedaire:block/delivery_station_connector",
         "y": 180
       },
       "when": {

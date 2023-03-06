@@ -3,115 +3,143 @@
     {
       "faces": {
         "down": {
-          "texture": "minecraft:missingno"
+          "texture": "#tex",
+          "uv": [
+            1.0,
+            0.0,
+            2.0,
+            4.0
+          ]
         },
         "east": {
-          "texture": "#texture",
+          "rotation": 270,
+          "texture": "#tex",
           "uv": [
-            14.0,
+            1.0,
+            0.0,
             2.0,
-            16.0,
             4.0
           ]
         },
         "north": {
-          "texture": "#texture",
+          "rotation": 180,
+          "texture": "#tex",
           "uv": [
-            14.0,
             0.0,
-            16.0,
-            2.0
+            0.0,
+            1.0,
+            1.0
           ]
         },
         "south": {
-          "texture": "minecraft:missingno"
+          "texture": "#tex",
+          "uv": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ]
         },
         "up": {
-          "texture": "#texture",
+          "rotation": 180,
+          "texture": "#tex",
           "uv": [
-            14.0,
+            1.0,
             0.0,
-            16.0,
-            2.0
+            2.0,
+            4.0
           ]
         },
         "west": {
-          "texture": "#texture",
+          "rotation": 90,
+          "texture": "#tex",
           "uv": [
-            14.0,
+            1.0,
+            0.0,
             2.0,
-            16.0,
             4.0
           ]
         }
       },
       "from": [
-        7,
-        6,
-        13
+        7.5,
+        7.5,
+        11
       ],
+      "rotation": {
+        "angle": 0.0,
+        "axis": "y",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
       "to": [
-        9,
-        8,
+        8.5,
+        8.5,
         15
       ]
     },
     {
       "faces": {
         "down": {
-          "rotation": 90,
-          "texture": "#texture",
+          "texture": "#tex",
           "uv": [
-            4.0,
             0.0,
-            5.0,
-            4.0
+            8.0,
+            4.0,
+            9.0
           ]
         },
         "east": {
-          "texture": "#texture",
+          "rotation": 270,
+          "texture": "#tex",
           "uv": [
-            4.0,
             0.0,
-            5.0,
-            4.0
+            8.0,
+            4.0,
+            9.0
           ]
         },
         "north": {
-          "texture": "#texture",
+          "rotation": 180,
+          "texture": "#tex",
           "uv": [
             0.0,
+            9.0,
             4.0,
-            4.0,
-            8.0
+            13.0
           ]
         },
         "south": {
-          "texture": "#texture",
+          "cullface": "south",
+          "texture": "#tex",
           "uv": [
             0.0,
-            0.0,
+            9.0,
             4.0,
-            4.0
+            13.0
           ]
         },
         "up": {
-          "rotation": 90,
-          "texture": "#texture",
+          "rotation": 180,
+          "texture": "#tex",
           "uv": [
-            4.0,
             0.0,
-            5.0,
-            4.0
+            8.0,
+            4.0,
+            9.0
           ]
         },
         "west": {
-          "texture": "#texture",
+          "rotation": 90,
+          "texture": "#tex",
           "uv": [
-            4.0,
             0.0,
-            5.0,
-            4.0
+            8.0,
+            4.0,
+            9.0
           ]
         }
       },
@@ -120,6 +148,15 @@
         6,
         15
       ],
+      "rotation": {
+        "angle": 0.0,
+        "axis": "y",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      },
       "to": [
         10,
         10,
@@ -127,8 +164,9 @@
       ]
     }
   ],
-  "render_type": "minecraft:solid",
+  "render_type": "minecraft:cutout",
   "textures": {
-    "texture": "nedaire:block/delivery_station/delivery_station_side"
+    "particle": "nedaire:block/delivery_station/delivery_station",
+    "tex": "nedaire:block/delivery_station/delivery_station"
   }
 }

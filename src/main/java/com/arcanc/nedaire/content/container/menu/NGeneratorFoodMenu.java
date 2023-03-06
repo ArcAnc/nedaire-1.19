@@ -46,12 +46,15 @@ public class NGeneratorFoodMenu extends NContainerMenu
 		super(ctx);
 		this.be = be;
 	
-		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
 
 		IItemHandler inv = ItemHelper.getItemHandler(be).
 				map(handler -> handler).
 				orElse(new ItemStackHandler(1));
 		
 		this.addSlot(new GeneratorFoodSlot(inv, 0, 0, 62 + 18, 15 + 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_BOTH).setActive(true));
+		
+		this.ownSlotCount = 1;
+		
+		layoutPlayerInventorySlots(inventoryPlayer, 13, 90);
 	}
 }

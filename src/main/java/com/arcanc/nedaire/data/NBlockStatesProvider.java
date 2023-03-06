@@ -14,7 +14,9 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -61,8 +63,16 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
 		registerGeneratorSolar(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
-		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
-		registerMobCather(NRegistration.RegisterBlocks.MOB_CATHER.get());
+		registerMobCather(NRegistration.RegisterBlocks.MOB_CATCHER.get());
+		
+		registerMachine(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
+		registerMachine(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
+		registerMachine(NRegistration.RegisterBlocks.FURNACE.get());
+		registerMachine(NRegistration.RegisterBlocks.CRUSHER.get());
+//		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
+//		registerGeneratorMob(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
+//		registerFurnace(NRegistration.RegisterBlocks.FURNACE.get());
+//		registerCrusher(NRegistration.RegisterBlocks.CRUSHER.get());
 	}
 	
 	private void registerSimpleBlock (Block block)
@@ -863,8 +873,113 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
+	private void registerDeliveryStation(Block block)
+	{
+		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION));
+		
+		ModelFile core = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("tex", texture).
+				texture("particle", texture).
+				ao(false).
+				element().
+					from(5, 5, 5).
+					to(11, 11, 11).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(5, 5, 11, 11).texture("#tex");
+					}).
+				end();
+		
+		ModelFile connectorModel = models().getBuilder(blockPrefix(name(block) + "_connector")).
+				renderType("cutout").
+				texture("tex", texture).
+				texture("particle", texture).
+				element().
+					from(7.5f, 7.5f, 11).
+					to(8.5f, 8.5f, 15).
+					rotation().
+						angle(0).
+						axis(Axis.Y).
+						origin(8f, 8f, 8f).
+						end().
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Z)
+						{
+							builder.uvs(1, 0, 2, 4);
+							if (face == Direction.EAST)
+								builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
+							else if(face == Direction.WEST)
+								builder.rotation(FaceRotation.CLOCKWISE_90);
+							else if (face == Direction.UP)
+								builder.rotation(FaceRotation.UPSIDE_DOWN);
+						}
+						else 
+						{
+							builder.uvs(0, 0, 1, 1);
+							if(face == Direction.NORTH)
+							{
+								builder.rotation(FaceRotation.UPSIDE_DOWN);
+							}
+						}
+						builder.texture("#tex");
+					}).
+				end().
+				element().
+					from(6, 6, 15).
+					to(10, 10, 16).
+					rotation().
+						angle(0f).
+						axis(Axis.Y).
+						origin(8f, 8f, 8f).
+						end().
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Direction.Axis.Z)
+						{
+							builder.uvs(0, 8, 4, 9);
+							if (face == Direction.EAST)
+								builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
+							else if (face == Direction.WEST)
+								builder.rotation(FaceRotation.CLOCKWISE_90);
+							else if (face == Direction.UP)
+								builder.rotation(FaceRotation.UPSIDE_DOWN);
+						}
+						else
+						{
+							builder.uvs(0, 9, 4, 13);
+							if (face == Direction.NORTH)
+								builder.rotation(FaceRotation.UPSIDE_DOWN);
+							else
+								builder.cullface(Direction.SOUTH);
+						}
+						builder.texture("#tex");
+					}).
+				end();
+				
+		MultiPartBlockStateBuilder builder = getMultipartBuilder(block).part().
+				modelFile(core).addModel().end();
+			
+	        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e -> 
+	        {
+	            Direction dir = e.getKey();
+	            if (dir.getAxis().isHorizontal()) 
+	            {
+	                builder.part().modelFile(connectorModel).rotationY((((int) dir.toYRot())) % 360).addModel()
+	                    .condition(e.getValue(), true);
+	            }
+	            else
+	            {
+	            	builder.part().modelFile(connectorModel).rotationX(dir.getStepY() * 90).addModel().
+	            	condition(e.getValue(), true);
+	            }
+	        });
+		
+			itemModels().getBuilder(itemPrefix(name(block))).parent(core);
+	}
 	
-	private void registerDeliveryStation(Block block) 
+/*	private void registerDeliveryStation(Block block) 
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "_side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "_top"));
@@ -1176,7 +1291,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 	
 		itemModels().getBuilder(itemPrefix(name(block))).parent(mainModel);
 	}
-
+*/
 	private void registerHoover(Block block)
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_side"));
@@ -1553,7 +1668,105 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerGeneratorFood(Block block) 
+	private void registerMachine(Block block)
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
+		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
+		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
+	
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFace).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissive();
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+		
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFaceOff).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissivity(0);
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+
+	
+		horizontalBlock(block, (state) -> 
+		{
+			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
+
+			return lit ? modelOn : modelOff;
+		}, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(modelOff).
+		transforms().
+			transform(TransformType.GUI).
+				rotation(30, 45, 0).
+				scale(0.625f).
+			end().
+		end();		
+	}
+	
+/*	private void registerGeneratorFood(Block block) 
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/face"));
@@ -1644,6 +1857,99 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff);
 	}
+
+	private void registerGeneratorMob(Block block) 
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.MOB + "/side"));
+		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.MOB + "/face"));
+		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.MOB + "/face_off"));
+	
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFace).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissive();
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+		
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFaceOff).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissivity(0);
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+
+	
+		horizontalBlock(block, (state) -> 
+		{
+			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
+
+			return lit ? modelOn : modelOff;
+		}, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(modelOff);
+	}
+*/
 	
 	private void registerMobCather(Block block) 
 	{
