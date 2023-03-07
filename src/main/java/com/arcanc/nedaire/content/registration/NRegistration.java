@@ -56,6 +56,7 @@ import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
+import com.arcanc.nedaire.content.container.menu.NFurnaceMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorMobMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
@@ -700,6 +701,9 @@ public class NRegistration
 		
 		public static final BEContainer<NBECrusher, NCrusherMenu> CRUSHER = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.CRUSHER, NCrusherMenu :: makeServer, NCrusherMenu :: makeClient);
+
+		public static final BEContainer<NBEFurnace, NFurnaceMenu> FURNACE = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.FURNACE, NFurnaceMenu :: makeServer, NFurnaceMenu :: makeClient);
 
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)

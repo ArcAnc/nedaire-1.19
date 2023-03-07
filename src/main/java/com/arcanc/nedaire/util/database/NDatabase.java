@@ -173,6 +173,11 @@ public class NDatabase
 						public static final String USED_ENERGY = "used_energy";
 						public static final String CURRENT_RECIPE = "rec";
 					}
+					
+					public static class Furnace
+					{
+						public static final String USED_ENERGY = "used_energy";
+					}
 				}
 			}
 			

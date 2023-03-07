@@ -13,7 +13,6 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
@@ -24,6 +23,7 @@ import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.B
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.arcanc.nedaire.util.inventory.NManagedItemStorage;
@@ -32,6 +32,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -60,7 +61,7 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 		this.energy = VimStorage.newConfig(this).setMaxEnergy(5000).setEnergy(0).build();
 		
 		this.inv = new NManagedItemStorage(this).
-				addInputSlot(1, stack -> true).
+				addInputSlot(64, stack -> true).
 				addOutputSlot(64).
 				addOutputSlot(64).
 				build();
@@ -71,18 +72,18 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 	{
 		if(isPowered())
 		{
+			boolean isLit = false;
 			if (currentRecipe.isEmpty())
 			{
 				currentRecipe = NCrusherRecipe.findRecipe(getLevel(), inv.getInputHandler().getStackInSlot(0)).map(rec -> 
 				{
-					Nedaire.getLogger().warn(rec.getId().toString());
 					inv.getInputHandler().extractItem(0, 1, false);
 					return rec;
 				});
 			}
 			else
 			{
-				currentRecipe.ifPresent(rec -> 
+				isLit = currentRecipe.map(rec -> 
 				{
 					if (inv.getOutputHandler().getStackInSlot(0).getCount() < inv.getOutputHandler().getSlot(0).getSizeLimit())
 					{
@@ -91,6 +92,7 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 							int perTick = rec.getTotalProcessEnergy() / rec.getTotalProcessTime();
 							if (energy.getEnergyStored() >= perTick)
 							{
+								energy.extract(perTick, false);
 								if (usedEnergy >= rec.getTotalProcessEnergy())
 								{
 									if (inv.getOutputHandler().getStackInSlot(0).isEmpty())
@@ -116,16 +118,22 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 									
 									usedEnergy = 0;
 									currentRecipe = Optional.empty();
+									return false;
 								}
 								else
 								{
 									usedEnergy += perTick;
+									return true;
 								}
-								energy.extract(perTick, false);
 							}				
 						}
 					}
-				});				
+					return false;
+				}).orElse(false);				
+			}
+			if (getBlockState().getValue(BlockHelper.BlockProperties.LIT) != isLit)
+			{
+				getLevel().setBlock(getBlockPos(), getBlockState().setValue(BlockHelper.BlockProperties.LIT, isLit), Block.UPDATE_CLIENTS);
 			}
 		}
 	}
