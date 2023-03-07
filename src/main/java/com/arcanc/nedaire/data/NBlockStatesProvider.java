@@ -69,6 +69,9 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerMachine(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 		registerMachine(NRegistration.RegisterBlocks.FURNACE.get());
 		registerMachine(NRegistration.RegisterBlocks.CRUSHER.get());
+		
+		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
+		
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 //		registerGeneratorMob(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 //		registerFurnace(NRegistration.RegisterBlocks.FURNACE.get());
@@ -1998,6 +2001,18 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
+	private void registerCrossBlock(Block block) 
+	{
+		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
+	
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cross"))).
+				renderType("cutout").
+				ao(false).
+				texture("cross", texture).
+				texture("particle", texture);
+		
+		registerModels(block, model);
+	}
 	
 	private void registerModels(Block block, ModelFile model)
 	{

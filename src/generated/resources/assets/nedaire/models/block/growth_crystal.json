@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "nedaire:block/growth_crystal/growth_crystal"
+  }
+}

@@ -24,6 +24,7 @@ import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
+import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
 import com.arcanc.nedaire.content.block.NBlockFurnace;
@@ -38,6 +39,7 @@ import com.arcanc.nedaire.content.block.NBlockPedestal;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBECrusher;
+import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
 import com.arcanc.nedaire.content.block.entities.NBEFurnace;
@@ -81,6 +83,7 @@ import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
+import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableSet;
@@ -118,6 +121,7 @@ import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -290,14 +294,14 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockGeneratorFood, NBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD,
-				baseMachineProps,
+				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
 				NBlockGeneratorFood :: new,
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 
 		public static final BlockRegObject<NBlockGeneratorMob, NBaseBlockItem> GENERATOR_MOB = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.MOB,
-				baseMachineProps,
+				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
 				NBlockGeneratorMob :: new,
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
@@ -360,15 +364,22 @@ public class NRegistration
 
 		public static final BlockRegObject<NBlockFurnace, NBaseBlockItem> FURNACE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FURNACE,
-				baseMachineProps,
+				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
 				NBlockFurnace :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockCrusher, NBaseBlockItem> CRUSHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
-				baseMachineProps,
+				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
 				NBlockCrusher :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+
+		public static final BlockRegObject<NBlockCrystalGrowth, NBaseBlockItem> CRYSTAL_GROWTH = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH,
+				() -> baseProps.get().noCollission().emissiveRendering((state, getter, pos) -> true).sound(SoundType.AMETHYST_CLUSTER).lightLevel(state -> 5),
+				NBlockCrystalGrowth :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
@@ -540,6 +551,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
 				makeType(NBECrusher :: new,
 						RegisterBlocks.CRUSHER));
+
+		public static final RegistryObject<BlockEntityType<NBECrystalGrowth>> BE_CRYSTAL_GROWTH = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH,
+				makeType(NBECrystalGrowth :: new,
+						RegisterBlocks.CRYSTAL_GROWTH));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{

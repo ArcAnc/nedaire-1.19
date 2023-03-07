@@ -130,6 +130,12 @@ public class NDatabase
 				public static final String DELIVERY_STATION = "delivery_station";
 				public static final String HOOVER = "hoover";
 				public static final String MOB_CATCHER = "mob_catcher";
+			
+				public static class Crystal
+				{
+					private static final String CRYSTAL = "crystal";
+					public static final String GROWTH = "growth" + "_" + CRYSTAL; 
+				}
 			}
 			
 			public static class TagAddress
