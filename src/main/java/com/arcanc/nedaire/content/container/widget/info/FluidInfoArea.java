@@ -37,34 +37,41 @@ public class FluidInfoArea extends InfoArea
 
 	protected IFluidHandler fluid;
 	protected Supplier<Tooltip> tooltip;
+	protected int tank;
+
+	public FluidInfoArea(Rect2i area, IFluidHandler handler)
+	{
+		this(area, handler, 0);
+	}
 	
-	public FluidInfoArea(Rect2i area, IFluidHandler handler) 
+	public FluidInfoArea(Rect2i area, IFluidHandler handler, int tank) 
 	{
 		super(area);
 		
 		this.fluid = handler;
+		this.tank = tank;
 		
-		IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluidInTank(0).getFluid());
+		IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluidInTank(tank).getFluid());
 		Style style = Style.EMPTY.withColor(renderProps.getTintColor());
 		
 		this.tooltip = () -> Tooltip.create(Component.translatable(NDatabase.Capabilities.FluidHandler.Lang.DESCRIPTION_MAIN,
-				Component.literal(Integer.toString(fluid.getFluidInTank(0).getAmount())).withStyle(style),
-				Component.literal(Integer.toString(fluid.getTankCapacity(0))).withStyle(style),
-				Component.translatable(fluid.getFluidInTank(0).getTranslationKey()).withStyle(style)).withStyle(ChatFormatting.GRAY));
+				Component.literal(Integer.toString(fluid.getFluidInTank(tank).getAmount())).withStyle(style),
+				Component.literal(Integer.toString(fluid.getTankCapacity(tank))).withStyle(style),
+				Component.translatable(fluid.getFluidInTank(tank).getTranslationKey()).withStyle(style)).withStyle(ChatFormatting.GRAY));
 	}
 	
-	public void render(PoseStack stack, int mouseX, int mouseY, float p_93660_) 
+	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderButton(stack, mouseX, mouseY, p_93660_);
+	         this.renderButton(stack, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float p_93679_) 
+	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		stack.pushPose();
 		
@@ -80,26 +87,29 @@ public class FluidInfoArea extends InfoArea
 			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, 18, 42, 64, 64);
 			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
 			
-			float fluidPercent = (float)fluid.getFluidInTank(0).getAmount() / fluid.getTankCapacity(0);
+			float fluidPercent = (float)fluid.getFluidInTank(tank).getAmount() / fluid.getTankCapacity(tank);
 			
 			float f = this.getY() + (this.getHeight() * (1 - fluidPercent));
 			float f1 = this.getHeight() * fluidPercent;
 			
 			if (!FluidHelper.isEmpty(fluid))
 			{
-				IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluidInTank(0).getFluid());
-				Color color = new Color(renderProps.getTintColor());
-				ResourceLocation texture = renderProps.getStillTexture();
-				TextureAtlasSprite still = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
-		
-				RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
-				RenderSystem.setShaderTexture(0, still.atlasLocation());
-				blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
+				if (!fluid.getFluidInTank(tank).isEmpty())
+				{
+					IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluidInTank(tank).getFluid());
+					Color color = new Color(renderProps.getTintColor());
+					ResourceLocation texture = renderProps.getStillTexture();
+					TextureAtlasSprite still = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
+			
+					RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+					RenderSystem.setShaderTexture(0, still.atlasLocation());
+					blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
 
-				RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-				RenderSystem.setShaderTexture(0, TEXTURE);
-				
+				}
 			}
+			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+			RenderSystem.setShaderTexture(0, TEXTURE);
+
 			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
 		}
 		

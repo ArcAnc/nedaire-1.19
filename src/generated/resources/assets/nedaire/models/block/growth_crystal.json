@@ -3,6 +3,7 @@
   "ambientocclusion": false,
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "nedaire:block/growth_crystal/growth_crystal"
+    "cross": "nedaire:block/growth_crystal/growth_crystal",
+    "particle": "nedaire:block/growth_crystal/growth_crystal"
   }
 }

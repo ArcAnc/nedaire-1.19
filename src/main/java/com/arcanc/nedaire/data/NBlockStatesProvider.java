@@ -69,8 +69,10 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerMachine(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 		registerMachine(NRegistration.RegisterBlocks.FURNACE.get());
 		registerMachine(NRegistration.RegisterBlocks.CRUSHER.get());
+		registerExtruder(NRegistration.RegisterBlocks.EXTRUDER.get());
 		
 		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
+		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
 		
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 //		registerGeneratorMob(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
@@ -2012,6 +2014,246 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("particle", texture);
 		
 		registerModels(block, model);
+	}
+	
+	private void registerJewelryTable(Block block) 
+	{
+		ResourceLocation side = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
+		ResourceLocation top = StringHelper.getLocFStr(blockPrefix(name(block) + "/top"));
+		
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("solid").
+				ao(false).
+				texture("side", side).
+				texture("top", top).
+				texture("particle", top).
+				element().
+					from(2, 0, 2).
+					to(6, 12, 6).
+						face(Direction.NORTH).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.EAST).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.SOUTH).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.WEST).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.DOWN).
+							uvs(10, 2, 14, 6).
+							texture("#top").
+							cullface(Direction.DOWN).
+							end().
+				end().
+				element().
+					from(10, 0, 2).
+					to(14, 12, 6).
+						face(Direction.NORTH).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.EAST).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.SOUTH).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.WEST).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.DOWN).
+							uvs(2, 2, 6, 6).
+							texture("#top").
+							cullface(Direction.DOWN).
+							end().
+				end().
+				element().
+					from(10, 0, 10).
+					to(14, 12, 14).
+						face(Direction.NORTH).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.EAST).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.SOUTH).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.WEST).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.DOWN).
+							uvs(2, 11, 5, 14).
+							texture("#top").
+							cullface(Direction.DOWN).
+							end().
+				end().
+				element().
+					from(2, 0, 10).
+					to(6, 12, 14).
+						face(Direction.NORTH).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.EAST).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.SOUTH).
+							uvs(1, 4, 5, 16).
+							texture("#side").
+							end().
+						face(Direction.WEST).
+							uvs(11, 4, 15, 16).
+							texture("#side").
+							end().
+						face(Direction.DOWN).
+							uvs(10, 10, 14, 14).
+							texture("#top").
+							cullface(Direction.DOWN).
+							end().
+				end().
+				element().
+					from(0, 12, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						if (face.getAxis() != Axis.Y)
+						{
+							builder.uvs(0, 0, 16, 4).texture("#side");
+						}
+						else
+						{
+							builder.uvs(0, 0, 16, 16).texture("#top");
+							if (face == Direction.NORTH)
+								builder.cullface(face);
+						}
+					}).
+				end();
+		
+		registerModels(block, model);
+	}
+
+	private void registerExtruder(Block block)
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
+		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
+		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
+		ResourceLocation texUnderlay = StringHelper.getLocFStr(blockPrefix(name(block) + "/underlay"));
+		
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFace).
+				texture("port", getPortTexture()).
+				texture("underlay", texUnderlay).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissive();
+					}).
+				end().
+				element().
+					from(0.001f, 0.001f, 0.001f).
+					to(15.999f, 15.999f, 15.999f).
+						face(Direction.SOUTH).
+							texture("#underlay").
+							cullface(Direction.SOUTH).
+							end().
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+		
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFaceOff).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+						if (face == Direction.SOUTH)
+							builder.texture("#face").emissivity(0);
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).
+						end().
+					face(Direction.EAST).
+						end().
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					face(Direction.NORTH).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+
+	
+		horizontalBlock(block, (state) -> 
+		{
+			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
+
+			return lit ? modelOn : modelOff;
+		}, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(modelOff).
+		transforms().
+			transform(TransformType.GUI).
+				rotation(30, 45, 0).
+				scale(0.625f).
+			end().
+		end();
 	}
 	
 	private void registerModels(Block block, ModelFile model)

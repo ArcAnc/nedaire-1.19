@@ -193,7 +193,7 @@ public class FluidStackHolder implements IFluidStackAccess
         FluidStack stack = new FluidStack(this.stack, drained);
         if (simulate.execute() && drained > 0)
         {
-            stack.shrink(drained);
+            this.stack.shrink(drained);
             onContentsChanged();
         }
         return stack;

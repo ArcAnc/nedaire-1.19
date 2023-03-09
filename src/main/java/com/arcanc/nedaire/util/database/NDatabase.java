@@ -130,6 +130,8 @@ public class NDatabase
 				public static final String DELIVERY_STATION = "delivery_station";
 				public static final String HOOVER = "hoover";
 				public static final String MOB_CATCHER = "mob_catcher";
+				public static final String JEWELRY_TABLE = "jewelry_table";
+				public static final String EXTRUDER = "extruder";
 			
 				public static class Crystal
 				{
@@ -183,6 +185,11 @@ public class NDatabase
 					public static class Furnace
 					{
 						public static final String USED_ENERGY = "used_energy";
+					}
+					
+					public static class Extruder
+					{
+						public static final String MODE = "mode";
 					}
 				}
 			}
@@ -428,6 +435,18 @@ public class NDatabase
 					public static final String MODE_ITEMS = MODE + "items";
 					public static final String MODE_FLUIDS = MODE + "fluids";
 					public static final String MODE_VIM = MODE + "vim";
+				}
+			}
+			
+			public static class Extruder
+			{
+				public static final String PATH = GUI.BlockEntities.PATH + "extruder/";
+				public static final String MODE = "mode/";
+				public static class Description
+				{
+					public static final String MODE_COBBLE = MODE + "cobble";
+					public static final String MODE_STONE = MODE + "stone";
+					public static final String MODE_OBSIDIAN = MODE + "obsidian";
 				}
 			}
 		}

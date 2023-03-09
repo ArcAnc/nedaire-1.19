@@ -355,6 +355,6 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
 	{
-		builder.add(BlockHelper.BlockProperties.Pipe.NORTH, BlockHelper.BlockProperties.Pipe.SOUTH, BlockHelper.BlockProperties.Pipe.EAST, BlockHelper.BlockProperties.Pipe.WEST, BlockHelper.BlockProperties.Pipe.UP, BlockHelper.BlockProperties.Pipe.DOWN);
+		builder.add(BlockHelper.BlockProperties.Pipe.NORTH, BlockHelper.BlockProperties.Pipe.SOUTH, BlockHelper.BlockProperties.Pipe.EAST, BlockHelper.BlockProperties.Pipe.WEST, BlockHelper.BlockProperties.Pipe.UP, BlockHelper.BlockProperties.Pipe.DOWN, BlockHelper.BlockProperties.WATERLOGGED);
 	}
 }

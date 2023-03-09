@@ -91,7 +91,9 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.MOB_CATCHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER.replace("_c", " C")));
 		add(NRegistration.RegisterBlocks.FURNACE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FURNACE));
 		add(NRegistration.RegisterBlocks.CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.CRUSHER));
+		add(NRegistration.RegisterBlocks.JEWERLY_TABLE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE.replace("_t", " T")));
 		add(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH.replace("_c", " C")));
+		add(NRegistration.RegisterBlocks.EXTRUDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXTRUDER));
 		
 		//************************************************************************
 		//SOCKET
@@ -150,6 +152,10 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_ITEMS, "This Delivery Station will transfer Items");
 		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_FLUIDS, "This Delivery Station will transfer Fluids");
 		add(NDatabase.GUI.BlockEntities.DeliveryStation.Description.MODE_VIM, "This Delivery Station will transfer Vim Energy");
+		//			Extruder
+		add(NDatabase.GUI.BlockEntities.Extruder.Description.MODE_COBBLE, "Generate Cobblestone");
+		add(NDatabase.GUI.BlockEntities.Extruder.Description.MODE_STONE, "Generate Stone");
+		add(NDatabase.GUI.BlockEntities.Extruder.Description.MODE_OBSIDIAN, "Generate Obsidian");
 		//************************************************************************
 		//Village
 		

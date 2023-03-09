@@ -1,7 +1,8 @@
-// 1.19.3	2023-03-07T21:43:39.4345408	Loot Tables
+// 1.19.3	2023-03-09T00:08:41.0189682	Loot Tables
 90ae2d1b194c0d1dff94f565661d9751947e49cf data/nedaire/loot_tables/blocks/crusher.json
 7ebb1f7e2354bac34aca0202262147a02d46dc91 data/nedaire/loot_tables/blocks/deepslate/corium.json
 f4799b083f98d034dfa42e7dfe88d59988d1cce3 data/nedaire/loot_tables/blocks/delivery_station.json
+013f05abf4bb31eb4562aab509a13560d7370648 data/nedaire/loot_tables/blocks/extruder.json
 7ee9b3e18b28f97db2564dc5db4036e11b95f618 data/nedaire/loot_tables/blocks/fluid_storage.json
 b215fd583be5449d287fb1e5852c5c816446603e data/nedaire/loot_tables/blocks/furnace.json
 69959e019d86cd0b535141f0ce27229a99a08f12 data/nedaire/loot_tables/blocks/generator/food.json
@@ -10,6 +11,7 @@ b215fd583be5449d287fb1e5852c5c816446603e data/nedaire/loot_tables/blocks/furnace
 eaab1eb9940a7baf2e2fddd46f96f205202b4b42 data/nedaire/loot_tables/blocks/growth_crystal.json
 e858706e3b0af0ddf98a4439dabeda538f7d86ed data/nedaire/loot_tables/blocks/holder.json
 7b1e8b651827478b1bd59b35352a2e8af21a870f data/nedaire/loot_tables/blocks/hoover.json
+85bf84ddeab0f8947d46a963b92b3a9aebc9ebb9 data/nedaire/loot_tables/blocks/jewelry_table.json
 522d9d1fa41ec0234bdf4837322f25eaf37b13ed data/nedaire/loot_tables/blocks/manual_crusher.json
 c7608abac1819ec6c1fb1f36f6ced8af1669bf37 data/nedaire/loot_tables/blocks/mob_catcher.json
 fed5f17ab02ca96bb89ae3643b5f3dd796f8e9e5 data/nedaire/loot_tables/blocks/ore/corium.json

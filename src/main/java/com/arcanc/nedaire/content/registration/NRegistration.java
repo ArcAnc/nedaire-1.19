@@ -26,6 +26,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
+import com.arcanc.nedaire.content.block.NBlockExtruder;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
 import com.arcanc.nedaire.content.block.NBlockFurnace;
 import com.arcanc.nedaire.content.block.NBlockGeneratorFood;
@@ -33,6 +34,7 @@ import com.arcanc.nedaire.content.block.NBlockGeneratorMob;
 import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
 import com.arcanc.nedaire.content.block.NBlockHolder;
 import com.arcanc.nedaire.content.block.NBlockHoover;
+import com.arcanc.nedaire.content.block.NBlockJewelryTable;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
 import com.arcanc.nedaire.content.block.NBlockMobCatcher;
 import com.arcanc.nedaire.content.block.NBlockPedestal;
@@ -41,6 +43,7 @@ import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.content.block.entities.NBEExtruder;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
 import com.arcanc.nedaire.content.block.entities.NBEFurnace;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
@@ -48,6 +51,7 @@ import com.arcanc.nedaire.content.block.entities.NBEGeneratorMob;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
 import com.arcanc.nedaire.content.block.entities.NBEHolder;
 import com.arcanc.nedaire.content.block.entities.NBEHoover;
+import com.arcanc.nedaire.content.block.entities.NBEJewelryTable;
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
 import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
@@ -57,6 +61,7 @@ import com.arcanc.nedaire.content.block.entities.NBlockCrusher;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
+import com.arcanc.nedaire.content.container.menu.NExtruderMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
 import com.arcanc.nedaire.content.container.menu.NFurnaceMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
@@ -375,11 +380,25 @@ public class NRegistration
 				NBlockCrusher :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockJewelryTable, NBaseBlockItem> JEWERLY_TABLE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE,
+				() -> Block.Properties.of(Material.WOOD).noOcclusion().requiresCorrectToolForDrops().strength(1),
+				NBlockJewelryTable :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
 
 		public static final BlockRegObject<NBlockCrystalGrowth, NBaseBlockItem> CRYSTAL_GROWTH = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH,
-				() -> baseProps.get().noCollission().emissiveRendering((state, getter, pos) -> true).sound(SoundType.AMETHYST_CLUSTER).lightLevel(state -> 5),
+				() -> baseProps.get().noCollission().emissiveRendering((state, getter, pos) -> true).sound(SoundType.AMETHYST_CLUSTER).lightLevel(state -> 5).requiresCorrectToolForDrops().strength(2),
 				NBlockCrystalGrowth :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockExtruder, NBaseBlockItem> EXTRUDER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.EXTRUDER,
+				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				NBlockExtruder :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
@@ -552,10 +571,20 @@ public class NRegistration
 				makeType(NBECrusher :: new,
 						RegisterBlocks.CRUSHER));
 
+		public static final RegistryObject<BlockEntityType<NBEJewelryTable>> BE_JEWELRY_TABLE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE,
+				makeType(NBEJewelryTable :: new,
+						RegisterBlocks.JEWERLY_TABLE));
+
 		public static final RegistryObject<BlockEntityType<NBECrystalGrowth>> BE_CRYSTAL_GROWTH = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH,
 				makeType(NBECrystalGrowth :: new,
 						RegisterBlocks.CRYSTAL_GROWTH));
+		
+		public static final RegistryObject<BlockEntityType<NBEExtruder>> BE_EXTRUDER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.EXTRUDER,
+				makeType(NBEExtruder :: new,
+						RegisterBlocks.EXTRUDER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
@@ -720,6 +749,9 @@ public class NRegistration
 
 		public static final BEContainer<NBEFurnace, NFurnaceMenu> FURNACE = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.FURNACE, NFurnaceMenu :: makeServer, NFurnaceMenu :: makeClient);
+
+		public static final BEContainer<NBEExtruder, NExtruderMenu> EXTRUDER = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.EXTRUDER, NExtruderMenu :: makeServer, NExtruderMenu :: makeClient);
 
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)

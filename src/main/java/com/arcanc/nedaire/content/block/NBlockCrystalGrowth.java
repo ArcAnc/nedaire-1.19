@@ -10,6 +10,11 @@ package com.arcanc.nedaire.content.block;
 
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.util.helpers.BlockHelper;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
 
 public class NBlockCrystalGrowth extends NTileProviderBlock<NBECrystalGrowth> 
 {
@@ -19,4 +24,10 @@ public class NBlockCrystalGrowth extends NTileProviderBlock<NBECrystalGrowth>
 		super(properties, NRegistration.RegisterBlockEntities.BE_CRYSTAL_GROWTH);
 	}
 	
+	
+	@Override
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
+	{
+		builder.add(BlockHelper.BlockProperties.WATERLOGGED);
+	}
 }
