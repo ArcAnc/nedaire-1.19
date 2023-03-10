@@ -61,6 +61,7 @@ public class NDatabase
 			public static final String CRYSTAL_PRISON = "crystal_prison";
 			
 			public static final String CHALK = "chalk";
+			public static final String JEWELRY = "jewelry";
 			
 			public static class Tools
 			{
@@ -132,7 +133,8 @@ public class NDatabase
 				public static final String MOB_CATCHER = "mob_catcher";
 				public static final String JEWELRY_TABLE = "jewelry_table";
 				public static final String EXTRUDER = "extruder";
-			
+				public static final String FLUID_FILLER = "fluid_filler";
+				
 				public static class Crystal
 				{
 					private static final String CRYSTAL = "crystal";

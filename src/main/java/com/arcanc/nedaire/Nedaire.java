@@ -324,7 +324,9 @@ public class Nedaire
     			stream().
     			filter(obj -> !(obj.get() instanceof FakeIconItem)).
     			map(RegistryObject :: get).
-    			map(ItemStack :: new).collect(Collectors.toSet()));
+    			map(ItemStack :: new).
+    			sorted((stack1, stack2) -> stack1.getDisplayName().getString().compareTo(stack2.getDisplayName().getString())).
+    			collect(Collectors.toSet()));
     }
     
     private Consumer<CreativeModeTab.Builder> registerTab(String name, ItemStack icon, Collection<ItemStack> items) 

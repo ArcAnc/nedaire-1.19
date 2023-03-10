@@ -75,6 +75,8 @@ public class NEnUsLangProvider extends LanguageProvider
 
 		add(NRegistration.RegisterItems.CRYSTAL_PRISON.get(), StringHelper.capitalize(NDatabase.Items.Names.CRYSTAL_PRISON.replace("_p", " P")));
 
+		add(NRegistration.RegisterItems.JEWELRY_TOOLS.get(), StringHelper.capitalize(NDatabase.Items.Names.JEWELRY + " Tools"));
+
 		add(NRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
 		
 		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
@@ -94,6 +96,8 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.JEWERLY_TABLE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE.replace("_t", " T")));
 		add(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH.replace("_c", " C")));
 		add(NRegistration.RegisterBlocks.EXTRUDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXTRUDER));
+		add(NRegistration.RegisterBlocks.FLUID_FILLER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER.replace("_f", " F")));
+		
 		
 		//************************************************************************
 		//SOCKET

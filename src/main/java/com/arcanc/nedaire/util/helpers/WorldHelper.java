@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.util.helpers;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -15,6 +16,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class WorldHelper 
 {
+	public static final RandomSource RANDOM_SOURCE = RandomSource.createNewThreadLocalInstance();
+	
 	public static ItemEntity spawnItemEntity(Level level, Vec3 pos, Vec3 velocity, ItemStack stack)
 	{
 		return spawnItemEntity(level, pos.x(), pos.y(), pos.z(), velocity.x(), velocity.y(), velocity.z(), stack);

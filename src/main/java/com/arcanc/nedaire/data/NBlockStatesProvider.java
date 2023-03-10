@@ -8,6 +8,8 @@
  */
 package com.arcanc.nedaire.data;
 
+import java.util.function.Function;
+
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -20,6 +22,7 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -70,6 +73,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerMachine(NRegistration.RegisterBlocks.FURNACE.get());
 		registerMachine(NRegistration.RegisterBlocks.CRUSHER.get());
 		registerExtruder(NRegistration.RegisterBlocks.EXTRUDER.get());
+
+		registerFluidFiller(NRegistration.RegisterBlocks.FLUID_FILLER.get());
 		
 		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
@@ -2254,6 +2259,92 @@ public class NBlockStatesProvider extends BlockStateProvider
 				scale(0.625f).
 			end().
 		end();
+	}
+	
+	private void registerFluidFiller(Block block)
+	{
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
+		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
+		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
+		
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFace).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).cullface(face);
+						if (face.getAxis().isVertical())
+							builder.texture("#side");
+						else 
+							builder.texture("#face");
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+		
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("side", texSide).
+				texture("face", texFaceOff).
+				texture("port", getPortTexture()).
+				texture("particle", texFace).
+				element().
+					from(0, 0, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 16).cullface(face);
+						if (face.getAxis().isVertical())
+							builder.texture("#side");
+						else 
+							builder.texture("#face");
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+					face(Direction.DOWN).
+						end().
+					face(Direction.UP).
+						end().
+					faces((dir, builder) -> 
+					{
+						builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+					}).
+				end();
+		
+		Function<BlockState, ModelFile> modelFunc = (state) -> 
+		{
+			return state.getValue(BlockHelper.BlockProperties.ENABLED) ? modelOn : modelOff;
+		};
+		
+		getVariantBuilder(block).forAllStates((state)-> ConfiguredModel.builder().
+				modelFile(modelFunc.apply(state)).
+				build());
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(modelOff);
+
 	}
 	
 	private void registerModels(Block block, ModelFile model)

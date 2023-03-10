@@ -1,8 +1,9 @@
-// 1.19.3	2023-03-09T00:25:14.2025416	Nedaire Block States
+// 1.19.3	2023-03-10T23:07:33.5224062	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
 022a9e41eaf3452d85c0adf101bd29bd35720e8e assets/nedaire/blockstates/extruder.json
+da484e58696b09af5f36049816a3ab04a3bc4fd0 assets/nedaire/blockstates/fluid_filler.json
 b3e05dc4d9cb035570f23256fd0d523d1d09177f assets/nedaire/blockstates/fluid_storage.json
 e8900ae9a6789c7389a9276396929d2b23faf70a assets/nedaire/blockstates/furnace.json
 fbb05483538c6262e1693703d89f8fd6fb4c78bc assets/nedaire/blockstates/generator/food.json
@@ -28,6 +29,8 @@ cef4dfcff4aa484d2f9d6b9ee7c9bbc659d5355d assets/nedaire/models/block/crusher_off
 886e7f145d9cd8d0521bfd3deba4c4a42d76fdd1 assets/nedaire/models/block/delivery_station_connector.json
 e1b4df8541efad7cdb266f0f0235b18911c5a334 assets/nedaire/models/block/extruder_off.json
 057745932ed9ed45b263b156faae37836f1d5399 assets/nedaire/models/block/extruder_on.json
+1001da8508b049f128ee773d0e5fc542ceb2c863 assets/nedaire/models/block/fluid_filler_off.json
+8449412aac325dd0ff823f66b53c2fe5492ac4cc assets/nedaire/models/block/fluid_filler_on.json
 34d307f3658cc29a95ab026bcd350ff80095d84d assets/nedaire/models/block/fluid_storage.json
 2dcd9a4aba73effe8d6748d175a48b3186d74da9 assets/nedaire/models/block/furnace_off.json
 13fa4f9815a5bb7025c3dd98d8bb454ac8b13adf assets/nedaire/models/block/furnace_on.json
@@ -53,6 +56,7 @@ e967b5f713089a61c37a223c952acda80b7cb966 assets/nedaire/models/item/crusher.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json
 9066344b032c2319166969721e218ae985941e36 assets/nedaire/models/item/extruder.json
+45abd9439f6a8d4f8ffb62ee57dbc7766e170f86 assets/nedaire/models/item/fluid_filler.json
 bc20cc74054c889bed63f44d9daaf0e50f9f01e4 assets/nedaire/models/item/fluid_storage.json
 0ca35fd60e156ba4f552e2ccf26d3bda29e2b8ba assets/nedaire/models/item/furnace.json
 7081c784603023e3c20c523e75db3f855dd5d264 assets/nedaire/models/item/generator/food.json

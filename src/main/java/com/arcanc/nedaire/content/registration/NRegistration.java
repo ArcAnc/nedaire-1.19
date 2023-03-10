@@ -27,6 +27,7 @@ import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockExtruder;
+import com.arcanc.nedaire.content.block.NBlockFluidFiller;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
 import com.arcanc.nedaire.content.block.NBlockFurnace;
 import com.arcanc.nedaire.content.block.NBlockGeneratorFood;
@@ -44,6 +45,7 @@ import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEExtruder;
+import com.arcanc.nedaire.content.block.entities.NBEFluidFiller;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
 import com.arcanc.nedaire.content.block.entities.NBEFurnace;
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
@@ -76,6 +78,7 @@ import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.NBaseBlockItem;
 import com.arcanc.nedaire.content.item.NBaseItem;
+import com.arcanc.nedaire.content.item.NJewelryToolsItem;
 import com.arcanc.nedaire.content.item.gem.GemEffect;
 import com.arcanc.nedaire.content.item.gem.GemEffectHealth;
 import com.arcanc.nedaire.content.item.gem.GemEffectRegen;
@@ -182,6 +185,13 @@ public class NRegistration
 				"drone_spawn_egg", 
 				() -> baseProps.get(), 
 				(p) -> new ForgeSpawnEggItem(RegisterEntities.DELIVERY_DRONE, 0x22b341, 0x19732e, p));
+		
+		public static final ItemRegObject<NJewelryToolsItem> JEWELRY_TOOLS = new ItemRegObject<>(
+				StringHelper.slashPlacer(
+						NDatabase.Items.Names.JEWELRY, 
+						NDatabase.Items.Names.TOOL),
+				() -> baseProps.get().stacksTo(1),
+				NJewelryToolsItem :: new);
 		
 		public static void init()
 		{
@@ -402,6 +412,14 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockFluidFiller, NBaseBlockItem> FLUID_FILLER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER,
+				baseMachineProps,
+				NBlockFluidFiller :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
+		
+		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
 //			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
@@ -585,6 +603,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.EXTRUDER,
 				makeType(NBEExtruder :: new,
 						RegisterBlocks.EXTRUDER));
+
+		public static final RegistryObject<BlockEntityType<NBEFluidFiller>> BE_FLUID_FILLER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER,
+				makeType(NBEFluidFiller :: new,
+						RegisterBlocks.FLUID_FILLER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
