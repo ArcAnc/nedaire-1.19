@@ -177,6 +177,20 @@ public class NSlot extends SlotItemHandler
 		}
 	}
 	
+	public static class FluidHandler extends NSlot
+	{
+
+		public FluidHandler(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
+		{
+			super(itemHandler, panelIndex, index, xPosition, yPosition);
+		}
+		
+		@Override
+		public boolean mayPlace(ItemStack stack) 
+		{
+			return FluidHelper.isFluidHandler(stack);
+		}
+	}
 	public static class ItemHandlerGhost extends NSlot
 	{
 

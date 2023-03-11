@@ -225,13 +225,18 @@ public class ItemHelper
 	{
 		return in.map(handler -> 
 		{
-			for (int q = 0; q < handler.getSlots(); q++)
-			{
-				if (!handler.getStackInSlot(q).isEmpty())
-					return false;
-			}
-			return true;
+			return isEmpty(handler);
 		}).orElse(true);
+	}
+	
+	public static boolean isEmpty(IItemHandler inv)
+	{
+		for (int q = 0; q < inv.getSlots(); q++)
+		{
+			if (!inv.getStackInSlot(q).isEmpty())
+				return false;
+		}
+		return true;
 	}
 	
 	public static boolean containsStack(ItemStack stack, IItemHandler handler)

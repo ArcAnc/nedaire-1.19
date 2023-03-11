@@ -24,6 +24,7 @@ import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
+import com.arcanc.nedaire.content.block.NBlockCrusher;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockExtruder;
@@ -59,11 +60,11 @@ import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
-import com.arcanc.nedaire.content.block.entities.NBlockCrusher;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
 import com.arcanc.nedaire.content.container.menu.NExtruderMenu;
+import com.arcanc.nedaire.content.container.menu.NFluidFillerMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
 import com.arcanc.nedaire.content.container.menu.NFurnaceMenu;
 import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
@@ -775,6 +776,9 @@ public class NRegistration
 
 		public static final BEContainer<NBEExtruder, NExtruderMenu> EXTRUDER = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.EXTRUDER, NExtruderMenu :: makeServer, NExtruderMenu :: makeClient);
+
+		public static final BEContainer<NBEFluidFiller, NFluidFillerMenu> FLUID_FILLER = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER, NFluidFillerMenu :: makeServer, NFluidFillerMenu :: makeClient);
 
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)

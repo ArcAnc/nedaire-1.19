@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.IItemHandler;
 
 public class FluidFilter implements IFluidFilter 
@@ -75,7 +76,7 @@ public class FluidFilter implements IFluidFilter
 				
 				if (FluidHelper.getFluidHandler(stack).isPresent())
 				{
-					if (FluidHelper.contains(FluidHelper.getFluidHandler(stack), obj))
+					if (FluidHelper.itemContains(FluidHelper.getFluidHandler(stack), obj))
 					{
 						return true;
 					}
@@ -90,7 +91,7 @@ public class FluidFilter implements IFluidFilter
 				
 				if (FluidHelper.getFluidHandler(stack).isPresent())
 				{
-					if (FluidHelper.contains(FluidHelper.getFluidHandler(stack), obj))
+					if (FluidHelper.itemContains(FluidHelper.getFluidHandler(stack), obj))
 					{
 						return false;
 					}
@@ -123,7 +124,7 @@ public class FluidFilter implements IFluidFilter
 			for (int q = 0; q < content.getSlots(); q++)
 			{
 				ItemStack stack = content.getStackInSlot(q);
-				LazyOptional<IFluidHandler> h = FluidHelper.getFluidHandler(stack);
+				LazyOptional<IFluidHandlerItem> h = FluidHelper.getFluidHandler(stack);
 				if (h.isPresent())
 				{
 					boolean b = h.map(handler -> 
@@ -169,7 +170,7 @@ public class FluidFilter implements IFluidFilter
 			for (int q = 0; q < content.getSlots(); q++)
 			{
 				ItemStack stack = content.getStackInSlot(q);
-				LazyOptional<IFluidHandler> h = FluidHelper.getFluidHandler(stack);
+				LazyOptional<IFluidHandlerItem> h = FluidHelper.getFluidHandler(stack);
 				
 				if (h.isPresent())
 				{

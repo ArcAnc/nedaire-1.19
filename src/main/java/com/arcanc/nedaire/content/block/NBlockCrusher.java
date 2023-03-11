@@ -6,9 +6,9 @@
  * This code is licensed under "Ancient's License of Common Sense"	
  * Details can be found in the license file in the root folder of this project
  */
-package com.arcanc.nedaire.content.block.entities;
+package com.arcanc.nedaire.content.block;
 
-import com.arcanc.nedaire.content.block.NTileProviderBlock;
+import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;

@@ -24,6 +24,7 @@ import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.screen.NCrusherScreen;
 import com.arcanc.nedaire.content.container.screen.NDeliveryStationScreen;
 import com.arcanc.nedaire.content.container.screen.NExtruderScreen;
+import com.arcanc.nedaire.content.container.screen.NFluidFillerScreen;
 import com.arcanc.nedaire.content.container.screen.NFluidStorageScreen;
 import com.arcanc.nedaire.content.container.screen.NFurnaceScreen;
 import com.arcanc.nedaire.content.container.screen.NGeneratorFoodScreen;
@@ -206,6 +207,7 @@ public class Nedaire
 		MenuScreens.register(NRegistration.RegisterMenuTypes.CRUSHER.getType(), NCrusherScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.FURNACE.getType(), NFurnaceScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.EXTRUDER.getType(), NExtruderScreen :: new);
+		MenuScreens.register(NRegistration.RegisterMenuTypes.FLUID_FILLER.getType(), NFluidFillerScreen :: new);
 	}
 
 
