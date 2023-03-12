@@ -14,7 +14,6 @@ import java.util.function.BiFunction;
 import javax.annotation.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
-import com.arcanc.nedaire.content.block.entities.NBaseBlockEntity;
 import com.arcanc.nedaire.content.block.entities.ticker.ModClientTickerBlockEntity;
 import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -87,7 +86,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 	{
 		if (!level.isClientSide && !oldState.is(newState.getBlock())) 
 		{
-			BlockHelper.castTileEntity(BlockHelper.getTileEntity(level, pos), NBaseBlockEntity.class).ifPresent(ent -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(ent -> 
 			{
 				ItemHelper.dropContents(level, pos, ItemHelper.getItemHandler(ent));			
 			});

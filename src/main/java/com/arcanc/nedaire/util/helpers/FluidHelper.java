@@ -54,8 +54,10 @@ public class FluidHelper
 	{
 		if (world != null)
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(world, pos);
-			return isFluidHandler(tile, dir);
+			return BlockHelper.getTileEntity(world, pos).map(tile -> 
+			{
+				return isFluidHandler(tile, dir);
+			}).orElse(false);
 		}
 		return false;
 	}
@@ -82,8 +84,10 @@ public class FluidHelper
 	
 	public static LazyOptional<IFluidHandler> getFluidHandler (Level level, BlockPos pos, Direction dir)
 	{
-		BlockEntity t = BlockHelper.getTileEntity(level, pos);
-		return getFluidHandler(t, dir);
+		return BlockHelper.getTileEntity(level, pos).map(tile -> 
+		{
+			return getFluidHandler(tile, dir);
+		}).orElse(LazyOptional.empty());
 	}
 	
 	public static LazyOptional<IFluidHandler> getFluidHandler (BlockEntity tile, Direction dir)
@@ -102,11 +106,10 @@ public class FluidHelper
 			Level world = tile.getLevel();
 			BlockPos pos = tile.getBlockPos();
 			
-			BlockEntity t = BlockHelper.getTileEntity(world, pos.relative(dir));
-			if (t != null)
+			return BlockHelper.getTileEntity(world, pos.relative(dir)).map(t -> 
 			{
 				 return getFluidHandler(t, dir.getOpposite());
-			}
+			}).orElse(LazyOptional.empty());
 		}
 		return LazyOptional.empty();
 	}

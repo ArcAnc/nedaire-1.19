@@ -64,8 +64,10 @@ public class ItemHelper
 	{
 		if (world != null)
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(world, pos);
-			return isItemHandler(tile, dir);
+			return BlockHelper.getTileEntity(world, pos).map(tile -> 
+			{
+				return isItemHandler(tile, dir);
+			}).orElse(false);
 		}
 		return false;
 	}
@@ -101,11 +103,10 @@ public class ItemHelper
 			Level world = tile.getLevel();
 			BlockPos pos = tile.getBlockPos();
 			
-			BlockEntity t = BlockHelper.getTileEntity(world, pos.relative(dir));
-			if (t != null)
+			return BlockHelper.getTileEntity(world, pos.relative(dir)).map(t -> 
 			{
 				 return getItemHandler(t, dir.getOpposite());
-			}
+			}).orElse(LazyOptional.empty());
 		}
 		return LazyOptional.empty();
 	}

@@ -27,6 +27,7 @@ import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockCrusher;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
+import com.arcanc.nedaire.content.block.NBlockDiffuser;
 import com.arcanc.nedaire.content.block.NBlockExtruder;
 import com.arcanc.nedaire.content.block.NBlockFluidFiller;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
@@ -45,6 +46,7 @@ import com.arcanc.nedaire.content.block.NBlockVimStorage;
 import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
+import com.arcanc.nedaire.content.block.entities.NBEDiffuser;
 import com.arcanc.nedaire.content.block.entities.NBEExtruder;
 import com.arcanc.nedaire.content.block.entities.NBEFluidFiller;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
@@ -88,6 +90,7 @@ import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.material.ModMaterial.ModMaterialProperties;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
+import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -420,6 +423,12 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
+		public static final BlockRegObject<NBlockDiffuser, NBaseBlockItem> DIFFUSER = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.DIFFUSER,
+				baseMachineProps,
+				NBlockDiffuser :: new, 
+				NRegistration.RegisterItems.baseProps,
+				(b, p) -> new NBaseBlockItem(b, p));
 		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
@@ -609,6 +618,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER,
 				makeType(NBEFluidFiller :: new,
 						RegisterBlocks.FLUID_FILLER));
+
+		public static final RegistryObject<BlockEntityType<NBEDiffuser>> BE_DIFFUSER = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.DIFFUSER,
+				makeType(NBEDiffuser :: new,
+						RegisterBlocks.DIFFUSER));
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
@@ -640,6 +654,7 @@ public class NRegistration
 			private static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, NDatabase.MOD_ID);
 			
 			public static final TypeWithClass<NCrusherRecipe> MANUAL_CRUSHER = register(NDatabase.Recipes.Types.CRUSHER, NCrusherRecipe.class);
+			public static final TypeWithClass<NDiffuserRecipe> DIFFUSER = register(NDatabase.Recipes.Types.DIFFUSER, NDiffuserRecipe.class);
 		
 			private static <T extends Recipe<?>> TypeWithClass<T> register(String name, Class<T> type)
 			{

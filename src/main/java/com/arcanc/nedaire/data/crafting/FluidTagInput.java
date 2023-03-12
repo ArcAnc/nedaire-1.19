@@ -45,7 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class FluidTagInput implements Predicate<FluidStack> 
 {
 	// Generally left on the server, right on the client
-	// TODO FastEither
+	//FIXME: FastEither
 	protected final Either<TagKey<Fluid>, List<ResourceLocation>> fluidTag;
 	protected final int amount;
 	protected final CompoundTag nbtTag;

@@ -253,67 +253,72 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK))
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			
-			String type = tag.getString("type"); 
-			
-			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 			{
-				filter.setExtracion(tag.getInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK));
-				tile.setChanged();
+				String type = tag.getString("type"); 
+				
+				FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+				{
+					filter.setExtracion(tag.getInt(NDatabase.Capabilities.Filter.MAX_EXTRACTING_STACK));
+					tile.setChanged();
+				});
 			});
+			
 		}
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN))
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			
-			String type = tag.getString("type"); 
-
-			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 			{
-				filter.setMaxInInventory(tag.getInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN));
-				tile.setChanged();
+				String type = tag.getString("type"); 
+
+				FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+				{
+					filter.setMaxInInventory(tag.getInt(NDatabase.Capabilities.Filter.MAX_AMOUNT_IN));
+					tile.setChanged();
+				});
 			});
 		}
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.WHITELIST))
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-			
-			String type = tag.getString("type"); 
-
-			FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 			{
-				filter.setWhitelist(tag.getBoolean(NDatabase.Capabilities.Filter.WHITELIST));
-				tile.setChanged();
+				String type = tag.getString("type"); 
+
+				FilterHelper.getFilterFromString(tile, type).ifPresent(filter -> 
+				{
+					filter.setWhitelist(tag.getBoolean(NDatabase.Capabilities.Filter.WHITELIST));
+					tile.setChanged();
+				});
 			});
 		}
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.MOD_OWNER))
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-
-			String type = tag.getString("type"); 
-
-			FilterHelper.getFilterFromString(tile, type).ifPresent(filter ->
+			BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 			{
-				filter.setModOwner(tag.getBoolean(NDatabase.Capabilities.Filter.MOD_OWNER));
-				tile.setChanged();
+				String type = tag.getString("type"); 
+
+				FilterHelper.getFilterFromString(tile, type).ifPresent(filter ->
+				{
+					filter.setModOwner(tag.getBoolean(NDatabase.Capabilities.Filter.MOD_OWNER));
+					tile.setChanged();
+				});
 			});
-			
 		}
 		
 		if (tag.contains(NDatabase.Capabilities.Filter.CHECK_TAG))
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(level, pos);
-
-			String type = tag.getString("type"); 
-			
-			FilterHelper.getFilterFromString(tile, type).ifPresent( filter -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 			{
-				filter.setCheckTag(tag.getBoolean(NDatabase.Capabilities.Filter.CHECK_TAG));
-				tile.setChanged();
+				String type = tag.getString("type"); 
+				
+				FilterHelper.getFilterFromString(tile, type).ifPresent( filter -> 
+				{
+					filter.setCheckTag(tag.getBoolean(NDatabase.Capabilities.Filter.CHECK_TAG));
+					tile.setChanged();
+				});
 			});
 		}
 	}

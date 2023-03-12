@@ -134,6 +134,7 @@ public class NDatabase
 				public static final String JEWELRY_TABLE = "jewelry_table";
 				public static final String EXTRUDER = "extruder";
 				public static final String FLUID_FILLER = "fluid_filler";
+				public static final String DIFFUSER = "diffuser";
 				
 				public static class Crystal
 				{
@@ -222,6 +223,14 @@ public class NDatabase
 				public static final String INPUT = "input";
 				public static final String SECONDARIES = "secondaries";
 				public static final String ENERGY = "energy";
+				public static final String IS_MANUAL = "is_manual";
+			}
+			public static final String DIFFUSER = "diffuser";
+			public static class Diffuser
+			{
+				public static final String RESULT = "result";
+				public static final String INPUT = "input";
+				public static final String FLUID = "fluid";
 				public static final String IS_MANUAL = "is_manual";
 			}
 		}

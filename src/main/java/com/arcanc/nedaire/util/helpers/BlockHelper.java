@@ -58,13 +58,13 @@ public class BlockHelper
 
 	
 	@SuppressWarnings("deprecation")
-	public static final BlockEntity getTileEntity(LevelReader world, BlockPos pos)
+	public static final Optional<BlockEntity> getTileEntity(LevelReader world, BlockPos pos)
 	{
 		if (world != null && world.hasChunkAt(pos))
 		{
-			return world.getBlockEntity(pos);
+			return Optional.of(world.getBlockEntity(pos));
 		}
-		return null;
+		return Optional.empty();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -82,8 +82,10 @@ public class BlockHelper
 	{
 		if (world != null && pos != null)
 		{
-			BlockEntity tile = getTileEntity(world, pos);
-			return castTileEntity(tile, to);
+			return getTileEntity(world, pos).map(tile -> 
+			{
+				return castTileEntity(tile, to); 
+			}).orElse(Optional.empty());
 		}
 		return Optional.empty();
 	}

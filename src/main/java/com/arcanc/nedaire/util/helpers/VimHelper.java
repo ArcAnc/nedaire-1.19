@@ -25,10 +25,12 @@ public class VimHelper
 	
 	public static boolean isVimHandler(Level world, BlockPos pos, Direction dir)
 	{
-		if (world != null)
+		if (world != null && pos != null)
 		{
-			BlockEntity tile = BlockHelper.getTileEntity(world, pos);
-			return isVimHandler(tile, dir);
+			return BlockHelper.getTileEntity(world, pos).map(tile -> 
+			{
+				return isVimHandler(tile, dir);
+			}).orElse(false);
 		}
 		return false;
 	}

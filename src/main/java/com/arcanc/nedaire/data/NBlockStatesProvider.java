@@ -77,6 +77,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerFluidFiller(NRegistration.RegisterBlocks.FLUID_FILLER.get());
 		
 		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
+		registerDiffuser(NRegistration.RegisterBlocks.DIFFUSER.get());
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
 		
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
@@ -2345,6 +2346,22 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff);
 
+	}
+	
+	private void registerDiffuser(Block block)
+	{
+		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("skystone"));
+		
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cauldron"))).
+				renderType("cutout").
+				ao(false).
+				texture("top", text).
+				texture("bottom", text).
+				texture("side", text).
+				texture("inside", text).
+				texture("particle", text);
+		
+		registerModels(block, model);
 	}
 	
 	private void registerModels(Block block, ModelFile model)

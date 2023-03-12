@@ -97,6 +97,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH.replace("_c", " C")));
 		add(NRegistration.RegisterBlocks.EXTRUDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXTRUDER));
 		add(NRegistration.RegisterBlocks.FLUID_FILLER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER.replace("_f", " F")));
+		add(NRegistration.RegisterBlocks.DIFFUSER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DIFFUSER));
 		
 		
 		//************************************************************************

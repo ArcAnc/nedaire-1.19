@@ -64,7 +64,7 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 	{
 		if (!level.isClientSide && !oldState.is(newState.getBlock())) 
 		{
-			BlockHelper.castTileEntity(BlockHelper.getTileEntity(level, pos), NBEHolder.class).ifPresent(ent -> 
+			BlockHelper.getTileEntity(level, pos).ifPresent(ent -> 
 			{
 				ItemHelper.dropContents(level, pos, ItemHelper.getItemHandler(ent));			
 			});
