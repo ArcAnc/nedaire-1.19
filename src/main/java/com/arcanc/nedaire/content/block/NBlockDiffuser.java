@@ -12,19 +12,26 @@ import com.arcanc.nedaire.content.block.entities.NBEDiffuser;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
+import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser> 
 {
@@ -46,9 +53,46 @@ public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser>
 	}
 	
 	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
+	{
+		if (!level.isClientSide())
+		{
+			BlockHelper.castTileEntity(level, pos, NBEDiffuser.class).ifPresent(tile -> 
+			{
+				ItemStack stack = player.getItemInHand(hand);
+				if (FluidHelper.isFluidHandler(stack))
+				{
+					FluidUtil.interactWithFluidHandler(player, hand, level, pos, hitResult.getDirection());
+				}
+				else
+				{
+					if (stack.isEmpty())
+					{
+						ItemStack t = ItemHelper.getItemHandler(tile).
+								map(handler -> handler.extractItem(0, 1, false)).
+								orElse(ItemStack.EMPTY);
+						
+						ItemHandlerHelper.giveItemToPlayer(player, t);
+					}
+					else
+					{
+						ItemHelper.getItemHandler(tile).ifPresent(handler -> 
+						{
+							player.setItemInHand(hand, handler.insertItem(0, stack, false));
+						});
+					}
+				}
+			});
+			
+		}
+		return super.use(state, level, pos, player, hand, hitResult);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) 
 	{
-		BlockHelper.castTileEntity(level, pos, BlockEntity.class).ifPresent(tile -> 
+		BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 		{
 			FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
 			{

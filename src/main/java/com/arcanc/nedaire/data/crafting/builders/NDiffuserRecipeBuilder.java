@@ -9,15 +9,13 @@
 package com.arcanc.nedaire.data.crafting.builders;
 
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
+import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.crafting.conditions.ICondition;
 
 public class NDiffuserRecipeBuilder extends NFinishedRecipe<NDiffuserRecipeBuilder> 
 {

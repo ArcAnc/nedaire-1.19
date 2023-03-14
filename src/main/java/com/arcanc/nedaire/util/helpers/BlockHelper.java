@@ -62,7 +62,7 @@ public class BlockHelper
 	{
 		if (world != null && world.hasChunkAt(pos))
 		{
-			return Optional.of(world.getBlockEntity(pos));
+			return Optional.ofNullable(world.getBlockEntity(pos));
 		}
 		return Optional.empty();
 	}

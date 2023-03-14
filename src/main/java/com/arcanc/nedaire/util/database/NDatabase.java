@@ -194,6 +194,12 @@ public class NDatabase
 					{
 						public static final String MODE = "mode";
 					}
+					
+					public static class Diffuser
+					{
+						public static final String ELAPSED_TIME = "elapsed_time";
+						public static final String DRAINED_FLUID = "drained_fluid";
+					}
 				}
 			}
 			
@@ -231,6 +237,7 @@ public class NDatabase
 				public static final String RESULT = "result";
 				public static final String INPUT = "input";
 				public static final String FLUID = "fluid";
+				public static final String TIME = "time";
 				public static final String IS_MANUAL = "is_manual";
 			}
 		}
@@ -443,21 +450,21 @@ public class NDatabase
 				public static final String MODE = PATH + "mode/";
 				public static class Description
 				{
-					public static final String MODE_ITEMS = MODE + "items";
-					public static final String MODE_FLUIDS = MODE + "fluids";
-					public static final String MODE_VIM = MODE + "vim";
+					public static final String MODE_ITEMS = MODE.replace(':','.').replace('/', '.') + "items";
+					public static final String MODE_FLUIDS = MODE.replace(':','.').replace('/', '.') + "fluids";
+					public static final String MODE_VIM = MODE.replace(':','.').replace('/', '.') + "vim";
 				}
 			}
 			
 			public static class Extruder
 			{
 				public static final String PATH = GUI.BlockEntities.PATH + "extruder/";
-				public static final String MODE = "mode/";
+				public static final String MODE = PATH +"mode/";
 				public static class Description
 				{
-					public static final String MODE_COBBLE = MODE + "cobble";
-					public static final String MODE_STONE = MODE + "stone";
-					public static final String MODE_OBSIDIAN = MODE + "obsidian";
+					public static final String MODE_COBBLE = MODE.replace(':','.').replace('/', '.') + "cobble";
+					public static final String MODE_STONE = MODE.replace(':','.').replace('/', '.') + "stone";
+					public static final String MODE_OBSIDIAN = MODE.replace(':','.').replace('/', '.') + "obsidian";
 				}
 			}
 		}

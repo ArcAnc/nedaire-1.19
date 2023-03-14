@@ -93,6 +93,7 @@ import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
+import com.arcanc.nedaire.data.crafting.serializers.NDiffuserRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -648,6 +649,10 @@ public class NRegistration
 		public static final RegistryObject<NCrusherRecipeSerializer> CRUSHER_SERIALIZER = RECIPE_SERIALIZERS.register(
 				NDatabase.Recipes.Types.CRUSHER, 
 				NCrusherRecipeSerializer :: new);
+		
+		public static final RegistryObject<NDiffuserRecipeSerializer> DIFFUSER_SERIALIZER = RECIPE_SERIALIZERS.register(
+				NDatabase.Recipes.Types.DIFFUSER, 
+				NDiffuserRecipeSerializer :: new);
 		
 		public static class Types
 		{

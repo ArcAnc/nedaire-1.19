@@ -24,9 +24,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
+import net.minecraftforge.common.util.JsonUtils;
 import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeSerializer<T> 
 {
@@ -79,5 +83,15 @@ public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeS
 	protected static void writeLazyStack(FriendlyByteBuf buf, Lazy<ItemStack> stack)
 	{
 		buf.writeItem(stack.get());
+	}
+	
+	protected static FluidStack readFluidStack(JsonObject jsonObject)
+	{
+		Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(GsonHelper.getAsString(jsonObject, "fluid")));
+		int amount = GsonHelper.getAsInt(jsonObject, "amount");
+		FluidStack fluidStack = new FluidStack(fluid, amount);
+		if(GsonHelper.isValidNode(jsonObject, "tag"))
+			fluidStack.setTag(JsonUtils.readNBT(jsonObject, "tag"));
+		return fluidStack;
 	}
 }

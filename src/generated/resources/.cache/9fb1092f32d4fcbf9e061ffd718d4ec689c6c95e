@@ -1,4 +1,4 @@
-// 1.19.3	2023-03-03T22:34:17.382436	Recipes
+// 1.19.3	2023-03-14T21:19:10.1158691	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -46,6 +46,7 @@ edc995dc3e475abe3f4a01ce6db715e7b653ae57 data/nedaire/recipes/conversion/nugget/
 a4c603971b94bc85648cf117978af845ce6d790c data/nedaire/recipes/conversion/skystone_to_nugget/skystone.json
 3488c8ebb2b7960dd3cf69c95a0f5ddf5a4968f1 data/nedaire/recipes/conversion/storage_block/corium_to_ingot/corium.json
 62d189b881ba1282a7f072116ba101ffbfe5c696 data/nedaire/recipes/conversion/storage_block/raw/corium_to_raw/corium.json
+4314f2878792c57132939935c607138aa919ff80 data/nedaire/recipes/crusher/growth_crystal.json
 f10a60f2fad2f67f2179e715dd2629e534b12027 data/nedaire/recipes/crusher/tool/chalk.json
 7afa7662694abf2bf521bd858aff6959349542d4 data/nedaire/recipes/dynamic/shield_decoration.json
 4130bf9359b143c9fd6cab725014dffb429278bf data/nedaire/recipes/smelting/dusts/corium_to_ingot/corium.json

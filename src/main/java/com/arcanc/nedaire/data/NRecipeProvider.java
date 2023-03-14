@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.builders.NCrusherRecipeBuilder;
+import com.arcanc.nedaire.data.crafting.builders.NDiffuserRecipeBuilder;
 import com.arcanc.nedaire.data.tags.ModTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -31,6 +32,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.Tags.Items;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -169,6 +172,7 @@ public class NRecipeProvider extends RecipeProvider
 		save(out, NRegistration.RegisterBlocks.TERRAMORFER.getId());
 		
 		crusherRecipes(out);
+		diffuserRecipes(out);
 	}
 
 	private void crusherRecipes(Consumer<FinishedRecipe> out) 
@@ -179,6 +183,15 @@ public class NRecipeProvider extends RecipeProvider
 			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.CRUSHER + "/" + NRegistration.RegisterItems.CHALK.getId().getPath()));
 	}
 
+	private void diffuserRecipes(Consumer<FinishedRecipe> out)
+	{
+		NDiffuserRecipeBuilder.builder(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.asItem()).
+			addInput(Blocks.AMETHYST_CLUSTER).
+			addFluid(Fluids.WATER, 1000).
+			setTime(500).
+			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.CRUSHER + "/" + NRegistration.RegisterBlocks.CRYSTAL_GROWTH.getId().getPath()));
+	}
+	
 	private void addBlasting (TagKey<Item> input, Item output, float exp, Consumer<FinishedRecipe> out)
 	{	
 		SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.MISC, output, exp, 100).

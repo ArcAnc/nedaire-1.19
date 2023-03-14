@@ -1698,7 +1698,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
-							builder.texture("#face").emissive();
+							builder.texture("#face").emissivity(15, 15);
 					}).
 				end().
 				element().
@@ -1735,7 +1735,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(0);
+							builder.texture("#face").emissivity(0, 0);
 					}).
 				end().
 				element().
@@ -2175,7 +2175,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
-							builder.texture("#face").emissive();
+							builder.texture("#face").emissivity(15, 15);
 					}).
 				end().
 				element().
@@ -2220,7 +2220,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(0);
+							builder.texture("#face").emissivity(0, 0);
 					}).
 				end().
 				element().
@@ -2359,7 +2359,33 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("bottom", text).
 				texture("side", text).
 				texture("inside", text).
-				texture("particle", text);
+				texture("particle", text).
+				transforms().
+					transform(TransformType.GUI).
+						rotation(30, 225, 0).
+						scale(0.625f).
+					end().
+					transform(TransformType.GROUND).
+						translation(0, 3, 0).
+						scale(0.25f).
+					end().
+					transform(TransformType.FIXED).
+						scale(0.5f).
+					end().
+					transform(TransformType.THIRD_PERSON_RIGHT_HAND).
+						rotation(75, 45, 0).
+						translation(0, 2.5f, 0).
+						scale(0.375f).
+					end().
+					transform(TransformType.FIRST_PERSON_RIGHT_HAND).
+						rotation(0, 45, 0).
+						scale(0.4f).
+					end().
+					transform(TransformType.FIRST_PERSON_LEFT_HAND).
+						rotation(0, 225, 0).
+						scale(0.4f).
+					end().
+				end();
 		
 		registerModels(block, model);
 	}

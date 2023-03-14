@@ -42,6 +42,7 @@ import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.EssenceRender;
+import com.arcanc.nedaire.content.renderer.blockEntity.DiffuserRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.FluidStorageRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
@@ -226,6 +227,7 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_TERRAMORFER.get(), TerramorferRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_FLUID_STORAGE.get(), FluidStorageRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_MOB_CATHER.get(), MobCatcherRenderer :: new);
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_DIFFUSER.get(), DiffuserRenderer :: new);
 	}
 	
 	private void registerParticles(final RegisterParticleProvidersEvent event)
