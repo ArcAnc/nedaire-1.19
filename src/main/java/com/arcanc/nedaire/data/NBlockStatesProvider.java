@@ -56,6 +56,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		}
 		
 		registerSimpleBlock(NRegistration.RegisterBlocks.SKYSTONE.get());
+		registerFramework(NRegistration.RegisterBlocks.FRAMEWORK.get());
 		
 		registerPedestal(NRegistration.RegisterBlocks.PEDESTAL.get());
 		registerHolder(NRegistration.RegisterBlocks.HOLDER.get());
@@ -2020,6 +2021,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("particle", texture);
 		
 		registerModels(block, model);
+		
+		itemModels().withExistingParent(itemPrefix(name(block)), mcLoc("item/generated")).
+		texture("layer0", texture).
+		transforms().
+			transform(TransformType.HEAD).
+				translation(0, 14, -5).
+			end().
+		end();
 	}
 	
 	private void registerJewelryTable(Block block) 
@@ -2388,6 +2397,290 @@ public class NBlockStatesProvider extends BlockStateProvider
 				end();
 		
 		registerModels(block, model);
+	}
+	
+	private void registerFramework(Block block)
+	{
+		ResourceLocation text = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
+		
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				ao(false).
+				texture("tex", text).
+				texture("particle", text).
+				element().
+					from(0, 0, 0).
+					to(16, 4, 4).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 12, 16, 16).texture("#tex");
+						if (face == Direction.EAST)
+							builder.uvs(12, 12, 16, 16).cullface(face);
+						else if(face == Direction.WEST)
+							builder.uvs(0, 12, 4, 16).cullface(face);
+						else if(face == Direction.NORTH || face == Direction.DOWN)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(0, 0, 12).
+					to(16, 4, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.uvs(0, 0, 16, 4).texture("#tex");
+						if (face == Direction.EAST)
+							builder.uvs(0, 12, 4, 16).cullface(face);
+						else if(face == Direction.SOUTH)
+							builder.uvs(0, 12, 16, 16).cullface(face);
+						else if (face == Direction.WEST) 
+							builder.uvs(12, 12, 16, 16).cullface(face);
+						else if (face == Direction.DOWN)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from (0, 0, 4).
+					to(4, 4, 12).
+						face(Direction.EAST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+						end().
+						face(Direction.WEST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+						face(Direction.UP).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+						face(Direction.DOWN).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.DOWN).
+						end().
+				end().
+				element().
+					from(12, 0, 4).
+					to(16, 4, 12).
+						face(Direction.EAST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.WEST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+						end().
+						face(Direction.UP).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+						face(Direction.DOWN).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+							cullface(Direction.DOWN).
+						end().
+				end().
+				element().
+					from(12, 12, 4).
+					to(16, 16, 12).
+						face(Direction.EAST).
+							uvs(4, 0, 12, 4).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.WEST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+						end().
+						face(Direction.UP).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.UP).
+						end().
+						face(Direction.DOWN).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+				end().
+				element().
+					from(0, 12, 4).
+					to(4, 16, 12).
+						face(Direction.EAST).
+							uvs(4, 12, 12, 16).
+							texture("#tex").
+						end().
+						face(Direction.WEST).
+							uvs(4, 0, 12, 4).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+						face(Direction.UP).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.UP).
+						end().
+						face(Direction.DOWN).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+						end().
+				end().
+				element().
+					from(0, 4, 0).
+					to(4, 12, 4).
+						face(Direction.NORTH).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+							cullface(Direction.NORTH).
+						end().
+						face(Direction.EAST).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+						end().
+						face(Direction.SOUTH).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+						face(Direction.WEST).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+				end().
+				element().
+					from(12, 4, 0).
+					to(16, 12, 4).
+						face(Direction.NORTH).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.NORTH).
+						end().
+						face(Direction.EAST).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.SOUTH).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+						face(Direction.WEST).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+				end().
+				element().
+					from(12, 4, 12).
+					to(16, 12, 16).
+						face(Direction.NORTH).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+						end().
+						face(Direction.EAST).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.SOUTH).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+							cullface(Direction.SOUTH).
+						end().
+						face(Direction.WEST).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+						end().
+				end().
+				element().
+					from(0, 4, 12).
+					to(4, 12, 16).
+						face(Direction.NORTH).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+						end().
+						face(Direction.EAST).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+						end().
+						face(Direction.SOUTH).
+							uvs(0, 4, 4, 12).
+							texture("#tex").
+							cullface(Direction.SOUTH).
+						end().
+						face(Direction.WEST).
+							uvs(12, 4, 16, 12).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+				end().
+				element().
+					from(0, 12, 0).
+					to(16, 16, 4).
+						face(Direction.NORTH).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+							cullface(Direction.NORTH).
+						end().
+						face(Direction.EAST).
+							uvs(12, 0, 16, 4).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.SOUTH).
+							uvs(0, 12, 16, 16).
+							texture("#tex").
+						end().
+						face(Direction.WEST).
+							uvs(0, 0, 4, 4).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+						face(Direction.UP).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+							cullface(Direction.UP).
+						end().
+						face(Direction.DOWN).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+						end().
+				end().
+				element().
+					from(0, 12, 12).
+					to(16, 16, 16).
+						face(Direction.NORTH).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+						end().
+						face(Direction.EAST).
+							uvs(0, 0, 4, 4).
+							texture("#tex").
+							cullface(Direction.EAST).
+						end().
+						face(Direction.SOUTH).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+							cullface(Direction.SOUTH).
+						end().
+						face(Direction.WEST).
+							uvs(12, 0, 16, 4).
+							texture("#tex").
+							cullface(Direction.WEST).
+						end().
+						face(Direction.UP).
+							uvs(0, 12, 16, 16).
+							texture("#tex").
+							cullface(Direction.UP).
+						end().
+						face(Direction.DOWN).
+							uvs(0, 0, 16, 4).
+							texture("#tex").
+						end().					
+				end();
+		
+		registerModels(block, model);
+		
 	}
 	
 	private void registerModels(Block block, ModelFile model)

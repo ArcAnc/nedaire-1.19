@@ -1,4 +1,4 @@
-// 1.19.3	2023-03-14T22:01:53.2731544	Nedaire Block States
+// 1.19.3	2023-03-15T20:26:09.0979778	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -6,6 +6,7 @@ eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_sta
 022a9e41eaf3452d85c0adf101bd29bd35720e8e assets/nedaire/blockstates/extruder.json
 da484e58696b09af5f36049816a3ab04a3bc4fd0 assets/nedaire/blockstates/fluid_filler.json
 b3e05dc4d9cb035570f23256fd0d523d1d09177f assets/nedaire/blockstates/fluid_storage.json
+3c6a6b1162da867057ded46d60accdeafb2dff71 assets/nedaire/blockstates/framework.json
 e8900ae9a6789c7389a9276396929d2b23faf70a assets/nedaire/blockstates/furnace.json
 fbb05483538c6262e1693703d89f8fd6fb4c78bc assets/nedaire/blockstates/generator/food.json
 db5657a32b1dde2246cfe45664381f31245b8d24 assets/nedaire/blockstates/generator/mob.json
@@ -34,6 +35,7 @@ f7e7e479af84b2bcf6241640f8d73a0a7ccdfa7e assets/nedaire/models/block/extruder_on
 1001da8508b049f128ee773d0e5fc542ceb2c863 assets/nedaire/models/block/fluid_filler_off.json
 8449412aac325dd0ff823f66b53c2fe5492ac4cc assets/nedaire/models/block/fluid_filler_on.json
 34d307f3658cc29a95ab026bcd350ff80095d84d assets/nedaire/models/block/fluid_storage.json
+7c932a9722e685cde318fb0f5b71ff5a36ec560b assets/nedaire/models/block/framework.json
 2dcd9a4aba73effe8d6748d175a48b3186d74da9 assets/nedaire/models/block/furnace_off.json
 ab93723c0d7c4ef31d20be7beee224a5bbb46077 assets/nedaire/models/block/furnace_on.json
 900fc087d03f08238fa0436ad5cdf3650c317448 assets/nedaire/models/block/generator/food_off.json
@@ -61,11 +63,12 @@ bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/co
 9066344b032c2319166969721e218ae985941e36 assets/nedaire/models/item/extruder.json
 45abd9439f6a8d4f8ffb62ee57dbc7766e170f86 assets/nedaire/models/item/fluid_filler.json
 bc20cc74054c889bed63f44d9daaf0e50f9f01e4 assets/nedaire/models/item/fluid_storage.json
+fe942c8c2bf15a7a3af6a3f5b666fb3c7e2d5d4c assets/nedaire/models/item/framework.json
 0ca35fd60e156ba4f552e2ccf26d3bda29e2b8ba assets/nedaire/models/item/furnace.json
 7081c784603023e3c20c523e75db3f855dd5d264 assets/nedaire/models/item/generator/food.json
 31fed632425de8f9891ded62c4b899a1412fe7a3 assets/nedaire/models/item/generator/mob.json
 01bc49c1f1d41009c70fef8eec3b3f57ee77810e assets/nedaire/models/item/generator/solar.json
-7f017b928397501c4f1e724c673965b1b5595df1 assets/nedaire/models/item/growth_crystal.json
+ee61c16caed7eece2b1a20213ef522e81d19bd61 assets/nedaire/models/item/growth_crystal.json
 5396426a5e8200b12d11befaf52f74a426277423 assets/nedaire/models/item/holder.json
 bdf30b1e825dda292e8e7358e0eea81dd389a196 assets/nedaire/models/item/hoover.json
 b72b2f7cb2e9a4d58c7ddbdbfc215bea5aa19a9e assets/nedaire/models/item/jewelry_table.json

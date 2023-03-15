@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "nedaire:crystal_prison"
+    },
+    "D": {
+      "item": "minecraft:hopper"
+    },
+    "E": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    "EDE"
+  ],
+  "result": {
+    "item": "nedaire:mob_catcher"
+  }
+}

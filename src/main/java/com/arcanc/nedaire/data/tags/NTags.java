@@ -22,13 +22,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-public class ModTags 
+public class NTags 
 {
 	public static class Blocks 
 	{
-		public static final MaterialTag CORIUM = new ModTags.Blocks.MaterialTag(NDatabase.Materials.CORIUM);
+		public static final MaterialTag CORIUM = new NTags.Blocks.MaterialTag(NDatabase.Materials.CORIUM);
 		
-		public static final Map<String, ModTags.Blocks.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(ModTags.Blocks.MaterialTag :: getName, mat -> mat));
+		public static final Map<String, NTags.Blocks.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(NTags.Blocks.MaterialTag :: getName, mat -> mat));
 		
 		public static class MaterialTag
 		{
@@ -83,9 +83,9 @@ public class ModTags
 	public static class Items
 	{
 	
-		public static final MaterialTag CORIUM = new ModTags.Items.MaterialTag(NDatabase.Materials.CORIUM);
+		public static final MaterialTag CORIUM = new NTags.Items.MaterialTag(NDatabase.Materials.CORIUM);
 		
-		public static final Map<String, ModTags.Items.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(ModTags.Items.MaterialTag :: getName, mat -> mat));
+		public static final Map<String, NTags.Items.MaterialTag> MATERIALS = Stream.of(CORIUM).collect(Collectors.toMap(NTags.Items.MaterialTag :: getName, mat -> mat));
 		
 		public static class MaterialTag
 		{

@@ -74,6 +74,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		}
 		
 		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE.get());
+		this.dropSelf(NRegistration.RegisterBlocks.FRAMEWORK.get());
 		this.dropSelf(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
 		
 		this.add(NRegistration.RegisterBlocks.TERRAMORFER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.TERRAMORFER.get()));

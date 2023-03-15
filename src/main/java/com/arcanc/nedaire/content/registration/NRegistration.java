@@ -297,6 +297,10 @@ public class NRegistration
 		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
 				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
+
+		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> FRAMEWORK = BlockRegObject.simple(
+				NDatabase.Blocks.Names.FRAMEWORK, 
+				() -> baseMachineProps.get().noOcclusion());
 		
 		public static final BlockRegObject<NBlockTerramorfer, NBaseBlockItem> TERRAMORFER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER,
@@ -508,11 +512,11 @@ public class NRegistration
 		public static void init() {};
 		
 		public static final ModMaterial CORIUM = new ModMaterialProperties(NDatabase.Materials.CORIUM).
-				setDurability(512).
+				setDurability(1862).
 				setEnchantmentValue(20).
-				setToolSpeed(10).
-				setToolAttackDamageBonus(6).
-				setToolAttackSpeed(-2.8f).
+				setToolSpeed(8).
+				setToolAttackDamageBonus(3).
+				setToolAttackSpeed(-2.4f).
 				setToolLevel(3).
 				setToolTag(BlockTags.create(StringHelper.getLocFStr("needs_" + NDatabase.Materials.CORIUM + "_tool"))).
 				setBetterThan(Tiers.DIAMOND).
@@ -523,7 +527,6 @@ public class NRegistration
 				setHorseArmorDefense(5).
 				requiredOre(true).	
 				create();
-
 	}
 	
 	public static class RegisterBlockEntities

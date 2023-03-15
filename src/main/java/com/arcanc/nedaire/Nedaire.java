@@ -11,7 +11,6 @@ package com.arcanc.nedaire;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -330,7 +329,7 @@ public class Nedaire
     			map(RegistryObject :: get).
     			map(ItemStack :: new).
     			sorted((stack1, stack2) -> stack1.getDisplayName().getString().compareTo(stack2.getDisplayName().getString())).
-    			collect(Collectors.toSet()));
+    			toList());
     }
     
     private Consumer<CreativeModeTab.Builder> registerTab(String name, ItemStack icon, Collection<ItemStack> items) 

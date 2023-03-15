@@ -105,6 +105,7 @@ public class NDatabase
 			public static final String DEEPSLATE = "deepslate";
 			
 			public static final String SKYSTONE = "skystone";
+			public static final String FRAMEWORK = "framework";
 		}
 		
 		public static class BlockEntities

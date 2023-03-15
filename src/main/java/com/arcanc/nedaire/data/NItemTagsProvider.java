@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
-import com.arcanc.nedaire.data.tags.ModTags;
+import com.arcanc.nedaire.data.tags.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.core.HolderLookup;
@@ -38,27 +38,27 @@ public class NItemTagsProvider extends ItemTagsProvider
 
 		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
-		copy(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock(), ModTags.Items.MATERIALS.get(mat.getName()).getStorageBlock());
+		copy(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock(), NTags.Items.MATERIALS.get(mat.getName()).getStorageBlock());
 			
 		if (mat.requiredOre())
 		{
-			copy(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre(), ModTags.Items.MATERIALS.get(mat.getName()).getOre());
+			copy(NTags.Blocks.MATERIALS.get(mat.getName()).getOre(), NTags.Items.MATERIALS.get(mat.getName()).getOre());
 		}
 		
 			
-		tag(Tags.Items.INGOTS).addTag(ModTags.Items.MATERIALS.get(mat.getName()).getIngot());
-		tag(ModTags.Items.MATERIALS.get(mat.getName()).getIngot()).add(mat.getIngot().get());
+		tag(Tags.Items.INGOTS).addTag(NTags.Items.MATERIALS.get(mat.getName()).getIngot());
+		tag(NTags.Items.MATERIALS.get(mat.getName()).getIngot()).add(mat.getIngot().get());
 		
-		tag(Tags.Items.NUGGETS).addTag(ModTags.Items.MATERIALS.get(mat.getName()).getNugget());
-		tag(ModTags.Items.MATERIALS.get(mat.getName()).getNugget()).add(mat.getNugget().get());
+		tag(Tags.Items.NUGGETS).addTag(NTags.Items.MATERIALS.get(mat.getName()).getNugget());
+		tag(NTags.Items.MATERIALS.get(mat.getName()).getNugget()).add(mat.getNugget().get());
 		
-		tag(Tags.Items.DUSTS).addTag(ModTags.Items.MATERIALS.get(mat.getName()).getDust());
-		tag(ModTags.Items.MATERIALS.get(mat.getName()).getDust()).add(mat.getDust().get());
+		tag(Tags.Items.DUSTS).addTag(NTags.Items.MATERIALS.get(mat.getName()).getDust());
+		tag(NTags.Items.MATERIALS.get(mat.getName()).getDust()).add(mat.getDust().get());
 		
-		tag(Tags.Items.RAW_MATERIALS).addTag(ModTags.Items.MATERIALS.get(mat.getName()).getRaw());
-		tag(ModTags.Items.MATERIALS.get(mat.getName()).getRaw()).add(mat.getRaw().get());
+		tag(Tags.Items.RAW_MATERIALS).addTag(NTags.Items.MATERIALS.get(mat.getName()).getRaw());
+		tag(NTags.Items.MATERIALS.get(mat.getName()).getRaw()).add(mat.getRaw().get());
 	
-		tag(ModTags.Items.WRENCH).add(NRegistration.RegisterItems.HAMMER.get());
+		tag(NTags.Items.WRENCH).add(NRegistration.RegisterItems.HAMMER.get());
 		
 		
 	}

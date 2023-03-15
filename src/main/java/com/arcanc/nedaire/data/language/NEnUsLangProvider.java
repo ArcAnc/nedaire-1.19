@@ -78,6 +78,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterItems.JEWELRY_TOOLS.get(), StringHelper.capitalize(NDatabase.Items.Names.JEWELRY + " Tools"));
 
 		add(NRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
+		add(NRegistration.RegisterBlocks.FRAMEWORK.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.FRAMEWORK));
 		
 		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
 		add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get().asItem(), "Solar Generator");

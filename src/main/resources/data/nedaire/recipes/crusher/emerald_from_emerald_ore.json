@@ -1,0 +1,15 @@
+{
+  "type": "nedaire:crusher",
+  "energy": 1000,
+  "input": {
+    "tag": "minecraft:emerald_ores"
+  },
+  "is_manual": false,
+  "result": {
+    "base_ingredient": {
+      "tag": "forge:gems/emerald"
+    },
+    "count": 8
+  },
+  "secondaries": []
+}

@@ -1,13 +1,12 @@
 {
   "type": "nedaire:crusher",
-  "energy": 1600,
+  "energy": 500,
   "input": {
-    "tag": "forge:ender_pearls"
+    "item": "minecraft:stone"
   },
   "is_manual": false,
   "result": {
-    "item": "nedaire:tool/chalk",
-    "nbt": "{Damage:0}"
+    "item": "minecraft:cobblestone"
   },
   "secondaries": []
 }

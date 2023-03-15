@@ -56,7 +56,7 @@ public class TerramorferRenderer implements BlockEntityRenderer<NBETerramorfer>
 		    mStack.translate(0.5f, 0.65f, 0.5f);
 			
 		    mStack.mulPose(cam.rotation());
-			mStack.mulPose(Axis.ZP.rotationDegrees((float)blockEntity.getLevel().getGameTime() % 360));
+			mStack.mulPose(Axis.ZP.rotationDegrees((float)blockEntity.getLevel().getGameTime() % 360 + partialTicks));
 			
 			VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
 			

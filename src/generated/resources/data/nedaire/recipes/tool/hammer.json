@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:rods/wooden"
+    },
+    "B": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "pattern": [
+    "B  ",
+    " A ",
+    "  A"
+  ],
+  "result": {
+    "item": "nedaire:tool/hammer"
+  }
+}

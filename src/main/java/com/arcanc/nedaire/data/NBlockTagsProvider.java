@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.arcanc.nedaire.content.material.ModMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
-import com.arcanc.nedaire.data.tags.ModTags;
+import com.arcanc.nedaire.data.tags.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.core.HolderLookup;
@@ -34,16 +34,16 @@ public class NBlockTagsProvider extends BlockTagsProvider
 	{
 		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
-		tag(Tags.Blocks.STORAGE_BLOCKS).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
-		tag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock()).add(mat.getStorageBlock().get()).add(mat.getRawStorageBlock().get());
-		tag(BlockTags.NEEDS_IRON_TOOL).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
+		tag(Tags.Blocks.STORAGE_BLOCKS).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
+		tag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock()).add(mat.getStorageBlock().get()).add(mat.getRawStorageBlock().get());
+		tag(BlockTags.NEEDS_IRON_TOOL).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
 
 		if (mat.requiredOre())
 		{
-			tag(Tags.Blocks.ORES).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre());
-			tag(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre()).add(mat.getOreBlock().get()).add(mat.getDeepSlateOre().get());
-			tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre()).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
-			tag(BlockTags.NEEDS_DIAMOND_TOOL).addTag(ModTags.Blocks.MATERIALS.get(mat.getName()).getOre());
+			tag(Tags.Blocks.ORES).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getOre());
+			tag(NTags.Blocks.MATERIALS.get(mat.getName()).getOre()).add(mat.getOreBlock().get()).add(mat.getDeepSlateOre().get());
+			tag(BlockTags.MINEABLE_WITH_PICKAXE).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getOre()).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
+			tag(BlockTags.NEEDS_DIAMOND_TOOL).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getOre());
 		}
 		
 		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(NRegistration.RegisterBlocks.SKYSTONE.get()).add(NRegistration.RegisterBlocks.PEDESTAL.get()).add(NRegistration.RegisterBlocks.HOLDER.get());

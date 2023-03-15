@@ -1,0 +1,15 @@
+{
+  "type": "nedaire:crusher",
+  "energy": 1000,
+  "input": {
+    "tag": "minecraft:diamond_ores"
+  },
+  "is_manual": false,
+  "result": {
+    "base_ingredient": {
+      "tag": "forge:gems/diamond"
+    },
+    "count": 8
+  },
+  "secondaries": []
+}

@@ -41,7 +41,7 @@ public class NVillage
 		if (event.getType() == NRegistration.RegisterVillage.UNDERGROUNDER.get())
 		{
 			trades.get(1).add(new EmeraldForItems(NRegistration.RegisterItems.NUGGET_SKYSTONE.get(), new PriceInterval(2, 4), 10, 8));
-			trades.get(1).add(new ItemsForEmerald(NRegistration.RegisterItems.NUGGET_SKYSTONE.get(), new PriceInterval(-10, -6), 10, 8));
+			trades.get(1).add(new ItemsForEmerald(NRegistration.RegisterItems.NUGGET_SKYSTONE.get(), new PriceInterval(6, 10), 10, 8));
 		}
 	}
 	
