@@ -17,6 +17,7 @@ import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -33,7 +34,7 @@ public abstract class NRecipe extends NSerializableRecipe implements INMachineRe
 	}
 
 	@Override
-	public ItemStack getResultItem()
+	public ItemStack getResultItem(RegistryAccess regisrty)
 	{
 		NonNullList<ItemStack> outputs = getItemOutputs();
 		if(outputs!=null&&outputs.size() > 0)

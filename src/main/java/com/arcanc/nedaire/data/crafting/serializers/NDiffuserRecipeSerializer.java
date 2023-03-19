@@ -43,7 +43,7 @@ public class NDiffuserRecipeSerializer extends NRecipeSerializer<NDiffuserRecipe
 		int time = GsonHelper.getAsInt(json, NDatabase.Recipes.Types.Diffuser.TIME);
 		boolean isManual = GsonHelper.getAsBoolean(json, NDatabase.Recipes.Types.Crusher.IS_MANUAL);
 		FluidStack fluid = readFluidStack(json.getAsJsonObject(NDatabase.Recipes.Types.Diffuser.FLUID));
-		NDiffuserRecipe recipe = /*FIXME: добавить прогрузку конфига сюда:IEServerConfig.MACHINES.crusherConfig.apply(*/new NDiffuserRecipe(recipeId, output, input, time, fluid, isManual);
+		NDiffuserRecipe recipe = /*FIXME: add config loading here:IEServerConfig.MACHINES.crusherConfig.apply(*/new NDiffuserRecipe(recipeId, output, input, time, fluid, isManual);
 		return recipe;
 	}
 	

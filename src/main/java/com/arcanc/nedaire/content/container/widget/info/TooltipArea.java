@@ -44,13 +44,13 @@ public class TooltipArea extends InfoArea
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderButton(stack, mouseX, mouseY, p_93660_);
+	         this.renderWidget(stack, mouseX, mouseY, p_93660_);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float p_93679_) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 	}
 	
@@ -58,7 +58,7 @@ public class TooltipArea extends InfoArea
 	{
 		if (this.tooltip != null) 
 	    {
-			if (isHoveredOrFocused())
+			if (isHovered())
 			{
 				Minecraft mc = RenderHelper.mc();
 				Screen screen = mc.screen;

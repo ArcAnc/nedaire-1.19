@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.parts.Chapter;
-import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -26,7 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class EnchiridionScreen extends Screen 
 {
-	public static final ResourceLocation TEXT = StringHelper.getLocFStr("textures/gui/enchiridion/book.png");
+	public static final ResourceLocation TEXT = NDatabase.GUI.getTexturePath("gui/enchiridion/book");
 	
 	private float scaleFactor = 1;
 	private int xSize = 292;
@@ -73,6 +73,7 @@ public class EnchiridionScreen extends Screen
 		{
 			addRenderableWidget(chapter.get());
 		}
+		EnchiridionInstance.INSTANCE.getScreen().lastActiveChapter = EnchiridionInstance.getContent().get(NDatabase.GUI.Enchiridion.Section.ResourceLocations.BASIC).get();
 	}
 	
 	@Override

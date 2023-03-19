@@ -11,6 +11,7 @@ package com.arcanc.nedaire.data.crafting.recipe;
 import com.arcanc.nedaire.content.item.weapon.NShieldBase;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -81,7 +82,7 @@ public class NShieldRecipes extends ShieldDecorationRecipe
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer inventory) 
+	public ItemStack assemble(CraftingContainer inventory, RegistryAccess registry) 
 	{
 		ItemStack itemstack = ItemStack.EMPTY;
 		ItemStack itemstack1 = ItemStack.EMPTY;

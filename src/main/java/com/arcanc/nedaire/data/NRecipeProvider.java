@@ -165,8 +165,8 @@ public class NRecipeProvider extends RecipeProvider
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterItems.HAMMER.get()).
 		define('A', Ingredient.of(Tags.Items.RODS_WOODEN)).
 		define('B', Ingredient.of(Tags.Items.INGOTS_IRON)).
-		pattern("B  ").
-		pattern(" A ").
+		pattern(" B ").
+		pattern("BA ").
 		pattern("  A").
 		unlockedBy("has_" + Tags.Items.RODS_WOODEN.location().getPath(), has(Tags.Items.RODS_WOODEN)).
 		unlockedBy("has_" + Tags.Items.INGOTS_IRON.location().getPath(), has(Tags.Items.INGOTS_IRON)).
@@ -397,7 +397,7 @@ public class NRecipeProvider extends RecipeProvider
 		define('F', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
 		pattern("ACA").
 		pattern("DBE").
-		pattern("FDF").
+		pattern("FFF").
 		unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
 		unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
 		unlockedBy("has_" + NRegistration.RegisterBlocks.FLUID_STORAGE.getId().getPath(), has(NRegistration.RegisterBlocks.FLUID_STORAGE)).

@@ -57,7 +57,7 @@ public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeS
 		if(outputObject.isJsonObject() && outputObject.getAsJsonObject().has("item"))
 			return Lazy.of(() -> ShapedRecipe.itemStackFromJson(outputObject.getAsJsonObject()));
 		IngredientWithSize outgredient = IngredientWithSize.deserialize(outputObject);
-		/* FIXME: заменить на выбор нужного стака относительно мода*/
+		/* FIXME: change to choosing required stack depending on mc mod*/
 		return Lazy.of(() -> outgredient.getMatchingStacks()[0]);
 	}
 	

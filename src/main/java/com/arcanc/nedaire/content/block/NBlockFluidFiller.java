@@ -11,9 +11,12 @@ package com.arcanc.nedaire.content.block;
 import com.arcanc.nedaire.content.block.entities.NBEFluidFiller;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
+import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -43,6 +46,22 @@ public class NBlockFluidFiller extends NTileProviderBlock<NBEFluidFiller>
 			state = state.setValue(BlockHelper.BlockProperties.ENABLED, false);
 		}
 		return state;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) 
+	{
+		BlockHelper.castTileEntity(level, pos, NBEFluidFiller.class).ifPresent(tile -> 
+		{
+			FluidHelper.getFluidHandler(tile).ifPresent(handler ->
+			{
+				if (handler.getFluidInTank(0).getFluid().is(FluidTags.LAVA))
+				{
+					entity.lavaHurt();
+				}
+			});
+		});
 	}
 	
 	@Override

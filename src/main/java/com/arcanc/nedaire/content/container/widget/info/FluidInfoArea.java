@@ -65,13 +65,13 @@ public class FluidInfoArea extends InfoArea
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderButton(stack, mouseX, mouseY, partialTicks);
+	         this.renderWidget(stack, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		stack.pushPose();
 		
@@ -103,7 +103,7 @@ public class FluidInfoArea extends InfoArea
 			
 					RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
 					RenderSystem.setShaderTexture(0, still.atlasLocation());
-					blit(stack, this.getX(), (int)f, this.getBlitOffset(), this.getWidth(), (int)f1, still);
+					blit(stack, this.getX(), (int)f, 0/*FIXME: find method to get blitOffset*/, this.getWidth(), (int)f1, still);
 
 				}
 			}
@@ -118,7 +118,7 @@ public class FluidInfoArea extends InfoArea
 	
 	protected void renderTooltip() 
 	{
-		if (isHoveredOrFocused())
+		if (isHovered())
 		{
 			Minecraft mc = RenderHelper.mc();
 			Screen screen = mc.screen;

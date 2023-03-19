@@ -26,7 +26,7 @@ public class NItemTagsProvider extends ItemTagsProvider
 {
 	public NItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, ExistingFileHelper ext) 
 	{
-		super(output, lookupProvider, blockTagsProvider, NDatabase.MOD_ID, ext);
+		super(output, lookupProvider, blockTagsProvider.contentsGetter(), NDatabase.MOD_ID, ext);
 	}
 	
 	@Override

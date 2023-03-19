@@ -54,7 +54,13 @@ public class NHammer extends NBaseItem
 						if (tag.contains(COORDS) && ctx.getPlayer().isCrouching())
 						{
 							CompoundTag coords = tag.getCompound(COORDS);
-							station.addTile(ctx.getLevel(), new BlockPos(coords.getInt("x"), coords.getInt("y"), coords.getInt("z")));
+							
+							BlockPos tilePos = new BlockPos(coords.getInt("x"), coords.getInt("y"), coords.getInt("z"));
+							if(tilePos.closerThan(pos, 32))
+							{
+								station.addTile(ctx.getLevel(), tilePos);
+							}
+							tag.remove(COORDS);
 						}
 						
 					}

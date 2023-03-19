@@ -21,6 +21,8 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +43,7 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 	{
 		super(instance, loc, x, y, width, height);
 
-		setBaseShiftX(15);
+		setBaseShiftX(19);
 
 		recipe.ifPresent(rec -> 
 		{
@@ -51,19 +53,19 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 				{
 					for (int xx = 0; xx < 3; xx++)
 					{
-						positions.add(xx+ (yy * 3), new Vec2(x + (xx *partW), y + (yy * partH)));
+						positions.add(xx+ (yy * 3), new Vec2(this.x + (xx *partW), this.y + (yy * partH)));
 					}
 				}
 				
-				imagePos = new Vec2(x + 4 * partW - 10, y + partH);
-				positions.add(new Vec2 (x + 5 * partW, y + partH));
+				imagePos = new Vec2(this.x + 4 * partW - 10, this.y + partH);
+				positions.add(new Vec2 (this.x + 5 * partW, this.y + partH));
 			}
 		});
 	}
 	
 	public EnchElementCraftingRecipe(EnchiridionInstance instance, ResourceLocation loc, int x, int y) 
 	{
-		super(instance, loc, x, y, 90, 55);
+		this(instance, loc, x, y, 90, 55);
 	}
 
 	@Override
@@ -82,7 +84,9 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 				{
 					withOut.set(q, ingr.get(q));
 				}
-				withOut.set(9 , Ingredient.of(rec.getResultItem()));
+				
+				Minecraft mc = RenderHelper.mc();
+				withOut.set(9 , Ingredient.of(rec.getResultItem(mc.level.registryAccess())));
 				for (int q = 0 ; q < 10; q++ )
 				{
 					Ingredient in = withOut.get(q);
@@ -94,7 +98,7 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 					RenderSystem.enableBlend();
 					RenderSystem.defaultBlendFunc();
 					RenderSystem.enableDepthTest();
-					ench.getScreen().blit(pos, (int)positions.get(q).x - 1, (int)positions.get(q).y - 1, 217, 0, 18, 18);
+					GuiComponent.blit(pos, (int)positions.get(q).x - 1, (int)positions.get(q).y - 1, 217, 0, 18, 18);
 					RenderHelper.renderItemStack(pos, stack, (int)positions.get(q).x, (int)positions.get(q).y, true);
 					pos.popPose();
 					if (mouseX >= (int)positions.get(q).x && mouseY >= (int)positions.get(q).y && mouseX <= (int)positions.get(q).x + 16 && mouseY <= positions.get(q).y + 16)
@@ -112,10 +116,10 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 
 				if (rec.getSerializer().equals(RecipeSerializer.SHAPELESS_RECIPE))
 				{
-					ench.getScreen().blit(pos, (int)imagePos.x, (int)imagePos.y - 18, 234, 69, 22, 15);
+					GuiComponent.blit(pos, (int)imagePos.x, (int)imagePos.y - 18, 234, 69, 22, 15);
 				}
 				
-				ench.getScreen().blit(pos, (int)imagePos.x, (int)imagePos.y, 234, 53, 22, 15);
+				GuiComponent.blit(pos, (int)imagePos.x, (int)imagePos.y, 234, 53, 22, 15);
 				RenderSystem.disableBlend();
 				RenderSystem.disableDepthTest();
 				pos.popPose();
@@ -124,17 +128,20 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 				{
 					RenderSystem.enableBlend();
 					ench.getScreen().renderTooltip(pos, ench.getScreen().getTooltipFromItem(highlighted), highlighted.getTooltipImage(), mouseX, mouseY);
+					RenderSystem.disableBlend();
 				}
 				else if (mouseX >= imagePos.x && mouseY >= imagePos.y && mouseX <= imagePos.x + 22 && mouseY <= imagePos.y + 15)
 				{
 					RenderSystem.enableBlend();
 					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPED)), Optional.empty(), mouseX, mouseY);
+					RenderSystem.disableBlend();
 				}
-				else if ((mouseX >= imagePos.x && mouseY >= imagePos.y - 18 && mouseX <= imagePos.x + 22 - 18 && mouseY <= imagePos.y + 15)
+				else if ((mouseX >= imagePos.x && mouseY >= imagePos.y - 18 && mouseX <= imagePos.x + 22 && mouseY <= imagePos.y - 18 + 15)
 						&& rec.getSerializer().equals(RecipeSerializer.SHAPELESS_RECIPE))
 				{
 					RenderSystem.enableBlend();
 					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.SHAPELESS)), Optional.empty(), mouseX, mouseY);
+					RenderSystem.disableBlend();
 				}
 			}
 		});

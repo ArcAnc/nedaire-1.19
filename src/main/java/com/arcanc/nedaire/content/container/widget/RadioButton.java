@@ -194,7 +194,7 @@ public class RadioButton extends Button
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 	    stack.pushPose(); 
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -215,7 +215,7 @@ public class RadioButton extends Button
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderButton(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(stack, mouseX, mouseY, partialTicks);
 			if (!buttons.isEmpty())
 			{
 				finishRadioButton();
@@ -257,7 +257,7 @@ public class RadioButton extends Button
 		}
 
 		@Override
-		public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+		public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 		{
 			
 			stack.pushPose();
@@ -267,7 +267,7 @@ public class RadioButton extends Button
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 			
-			blit(stack, this.getX(), this.getY(), this.width, this.height, this.isHoveredOrFocused() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
+			blit(stack, this.getX(), this.getY(), this.width, this.height, this.isHovered() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
 			
 			icon.render(stack, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, 16, 16);
 			
@@ -281,7 +281,7 @@ public class RadioButton extends Button
 			if (this.visible) 
 			{
 				this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-				this.renderButton(stack, mouseX, mouseY, partialTicks);
+				this.renderWidget(stack, mouseX, mouseY, partialTicks);
 				this.renderTootip();
 			}
 		}
@@ -290,7 +290,7 @@ public class RadioButton extends Button
 		{
 			if (this.tooltip != null) 
 		    {
-				if (isHoveredOrFocused())
+				if (isHovered())
 				{
 					Minecraft mc = RenderHelper.mc();
 					Screen screen = mc.screen;

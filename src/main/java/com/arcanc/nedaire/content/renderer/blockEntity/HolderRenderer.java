@@ -16,9 +16,9 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class HolderRenderer implements BlockEntityRenderer<NBEHolder>  
@@ -49,11 +49,12 @@ public class HolderRenderer implements BlockEntityRenderer<NBEHolder>
 			        mStack.mulPose(new Quaternionf().fromAxisAngleDeg(angle, 0, 1, 0));
 			        RenderHelper.renderItem().renderStatic(
 			        		stack, 
-			        		ItemTransforms.TransformType.GROUND, 
+			        		ItemDisplayContext.GROUND, 
 			        		combinedLight, 
 			        		combinedOverlay,
 			        		mStack, 
-			        		buffer, 
+			        		buffer,
+			        		blockEntity.getLevel(),
 			        		0);
 			        mStack.popPose();
 					

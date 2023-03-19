@@ -75,6 +75,7 @@ public class GenericContainerData<T>
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void processSync (Object receivedData)
 	{
 		current = (T)receivedData;

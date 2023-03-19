@@ -10,6 +10,7 @@ package com.arcanc.nedaire.data.crafting.recipe;
 
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +54,7 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 	}
 
 	@Override
-	public ItemStack assemble(Container inv)
+	public ItemStack assemble(Container inv, RegistryAccess registry)
 	{
 		return this.outputDummy.get();
 	}

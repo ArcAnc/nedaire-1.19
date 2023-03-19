@@ -21,12 +21,12 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
@@ -96,11 +96,12 @@ public class DiffuserRenderer implements BlockEntityRenderer<NBEDiffuser>
 			        mStack.mulPose(Axis.YP.rotationDegrees(angle));
 			        RenderHelper.renderItem().renderStatic(
 			        		stack, 
-			        		ItemTransforms.TransformType.GROUND, 
+			        		ItemDisplayContext.GROUND, 
 			        		combinedLight, 
 			        		combinedOverlay,
 			        		mStack, 
-			        		buffer, 
+			        		buffer,
+			        		tile.getLevel(),
 			        		0);
 			        mStack.popPose();
 

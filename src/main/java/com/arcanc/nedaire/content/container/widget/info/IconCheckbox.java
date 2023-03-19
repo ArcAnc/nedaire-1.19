@@ -46,7 +46,7 @@ public class IconCheckbox extends Checkbox
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		stack.pushPose();
 		
@@ -57,7 +57,7 @@ public class IconCheckbox extends Checkbox
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		
-		blit(stack, this.getX(), this.getY(), this.width, this.height, selected() ? 0.0f : 20.0F, this.isHoveredOrFocused() ? 20.0F : 0.0F, 20, 20, 64, 64);
+		blit(stack, this.getX(), this.getY(), this.width, this.height, selected() ? 0.0f : 20.0F, this.isHovered() ? 20.0F : 0.0F, 20, 20, 64, 64);
 		
 		RenderSystem.disableBlend();
 		
@@ -71,7 +71,7 @@ public class IconCheckbox extends Checkbox
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderButton(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(stack, mouseX, mouseY, partialTicks);
 			renderTooltip();
 		}
 	}
@@ -80,7 +80,7 @@ public class IconCheckbox extends Checkbox
 	{
 		if (this.tooltip != null) 
 		{
-			if (isHoveredOrFocused())
+			if (isHovered())
 			{
 				Minecraft mc = RenderHelper.mc();
 				Screen screen = mc.screen;

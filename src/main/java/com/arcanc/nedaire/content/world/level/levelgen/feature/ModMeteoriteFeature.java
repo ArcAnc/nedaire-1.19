@@ -32,7 +32,7 @@ public class ModMeteoriteFeature extends Feature<NoneFeatureConfiguration>
 	    BlockPos blockpos = ctx.origin();
 	    RandomSource random = ctx.random();
 		
-	    //добавить код проверки возможности спавна метеорита. –азнесу все сюда, по разным функци€м, потому что ебал € в рот
+	    //FIXME: add code for checking meteorite spawn. Divide all code for different functions 
 	    
 		return false;
 	}

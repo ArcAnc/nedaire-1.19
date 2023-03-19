@@ -95,11 +95,11 @@ public class NBEFurnace extends NBERedstoneSensitive implements IInventoryCallba
 							inv.getInputHandler().getSlot(0).modify(-1);
 							if (inv.getOutputHandler().getStackInSlot(0).isEmpty())
 							{
-								inv.getOutputHandler().setStackInSlot(recipe.getResultItem().copy(), 0);
+								inv.getOutputHandler().setStackInSlot(recipe.getResultItem(getLevel().registryAccess()).copy(), 0);
 							}
 							else
 							{
-								inv.getOutputHandler().getSlot(0).modify(recipe.getResultItem().getCount());
+								inv.getOutputHandler().getSlot(0).modify(recipe.getResultItem(getLevel().registryAccess()).getCount());
 							}
 							usedEnergy = 0;
 							return false;

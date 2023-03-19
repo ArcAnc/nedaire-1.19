@@ -50,7 +50,7 @@ public class EnchiridionInstance
 		{
 			int upperS = upper;
 			int bottomS = bottom;
-			boolean isNative = data.name().getNamespace() == NDatabase.MOD_ID;
+			boolean isNative = data.name().getNamespace().equals(NDatabase.MOD_ID);
 			CONTENT.put(data.name(), () -> new Chapter(
 					isNative ? screen.guiLeft + 15 + (20 * upperS) + (4 * upperS) : screen.guiLeft + 15 + (20 * bottomS) + (4 * bottomS), 
 					isNative ? screen.guiTop + 175 : screen.guiTop + 21, 

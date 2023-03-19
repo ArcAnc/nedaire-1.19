@@ -97,7 +97,7 @@ public class NBEFluidFiller extends NBERedstoneSensitive implements IInventoryCa
 					FluidState state = getLevel().getFluidState(pos);
 					if (!state.isEmpty())
 					{
-						FluidStack stack = state.isSource() ? new FluidStack(state.holder().get(), 250) : FluidStack.EMPTY;
+						FluidStack stack = state.isSource() ? new FluidStack(state.holder().get(), 100) : FluidStack.EMPTY;
 						if(!stack.isEmpty())
 						{
 							fluid.fill(stack, FluidAction.EXECUTE);

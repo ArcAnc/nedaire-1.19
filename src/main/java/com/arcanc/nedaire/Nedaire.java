@@ -9,6 +9,8 @@
 package com.arcanc.nedaire;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -52,6 +54,7 @@ import com.arcanc.nedaire.content.renderer.entity.DeliveryDroneRenderer;
 import com.arcanc.nedaire.content.renderer.particle.EssenceParticle;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
+import com.arcanc.nedaire.data.NBlockLootSubProvider;
 import com.arcanc.nedaire.data.NBlockStatesProvider;
 import com.arcanc.nedaire.data.NBlockTagsProvider;
 import com.arcanc.nedaire.data.NItemModelProvider;
@@ -60,7 +63,6 @@ import com.arcanc.nedaire.data.NRecipeProvider;
 import com.arcanc.nedaire.data.NSpriteSourceProvider;
 import com.arcanc.nedaire.data.NVillagersTags;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
-import com.arcanc.nedaire.data.loot.NLootProvider;
 import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -74,12 +76,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -293,7 +297,12 @@ public class Nedaire
        
         gen.addProvider(event.includeServer(), new NBiomeTags(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), new NVillagersTags(packOutput, lookupProvider, ext));
-        gen.addProvider(event.includeServer(), NLootProvider :: create);
+        gen.addProvider(event.includeServer(), new LootTableProvider(
+        		packOutput, 
+        		Collections.emptySet(),
+				List.of(
+						new LootTableProvider.SubProviderEntry(NBlockLootSubProvider :: new, LootContextParamSets.BLOCK))
+				));
         NBlockTagsProvider btp = new NBlockTagsProvider(packOutput, lookupProvider, ext);
     		
     	gen.addProvider(event.includeServer(), btp);
@@ -340,7 +349,7 @@ public class Nedaire
     			hideTitle().
     			withBackgroundLocation(StringHelper.getLocFStr(NDatabase.ItemGroups.BACKGROUND_IMAGE_PATH + name + ".png")).
     			withSearchBar().
-    			displayItems((flags, output, hasOp) -> 
+    			displayItems((params, output) -> 
     			{
     				output.acceptAll(items);
     			});

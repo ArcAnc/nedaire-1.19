@@ -10,8 +10,8 @@ package com.arcanc.nedaire.content.book.parts;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
+import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,20 +22,19 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 public class Chapter extends Button 
 {
 	private final ResourceLocation id;
 	private final EnchiridionInstance instance;
-	private final ItemStack icon;
+	private final Icon<?> icon;
 	private boolean isActive = false;
 	private final boolean isNative;
 	
 	private EnchElementList list;
 	public EnchElementPage page;
 	
-	public Chapter(int x, int y, ResourceLocation id, EnchiridionInstance instance, ItemStack icon, OnPress press, Tooltip tooltip)
+	public Chapter(int x, int y, ResourceLocation id, EnchiridionInstance instance, Icon<?> icon, OnPress press, Tooltip tooltip)
 	{
 		super(x, y, 20, 26, CommonComponents.EMPTY, press, DEFAULT_NARRATION);
 		this.id  = id;
@@ -46,7 +45,7 @@ public class Chapter extends Button
 	}
 
 	@Override
-	public void renderButton(PoseStack pose, int x, int y, float f) 
+	public void renderWidget(PoseStack pose, int x, int y, float f) 
 	{
 	    RenderSystem.setShader(GameRenderer::getPositionTexShader);
 	    RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
@@ -58,15 +57,16 @@ public class Chapter extends Button
 	    RenderSystem.defaultBlendFunc();
 	    RenderSystem.enableDepthTest();
 	    if (isNative)
-	    	this.blit(pose, this.getX(), this.getY(), 236, 0, this.width, this.height);
+	    	blit(pose, this.getX(), this.getY(), 236, 0, this.width, this.height);
 	    else
 	    {
-    		this.blit(pose, this.getX(), this.getY(), 236, 26, this.width, this.height);
+    		blit(pose, this.getX(), this.getY(), 236, 26, this.width, this.height);
 	    }
 	    
 	    pose.pushPose();
 	    pose.scale(1.15f, 1.15f, 1f);
-	    RenderHelper.renderItemStack(pose, icon, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), true);
+	    icon.render(pose, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), 16, 16);
+	    //RenderHelper.renderItemStack(pose, icon, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), true);
 	    pose.popPose();
 	    RenderSystem.disableBlend();
 	    RenderSystem.disableDepthTest();

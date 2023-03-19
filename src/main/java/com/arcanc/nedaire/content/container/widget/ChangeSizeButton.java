@@ -88,7 +88,7 @@ public class ChangeSizeButton extends Button
 	{
 		if (visible)
 		{
-			renderButton(stack, mouseX, mouseY, partialTicks);
+			renderWidget(stack, mouseX, mouseY, partialTicks);
 			
 			this.decrease.visible = true;
 			this.increase.visible = true;
@@ -107,7 +107,7 @@ public class ChangeSizeButton extends Button
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseY, int mouseX, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseY, int mouseX, float partialTicks) 
 	{
 	}
 	

@@ -14,7 +14,6 @@ import java.util.Optional;
 
 import org.apache.commons.compress.utils.Lists;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -22,6 +21,8 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -79,7 +80,8 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 				AbstractCookingRecipe r = (AbstractCookingRecipe)rec;
 				NonNullList<Ingredient> ingr = NonNullList.create();
 				ingr.add(r.getIngredients().get(0));
-				ingr.add(Ingredient.of(r.getResultItem()));
+				Minecraft mc = RenderHelper.mc();
+				ingr.add(Ingredient.of(r.getResultItem(mc.level.registryAccess())));
 				int time = r.getCookingTime();
 				float exp = r.getExperience();
 			
@@ -94,7 +96,7 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 					RenderSystem.enableDepthTest();
 					stack = getStackAtCurrentTime(ingr.get(q));
 					
-					ench.getScreen().blit(pos, (int)positions.get(q).x, (int)positions.get(q).y, 217, 0, 18, 18);
+					GuiComponent.blit(pos, (int)positions.get(q).x, (int)positions.get(q).y, 217, 0, 18, 18);
 					RenderHelper.renderItemStack(pos, stack, (int)positions.get(q).x, (int)positions.get(q).y, true);
 					if (mouseX >= (int)positions.get(q).x && mouseY >= (int)positions.get(q).y && mouseX <= (int)positions.get(q).x + 16 && mouseY <= positions.get(q).y + 16)
 					{
@@ -109,7 +111,7 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 				RenderSystem.defaultBlendFunc();
 				RenderSystem.enableDepthTest();
 				//exp
-				ench.getScreen().blit(pos, (int)expPos.x + 18, (int)expPos.y + 2, 234, 86, 11, 11);
+				GuiComponent.blit(pos, (int)expPos.x + 18, (int)expPos.y + 2, 234, 86, 11, 11);
 				
 				RenderSystem.disableBlend();
 				RenderSystem.disableDepthTest();
@@ -122,7 +124,7 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 				RenderSystem.defaultBlendFunc();
 				RenderSystem.enableDepthTest();
 				//palochka
-				ench.getScreen().blit(pos, (int)arrowPos.x, (int)arrowPos.y, 234, 53, animateArrow(time), 15);
+				GuiComponent.blit(pos, (int)arrowPos.x, (int)arrowPos.y, 234, 53, animateArrow(time), 15);
 				RenderSystem.disableBlend();
 				RenderSystem.disableDepthTest();
 				pos.popPose();

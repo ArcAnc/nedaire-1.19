@@ -1,6 +1,18 @@
 {
   "parent": "nedaire:block/extruder_off",
   "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
     "gui": {
       "rotation": [
         30,

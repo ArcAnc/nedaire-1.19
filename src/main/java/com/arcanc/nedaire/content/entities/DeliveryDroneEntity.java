@@ -30,7 +30,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 
 public class DeliveryDroneEntity extends PathfinderMob 
 {
-	/*FIXME: добавить логику работу, починить модель (там я не совсем верно указал аниманию) и прописать остальные запчасти, такие как коллизия и получение урона*/
+	/*FIXME: finish entity logic, repair model (a bit wrong animation) and finish all other parts*/
 	private static final EntityDataAccessor<Optional<BlockPos>> BASE_POS = SynchedEntityData.defineId(DeliveryDroneEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 	private static final EntityDataAccessor<Optional<BlockPos>> TARGET_POS = SynchedEntityData.defineId(DeliveryDroneEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 

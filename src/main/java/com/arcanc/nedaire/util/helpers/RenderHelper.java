@@ -19,11 +19,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions.FontContext;
@@ -59,16 +59,16 @@ public class RenderHelper
 
 			// Counteract the zlevel increase, because multiplied with the matrix, it goes out of view
 			ItemRenderer itemRenderer = renderItem();
-			itemRenderer.blitOffset -= 50;
-			itemRenderer.renderAndDecorateItem(stack, x, y);
-			itemRenderer.blitOffset += 50;
+			transform.translate(0, 0, -50); 
+			itemRenderer.renderAndDecorateItem(transform, stack, x, y);
+			transform.translate(0, 0, 50);
 
 			if(overlay)
 			{
 				// Use the Item's font renderer, if available
 				Font font = IClientItemExtensions.of(stack.getItem()).getFont(stack, FontContext.ITEM_COUNT);
 				font = font!=null? font: mc().font;
-				itemRenderer.renderGuiItemDecorations(font, stack, x, y, count);
+				itemRenderer.renderGuiItemDecorations(transform, font, stack, x, y, count);
 			}
 			modelViewStack.popPose();
 			RenderSystem.applyModelViewMatrix();
@@ -88,9 +88,7 @@ public class RenderHelper
 
         Minecraft mc = mc();
 		BakedModel model = renderItem().getModel(stack, null, mc.player, 0);
-        renderItem().blitOffset += 50;
         renderItemModel(stack, x, y, red, green, blue, alpha, model);
-        renderItem().blitOffset -= 50;
     }
 
     /**
@@ -108,7 +106,7 @@ public class RenderHelper
 
         PoseStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushPose();
-        modelViewStack.translate(x, y, 100.0F + renderItem().blitOffset);
+        modelViewStack.translate(x, y, 100.0F);
         modelViewStack.translate(8.0D, 8.0D, 0.0D);
         modelViewStack.scale(1.0F, -1.0F, 1.0F);
         modelViewStack.scale(16.0F, 16.0F, 16.0F);
@@ -123,7 +121,7 @@ public class RenderHelper
         MultiBufferSource.BufferSource buffer = mc().renderBuffers().bufferSource();
         renderItem().render(
                 stack,
-                ItemTransforms.TransformType.GUI,
+                ItemDisplayContext.GUI,
                 false,
                 new PoseStack(),
                 wrapBuffer(buffer, red, green, blue, alpha, alpha < 1F),
