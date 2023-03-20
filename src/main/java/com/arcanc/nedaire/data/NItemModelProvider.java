@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.data;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -31,7 +31,7 @@ public class NItemModelProvider extends ItemModelProvider
 	@Override
 	protected void registerModels() 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		simpleItem(mat.getIngot().getId());
 		simpleItem(mat.getDust().getId());

@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "overrides": [
+    {
+      "model": "nedaire:item/weapon/crossbow/corium_0",
+      "predicate": {
+        "minecraft:pulling": 1.0
+      }
+    },
+    {
+      "model": "nedaire:item/weapon/crossbow/corium_1",
+      "predicate": {
+        "minecraft:pull": 0.58,
+        "minecraft:pulling": 1.0
+      }
+    },
+    {
+      "model": "nedaire:item/weapon/crossbow/corium_2",
+      "predicate": {
+        "minecraft:pull": 1.0,
+        "minecraft:pulling": 1.0
+      }
+    },
+    {
+      "model": "nedaire:item/weapon/crossbow/corium_arrow",
+      "predicate": {
+        "minecraft:charged": 1.0
+      }
+    },
+    {
+      "model": "nedaire:item/weapon/crossbow/corium_firework",
+      "predicate": {
+        "minecraft:charged": 1.0,
+        "minecraft:firework": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "nedaire:item/weapon/crossbow/corium"
+  }
+}

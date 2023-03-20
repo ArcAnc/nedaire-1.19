@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "minecraft:piston"
+    },
+    "D": {
+      "tag": "forge:dusts/redstone"
+    },
+    "E": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    "DCD",
+    "ABA",
+    "EEE"
+  ],
+  "result": {
+    "item": "nedaire:manual_crusher"
+  },
+  "show_notification": true
+}

@@ -41,8 +41,11 @@ import com.arcanc.nedaire.content.block.NBlockJewelryTable;
 import com.arcanc.nedaire.content.block.NBlockManualCrusher;
 import com.arcanc.nedaire.content.block.NBlockMobCatcher;
 import com.arcanc.nedaire.content.block.NBlockPedestal;
+import com.arcanc.nedaire.content.block.NBlockSlab;
+import com.arcanc.nedaire.content.block.NBlockStairs;
 import com.arcanc.nedaire.content.block.NBlockTerramorfer;
 import com.arcanc.nedaire.content.block.NBlockVimStorage;
+import com.arcanc.nedaire.content.block.NBlockWall;
 import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
@@ -87,8 +90,8 @@ import com.arcanc.nedaire.content.item.gem.GemEffectHealth;
 import com.arcanc.nedaire.content.item.gem.GemEffectRegen;
 import com.arcanc.nedaire.content.item.tool.NBook;
 import com.arcanc.nedaire.content.item.tool.NHammer;
-import com.arcanc.nedaire.content.material.ModMaterial;
-import com.arcanc.nedaire.content.material.ModMaterial.ModMaterialProperties;
+import com.arcanc.nedaire.content.material.NMaterial;
+import com.arcanc.nedaire.content.material.NMaterial.NMaterialProperties;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
@@ -297,7 +300,29 @@ public class NRegistration
 		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
 				() -> baseProps.get().requiresCorrectToolForDrops().strength(2.0f));
-
+		
+		public static final BlockRegObject<NBlockStairs, NBaseBlockItem> SKYSTONE_STAIRS = new BlockRegObject<>(
+				NDatabase.Blocks.Names.SKYSTONE.concat("_stairs"),
+				() -> SKYSTONE.getBlockProperties().get().noOcclusion(),
+				(p) -> new NBlockStairs(() -> SKYSTONE.getDefaultBlockState(), p),
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
+		
+		public static final BlockRegObject<NBlockWall, NBaseBlockItem> SKYSTONE_WALL = new BlockRegObject<>(
+				NDatabase.Blocks.Names.SKYSTONE.concat("_wall"),
+				() -> SKYSTONE.getBlockProperties().get().noOcclusion(),
+				NBlockWall :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
+		
+		public static final BlockRegObject<NBlockSlab, NBaseBlockItem> SKYSTONE_SLAB = new BlockRegObject<>(
+				NDatabase.Blocks.Names.SKYSTONE.concat("_slab"),
+				() -> SKYSTONE.getBlockProperties().get().noOcclusion().strength(2.0F, 6.0F),
+				NBlockSlab :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new
+				);
+		
 		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> FRAMEWORK = BlockRegObject.simple(
 				NDatabase.Blocks.Names.FRAMEWORK, 
 				() -> baseMachineProps.get().noOcclusion());
@@ -511,7 +536,7 @@ public class NRegistration
 	{
 		public static void init() {};
 		
-		public static final ModMaterial CORIUM = new ModMaterialProperties(NDatabase.Materials.CORIUM).
+		public static final NMaterial CORIUM = new NMaterialProperties(NDatabase.Materials.CORIUM).
 				setDurability(1862).
 				setEnchantmentValue(20).
 				setToolSpeed(8).

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "nedaire:skystone"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "nedaire:nugget/skystone"
+  }
+}

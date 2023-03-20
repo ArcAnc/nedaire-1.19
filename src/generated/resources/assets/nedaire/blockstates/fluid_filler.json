@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "enabled=false": {
+      "model": "nedaire:block/fluid_filler_off"
+    },
+    "enabled=true": {
+      "model": "nedaire:block/fluid_filler_on"
+    }
+  }
+}

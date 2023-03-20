@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    " A ",
+    " A ",
+    "AAA"
+  ],
+  "result": {
+    "item": "nedaire:pedestal"
+  },
+  "show_notification": true
+}

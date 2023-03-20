@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "AA",
+    " B",
+    " B"
+  ],
+  "result": {
+    "item": "nedaire:tool/hoe/corium"
+  },
+  "show_notification": true
+}

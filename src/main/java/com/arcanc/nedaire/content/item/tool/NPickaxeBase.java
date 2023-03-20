@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.Item;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.PickaxeItem;
 public class NPickaxeBase extends PickaxeItem
 {
 
-	public NPickaxeBase(ModAbstractToolMaterial toolMat) 
+	public NPickaxeBase(NAbstractToolMaterial toolMat) 
 	{
 		super(toolMat, (int)toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties());
 	}

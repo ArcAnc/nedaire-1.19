@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "nedaire:block/skystone",
+    "side": "nedaire:block/skystone",
+    "top": "nedaire:block/skystone"
+  }
+}

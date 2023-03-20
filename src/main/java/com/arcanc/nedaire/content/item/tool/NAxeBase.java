@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.AxeItem;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.Item;
 public class NAxeBase extends AxeItem 
 {
 
-	public NAxeBase(ModAbstractToolMaterial toolMat, float attackDamage, float attackSpeed)  
+	public NAxeBase(NAbstractToolMaterial toolMat, float attackDamage, float attackSpeed)  
 	{
 		super(toolMat, attackDamage, attackSpeed, new Item.Properties());
 	}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "tag": "forge:string"
+    }
+  },
+  "pattern": [
+    "  A",
+    " AB",
+    "A B"
+  ],
+  "result": {
+    "item": "nedaire:tool/fishing_rod/corium"
+  },
+  "show_notification": true
+}

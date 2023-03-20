@@ -10,7 +10,7 @@ package com.arcanc.nedaire.data;
 
 import java.util.function.Function;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -22,6 +22,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -44,7 +47,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 	@Override
 	protected void registerStatesAndModels() 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		registerSimpleBlock (mat.getStorageBlock().get());
 		
@@ -56,6 +59,10 @@ public class NBlockStatesProvider extends BlockStateProvider
 		}
 		
 		registerSimpleBlock(NRegistration.RegisterBlocks.SKYSTONE.get());
+		registerWall(NRegistration.RegisterBlocks.SKYSTONE_WALL.get());
+		registerStairs(NRegistration.RegisterBlocks.SKYSTONE_STAIRS.get());
+		registerSlab(NRegistration.RegisterBlocks.SKYSTONE_SLAB.get());
+		
 		registerFramework(NRegistration.RegisterBlocks.FRAMEWORK.get());
 		
 		registerPedestal(NRegistration.RegisterBlocks.PEDESTAL.get());
@@ -100,6 +107,61 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).
 			parent(model);
 	}
+	
+	private void registerWall(WallBlock block) 
+	{
+		
+		String name = blockPrefix(name(block));
+		ResourceLocation blockText = blockTexture(block);
+		
+		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 5);
+		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
+		
+		ModelFile post = models().wallPost(name + "_post", texture);
+		ModelFile side = models().wallSide(name + "_side", texture);
+		ModelFile sideTall = models().wallSideTall(name + "_side_tall", texture);
+		ModelFile inv = models().wallInventory(name + "_inventory", texture);
+		
+		wallBlock(block, post, side, sideTall);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+			parent(inv);
+	}
+	
+	private void registerStairs(StairBlock block) 
+	{
+        String name = blockPrefix(name(block));
+		ResourceLocation blockText = blockTexture(block);
+		
+		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 7);
+		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
+		
+		ModelFile stairs = models().stairs(name, texture, texture, texture);
+        ModelFile stairsInner = models().stairsInner(name + "_inner", texture, texture, texture);
+        ModelFile stairsOuter = models().stairsOuter(name + "_outer", texture, texture, texture);
+        stairsBlock(block, stairs, stairsInner, stairsOuter);
+        
+        itemModels().getBuilder(itemPrefix(name(block))).
+        	parent(stairs);
+	}
+	
+	private void registerSlab(SlabBlock block) 
+	{
+		String name = blockPrefix(name(block));
+		ResourceLocation blockText = blockTexture(block);
+		
+		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 5);
+		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
+		
+		ModelFile slab = models().slab(name, texture, texture, texture);
+		ModelFile top = models().slabTop(name + "_top", texture, texture, texture);
+		ModelFile doubleSlab = models().getExistingFile(texture);
+		
+		slabBlock(block, slab, top, doubleSlab);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(slab);
+	}
 
 	private void registerOreBlock(Block block)
 	{
@@ -116,10 +178,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					cube("#ore").
 					end();
 		
-		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
-
-		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(model);
+		registerModels(block, model);
 	}
 
 	private void registerDeepslateOreBlock(Block block)

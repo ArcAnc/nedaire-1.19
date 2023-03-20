@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.item.armor;
 
 import java.util.List;
 
-import com.arcanc.nedaire.content.material.armor.horse.ModHorseArmorMaterial;
+import com.arcanc.nedaire.content.material.armor.horse.NHorseArmorMaterial;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -24,7 +24,7 @@ import net.minecraft.world.level.Level;
 
 public class NHorseArmorItemBase extends HorseArmorItem
 {
-	public NHorseArmorItemBase(ModHorseArmorMaterial material) 
+	public NHorseArmorItemBase(NHorseArmorMaterial material) 
 	{
 		super(material.getDefense(), material.getTexturePath(), new Item.Properties().stacksTo(1));
 	}

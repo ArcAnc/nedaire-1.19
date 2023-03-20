@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.HoeItem;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.Item;
 
 public class NHoeBase extends HoeItem 
 {
-	public NHoeBase(ModAbstractToolMaterial toolMat) 
+	public NHoeBase(NAbstractToolMaterial toolMat) 
 	{
 		super(toolMat, (int) toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties());
 	

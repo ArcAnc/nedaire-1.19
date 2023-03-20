@@ -11,7 +11,7 @@ package com.arcanc.nedaire.data;
 import java.util.Optional;
 
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -32,7 +32,7 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 	@Override
 	protected void addSources() 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		//										SHIELD
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldBase().texture(), Optional.empty()));

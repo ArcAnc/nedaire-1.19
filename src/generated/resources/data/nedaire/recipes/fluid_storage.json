@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:glass"
+    },
+    "B": {
+      "item": "minecraft:cauldron"
+    },
+    "C": {
+      "tag": "forge:dusts/redstone"
+    },
+    "E": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    "ECE",
+    "ABA",
+    "ECE"
+  ],
+  "result": {
+    "item": "nedaire:fluid_storage"
+  },
+  "show_notification": true
+}

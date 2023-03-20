@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.Item;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ShovelItem;
 
 public class NShovelBase extends ShovelItem 
 {
-	public NShovelBase(ModAbstractToolMaterial toolMat) 
+	public NShovelBase(NAbstractToolMaterial toolMat) 
 	{
 		super(toolMat, toolMat.getAttackDamageBonus(), toolMat.getAttackSpeed(), new Item.Properties());
 	}

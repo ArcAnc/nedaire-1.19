@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "minecraft:daylight_detector"
+    },
+    "D": {
+      "tag": "forge:dusts/redstone"
+    },
+    "E": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    "EDE"
+  ],
+  "result": {
+    "item": "nedaire:generator/solar"
+  },
+  "show_notification": true
+}

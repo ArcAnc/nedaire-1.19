@@ -9,7 +9,7 @@
 package com.arcanc.nedaire.data.language;
 
 import com.arcanc.nedaire.Nedaire;
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -30,7 +30,7 @@ public class NEnUsLangProvider extends LanguageProvider
 	{
 		add(Nedaire.TAB.getDisplayName().getString(), "Nedaire");
 		
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		add(mat.getIngot().get(), StringHelper.capitalize(mat.getName()) + " " + StringHelper.capitalize(NDatabase.Items.Names.INGOT));
 		add(mat.getNugget().get(), StringHelper.capitalize(mat.getName()) + " " + StringHelper.capitalize(NDatabase.Items.Names.NUGGET));
@@ -78,6 +78,10 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterItems.JEWELRY_TOOLS.get(), StringHelper.capitalize(NDatabase.Items.Names.JEWELRY + " Tools"));
 
 		add(NRegistration.RegisterBlocks.SKYSTONE.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
+		add(NRegistration.RegisterBlocks.SKYSTONE_STAIRS.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE).concat(" Stairs"));
+		add(NRegistration.RegisterBlocks.SKYSTONE_WALL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE).concat(" Wall"));
+		add(NRegistration.RegisterBlocks.SKYSTONE_SLAB.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE).concat(" Slab"));
+		
 		add(NRegistration.RegisterBlocks.FRAMEWORK.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.Names.FRAMEWORK));
 		
 		add(NRegistration.RegisterBlocks.TERRAMORFER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));

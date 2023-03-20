@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "minecraft:hopper"
+    },
+    "D": {
+      "item": "minecraft:furnace"
+    },
+    "E": {
+      "item": "minecraft:bricks"
+    }
+  },
+  "pattern": [
+    " C ",
+    "ABA",
+    "EDE"
+  ],
+  "result": {
+    "item": "nedaire:furnace"
+  },
+  "show_notification": true
+}

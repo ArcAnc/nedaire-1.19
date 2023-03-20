@@ -8,7 +8,7 @@
  */
 package com.arcanc.nedaire.content.item.armor;
 
-import com.arcanc.nedaire.content.material.armor.player.ModAbstractPlayerArmorMaterial;
+import com.arcanc.nedaire.content.material.armor.player.NAbstractPlayerArmorMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.entity.Entity;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class NArmorBase extends ArmorItem 
 {
-	public NArmorBase(ModAbstractPlayerArmorMaterial armorMat, ArmorItem.Type slot) 
+	public NArmorBase(NAbstractPlayerArmorMaterial armorMat, ArmorItem.Type slot) 
 	{
 		super(armorMat, slot, new Item.Properties().stacksTo(1));
 	}
@@ -35,9 +35,9 @@ public class NArmorBase extends ArmorItem
 	/**
 	 * @return the armorMat
 	 */
-	public ModAbstractPlayerArmorMaterial getArmorMat() 
+	public NAbstractPlayerArmorMaterial getArmorMat() 
 	{
-		return (ModAbstractPlayerArmorMaterial)getMaterial();
+		return (NAbstractPlayerArmorMaterial)getMaterial();
 	}
 	
 	@Override

@@ -1,0 +1,15 @@
+{
+  "type": "nedaire:diffuser",
+  "fluid": {
+    "amount": 1000,
+    "fluid": "minecraft:lava"
+  },
+  "input": {
+    "tag": "forge:ores/iron"
+  },
+  "is_manual": false,
+  "result": {
+    "item": "nedaire:ore/corium"
+  },
+  "time": 500
+}

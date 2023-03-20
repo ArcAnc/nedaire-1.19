@@ -10,7 +10,7 @@ package com.arcanc.nedaire.data;
 
 import java.util.function.Consumer;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.builders.NCrusherRecipeBuilder;
@@ -50,7 +50,7 @@ public class NRecipeProvider extends RecipeProvider
 	@Override
 	protected void buildRecipes(Consumer<FinishedRecipe> out) 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		//=========================
 		//Nuggets to Ingot and back
@@ -463,7 +463,7 @@ public class NRecipeProvider extends RecipeProvider
 		addSecondary(net.minecraft.world.item.Items.FLINT, 0.15f).
 		build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.CRUSHER + "/" + getConversionRecipeName(Blocks.SAND, Blocks.GRAVEL)));
 		
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		NCrusherRecipeBuilder.builder(new IngredientWithSize(NTags.Items.CORIUM.getDust(), 2)).
 		addInput(NTags.Items.CORIUM.getOre()).
@@ -536,7 +536,7 @@ public class NRecipeProvider extends RecipeProvider
 		save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.SMELTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
 	}
 
-	private void addTools(ModMaterial mat, Consumer<FinishedRecipe> out)
+	private void addTools(NMaterial mat, Consumer<FinishedRecipe> out)
 	{
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, mat.getAxe().get()).
 		define('A', Ingredient.of(NTags.Items.MATERIALS.get(mat.getName()).getIngot())).
@@ -596,7 +596,7 @@ public class NRecipeProvider extends RecipeProvider
 		save(out, StringHelper.getLocFStr(mat.getFishingRod().getId().getPath()));
 	}
 	
-	private void addWeapon(ModMaterial mat, Consumer<FinishedRecipe> out)
+	private void addWeapon(NMaterial mat, Consumer<FinishedRecipe> out)
 	{
 		
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, mat.getSword().get()).
@@ -645,7 +645,7 @@ public class NRecipeProvider extends RecipeProvider
 		save(out, StringHelper.getLocFStr(mat.getShield().getId().getPath()));
 	}
 	
-	private void addArmor(ModMaterial mat, Consumer<FinishedRecipe> out)
+	private void addArmor(NMaterial mat, Consumer<FinishedRecipe> out)
 	{
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, mat.getArmorHorse().get()).
 		define('A', Ingredient.of(NTags.Items.MATERIALS.get(mat.getName()).getIngot())).

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "tag": "forge:string"
+    },
+    "C": {
+      "tag": "forge:rods/wooden"
+    },
+    "D": {
+      "item": "minecraft:tripwire_hook"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "BDB",
+    " C "
+  ],
+  "result": {
+    "item": "nedaire:weapon/crossbow/corium"
+  },
+  "show_notification": true
+}

@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.google.common.collect.ImmutableSet;
 
@@ -63,7 +63,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 	@Override
 	protected void generate() 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		this.dropSelf(mat.getStorageBlock().get());
 		if (mat.requiredOre())
@@ -74,6 +74,10 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		}
 		
 		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE.get());
+		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE_STAIRS.get());
+		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE_WALL.get());
+		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE_SLAB.get());
+
 		this.dropSelf(NRegistration.RegisterBlocks.FRAMEWORK.get());
 		this.dropSelf(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
 		

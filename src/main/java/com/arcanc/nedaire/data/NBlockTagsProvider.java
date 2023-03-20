@@ -10,7 +10,7 @@ package com.arcanc.nedaire.data;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.tags.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -32,12 +32,12 @@ public class NBlockTagsProvider extends BlockTagsProvider
 	@Override
 	protected void addTags(HolderLookup.Provider provider) 
 	{
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
 		tag(Tags.Blocks.STORAGE_BLOCKS).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
 		tag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock()).add(mat.getStorageBlock().get()).add(mat.getRawStorageBlock().get());
 		tag(BlockTags.NEEDS_IRON_TOOL).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock());
-
+		
 		if (mat.requiredOre())
 		{
 			tag(Tags.Blocks.ORES).addTag(NTags.Blocks.MATERIALS.get(mat.getName()).getOre());
@@ -48,6 +48,8 @@ public class NBlockTagsProvider extends BlockTagsProvider
 		
 		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(NRegistration.RegisterBlocks.SKYSTONE.get()).add(NRegistration.RegisterBlocks.PEDESTAL.get()).add(NRegistration.RegisterBlocks.HOLDER.get());
 		tag(BlockTags.NEEDS_STONE_TOOL).add(NRegistration.RegisterBlocks.SKYSTONE.get()).add(NRegistration.RegisterBlocks.PEDESTAL.get()).add(NRegistration.RegisterBlocks.HOLDER.get());
+	
+		tag(BlockTags.WALLS).add(NRegistration.RegisterBlocks.SKYSTONE_WALL.get());
 	}
 	
 	@Override

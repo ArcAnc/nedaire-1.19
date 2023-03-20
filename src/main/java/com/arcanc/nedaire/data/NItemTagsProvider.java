@@ -10,7 +10,7 @@ package com.arcanc.nedaire.data;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.arcanc.nedaire.content.material.ModMaterial;
+import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.tags.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -18,6 +18,8 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -35,8 +37,9 @@ public class NItemTagsProvider extends ItemTagsProvider
 	
 		copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
-
-		ModMaterial mat = NRegistration.RegisterMaterials.CORIUM;
+		copy(BlockTags.WALLS, ItemTags.WALLS);
+		
+		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		copy(NTags.Blocks.MATERIALS.get(mat.getName()).getStorageBlock(), NTags.Items.MATERIALS.get(mat.getName()).getStorageBlock());
 			

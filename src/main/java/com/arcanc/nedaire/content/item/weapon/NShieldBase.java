@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.item.weapon;
 import java.util.function.Consumer;
 
 import com.arcanc.nedaire.content.item.ItemInterfaces.ICustomModelProperties;
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.content.renderer.item.shieldRenderer.ShieldTileEntityRenderer;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -29,9 +29,9 @@ public class NShieldBase extends ShieldItem implements ICustomModelProperties
 {
 	public static ShieldTileEntityRenderer shieldRenderer;
 	
-	protected final ModAbstractToolMaterial material;
+	protected final NAbstractToolMaterial material;
 
-	public NShieldBase(ModAbstractToolMaterial toolMat) 
+	public NShieldBase(NAbstractToolMaterial toolMat) 
 	{
 		super(new Item.Properties().defaultDurability(toolMat.getUses()));
 	
@@ -41,7 +41,7 @@ public class NShieldBase extends ShieldItem implements ICustomModelProperties
 	/**
 	 * @return the material
 	 */
-	public ModAbstractToolMaterial getMaterial() 
+	public NAbstractToolMaterial getMaterial() 
 	{
 		return material;
 	}

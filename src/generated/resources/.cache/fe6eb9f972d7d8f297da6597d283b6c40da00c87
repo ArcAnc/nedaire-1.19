@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-19T22:42:32.9123602	Nedaire Item Tags
+// 1.19.4	2023-03-20T20:27:07.93258	Nedaire Item Tags
 1271480803571f00702a823d098098efd695fb27 data/forge/tags/items/dusts.json
 50370d150258a1b984fae537b57da8bc1c3c4df1 data/forge/tags/items/dusts/corium.json
 b45f7794b0fcd7c8bce6d61c81543c74a89fede7 data/forge/tags/items/ingots.json
@@ -12,3 +12,4 @@ d571876ca507957363ae3521e7e224cf84a2bf78 data/forge/tags/items/raw_materials/cor
 437613ed15208f8750415a7879657d42f9bca340 data/forge/tags/items/storage_blocks.json
 070965b48e68bd9249de1b58b1dda98bf36546bc data/forge/tags/items/storage_blocks/corium.json
 a81904c4e2952f797ee7fc9813b6a9a8e40f7b7d data/forge/tags/items/wrenches.json
+cb01ecb9c0849557504ddc8c88f4bb94d6c96270 data/minecraft/tags/items/walls.json

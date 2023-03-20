@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:clay"
+    },
+    "B": {
+      "item": "nedaire:skystone"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "A A",
+    "BAB"
+  ],
+  "result": {
+    "item": "nedaire:framework"
+  },
+  "show_notification": true
+}

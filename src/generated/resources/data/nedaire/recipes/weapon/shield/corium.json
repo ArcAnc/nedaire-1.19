@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "BBB",
+    " B "
+  ],
+  "result": {
+    "item": "nedaire:weapon/shield/corium"
+  },
+  "show_notification": true
+}

@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.block.entities.ticker;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 
-public interface NServerTickerBlockEntity	extends ModTickerBase 
+public interface NServerTickerBlockEntity	extends NTickerBase 
 {
 	void tickServer();
 	

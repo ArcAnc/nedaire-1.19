@@ -9,7 +9,7 @@
 package com.arcanc.nedaire.content.item.tool;
 
 import com.arcanc.nedaire.content.item.ItemInterfaces.ICustomModelProperties;
-import com.arcanc.nedaire.content.material.tool.ModAbstractToolMaterial;
+import com.arcanc.nedaire.content.material.tool.NAbstractToolMaterial;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.Item;
 
 public class NFishingRodBase extends FishingRodItem implements ICustomModelProperties
 {
-	public NFishingRodBase(ModAbstractToolMaterial toolMat) 
+	public NFishingRodBase(NAbstractToolMaterial toolMat) 
 	{
 		super(new Item.Properties().defaultDurability(toolMat.getUses()));
 	}
