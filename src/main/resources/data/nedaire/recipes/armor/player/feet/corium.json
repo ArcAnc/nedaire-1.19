@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "nedaire:armor/player/feet/corium"
-  }
+  },
+  "show_notification": true
 }

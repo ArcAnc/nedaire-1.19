@@ -28,5 +28,6 @@
   ],
   "result": {
     "item": "nedaire:extruder"
-  }
+  },
+  "show_notification": true
 }

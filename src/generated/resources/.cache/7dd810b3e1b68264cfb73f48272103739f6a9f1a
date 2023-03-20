@@ -1,4 +1,4 @@
-// 1.19.3	2023-03-19T20:23:22.2038314	Nedaire Block States
+// 1.19.4	2023-03-19T22:42:32.9123602	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -68,7 +68,7 @@ fe942c8c2bf15a7a3af6a3f5b666fb3c7e2d5d4c assets/nedaire/models/item/framework.js
 c6b5c1f7cf27f6d590fff2965744bc308895f48f assets/nedaire/models/item/generator/food.json
 7af9f44b53c870efe7220ff748bb4ae7f64c9d0a assets/nedaire/models/item/generator/mob.json
 01bc49c1f1d41009c70fef8eec3b3f57ee77810e assets/nedaire/models/item/generator/solar.json
-6aa5fca5e56f5faa6a1241616b7583a7a36f30ee assets/nedaire/models/item/growth_crystal.json
+ee61c16caed7eece2b1a20213ef522e81d19bd61 assets/nedaire/models/item/growth_crystal.json
 5396426a5e8200b12d11befaf52f74a426277423 assets/nedaire/models/item/holder.json
 bdf30b1e825dda292e8e7358e0eea81dd389a196 assets/nedaire/models/item/hoover.json
 b72b2f7cb2e9a4d58c7ddbdbfc215bea5aa19a9e assets/nedaire/models/item/jewelry_table.json

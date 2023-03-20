@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "nedaire:storage_block/raw/corium"
-  }
+  },
+  "show_notification": true
 }

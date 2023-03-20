@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "nedaire:skystone"
-  }
+  },
+  "show_notification": true
 }

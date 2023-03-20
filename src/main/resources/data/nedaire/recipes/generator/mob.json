@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "nedaire:generator/mob"
-  }
+  },
+  "show_notification": true
 }

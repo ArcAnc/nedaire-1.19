@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "nedaire:tool/shovel/corium"
-  }
+  },
+  "show_notification": true
 }

@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "nedaire:weapon/shield/corium"
-  }
+  },
+  "show_notification": true
 }

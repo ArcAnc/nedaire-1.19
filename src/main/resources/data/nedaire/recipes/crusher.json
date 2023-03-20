@@ -28,5 +28,6 @@
   ],
   "result": {
     "item": "nedaire:crusher"
-  }
+  },
+  "show_notification": true
 }

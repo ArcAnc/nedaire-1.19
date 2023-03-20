@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "nedaire:framework"
-  }
+  },
+  "show_notification": true
 }

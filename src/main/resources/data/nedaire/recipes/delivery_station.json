@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "nedaire:delivery_station"
-  }
+  },
+  "show_notification": true
 }
