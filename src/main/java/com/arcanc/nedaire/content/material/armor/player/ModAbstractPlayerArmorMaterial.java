@@ -12,7 +12,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -44,15 +44,15 @@ public abstract class ModAbstractPlayerArmorMaterial implements ArmorMaterial
 	}
 	
 	@Override
-	public int getDurabilityForSlot(EquipmentSlot slot) 
+	public int getDurabilityForType(ArmorItem.Type slot) 
 	{
-		return durability[slot.getIndex()];
+		return durability[slot.getSlot().getIndex()];
 	}
 
 	@Override
-	public int getDefenseForSlot(EquipmentSlot slot) 
+	public int getDefenseForType(ArmorItem.Type slot) 
 	{
-		return defense[slot.getIndex()];
+		return defense[slot.getSlot().getIndex()];
 	}
 
 	@Override

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/crossbow_arrow",
-  "textures": {
-    "layer0": "nedaire:item/weapon/crossbow/corium_arrow"
-  }
-}

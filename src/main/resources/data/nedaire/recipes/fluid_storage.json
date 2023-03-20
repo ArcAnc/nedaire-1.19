@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "nedaire:fluid_storage"
-  }
+  },
+  "show_notification": true
 }

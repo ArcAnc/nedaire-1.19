@@ -43,7 +43,7 @@ public class NCrusherRecipeSerializer extends NRecipeSerializer<NCrusherRecipe>
 		JsonArray array = json.getAsJsonArray(NDatabase.Recipes.Types.Crusher.SECONDARIES);
 		int energy = GsonHelper.getAsInt(json, NDatabase.Recipes.Types.Crusher.ENERGY);
 		boolean isManual = GsonHelper.getAsBoolean(json, NDatabase.Recipes.Types.Crusher.IS_MANUAL);
-		NCrusherRecipe recipe = /*FIXME: добавить прогрузку конфига сюда:IEServerConfig.MACHINES.crusherConfig.apply(*/new NCrusherRecipe(recipeId, output, input, energy, isManual);
+		NCrusherRecipe recipe = /*FIXME: add config loading here:IEServerConfig.MACHINES.crusherConfig.apply(*/new NCrusherRecipe(recipeId, output, input, energy, isManual);
 		for(int i = 0; i < array.size(); i++)
 		{
 			StackWithChance secondary = readConditionalStackWithChance(array.get(i), context);

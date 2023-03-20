@@ -28,14 +28,13 @@ public class EnchElementText extends EnchElementAbstract
 		
 		Minecraft mc = RenderHelper.mc();		
 		this.height = mc.font.wordWrapHeight(text, this.width);
-
 	}
 
 	@Override
 	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
 	{
 		Minecraft mc = RenderHelper.mc();		
-		mc.font.drawWordWrap(text, this.x, this.y, this.width, 8821358);
+		mc.font.drawWordWrap(pos, text, this.x, this.y, this.width, 8821358);
 	}
 
 	@Override

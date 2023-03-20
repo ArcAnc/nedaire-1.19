@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "nedaire:weapon/bow/corium"
-  }
+  },
+  "show_notification": true
 }

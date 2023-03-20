@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/crossbow_pulling_1",
-  "textures": {
-    "layer0": "nedaire:item/weapon/crossbow/corium_1"
-  }
-}

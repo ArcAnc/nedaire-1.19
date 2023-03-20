@@ -20,7 +20,6 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -30,6 +29,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -53,7 +53,7 @@ public class ShieldTileEntityRenderer extends BlockEntityWithoutLevelRenderer
     }
 	
 	@Override
-	public void renderByItem(ItemStack stack, TransformType type, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void renderByItem(ItemStack stack, ItemDisplayContext type, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
 	{
 		matrixStack.pushPose();
 		matrixStack.scale(1, -1, -1);

@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "nedaire:generator/food"
-  }
+  },
+  "show_notification": true
 }

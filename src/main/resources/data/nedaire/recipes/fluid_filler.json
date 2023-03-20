@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "nedaire:fluid_filler"
-  }
+  },
+  "show_notification": true
 }

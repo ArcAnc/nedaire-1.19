@@ -94,7 +94,7 @@ public class BlockHelper
 	{
 		if (world != null && pos != null)
 		{
-			return castTileEntity(world, new BlockPos(pos.x(), pos.y(), pos.z()), to);
+			return castTileEntity(world, BlockPos.containing(pos.x(), pos.y(), pos.z()), to);
 		}
 		return Optional.empty();
 	}

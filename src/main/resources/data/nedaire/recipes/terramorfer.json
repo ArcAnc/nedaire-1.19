@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "nedaire:terramorfer"
-  }
+  },
+  "show_notification": true
 }

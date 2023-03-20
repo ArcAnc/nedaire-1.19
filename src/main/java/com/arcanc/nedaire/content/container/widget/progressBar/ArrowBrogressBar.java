@@ -65,13 +65,13 @@ public class ArrowBrogressBar extends ProgressBar
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderButton(mStack, mouseX, mouseY, partialTicks);
+	         this.renderWidget(mStack, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 
 	@Override
-	public void renderButton(PoseStack mStack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack mStack, int mouseX, int mouseY, float partialTicks) 
 	{
 		mStack.pushPose();
 		
@@ -93,7 +93,7 @@ public class ArrowBrogressBar extends ProgressBar
 				
 				float recalc = 22 * percent;
 				
-				localBlit(mStack.last().pose(), this.getX(), this.getX() + recalc, this.getY(), this.getY() + this.getHeight(), screen.getBlitOffset(), 0f / 32f, (0f + recalc) / 32f, 16/32f, 32f/32f);
+				localBlit(mStack.last().pose(), this.getX(), this.getX() + recalc, this.getY(), this.getY() + this.getHeight(), 0, 0f / 32f, (0f + recalc) / 32f, 16/32f, 32f/32f);
 			}
 		}
 		
@@ -114,7 +114,7 @@ public class ArrowBrogressBar extends ProgressBar
 	
 	protected void renderTooltip() 
 	{
-		if (isHoveredOrFocused())
+		if (isHovered())
 		{
 			Minecraft mc = RenderHelper.mc();
 			Screen screen = mc.screen;

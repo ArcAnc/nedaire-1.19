@@ -22,6 +22,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -51,7 +52,7 @@ public class EnchElementList extends EnchElementAbstract
 		for (Entry<ResourceLocation, ResourceLocation> entry : this.locations.entrySet().stream().
 				sorted((entry1, entry2) -> entry1.getKey().compareTo(entry2.getKey())).toList())
 		{
-			int tempShiftH = mc.font.wordWrapHeight(Component.literal("➧ ").append(Component.translatable(entry.getKey().toLanguageKey())), this.width);
+			int tempShiftH = mc.font.wordWrapHeight(Component.literal("\u23f5 ").append(Component.translatable(entry.getKey().toLanguageKey())), this.width);
 			if (shiftH + tempShiftH > this.height)
 			{
 				side += 1;
@@ -79,11 +80,11 @@ public class EnchElementList extends EnchElementAbstract
 			int tempH = e.getKey().getZ();
 			if (mouseX >= tempX && mouseY >= tempY && mouseX <= tempX + this.width && mouseY <= tempY + tempH )
 			{
-				mc.font.drawWordWrap(Component.literal("➧ ").append(Component.translatable(e.getValue().toLanguageKey())), tempX, tempY, this.width, 11908981);
+				mc.font.drawWordWrap(pos, Component.literal("\u23f5 ").append(Component.translatable(e.getValue().toLanguageKey())), tempX, tempY, this.width, 11908981);
 			}
 			else
 			{
-				mc.font.drawWordWrap(Component.literal("➧ ").append(Component.translatable(e.getValue().toLanguageKey())), tempX, tempY, this.width, 8821358);
+				mc.font.drawWordWrap(pos, Component.literal("\u23f5 ").append(Component.translatable(e.getValue().toLanguageKey())), tempX, tempY, this.width, 8821358);
 			}
 		});
 		pos.popPose();
@@ -99,12 +100,12 @@ public class EnchElementList extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowLeft))
 			{
-				ench.getScreen().blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
+				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
 				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
 			}
 			else
 			{
-				ench.getScreen().blit(pos, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
+				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
 			}
 		}
 		
@@ -112,12 +113,12 @@ public class EnchElementList extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowRight))
 			{
-				ench.getScreen().blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
+				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
 				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
 			}
 			else
 			{
-				ench.getScreen().blit(pos, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
+				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
 			}
 		}
 		pos.popPose();

@@ -193,31 +193,31 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
-		blit(stack, x_pos, y_pos, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, x_pos, y_pos, 0, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
-		blit(stack, x_pos + 8, y_pos, this.getBlitOffset(), 0, 0, this.imageWidth - 16, 8, 8, 8);
+		blit(stack, x_pos + 8, y_pos, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos, 0, 0, 0, 8, 8, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
-		blit(stack, x_pos, y_pos + 8, this.getBlitOffset(), 0, 0, 8, this.imageHeight - 16, 8, 8);
+		blit(stack, x_pos, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
-		blit(stack, x_pos, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, x_pos, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
-		blit(stack, x_pos + 8, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, this.imageWidth - 16, 8, 8, 8);
+		blit(stack, x_pos + 8, y_pos + this.imageHeight - 8, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos + this.imageHeight - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos + 8, this.getBlitOffset(), 0, 0, 8, this.imageHeight - 16, 8, 8);
+		blit(stack, x_pos + this.imageWidth - 8, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
-		blit(stack, x_pos + 8, y_pos + 8, this.getBlitOffset(), 0, 0, this.imageWidth - 16, this.imageHeight - 16, 8, 8);
+		blit(stack, x_pos + 8, y_pos + 8, 0, 0, 0, this.imageWidth - 16, this.imageHeight - 16, 8, 8);
 
 		stack.popPose();
 	}
@@ -244,7 +244,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	{
 		return BlockHelper.castTileEntity(be, NBERedstoneSensitive.class).map(tile -> 
 		{
-			return addDropPanel(new DropPanel(100, 90, Side.LEFT, false, new Color (150, 40, 40), () -> Icon.of(new ItemStack(Items.REDSTONE), false),
+			return addDropPanel(new DropPanel(100, 90, Side.LEFT, false, new Color (150, 40, 40), () -> Icon.of(Items.REDSTONE),
 					() -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME))).
 					addWidget(new Label(50, 5, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_NAME).withStyle(ChatFormatting.YELLOW))).
 					
@@ -550,8 +550,8 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         }
 	      }
 
-	      this.setBlitOffset(100);
-	      this.itemRenderer.blitOffset = 100.0F;
+	      stack.pushPose();
+	      stack.translate(0.0F, 0.0F, 100.0F);
 	      if (slot.isActive()) 
 	      {
 	         Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
@@ -559,7 +559,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         {
 	            TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
 	            RenderSystem.setShaderTexture(0, textureatlassprite.atlasLocation());
-	            blit(stack, i-1, j-1, this.getBlitOffset(), 18, 18, textureatlassprite);
+	            blit(stack, i-1, j-1, 100, 18, 18, textureatlassprite);
 	         }
 	      }
 
@@ -577,13 +577,11 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         }
 	         else 
 	         {
-		         this.itemRenderer.renderAndDecorateItem(this.minecraft.player, itemstack, i, j, slot.x + slot.y * this.imageWidth);
-		         this.itemRenderer.renderGuiItemDecorations(this.font, itemstack, i, j, s);
+		         this.itemRenderer.renderAndDecorateItem(stack, this.minecraft.player, itemstack, i, j, slot.x + slot.y * this.imageWidth);
+		         this.itemRenderer.renderGuiItemDecorations(stack, this.font, itemstack, i, j, s);
 	         }
 	      }
-
-	      this.itemRenderer.blitOffset = 0.0F;
-	      this.setBlitOffset(0);
+	      stack.popPose();
 	}
 	
 	@Override

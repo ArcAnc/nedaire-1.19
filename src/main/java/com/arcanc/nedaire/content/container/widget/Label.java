@@ -30,7 +30,7 @@ public class Label extends AbstractWidget
 	}
 
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		stack.pushPose();
 		
@@ -48,7 +48,7 @@ public class Label extends AbstractWidget
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderButton(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(stack, mouseX, mouseY, partialTicks);
 		}
 	}
 	

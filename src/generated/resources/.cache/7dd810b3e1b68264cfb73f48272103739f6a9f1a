@@ -1,4 +1,4 @@
-// 1.19.3	2023-03-15T20:26:09.0979778	Nedaire Block States
+// 1.19.4	2023-03-19T22:42:32.9123602	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -56,17 +56,17 @@ ede951dd917ef3135a4313c3adb936a1d4bdf1b6 assets/nedaire/models/block/storage_blo
 d0e6f696554536b8bd591889d2d8976875658112 assets/nedaire/models/block/storage_block/raw/corium.json
 39c2aac930c1dfffad83b43ed3bfd040c4b139b8 assets/nedaire/models/block/terramorfer.json
 86acd97903fdace2f6bb8ac11ce3b0e4001553f7 assets/nedaire/models/block/vim_storage.json
-e967b5f713089a61c37a223c952acda80b7cb966 assets/nedaire/models/item/crusher.json
+da48b63f50435f4dbde35b2972e0cb73348aedd7 assets/nedaire/models/item/crusher.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json
 130765751aa826dd942ae78986c0d7a8ad468873 assets/nedaire/models/item/diffuser.json
-9066344b032c2319166969721e218ae985941e36 assets/nedaire/models/item/extruder.json
+857e47557f63564339a531a5ad01f92e363032ae assets/nedaire/models/item/extruder.json
 45abd9439f6a8d4f8ffb62ee57dbc7766e170f86 assets/nedaire/models/item/fluid_filler.json
 bc20cc74054c889bed63f44d9daaf0e50f9f01e4 assets/nedaire/models/item/fluid_storage.json
 fe942c8c2bf15a7a3af6a3f5b666fb3c7e2d5d4c assets/nedaire/models/item/framework.json
-0ca35fd60e156ba4f552e2ccf26d3bda29e2b8ba assets/nedaire/models/item/furnace.json
-7081c784603023e3c20c523e75db3f855dd5d264 assets/nedaire/models/item/generator/food.json
-31fed632425de8f9891ded62c4b899a1412fe7a3 assets/nedaire/models/item/generator/mob.json
+50e5a275de19f0ba2a8dc42fb3ffb1ddbd6aa111 assets/nedaire/models/item/furnace.json
+c6b5c1f7cf27f6d590fff2965744bc308895f48f assets/nedaire/models/item/generator/food.json
+7af9f44b53c870efe7220ff748bb4ae7f64c9d0a assets/nedaire/models/item/generator/mob.json
 01bc49c1f1d41009c70fef8eec3b3f57ee77810e assets/nedaire/models/item/generator/solar.json
 ee61c16caed7eece2b1a20213ef522e81d19bd61 assets/nedaire/models/item/growth_crystal.json
 5396426a5e8200b12d11befaf52f74a426277423 assets/nedaire/models/item/holder.json

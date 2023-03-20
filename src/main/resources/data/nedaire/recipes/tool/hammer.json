@@ -10,11 +10,12 @@
     }
   },
   "pattern": [
-    "B  ",
-    " A ",
+    " B ",
+    "BA ",
     "  A"
   ],
   "result": {
     "item": "nedaire:tool/hammer"
-  }
+  },
+  "show_notification": true
 }

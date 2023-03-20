@@ -54,13 +54,13 @@ public class EnergyInfoArea extends InfoArea
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderButton(stack, mouseX, mouseY, p_93660_);
+	         this.renderWidget(stack, mouseX, mouseY, p_93660_);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float p_93679_) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float p_93679_) 
 	{
 		stack.pushPose();
 		
@@ -80,7 +80,7 @@ public class EnergyInfoArea extends InfoArea
 			float f = this.getY() + (this.getHeight() * (1 - energyPercent));
 			float f1 = 42 * (1 - energyPercent);
 			
-			localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), screen.getBlitOffset(), 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
+			localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0, 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
 		}
 		
 		stack.popPose();
@@ -100,7 +100,7 @@ public class EnergyInfoArea extends InfoArea
 
 	protected void renderTooltip() 
 	{
-		if (isHoveredOrFocused())
+		if (isHovered())
 		{
 			Minecraft mc = RenderHelper.mc();
 			Screen screen = mc.screen;

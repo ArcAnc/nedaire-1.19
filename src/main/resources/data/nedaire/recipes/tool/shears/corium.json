@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "nedaire:tool/shears/corium"
-  }
+  },
+  "show_notification": true
 }

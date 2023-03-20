@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "nedaire:vim_storage"
-  }
+  },
+  "show_notification": true
 }

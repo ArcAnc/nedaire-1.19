@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "nedaire:tool/hoe/corium"
-  }
+  },
+  "show_notification": true
 }

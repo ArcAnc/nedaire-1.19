@@ -12,6 +12,7 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 public class IconItemStack implements Icon<ItemStack> 
 {
@@ -22,6 +23,11 @@ public class IconItemStack implements Icon<ItemStack>
 	{
 		this.stack = stack;
 		this.overlay = requiredOverlay;
+	}
+	
+	public IconItemStack(ItemLike stack)
+	{
+		this(new ItemStack(stack), false);
 	}
 	
 	@Override

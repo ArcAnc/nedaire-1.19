@@ -139,8 +139,8 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Filter.Description.AMOUNT_IN_DECREASE, "Decrease Max Amount In Inventory");
 		add(NDatabase.GUI.Filter.Description.AMOUNT_IN_INCREASE, "Increase Max Amount In Inventory");
 		
-		add(NDatabase.GUI.Filter.Description.WHITELIST, "Whitelist");
-		add(NDatabase.GUI.Filter.Description.BLACKLIST, "Blacklist");
+		add(NDatabase.GUI.Filter.Description.WHITELIST, "Allow List");
+		add(NDatabase.GUI.Filter.Description.BLACKLIST, "Ban List");
 		
 		add(NDatabase.GUI.Filter.Description.MOD_OWNER, "Check Mod Owner");
 		add(NDatabase.GUI.Filter.Description.MOD_OWNER_IGNORE, "Ignore Mod Owner");
@@ -183,20 +183,67 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT, "Next Page");
 		add(NDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START, "To Title");
 		
+		add(NDatabase.GUI.Elements.EnchElementDiffuserRecipe.AMOUNT, "Fluid Amount: %s");
+		
 		/* TESTTING! */
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
-		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.ALCHEMY.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.ALCHEMY));
+		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.PATCH_NOTES.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.PATCH_NOTES.replace("_n", " N")));
 		
-		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.JEWELRY.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.JEWELRY));
+		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.BASIC.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.BASIC));
 		
-		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.MAGIC.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.MAGIC));
+		add(NDatabase.GUI.Enchiridion.Section.ResourceLocations.ADVANCED.toLanguageKey(), StringHelper.capitalize(NDatabase.GUI.Enchiridion.Section.ADVANCED));
 	
-//		add(ModDatabase.GUI.Enchiridion.Chapters.test.toLanguageKey(), "Just test chapter");
+		add(NDatabase.GUI.Enchiridion.Chapters.CHANGELOG.toLanguageKey(), "Initial Release");
 		
+		add(NDatabase.GUI.Enchiridion.Pages.PATCH_0_1.toLanguageKey(), "First release. Basic mechanics, like energy furnace, crusher, manual crusher, delivery station and more");
+		
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.SKYSTONE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
+		add(NDatabase.GUI.Enchiridion.Pages.SKYSTONE.toLanguageKey(), "This is basic block required for next steps of crafting. And this is really cool. Look!</block;nedaire:skystone/> As any another block, this may be divided into nuggets and back </recipe;" + StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId().getPath() + "_to_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath()) + "/> </recipe;" + StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.CONVERSION + "/" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath() + "_to_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId().getPath()) +"/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.TERRAMORFER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
+		add(NDatabase.GUI.Enchiridion.Pages.TERRAMORFER.toLanguageKey(), "First, hard to understand thing, with strange working mechanism. Seems like little black hole emit... Wait, what? Black hole and emit something? Oh, strange, but ok, so... This emit some kind of particles which morf ordinary stone to skystone. But, first, you need to craft those thing </recipe;" + NRegistration.RegisterBlocks.TERRAMORFER.getId()+"/> \nTo get starting crafting resources try to find any village and make some trades");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.CORIUM.toLanguageKey(), StringHelper.capitalize(NDatabase.Materials.CORIUM));
+		add(NDatabase.GUI.Enchiridion.Pages.CORIUM.toLanguageKey(), "This is our nice looking metal. But you can find this in world. Really, this is doesn't spawn. For getting it try place iron ore in to diffuser and fill it with 1 lava bucket. </recipe;" +  StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterMaterials.CORIUM.getOreBlock().getId().getPath()) +"/> In all another ways Corium is pretty simple to any another metall. As material for instruments and armor it's a bit better then diamond");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.DIFFUSER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DIFFUSER));
+		add(NDatabase.GUI.Enchiridion.Pages.DIFFUSER.toLanguageKey(), "Interesting thing, which allow you to fill items with liquids power. It's looks like cauldron, but have have much more difficult internal structure and working mechanism Can be crafted from Skystone </recipe;" + NRegistration.RegisterBlocks.DIFFUSER.getId() + "/> Hope you already crafted Terramorfer to get unlimited Skystone" );
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.MANUAL_CRUSHER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER).replace("_c", " C"));
+		add(NDatabase.GUI.Enchiridion.Pages.MANUAL_CRUSHER.toLanguageKey(), "Om nom nom nom nom... Hart' tyfu! But, to be honest, it's pretty simple grinder, which can help you get much more resource from ore or raw pieces. If you looking for crafting recipe, so, it's here </recipe;" + NRegistration.RegisterBlocks.MANUAL_CRUSHER.getId() + "/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.GENERATION.toLanguageKey(), "Vim Generation");
+		add(NDatabase.GUI.Enchiridion.Pages.GENERATORS.toLanguageKey(), "All devices can be supplied with vim. But, you need generate it for start. Here you can find some generators.\n\n    Solar Generator\n   </recipe;" + NRegistration.RegisterBlocks.GENERATOR_SOLAR.getId() + "/> Just place it's under sky and enjoy results. \n     Food Generator\n   </recipe;" + NRegistration.RegisterBlocks.GENERATOR_FOOD.getId() + "/> You need really huge amount of food, so supply this generator. And yea, the better food, you supply for generator, the more energy you get\n\n      Mob Generator\n   </recipe;" + NRegistration.RegisterBlocks.GENERATOR_MOB.getId() + "/> This strange generator can eat nearly any mob. Cows, villagers, golems, zombies, raiders and much more. But you can get really huge amount of energy from this generator");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.RACK.toLanguageKey(), "Holders");
+		add(NDatabase.GUI.Enchiridion.Pages.RACK.toLanguageKey(), "Those racks can help you deal with many different instruments. They working like shelf, but someone think they have another use... Maybe it's true, will see... </recipe;" + NRegistration.RegisterBlocks.PEDESTAL.getId() + "/> </recipe;" + NRegistration.RegisterBlocks.HOLDER.getId() + "/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.FLUID_STORAGE.toLanguageKey(), "Fluid Storage");
+		add(NDatabase.GUI.Enchiridion.Pages.FLUID_STORAGE.toLanguageKey(), "If you need a barrel - you find it! Gratz! </recipe;" + NRegistration.RegisterBlocks.FLUID_STORAGE.getId() + "/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.FLUID_FILLER.toLanguageKey(), "Fluid Filler");
+		add(NDatabase.GUI.Enchiridion.Pages.FLUID_FILLER.toLanguageKey(), "Find nearby liquids in world and fill them inside. WARNING! It's a hot thing, if has lava inside! </recipe;" + NRegistration.RegisterBlocks.FLUID_FILLER.getId() + "/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.FURNACE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FURNACE));
+		add(NDatabase.GUI.Enchiridion.Pages.FURNACE.toLanguageKey(), "Just like typical furnace, but don't required any fuel. Oh, wait. I forgot, it's required energy. But, it's a big deal, yea? </recipe;"+ NRegistration.RegisterBlocks.FURNACE.getId() +"/>");
+	
+		add(NDatabase.GUI.Enchiridion.Chapters.CRUSHER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.CRUSHER));
+		add(NDatabase.GUI.Enchiridion.Pages.CRUSHER.toLanguageKey(), "Just like manual crusher, but your hand is finally free! Yea! Finally! </recipe;"+ NRegistration.RegisterBlocks.CRUSHER.getId() +"/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.HOOVER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOOVER));
+		add(NDatabase.GUI.Enchiridion.Pages.HOOVER.toLanguageKey(), "Help to keep your house clear. Don't forgot to clear this brilliant device </recipe;"+ NRegistration.RegisterBlocks.HOOVER.getId() +"/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.GROWTH_CRYSTAL.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH.replace("_c", " C")));
+		add(NDatabase.GUI.Enchiridion.Pages.GROWTH_CRYSTAL.toLanguageKey(), "The best farmer helper. You wheat will growth MUCH more faster. And don't forget to supply it with energy. You even can place this magic crystal in liquid! </recipe;"+ StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterBlocks.CRYSTAL_GROWTH.getId().getPath()) +"/>");
+		
+		add(NDatabase.GUI.Enchiridion.Chapters.EXTRUDER.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXTRUDER));
+		add(NDatabase.GUI.Enchiridion.Pages.EXTRUDER.toLanguageKey(), "Your personal cobblestone generator. And... A bit more then just cobblestone. But consume liquid for some recipes </recipe;"+ NRegistration.RegisterBlocks.EXTRUDER.getId() +"/>");
+
+		add(NDatabase.GUI.Enchiridion.Chapters.DELIVERY.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION).replace("_s", " S"));
+		add(NDatabase.GUI.Enchiridion.Pages.DELIVERY.toLanguageKey(), "The most complicated and strange device. Can transport items, liquid or vim for 32 blocks range, depending on choosed mode. </recipe;"+ NRegistration.RegisterBlocks.DELIVERY_STATION.getId() + "/> Even can filter, what this this thing will deliver. Extract choosed thing from nearby placed device and transport it to connected peceptor. For connect receptor just use hammer on it, and after that use hammer again on Delivery Station");
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
 	}
-	
-	
 	
 	@Override
 	public String getName() 

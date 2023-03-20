@@ -13,9 +13,9 @@ import java.util.Optional;
 
 import org.apache.commons.compress.utils.Lists;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -39,7 +39,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class EnchElementPage extends EnchElementAbstract 
 {
 	
-	/*FIXME: пофиксить сдвиг по Х*/
+	/*FIXME: fix X offset*/
 	
 	private Vec3i toContent, arrowLeft, arrowRight;
 	private List<Pair<Integer, EnchElementAbstract>> elements = Lists.newArrayList();
@@ -222,8 +222,9 @@ public class EnchElementPage extends EnchElementAbstract
 				side += 1;
 				tempShiftH = 0;
 				shiftH = 20;
-				elem.setShiftY(shiftH);
-				elem.setShiftX(150 * (side % 2));
+				elem = createComponent(splitted[q].trim(), 150 * (side % 2), tempShiftH += shiftH);
+//				elem.setShiftY(shiftH);
+//				elem.setShiftX(150 * (side % 2));
 			}
 			list.add(q, Pair.of(side, elem));
 		}
@@ -234,7 +235,7 @@ public class EnchElementPage extends EnchElementAbstract
 
 	private EnchElementAbstract createComponent(String str, int x, int y) 
 	{
-		Nedaire.getLogger().warn(str);
+//		Nedaire.getLogger().warn(str);
 		String[] strings = str.split(";");
 		if (str.startsWith("item;"))
 		{
@@ -307,6 +308,10 @@ public class EnchElementPage extends EnchElementAbstract
 				else if (type.equals(RecipeType.SMELTING) || type.equals(RecipeType.BLASTING) || type.equals(RecipeType.SMOKING) || type.equals(RecipeType.CAMPFIRE_COOKING))
 				{
 					return new EnchElementRecipeBurning(ench, loc, x, y);
+				}
+				else if (type.equals(NRegistration.RegisterRecipes.Types.DIFFUSER.get()))
+				{
+					return new EnchElementDiffuserRecipe(ench, loc, x, y);
 				}
 				return null;
 			}).orElse(null);

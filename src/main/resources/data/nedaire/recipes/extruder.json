@@ -24,9 +24,10 @@
   "pattern": [
     "ACA",
     "DBE",
-    "FDF"
+    "FFF"
   ],
   "result": {
     "item": "nedaire:extruder"
-  }
+  },
+  "show_notification": true
 }

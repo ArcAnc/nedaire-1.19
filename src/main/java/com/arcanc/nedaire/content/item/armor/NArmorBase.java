@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class NArmorBase extends ArmorItem 
 {
-	public NArmorBase(ModAbstractPlayerArmorMaterial armorMat, EquipmentSlot slot) 
+	public NArmorBase(ModAbstractPlayerArmorMaterial armorMat, ArmorItem.Type slot) 
 	{
 		super(armorMat, slot, new Item.Properties().stacksTo(1));
 	}

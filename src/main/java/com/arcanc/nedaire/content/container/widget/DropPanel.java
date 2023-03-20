@@ -35,7 +35,7 @@ public class DropPanel extends AbstractWidget
 {
 
 	/**
-	 * FIXME: закончить код выпадающей панели. Добавить в нее обработку кнопок, окраску, описание в закрытом состоянии и остального
+	 * FIXME: finish drop panel code. Add here button press, coloring and description in closed state
 	 */
 	private final Vec2 changeSize;
 	
@@ -62,9 +62,6 @@ public class DropPanel extends AbstractWidget
 		this.color = color;
 		this.icon = icon;
 		this.tooltip = closeTootip;
-		
-		setBlitOffset(-10);
-		
 	}
 
 	public DropPanel addWidget (AbstractWidget widget)
@@ -80,7 +77,7 @@ public class DropPanel extends AbstractWidget
 	}
 	
 	@Override
-	public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
 	{
 		if (state == State.OPENING)
 		{
@@ -133,31 +130,32 @@ public class DropPanel extends AbstractWidget
 		RenderSystem.setShaderColor(this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
-		blit(stack, getX(), getY(), this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, getX(), getY(), -10, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
-		blit(stack, getX() + 8, getY(), this.getBlitOffset(), 0, 0, getWidth() - 16, 8, 8, 8);
+		blit(stack, getX() + 8, getY(), -10, 0, 0, getWidth() - 16, 8, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
-		blit(stack, getX() + getWidth() - 8, getY(), this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, getX() + getWidth() - 8, getY(), -10, 0, 0, 8, 8, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
-		blit(stack, getX(), getY() + 8, this.getBlitOffset(), 0, 0, 8, getHeight() - 16, 8, 8);
+		blit(stack, getX(), getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
 		
 		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
-		blit(stack, getX(), getY() + getHeight() - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, getX(), getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
-		blit(stack, getX() + 8, getY() + getHeight() - 8, this.getBlitOffset(), 0, 0, getWidth() - 16, 8, 8, 8);
+		blit(stack, getX() + 8, getY() + getHeight() - 8, -10, 0, 0, getWidth() - 16, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
-		blit(stack, getX() + getWidth() - 8, getY() + getHeight() - 8, this.getBlitOffset(), 0, 0, 8, 8, 8, 8);
+		blit(stack, getX() + getWidth() - 8, getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
-		blit(stack, getX() + getWidth() - 8, getY() + 8, this.getBlitOffset(), 0, 0, 8, getHeight() - 16, 8, 8);
+		blit(stack, getX() + getWidth() - 8, getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
 
 		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
-		blit(stack, getX() + 8, getY() + 8, this.getBlitOffset(), 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
+		blit(stack, getX() + 8, getY() + 8, -10, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
+		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		if (state == State.CLOSED)
 		{
@@ -173,7 +171,7 @@ public class DropPanel extends AbstractWidget
 	{
 		if (this.tooltip != null) 
 		{
-			if (isHoveredOrFocused())
+			if (isHovered())
 			{
 				Minecraft mc = RenderHelper.mc();
 				Screen screen = mc.screen;

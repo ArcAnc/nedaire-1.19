@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "nedaire:armor/player/head/corium"
-  }
+  },
+  "show_notification": true
 }

@@ -12,6 +12,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,5 +29,10 @@ public interface Icon<T>
 	static IconItemStack of (ItemStack stack, boolean overlay)
 	{
 		return new IconItemStack(stack, overlay);
+	}
+	
+	static IconItemStack of (ItemLike stack)
+	{
+		return new IconItemStack(stack);
 	}
 }

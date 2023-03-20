@@ -19,9 +19,9 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -89,11 +89,12 @@ public class PedestalRenderer implements BlockEntityRenderer<NBEPedestal>
 	        mStack.mulPose(new Quaternionf().fromAxisAngleDeg(0, 1, 0, angle));
 	        RenderHelper.renderItem().renderStatic(
 	        		stack, 
-	        		ItemTransforms.TransformType.GROUND, 
+	        		ItemDisplayContext.GROUND, 
 	        		combinedLight, 
 	        		combinedOverlay,
 	        		mStack, 
-	        		buffer, 
+	        		buffer,
+	        		blockEntity.getLevel(),
 	        		0);
 	        mStack.popPose();
 			
@@ -135,11 +136,12 @@ public class PedestalRenderer implements BlockEntityRenderer<NBEPedestal>
 	        
 	        RenderHelper.renderItem().renderStatic(
 	        		stack, 
-	        		ItemTransforms.TransformType.GROUND, 
+	        		ItemDisplayContext.GROUND, 
 	        		combinedLight, 
 	        		combinedOverlay,
 	        		mStack, 
-	        		buffer, 
+	        		buffer,
+	        		blockEntity.getLevel(),
 	        		0);
 			
 			mStack.popPose();

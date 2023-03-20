@@ -16,11 +16,11 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 public class NDatabase 
 {
@@ -408,9 +408,14 @@ public class NDatabase
 				public static final String ARROW_RIGHT = PATH + "arrow_right";
 				public static class Description
 				{
-					public static final String PERCENT = PATH.replace(':', '.').replace('/', '.') + ".percent";
-					public static final String PERCENT_FULL = PATH.replace(':', '.').replace('/', '.') + ".percent_full";
+					public static final String PERCENT = PATH.replace(':', '.').replace('/', '.') + "percent";
+					public static final String PERCENT_FULL = PATH.replace(':', '.').replace('/', '.') + "percent_full";
 				}
+			}
+			public static class EnchElementDiffuserRecipe
+			{
+				public static final String PATH = GUI.Elements.PATH + "diffuser_recipe";
+				public static final String AMOUNT = PATH.replace(':', '.').replace('/', '.') + "amount";
 			}
 			public static class DropPanel
 			{
@@ -538,28 +543,28 @@ public class NDatabase
 			
 			public static class Section 
 			{
-				public static final String ALCHEMY = "alchemy";
-				public static final String JEWELRY = "jewelry";
-				public static final String MAGIC = "magic";
+				public static final String PATCH_NOTES = "patch_notes";
+				public static final String BASIC = "basic";
+				public static final String ADVANCED = "advanced";
 
 				public static class ResourceLocations
 				{
-					public static final ResourceLocation ALCHEMY = getEnchiridionPath(SECTION, Section.ALCHEMY);
-					public static final ResourceLocation JEWELRY = getEnchiridionPath(SECTION, Section.JEWELRY);
-					public static final ResourceLocation MAGIC = getEnchiridionPath(SECTION, Section.MAGIC);
+					public static final ResourceLocation PATCH_NOTES = getEnchiridionPath(SECTION, Section.PATCH_NOTES);
+					public static final ResourceLocation BASIC = getEnchiridionPath(SECTION, Section.BASIC);
+					public static final ResourceLocation ADVANCED = getEnchiridionPath(SECTION, Section.ADVANCED);
 				}
 				
-				public static record SectionData (ResourceLocation name, ItemStack icon, Map<ResourceLocation, ResourceLocation> data)
+				public static record SectionData (ResourceLocation name, Icon<?> icon, Map<ResourceLocation, ResourceLocation> data)
 				{
 					
-					public SectionData(@Nonnull ResourceLocation name, @Nonnull ItemStack icon, @Nonnull Map<ResourceLocation, ResourceLocation> data) 
+					public SectionData(@Nonnull ResourceLocation name, @Nonnull Icon<?> icon, @Nonnull Map<ResourceLocation, ResourceLocation> data) 
 					{
 						this.name = name;
 						this.icon = icon;
 						this.data = data;
 					}
 					
-					public SectionData(ResourceLocation name, ItemStack icon) 
+					public SectionData(ResourceLocation name, Icon<?> icon) 
 					{
 						this(name, icon, new HashMap<>());
 					}
@@ -595,23 +600,91 @@ public class NDatabase
 				
 				public static final List<SectionData> SECTIONS = new LinkedList<>(
 						Arrays.asList(
-								new SectionData (Section.ResourceLocations.ALCHEMY,
-									new ItemStack (net.minecraft.world.level.block.Blocks.CAULDRON)),
-//										addPage(Chapters.test, Pages.test).
-								new SectionData (Section.ResourceLocations.JEWELRY,
-									new ItemStack (net.minecraft.world.item.Items.DIAMOND)),
-								new SectionData (Section.ResourceLocations.MAGIC,
-									new ItemStack (net.minecraft.world.item.Items.ENDER_PEARL))
+								new SectionData (Section.ResourceLocations.PATCH_NOTES,
+									Icon.of(net.minecraft.world.item.Items.WRITABLE_BOOK)).
+										addPage(Chapters.CHANGELOG, Pages.PATCH_0_1),
+								new SectionData (Section.ResourceLocations.BASIC,
+									Icon.of(getTexturePath("gui/enchiridion/" + BASIC), 5, 0, 0, 16, 16, 16, 16)).
+										addPage(Chapters.SKYSTONE, Pages.SKYSTONE).
+										addPage(Chapters.TERRAMORFER, Pages.TERRAMORFER).
+										addPage(Chapters.CORIUM, Pages.CORIUM).
+										addPage(Chapters.DIFFUSER, Pages.DIFFUSER).
+										addPage(Chapters.MANUAL_CRUSHER, Pages.MANUAL_CRUSHER).
+										addPage(Chapters.GENERATION, Pages.GENERATORS).
+										addPage(Chapters.FLUID_STORAGE, Pages.FLUID_STORAGE).
+										addPage(Chapters.RACK, Pages.RACK),
+								new SectionData (Section.ResourceLocations.ADVANCED,
+									Icon.of(getTexturePath("gui/enchiridion/" + ADVANCED), 5, 0, 0, 16, 16, 16, 16)).
+										addPage(Chapters.FLUID_FILLER, Pages.FLUID_FILLER).
+										addPage(Chapters.FURNACE, Pages.FURNACE).
+										addPage(Chapters.CRUSHER, Pages.CRUSHER).
+										addPage(Chapters.HOOVER, Pages.HOOVER).
+										addPage(Chapters.GROWTH_CRYSTAL, Pages.GROWTH_CRYSTAL).
+										addPage(Chapters.EXTRUDER, Pages.EXTRUDER).
+										addPage(Chapters.DELIVERY, Pages.DELIVERY)
 						));
 			}
 			public static final String CHAPTER = "chapter";
 			public static class Chapters
 			{
+				//PatchNotes
+				public static final ResourceLocation CHANGELOG = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "changelog");
+				//Basic
+				public static final ResourceLocation SKYSTONE = getEnchiridionPath(getChapt(Section.BASIC), Blocks.Names.SKYSTONE);
+				public static final ResourceLocation TERRAMORFER = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.TERRAMORFER);
+				public static final ResourceLocation CORIUM = getEnchiridionPath(getChapt(Section.BASIC), Materials.CORIUM);
+				public static final ResourceLocation DIFFUSER = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.DIFFUSER);
+				public static final ResourceLocation MANUAL_CRUSHER = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.MANUAL_CRUSHER);
+				public static final ResourceLocation GENERATION = getEnchiridionPath(getChapt(Section.BASIC), "vim_generation");
+				public static final ResourceLocation FLUID_STORAGE = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.FLUID_STORAGE);
+				public static final ResourceLocation RACK = getEnchiridionPath(getChapt(Section.BASIC), "racks");
+				//Advanced
+				public static final ResourceLocation FLUID_FILLER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.FLUID_FILLER); 
+				public static final ResourceLocation FURNACE = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.FURNACE); 
+				public static final ResourceLocation CRUSHER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.CRUSHER); 
+				public static final ResourceLocation HOOVER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.HOOVER); 
+				public static final ResourceLocation GROWTH_CRYSTAL = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.Crystal.GROWTH); 
+				public static final ResourceLocation EXTRUDER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.EXTRUDER); 
+				public static final ResourceLocation DELIVERY = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.DELIVERY_STATION); 
+				
+				private static String getChapt(String name)
+				{
+					return CHAPTER + "." + name;
+				}
 			}
 			public static final String PAGE = "page";
 			public static class Pages 
 			{
-			}
+				//patch notes
+				public static final ResourceLocation PATCH_0_1 = StringHelper.getLocFStr(getPage(Chapters.CHANGELOG, "0.1"));
+				//basic
+				public static final ResourceLocation SKYSTONE = StringHelper.getLocFStr(getPage(Chapters.SKYSTONE));
+				public static final ResourceLocation TERRAMORFER = StringHelper.getLocFStr(getPage(Chapters.TERRAMORFER));
+				public static final ResourceLocation CORIUM = StringHelper.getLocFStr(getPage(Chapters.CORIUM));
+				public static final ResourceLocation DIFFUSER = StringHelper.getLocFStr(getPage(Chapters.DIFFUSER));
+				public static final ResourceLocation MANUAL_CRUSHER = StringHelper.getLocFStr(getPage(Chapters.MANUAL_CRUSHER));
+				public static final ResourceLocation GENERATORS = StringHelper.getLocFStr(getPage(Chapters.GENERATION));
+				public static final ResourceLocation RACK = StringHelper.getLocFStr(getPage(Chapters.RACK));
+				public static final ResourceLocation FLUID_STORAGE = StringHelper.getLocFStr(getPage(Chapters.FLUID_STORAGE));
+				//advanced
+				public static final ResourceLocation FLUID_FILLER = StringHelper.getLocFStr(getPage(Chapters.FLUID_FILLER)); 
+				public static final ResourceLocation FURNACE = StringHelper.getLocFStr(getPage(Chapters.FURNACE)); 
+				public static final ResourceLocation CRUSHER = StringHelper.getLocFStr(getPage(Chapters.CRUSHER)); 
+				public static final ResourceLocation HOOVER = StringHelper.getLocFStr(getPage(Chapters.HOOVER)); 
+				public static final ResourceLocation GROWTH_CRYSTAL = StringHelper.getLocFStr(getPage(Chapters.GROWTH_CRYSTAL)); 
+				public static final ResourceLocation EXTRUDER = StringHelper.getLocFStr(getPage(Chapters.EXTRUDER)); 
+				public static final ResourceLocation DELIVERY = StringHelper.getLocFStr(getPage(Chapters.DELIVERY));
+				
+				private static String getPage(ResourceLocation chapter)
+				{
+					return getPage(chapter, "description");
+				}
+				
+				private static String getPage(ResourceLocation chapter, String name)
+				{
+					return chapter.getPath() + "." + PAGE + "." + name;
+				}
+		}
 			
 			private static ResourceLocation getEnchiridionPath (String part, String path)
 			{

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "nedaire:armor/horse/corium"
-  }
+  },
+  "show_notification": true
 }

@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "nedaire:ingot/corium"
-  }
+  },
+  "show_notification": true
 }

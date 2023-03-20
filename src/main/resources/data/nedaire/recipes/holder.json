@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "nedaire:holder"
-  }
+  },
+  "show_notification": true
 }
