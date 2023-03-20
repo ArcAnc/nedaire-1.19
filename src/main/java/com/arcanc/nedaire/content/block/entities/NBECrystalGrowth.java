@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
@@ -30,7 +30,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class NBECrystalGrowth extends NBaseBlockEntity implements IInventoryCallback, ModServerTickerBlockEntity
+public class NBECrystalGrowth extends NBaseBlockEntity implements IInventoryCallback, NServerTickerBlockEntity
 {
 
 	private static final int PERIOD = 100;

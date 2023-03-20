@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -37,7 +37,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 
-public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallback, ModServerTickerBlockEntity
+public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity
 {
 	public int elapsedTime = 0;
 	public int drainedFluid = 0;

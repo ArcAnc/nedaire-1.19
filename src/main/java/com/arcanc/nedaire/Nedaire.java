@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.arcanc.nedaire.content.block.NTileProviderBlock;
 import com.arcanc.nedaire.content.block.entities.NBESidedAccess;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
@@ -285,7 +286,7 @@ public class Nedaire
 				return access.getAccessType(Direction.values()[tintIndex]).getColor();
 			}
 			return 0;
-		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> true).map(RegistryObject :: get).toArray(Block[] :: new));
+		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> block.get() instanceof NTileProviderBlock<?>).map(RegistryObject :: get).toArray(Block[] :: new));
 	}
 	
     public void gatherData(GatherDataEvent event)

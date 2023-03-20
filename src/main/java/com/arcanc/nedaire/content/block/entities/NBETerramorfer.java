@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.block.entities;
 import org.joml.Vector3d;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageEssenceParticle;
 import com.arcanc.nedaire.content.registration.NRegistration;
@@ -26,7 +26,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NBETerramorfer extends NBERedstoneSensitive implements IInventoryCallback, ModServerTickerBlockEntity 
+public class NBETerramorfer extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity 
 	{
 	
 	private final BlockPos[] poses;

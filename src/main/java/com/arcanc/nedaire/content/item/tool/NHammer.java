@@ -42,7 +42,7 @@ public class NHammer extends NBaseItem
 		CompoundTag tag = stack.getOrCreateTag();
 		BlockPos pos = ctx.getClickedPos();
 		
-		Optional<BlockEntity> tile = BlockHelper.castTileEntity(ctx.getLevel(), pos, BlockEntity.class);
+		Optional<BlockEntity> tile = BlockHelper.getTileEntity(ctx.getLevel(), pos);
 		if (tile.isPresent())
 		{
 			tile.ifPresent(t -> 

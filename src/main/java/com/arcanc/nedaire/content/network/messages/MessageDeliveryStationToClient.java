@@ -115,12 +115,11 @@ public class MessageDeliveryStationToClient implements IMessage
 			Minecraft mc = RenderHelper.mc();
 			ClientLevel level = mc.level;
 			
-			Optional<BlockEntity> start = BlockHelper.castTileEntity(level, startPos, BlockEntity.class);
-			Optional<BlockEntity> finish = BlockHelper.castTileEntity(level, finishPos, BlockEntity.class);
-			Optional<NBEDeliveryStation> stat = BlockHelper.castTileEntity(level, station, NBEDeliveryStation.class);
+			Optional<BlockEntity> start = BlockHelper.getTileEntity(level, startPos);
+			Optional<BlockEntity> finish = BlockHelper.getTileEntity(level, finishPos);
 			BlockHelper.castTileEntity(level, station, NBEDeliveryStation.class).ifPresent(st -> 
 			{
-				if (start.isPresent() && finish.isPresent() && stat.isPresent())
+				if (start.isPresent() && finish.isPresent())
 				{
 					if(obj instanceof ItemStack stack)
 					{

@@ -16,7 +16,7 @@ import org.joml.Math;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.content.capabilities.filter.ItemFilter;
@@ -43,7 +43,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 
-public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallback, ModServerTickerBlockEntity, IInteractionObjectN<NBEHoover>
+public class NBEHoover extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEHoover>
 {
 
 	private NSimpleItemStorage inv;

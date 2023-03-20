@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
 import com.arcanc.nedaire.content.capabilities.filter.FluidFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter;
@@ -62,7 +62,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class NBEDeliveryStation extends NBERedstoneSensitive implements IInventoryCallback, ModServerTickerBlockEntity, IInteractionObjectN<NBEDeliveryStation>
+public class NBEDeliveryStation extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEDeliveryStation>
 {
 	private final List<BlockPos> attachedEntities = new ArrayList<>();
 	public List<TransferData> path = new ArrayList<>();
@@ -106,7 +106,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 				{
 					//extracting
 					
-					BlockHelper.castTileEntity(getLevel(), getBlockPos().offset(dir.getNormal()), BlockEntity.class).ifPresent(tile -> 
+					BlockHelper.getTileEntity(getLevel(), getBlockPos().offset(dir.getNormal())).ifPresent(tile -> 
 					{
 						switch (mode)
 						{
@@ -334,7 +334,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 				{
 					if (data.obj() instanceof ItemStack stack)
 					{
-						BlockHelper.castTileEntity(getLevel(), data.finishPos(), BlockEntity.class).ifPresent(tile -> 
+						BlockHelper.getTileEntity(getLevel(), data.finishPos()).ifPresent(tile -> 
 						{
 							ItemHelper.getItemHandler(tile).ifPresent(handler -> 
 							{
@@ -358,7 +358,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 					}
 					else if(data.obj() instanceof FluidStack stack)
 					{
-						BlockHelper.castTileEntity(getLevel(), data.finishPos(), BlockEntity.class).ifPresent(tile -> 
+						BlockHelper.getTileEntity(getLevel(), data.finishPos()).ifPresent(tile -> 
 						{
 							FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
 							{
@@ -382,7 +382,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 					}
 					else if(data.obj() instanceof Integer stack)
 					{
-						BlockHelper.castTileEntity(getLevel(), data.finishPos(), BlockEntity.class).ifPresent(tile -> 
+						BlockHelper.getTileEntity(getLevel(), data.finishPos()).ifPresent(tile -> 
 						{
 							VimHelper.getVimHandler(tile).ifPresent(handler -> 
 							{
@@ -416,7 +416,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		return switch (filterMode)
 		{
 			case 0:
-				yield attachedEntities.stream().map(pos -> BlockHelper.castTileEntity(getLevel(), pos, BlockEntity.class)).
+				yield attachedEntities.stream().map(pos -> BlockHelper.getTileEntity(getLevel(), pos)).
 								filter(tile -> 
 								{
 									if (tile.isPresent())
@@ -432,7 +432,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 								findFirst();
 			
 			case 1: 
-				yield attachedEntities.stream().map(pos -> BlockHelper.castTileEntity(getLevel(), pos, BlockEntity.class)).
+				yield attachedEntities.stream().map(pos -> BlockHelper.getTileEntity(getLevel(), pos)).
 								filter(tile ->
 								{
 									if (tile.isPresent())
@@ -447,7 +447,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 								map(Optional :: get).
 								findFirst();
 			case 2: 
-				yield attachedEntities.stream().map(pos -> BlockHelper.castTileEntity(getLevel(), pos, BlockEntity.class)).
+				yield attachedEntities.stream().map(pos -> BlockHelper.getTileEntity(getLevel(), pos)).
 								filter(tile ->
 								{
 									if (tile.isPresent())
@@ -483,7 +483,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		Preconditions.checkNotNull(pos);
 		if(lvl.dimension().equals(getLevel().dimension()))
 		{
-			Optional<BlockEntity> tile = BlockHelper.castTileEntity(lvl, pos, BlockEntity.class);
+			Optional<BlockEntity> tile = BlockHelper.getTileEntity(lvl, pos);
 			return tile.map( t -> 
 			{
 				return switch (mode) 
@@ -523,7 +523,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		
 		poses = poses.stream().filter(pos -> 
 		{
-			return BlockHelper.castTileEntity(getLevel(), pos, BlockEntity.class).map(tile -> 
+			return BlockHelper.getTileEntity(getLevel(), pos).map(tile -> 
 			{
 				return switch (mode)
 						{

@@ -56,6 +56,15 @@ public class BlockHelper
 		}
 	}
 
+
+	public static final Optional<BlockEntity> getTileEntity(LevelReader world, Vec3 pos)
+	{
+		if (pos != null)
+		{
+			return getTileEntity(world, BlockPos.containing(pos));
+		}
+		return Optional.empty();
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static final Optional<BlockEntity> getTileEntity(LevelReader world, BlockPos pos)

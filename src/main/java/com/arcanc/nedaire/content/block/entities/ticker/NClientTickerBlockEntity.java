@@ -11,7 +11,7 @@ package com.arcanc.nedaire.content.block.entities.ticker;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 
-public interface ModClientTickerBlockEntity extends ModTickerBase 
+public interface NClientTickerBlockEntity extends ModTickerBase 
 {
 	void tickClient();
 	
@@ -19,7 +19,7 @@ public interface ModClientTickerBlockEntity extends ModTickerBase
 	{
 		return (level, pos, state, blockEntity) -> 
 		{
-			ModClientTickerBlockEntity tickable = (ModClientTickerBlockEntity) blockEntity;
+			NClientTickerBlockEntity tickable = (NClientTickerBlockEntity) blockEntity;
 			if (tickable.canTickAny())
 			{
 				tickable.tickClient();

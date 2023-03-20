@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.arcanc.nedaire.util.AccessType;
@@ -41,7 +41,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.IItemHandler;
 
-public class NBEExtruder extends NBERedstoneSensitive implements IInventoryCallback, ModServerTickerBlockEntity, IInteractionObjectN<NBEExtruder>
+public class NBEExtruder extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEExtruder>
 {
 	
 	protected int mode = 0;

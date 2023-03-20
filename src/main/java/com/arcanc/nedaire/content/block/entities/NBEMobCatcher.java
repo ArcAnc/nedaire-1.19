@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
-import com.arcanc.nedaire.content.block.entities.ticker.ModClientTickerBlockEntity;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NClientTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.item.CrystalPrisonItem;
@@ -46,7 +46,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.PacketDistributor;
 
-public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCallback, ModClientTickerBlockEntity, ModServerTickerBlockEntity, IInteractionObjectN<NBEMobCatcher>
+public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCallback, NClientTickerBlockEntity, NServerTickerBlockEntity, IInteractionObjectN<NBEMobCatcher>
 {
 	public AnimationState catchAnim = new AnimationState();
 	

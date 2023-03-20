@@ -9,7 +9,6 @@
 package com.arcanc.nedaire.content.block;
 
 import com.arcanc.nedaire.content.block.entities.NBEExtruder;
-import com.arcanc.nedaire.content.block.entities.NBEGeneratorMob;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
@@ -79,7 +78,7 @@ public class NBlockExtruder extends NTileProviderBlock<NBEExtruder>
 	{
 		if (!level.isClientSide() && !oldState.is(newState.getBlock())) 
 		{
-			BlockHelper.castTileEntity(level, pos, NBEGeneratorMob.class).ifPresent(ent -> 	
+			BlockHelper.castTileEntity(level, pos, NBEExtruder.class).ifPresent(ent -> 	
 			{
 				ItemHelper.dropContents(level, pos, ItemHelper.getItemHandler(ent)); 
 			});

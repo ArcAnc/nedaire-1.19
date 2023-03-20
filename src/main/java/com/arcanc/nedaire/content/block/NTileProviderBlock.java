@@ -14,8 +14,8 @@ import java.util.function.BiFunction;
 import javax.annotation.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
-import com.arcanc.nedaire.content.block.entities.ticker.ModClientTickerBlockEntity;
-import com.arcanc.nedaire.content.block.entities.ticker.ModServerTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NClientTickerBlockEntity;
+import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 
@@ -51,12 +51,13 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 		this(props, (bp, state) -> type.get().create(bp, state));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
 	{
-		Optional<BlockEntity> tile = BlockHelper.castTileEntity(level, pos, BlockEntity.class);
+		Optional<BlockEntity> tile = BlockHelper.getTileEntity(level, pos);
 			
-		tile.map(t -> 
+		return tile.map(t -> 
 		{
 			if(t instanceof MenuProvider prov && hand == InteractionHand.MAIN_HAND && !player.isShiftKeyDown())
 			{
@@ -76,8 +77,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 				return InteractionResult.sidedSuccess(level.isClientSide());
 			}
 			return InteractionResult.sidedSuccess(level.isClientSide());
-		});
-		return InteractionResult.sidedSuccess(level.isClientSide());
+		}).orElse(super.use(state, level, pos, player, hand, hitResult));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -103,7 +103,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 	@Override
 	public <T2 extends BlockEntity> BlockEntityTicker<T2> getTicker(Level level, BlockState state, BlockEntityType<T2> type) 
 	{
-		BlockEntityTicker<T2> baseTicker = getClassData().makeBaseTicker(level.isClientSide);
+		BlockEntityTicker<T2> baseTicker = getClassData().makeBaseTicker(level.isClientSide());
 		
 		return baseTicker;
 	}
@@ -121,8 +121,8 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 			T tempBE = tile.apply(BlockPos.ZERO, getInitDefaultState());
 			this.classData = new BlockEntityClassData 
 					(
-					tempBE instanceof ModServerTickerBlockEntity,
-					tempBE instanceof ModClientTickerBlockEntity
+					tempBE instanceof NServerTickerBlockEntity,
+					tempBE instanceof NClientTickerBlockEntity
 					);
 					
 		}
@@ -135,9 +135,9 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 		public <T extends BlockEntity> BlockEntityTicker<T> makeBaseTicker(boolean isClient)
 		{
 			if(serverTicking && !isClient)
-				return ModServerTickerBlockEntity.makeTicker();
+				return NServerTickerBlockEntity.makeTicker();
 			else if(clientTicking && isClient)
-				return ModClientTickerBlockEntity.makeTicker();
+				return NClientTickerBlockEntity.makeTicker();
 			else
 				return null;
 		}
