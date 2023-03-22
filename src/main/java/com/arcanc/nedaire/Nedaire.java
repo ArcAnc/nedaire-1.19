@@ -70,6 +70,8 @@ import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -122,6 +124,7 @@ public class Nedaire
 
 		NRegistration.RegisterBlocks.BLOCKS.register(modEventBus);
 	    NRegistration.RegisterItems.ITEMS.register(modEventBus);
+	    NRegistration.RegisterFluids.register(modEventBus);
 	    NRegistration.RegisterEntities.ENTITIES.register(modEventBus);
 	    NRegistration.RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 		NRegistration.RegisterMenuTypes.MENU_TYPES.register(modEventBus);
@@ -196,6 +199,9 @@ public class Nedaire
 			registerBlockEntityRenderers();
 			
 			registerEntityRenderers();
+			
+			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.flowing().get(), RenderType.translucent());
+			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.still().get(), RenderType.translucent());
 		});
 	}
 	

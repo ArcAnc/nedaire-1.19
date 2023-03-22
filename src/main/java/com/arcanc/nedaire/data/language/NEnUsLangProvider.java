@@ -104,6 +104,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.FLUID_FILLER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER.replace("_f", " F")));
 		add(NRegistration.RegisterBlocks.DIFFUSER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DIFFUSER));
 		
+		add(NRegistration.RegisterFluids.EXPERIENCE.bucket().get(), StringHelper.capitalize(NDatabase.Fluids.Names.EXPERIENCE) + " Bucket");
 		
 		//************************************************************************
 		//SOCKET

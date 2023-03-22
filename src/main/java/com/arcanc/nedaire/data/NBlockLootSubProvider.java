@@ -22,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.registries.RegistryObject;
 
 public class NBlockLootSubProvider extends BlockLootSubProvider
@@ -106,7 +107,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 	@Override
 	protected Iterable<Block> getKnownBlocks() 
 	{
-		return NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().map(RegistryObject :: get).collect(Collectors.toSet());
+		return NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().map(RegistryObject :: get).filter(block -> !block.getLootTable().equals(BuiltInLootTables.EMPTY)).collect(Collectors.toSet());
 	}
 	
 /*	private void registerSelfDrop(Block block)

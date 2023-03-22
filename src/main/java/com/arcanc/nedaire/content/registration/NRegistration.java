@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -19,9 +20,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.joml.Vector3f;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
 import com.arcanc.nedaire.content.block.NBlockCrusher;
@@ -80,6 +83,9 @@ import com.arcanc.nedaire.content.container.menu.NMobCatcherMenu;
 import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
+import com.arcanc.nedaire.content.fluid.NFluid;
+import com.arcanc.nedaire.content.fluid.NFluidType;
+import com.arcanc.nedaire.content.fluid.NFluidType.FogGetter;
 import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.NBaseBlockItem;
@@ -102,6 +108,7 @@ import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.Util;
@@ -126,9 +133,11 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -137,15 +146,23 @@ import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -529,6 +546,233 @@ public class NRegistration
 			{
 				return get().defaultBlockState();
 			}
+		}
+	}
+	
+	public static class RegisterFluids
+	{
+		public static final FluidEntry EXPERIENCE = FluidEntry.make(NDatabase.Fluids.Names.EXPERIENCE, 
+				() -> 
+					{
+						Minecraft mc = RenderHelper.mc();
+						long levelTime = mc.level.getGameTime();
+						float partialTicks = mc.getPartialTick();
+
+						final int MIN_R = 0;
+						final int MAX_R = 181;
+						final int MIN_G = 204;
+						final int MAX_G = 235;
+						final int MIN_B = 0;
+						final int MAX_B = 34;
+						final int MAX_TIME = 40;
+
+						final Vector3f max = new Vector3f(MAX_R/255f, MAX_G/255f, MAX_B/255f);
+						final Vector3f min = new Vector3f(MIN_R/255f, MIN_G/255f, MIN_B/255f);
+
+						float time = (levelTime + partialTicks) % MAX_TIME;
+
+						if(time > 20)
+						{
+							return FogGetter.getIntFromColor(FogGetter.interpColor(max, min, time/40));
+						}
+						else
+						{
+							return FogGetter.getIntFromColor(FogGetter.interpColor(min, max, time/40));
+						}
+					},
+				(camera, partialTicks, level, renderDistance, darkenWorldAmount, fluidFogColor) -> 
+					{
+						final int MIN_R = 0;
+						final int MAX_R = 181;
+						final int MIN_G = 204;
+						final int MAX_G = 235;
+						final int MIN_B = 0;
+						final int MAX_B = 34;
+						final int MAX_TIME = 40;
+
+						final Vector3f max = new Vector3f(MAX_R/255f, MAX_G/255f, MAX_B/255f);
+						final Vector3f min = new Vector3f(MIN_R/255f, MIN_G/255f, MIN_B/255f);
+						
+						long levelTime = level.getGameTime();
+						
+						float time = (levelTime + partialTicks) % MAX_TIME;
+						
+						if(time > 20)
+						{
+							return FogGetter.interpColor(max, min, time/40);
+						}
+						else
+						{
+							return FogGetter.interpColor(min, max, time/40);
+						}
+					},
+				props -> 
+					{
+						props.slopeFindDistance(2).levelDecreasePerBlock(2).explosionResistance(100);
+					},
+				typeProps -> 
+					{
+						typeProps.
+						lightLevel(10).
+						density(250).
+						viscosity(500).
+						rarity(Rarity.UNCOMMON);
+					}
+				);
+		
+/*		public static final ForgeFlowingFluid.Properties SOAP_WATER_FLUID_PROPERTIES = new ForgeFlowingFluid.Properties(
+	            FluidTypes.SOAP_WATER_FLUID_TYPE, Fluids.SOURCE_SOAP_WATER, Fluids.FLOWING_SOAP_WATER)
+	            .slopeFindDistance(2).levelDecreasePerBlock(2).block(Fluids.SOAP_WATER_BLOCK)
+	            .bucket(Fluids.SOAP_WATER_BUCKET);
+*/
+		public static class FluidTypes
+		{
+			public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, NDatabase.MOD_ID);
+		    
+/*			public static final RegistryObject<FluidType> SOAP_WATER_FLUID_TYPE = register("soap_water_fluid",
+		            FluidType.Properties.create().lightLevel(2).density(15).viscosity(5).sound(SoundAction.get("drink"),
+		                    SoundEvents.HONEY_DRINK));
+
+		    private static RegistryObject<FluidType> register(String name, FluidType.Properties properties) 
+		    {
+		        return FLUID_TYPES.register(name, () -> new NFluidType(new ResourceLocation("block/water_still"), new ResourceLocation("block/water_flow"), new ResourceLocation(NDatabase.MOD_ID, "misc/in_soap_water"),
+		                0xA1E038D0, new Vector3f(224f / 255f, 56f / 255f, 208f / 255f), properties));
+		    }		
+*/		}
+		
+		public static class Fluids
+		{
+			public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, NDatabase.MOD_ID);
+
+/*		    public static final RegistryObject<FlowingFluid> SOURCE_SOAP_WATER = FLUIDS.register("soap_water_fluid",
+		            () -> new ForgeFlowingFluid.Source(SOAP_WATER_FLUID_PROPERTIES));
+		    public static final RegistryObject<FlowingFluid> FLOWING_SOAP_WATER = FLUIDS.register("flowing_soap_water",
+		            () -> new ForgeFlowingFluid.Flowing(SOAP_WATER_FLUID_PROPERTIES));
+
+
+		    public static final RegistryObject<LiquidBlock> SOAP_WATER_BLOCK = RegisterBlocks.BLOCKS.register(
+		    		"soap_water_block", 
+		    		() -> new LiquidBlock(SOURCE_SOAP_WATER, BlockBehaviour.Properties.copy(Blocks.WATER)));
+		    
+		    public static final RegistryObject<BucketItem> SOAP_WATER_BUCKET = RegisterItems.ITEMS.register(
+		    		"soap_water_bucket", 
+		    		() -> new BucketItem(SOURCE_SOAP_WATER, new Item.Properties().craftRemainder(net.minecraft.world.item.Items.BUCKET).stacksTo(1)));
+*/		}
+		
+		public record FluidEntry(RegistryObject<NFluid> still,
+								 RegistryObject<NFluid> flowing,
+								 RegistryObject<LiquidBlock> block,
+								 RegistryObject<BucketItem> bucket,
+								 RegistryObject<FluidType> type,
+								 List<Property<?>> props)
+		{
+			private static FluidEntry make(String name, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props)
+			{
+				return make(name, () -> 0xffffffff, fogColor, props);
+			}
+			
+			private static FluidEntry make(String name, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props)
+			{
+				return make(name, 0, NDatabase.Fluids.getStillLoc(name), NDatabase.Fluids.getFlowLoc(name), NDatabase.Fluids.getOverlayLoc(name), tintColor, fogColor, props);
+			}
+			
+			private static FluidEntry make(String name, int burnTime, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props)
+			{
+				return make(name, burnTime, NDatabase.Fluids.getStillLoc(name), NDatabase.Fluids.getFlowLoc(name), NDatabase.Fluids.getOverlayLoc(name), tintColor, fogColor, props);
+			}
+			
+			private static FluidEntry make(String name, ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props)
+			{
+				return make(name, 0, stillTex, flowingTex, overlayTex, tintColor, fogColor, props);
+			}
+
+			private static FluidEntry make(
+					String name, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props, Consumer<FluidType.Properties> buildAttributes
+			)
+			{
+				return make(name, 0, NDatabase.Fluids.getStillLoc(name), NDatabase.Fluids.getFlowLoc(name), NDatabase.Fluids.getOverlayLoc(name), tintColor, fogColor, props, buildAttributes);
+			}
+
+			private static FluidEntry make(String name, int burnTime, ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, Consumer<ForgeFlowingFluid.Properties> props)
+			{
+				return make(name, burnTime, stillTex, flowingTex, overlayTex, tintColor, fogColor, props, null);
+			}
+
+			private static FluidEntry make(
+					String name, int burnTime,
+					ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor, @Nullable Consumer<ForgeFlowingFluid.Properties> props,
+					@Nullable Consumer<FluidType.Properties> buildAttributes
+			)
+			{
+				return make(
+						name, burnTime, stillTex, flowingTex, overlayTex, tintColor, fogColor, NFluid.NFluidSource :: new, NFluid.NFluidFlowing :: new, props, buildAttributes,
+						ImmutableList.of()
+				);
+			}
+			
+			private static FluidEntry make(
+					String name, int burnTime,
+					ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor,
+					Function<ForgeFlowingFluid.Properties, ? extends NFluid> makeStill, Function<ForgeFlowingFluid.Properties, ? extends NFluid> makeFlowing, @Nullable Consumer<ForgeFlowingFluid.Properties> props,
+					@Nullable Consumer<FluidType.Properties> buildAttributes, List<Property<?>> properties)
+			{
+				FluidType.Properties builder = FluidType.Properties.create()
+						.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+						.sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY);
+				if(buildAttributes!=null)
+					buildAttributes.accept(builder);
+				RegistryObject<FluidType> type = FluidTypes.FLUID_TYPES.register(
+						name, () -> makeTypeWithTextures(builder, stillTex, flowingTex, overlayTex, tintColor, fogColor)
+				);
+				Mutable<FluidEntry> thisMutable = new MutableObject<>();
+				NFluid.FluidPropsGetter fluidProps = (fluidType, stillFluid, flowingFluid) -> new ForgeFlowingFluid.Properties(fluidType, stillFluid, flowingFluid);
+				RegistryObject<NFluid> still = Fluids.FLUIDS.register(NDatabase.Fluids.getStillLoc(name).getPath(), () -> NFluid.makeFluid(makeStill, 
+						fluidProps.get(
+								thisMutable.getValue().type(), 
+								thisMutable.getValue().still(), 
+								thisMutable.getValue().flowing()).
+						block(thisMutable.getValue().block()).
+						bucket(thisMutable.getValue().bucket()), 
+						props));
+				RegistryObject<NFluid> flowing = Fluids.FLUIDS.register(NDatabase.Fluids.getFlowLoc(name).getPath(), () -> NFluid.makeFluid(makeFlowing, 
+						fluidProps.get(
+								thisMutable.getValue().type(), 
+								thisMutable.getValue().still(), 
+								thisMutable.getValue().flowing()).
+						block(thisMutable.getValue().block()).
+						bucket(thisMutable.getValue().bucket()), 
+						props));
+				RegistryObject<LiquidBlock> block = RegisterBlocks.BLOCKS.register(NDatabase.Fluids.getBlockLocation(name).getPath(),
+						() -> new LiquidBlock(thisMutable.getValue().still(), BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+				RegistryObject<BucketItem> bucket = RegisterItems.ITEMS.register(NDatabase.Fluids.getBucketLocation(name).getPath(), () -> makeBucket(still, burnTime));
+				FluidEntry entry = new FluidEntry(still, flowing, block, bucket, type, properties);
+				thisMutable.setValue(entry);
+				return entry;
+			}
+			
+			private static FluidType makeTypeWithTextures(FluidType.Properties props, ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor)
+			{
+				return new NFluidType(stillTex, flowingTex, overlayTex, tintColor, fogColor, props);
+			}
+			
+			private static BucketItem makeBucket (RegistryObject<NFluid> still, int burnTime)
+			{
+				return new BucketItem(still, new Item.Properties().stacksTo(1).craftRemainder(net.minecraft.world.item.Items.BUCKET))
+						{
+							@Override
+							public int getBurnTime(ItemStack itemStack,	@org.jetbrains.annotations.Nullable RecipeType<?> recipeType) 
+							{
+								return burnTime;
+							}
+						};
+			}
+
+		}
+		
+		public static void register(final IEventBus bus)
+		{
+			FluidTypes.FLUID_TYPES.register(bus);
+			Fluids.FLUIDS.register(bus);
 		}
 	}
 	

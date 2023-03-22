@@ -72,6 +72,11 @@ public class NItemModelProvider extends ItemModelProvider
 		getBuilder(name(NRegistration.RegisterItems.DRONE_SPAWN_EGG.getId().getPath())).
 		parent(getExistingFile(mcLoc("item/template_spawn_egg")));
 		
+		getBuilder(name(NRegistration.RegisterFluids.EXPERIENCE.bucket().getId().getPath())).
+		parent(getExistingFile(mcLoc("item/generated"))).
+		texture("layer0", mcLoc("item/bucket")).
+		texture("layer1", NRegistration.RegisterFluids.EXPERIENCE.bucket().getId().withPrefix(BLOCK_FOLDER + "/"));
+		
 		/*test*/
 		
 /*		getBuilder(name("test")).

@@ -207,6 +207,39 @@ public class NDatabase
 		}
 	}
 
+	public static class Fluids
+	{
+		public static class Names
+		{
+			public static final String EXPERIENCE = "experience";
+		}
+		
+		public static ResourceLocation getStillLoc(String name)
+		{
+			return StringHelper.getLocFStr("block/fluids/" + name +"/still");
+		}
+		
+		public static ResourceLocation getFlowLoc(String name)
+		{
+			return StringHelper.getLocFStr("block/fluids/" + name +"/flow");
+		}
+		
+		public static ResourceLocation getOverlayLoc(String name)
+		{
+			return StringHelper.getLocFStr("block/fluids/" + name + "/overlay");
+		}
+		
+		public static ResourceLocation getBlockLocation(String name)
+		{
+			return StringHelper.getLocFStr("block/fluids/" + name + "/block");
+		}
+		
+		public static ResourceLocation getBucketLocation(String name)
+		{
+			return StringHelper.getLocFStr("fluids/" + name + "/bucket");
+		}
+	}
+	
 	public static class Recipes
 	{
 		public static class StackWithChanceNBT

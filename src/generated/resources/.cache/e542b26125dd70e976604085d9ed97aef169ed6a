@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-19T22:42:32.9153604	Nedaire Item Models
+// 1.19.4	2023-03-22T05:48:09.0231922	Nedaire Item Models
 06c3ccfac4f748146590f5f73374ea9f738ce039 assets/nedaire/models/item/armor/horse/corium.json
 62b40966b1675af70347cf2200ea2c5049257cbb assets/nedaire/models/item/armor/player/chest/corium.json
 80b8521fe02610d3ba523b93bc908e1aee98ca05 assets/nedaire/models/item/armor/player/feet/corium.json
@@ -7,6 +7,7 @@
 fd112e627a8165f88464937d9c90ccfca0b2bf22 assets/nedaire/models/item/crystal_prison.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/nedaire/models/item/drone_spawn_egg.json
 de1332d4fad12f66ea90ccc25ebcd8efb1efc5a6 assets/nedaire/models/item/dust/corium.json
+4311057d304c5c15180d6434b13e995e625319d8 assets/nedaire/models/item/fluids/experience/bucket.json
 3b2f2ed59bb0214f9406a0bba420e6e76bdcd2a5 assets/nedaire/models/item/ingot/corium.json
 b5e093c05703ae8f6e7617c38984edfc78daf3e5 assets/nedaire/models/item/nugget/corium.json
 7658445c288e94c6c3361b87389fabaecc2626e5 assets/nedaire/models/item/nugget/skystone.json
