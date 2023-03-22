@@ -19,6 +19,7 @@ import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
+import com.arcanc.nedaire.data.tags.base.NTags;
 import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -83,6 +84,7 @@ public class NBEFluidFiller extends NBERedstoneSensitive implements IInventoryCa
 				build();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void tickServer() 
 	{
@@ -98,7 +100,7 @@ public class NBEFluidFiller extends NBERedstoneSensitive implements IInventoryCa
 					if (!state.isEmpty())
 					{
 						FluidStack stack = state.isSource() ? new FluidStack(state.holder().get(), 100) : FluidStack.EMPTY;
-						if(!stack.isEmpty())
+						if(!stack.isEmpty() && !stack.getFluid().is(NTags.Fluids.EXPERIENCE))
 						{
 							fluid.fill(stack, FluidAction.EXECUTE);
 						}

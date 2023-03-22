@@ -57,13 +57,14 @@ import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
 import com.arcanc.nedaire.data.NBlockLootSubProvider;
 import com.arcanc.nedaire.data.NBlockStatesProvider;
-import com.arcanc.nedaire.data.NBlockTagsProvider;
 import com.arcanc.nedaire.data.NItemModelProvider;
-import com.arcanc.nedaire.data.NItemTagsProvider;
 import com.arcanc.nedaire.data.NRecipeProvider;
 import com.arcanc.nedaire.data.NSpriteSourceProvider;
 import com.arcanc.nedaire.data.NVillagersTags;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
+import com.arcanc.nedaire.data.tags.NBlockTagsProvider;
+import com.arcanc.nedaire.data.tags.NFluidTagsProvider;
+import com.arcanc.nedaire.data.tags.NItemTagsProvider;
 import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
@@ -313,7 +314,8 @@ public class Nedaire
         NBlockTagsProvider btp = new NBlockTagsProvider(packOutput, lookupProvider, ext);
     		
     	gen.addProvider(event.includeServer(), btp);
-        gen.addProvider(event.includeServer(), new NItemTagsProvider(packOutput, lookupProvider, btp, ext));    	
+        gen.addProvider(event.includeServer(), new NItemTagsProvider(packOutput, lookupProvider, btp, ext));
+        gen.addProvider(event.includeServer(), new NFluidTagsProvider(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), new NRecipeProvider(packOutput));
 /*            gen.addProvider(new NedaireMultiblockProvider(gen));
  */   	

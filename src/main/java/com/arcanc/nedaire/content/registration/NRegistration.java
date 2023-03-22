@@ -119,6 +119,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -159,6 +160,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.SoundActions;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
@@ -571,13 +573,13 @@ public class NRegistration
 
 						float time = (levelTime + partialTicks) % MAX_TIME;
 
-						if(time > 20)
+						if(time < 20)
 						{
-							return FogGetter.getIntFromColor(FogGetter.interpColor(max, min, time/40));
+							return FogGetter.getIntFromColor(FogGetter.interpColor(max, min, time/20));
 						}
 						else
 						{
-							return FogGetter.getIntFromColor(FogGetter.interpColor(min, max, time/40));
+							return FogGetter.getIntFromColor(FogGetter.interpColor(min, max, (time - 20)/20));
 						}
 					},
 				(camera, partialTicks, level, renderDistance, darkenWorldAmount, fluidFogColor) -> 
@@ -597,13 +599,13 @@ public class NRegistration
 						
 						float time = (levelTime + partialTicks) % MAX_TIME;
 						
-						if(time > 20)
+						if(time < 20)
 						{
-							return FogGetter.interpColor(max, min, time/40);
+							return FogGetter.interpColor(max, min, time/20);
 						}
 						else
 						{
-							return FogGetter.interpColor(min, max, time/40);
+							return FogGetter.interpColor(min, max, (time - 20)/20);
 						}
 					},
 				props -> 
@@ -763,6 +765,12 @@ public class NRegistration
 							public int getBurnTime(ItemStack itemStack,	@org.jetbrains.annotations.Nullable RecipeType<?> recipeType) 
 							{
 								return burnTime;
+							}
+							
+							@Override
+							public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) 
+							{
+								return new net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper(stack);
 							}
 						};
 			}

@@ -119,15 +119,15 @@ public class NFluidType extends FluidType
 	
 		static Vector3f interpColor(Vector3f curColor, Vector3f targetColor, float delta)
 		{
-			Vector3f diff = targetColor.sub(curColor, new Vector3f());
-			Vector3f move = new Vector3f();
-			Vector3f ret = new Vector3f();
+			Vector3f diff = new Vector3f();
+			
+			targetColor.sub(curColor, diff);
 			
 			if (diff.equals(0,0,0))
 				return targetColor;
 			
-			diff.mul(delta, move);
-			return curColor.add(move, ret);
+			diff.mul(delta, diff);
+			return curColor.add(diff, new Vector3f());
 		}
 		
 		static int getIntFromColor(Vector3f color)

@@ -15,7 +15,7 @@ import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.builders.NCrusherRecipeBuilder;
 import com.arcanc.nedaire.data.crafting.builders.NDiffuserRecipeBuilder;
-import com.arcanc.nedaire.data.tags.NTags;
+import com.arcanc.nedaire.data.tags.base.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;

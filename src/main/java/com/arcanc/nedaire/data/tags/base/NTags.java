@@ -6,7 +6,7 @@
  * This code is licensed under "Ancient's License of Common Sense"	
  * Details can be found in the license file in the root folder of this project
  */
-package com.arcanc.nedaire.data.tags;
+package com.arcanc.nedaire.data.tags.base;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,10 +17,12 @@ import com.arcanc.nedaire.util.helpers.StringHelper;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 public class NTags 
 {
@@ -167,7 +169,29 @@ public class NTags
 		{
 			return ItemTags.create(new ResourceLocation("minecraft", name));
 		}
-
 	}
 
+	public static class Fluids
+	{
+		public static final TagKey<Fluid> EXPERIENCE = forgeTag(NDatabase.Fluids.Names.EXPERIENCE);
+		
+		@SuppressWarnings("unused")
+		private static TagKey<Fluid> tag(String name)
+	    {
+	        return FluidTags.create(StringHelper.getLocFStr(name));
+	    }
+		
+		private static TagKey<Fluid> forgeTag(String name)
+		{
+			return FluidTags.create(new ResourceLocation("forge", name));
+		}
+		
+		@SuppressWarnings("unused")
+		private static TagKey<Fluid> minecraftTag(String name)
+		{
+			return FluidTags.create(new ResourceLocation("minecraft", name));
+		}
+
+	}
+	
 }

@@ -6,13 +6,13 @@
  * This code is licensed under "Ancient's License of Common Sense"	
  * Details can be found in the license file in the root folder of this project
  */
-package com.arcanc.nedaire.data;
+package com.arcanc.nedaire.data.tags;
 
 import java.util.concurrent.CompletableFuture;
 
 import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
-import com.arcanc.nedaire.data.tags.NTags;
+import com.arcanc.nedaire.data.tags.base.NTags;
 import com.arcanc.nedaire.util.database.NDatabase;
 
 import net.minecraft.core.HolderLookup;

@@ -1,5 +1,6 @@
 {
   "entity.minecraft.villager.nedaire.undergrounder": "Undergrounder",
+  "fluid_type.nedaire.experience": "Experience",
   "gui.block_entities.delivery_station.mode.fluids": "This Delivery Station will transfer Fluids",
   "gui.block_entities.delivery_station.mode.items": "This Delivery Station will transfer Items",
   "gui.block_entities.delivery_station.mode.vim": "This Delivery Station will transfer Vim Energy",
