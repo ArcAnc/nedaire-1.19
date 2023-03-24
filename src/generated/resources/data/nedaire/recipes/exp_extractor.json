@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "forge:ingots/corium"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "minecraft:observer"
+    }
+  },
+  "pattern": [
+    "C C",
+    "CBC",
+    "ACA"
+  ],
+  "result": {
+    "item": "nedaire:exp_extractor"
+  },
+  "show_notification": true
+}

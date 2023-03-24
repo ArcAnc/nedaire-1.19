@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-19T22:42:32.9143601	Recipes
+// 1.19.4	2023-03-24T22:16:15.6056244	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -22,6 +22,7 @@ f99dc2725f54f894f5bedc26a0ac5afded58a1a2 data/nedaire/advancements/recipes/misc/
 e1bab0de2e8ce37863a96856746ae9094c1635a1 data/nedaire/advancements/recipes/misc/crusher.json
 afa66dcbcb06fb876a607108cd17699798ebd2bf data/nedaire/advancements/recipes/misc/delivery_station.json
 9d341dcd83a78bd2cf224611618804c4cb860a13 data/nedaire/advancements/recipes/misc/diffuser.json
+b6041ce3213e4e0e6ccad8427f63a3c1480fd3e5 data/nedaire/advancements/recipes/misc/exp_extractor.json
 0625da1b62a0d8b833e4b792831a4cea58c70ec6 data/nedaire/advancements/recipes/misc/extruder.json
 cb7be8b7c02301f33a5ef072f27dee9af10e45a3 data/nedaire/advancements/recipes/misc/fluid_filler.json
 5f6256e73871db4da38fc007b02cd4a49a45b19e data/nedaire/advancements/recipes/misc/fluid_storage.json
@@ -79,8 +80,9 @@ d116ea7e56df0d9375561aec509640f0719bc3ae data/nedaire/recipes/delivery_station.j
 d55182c8b617616ac8012759634ee1eca1fbe958 data/nedaire/recipes/diffuser.json
 92111df4e6788cc2b378ac0303abac7f809b0782 data/nedaire/recipes/diffuser/crystal_prison.json
 4314f2878792c57132939935c607138aa919ff80 data/nedaire/recipes/diffuser/growth_crystal.json
-4de31a2c8fa4289172a1cdbe2326b5f3d9b79238 data/nedaire/recipes/diffuser/ore/corium.json
+5a7fbabb23d1710aac4efb57d446b430641c30b6 data/nedaire/recipes/diffuser/ore/corium.json
 7afa7662694abf2bf521bd858aff6959349542d4 data/nedaire/recipes/dynamic/shield_decoration.json
+75bd36929f14b0d40b5c3cc2e4c47f962db0a64d data/nedaire/recipes/exp_extractor.json
 8785002e248fd3b9f686a9aaac6acc8b191a73b2 data/nedaire/recipes/extruder.json
 7651d6890920edd71d433599c189cf13d046b850 data/nedaire/recipes/fluid_filler.json
 6378f0b5c1a21aa35653d8e2e83fd53fafc24c15 data/nedaire/recipes/fluid_storage.json

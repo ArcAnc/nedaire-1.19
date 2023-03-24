@@ -41,6 +41,7 @@ public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallb
 {
 	public int elapsedTime = 0;
 	public int drainedFluid = 0;
+	public float toDrain = 0;
 	
 	protected FluidTank fluid;
 	protected final LazyOptional<IFluidHandler> fluidHandler = LazyOptional.of(() -> fluid);
@@ -73,13 +74,20 @@ public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallb
 			FluidStack fluidS = fluid.getFluidInTank(0).copy();
 			NDiffuserRecipe.findRecipe(getLevel(), stack, fluidS).ifPresentOrElse(rec ->
 			{
-				float percent = rec.fluid.getAmount() / (float)rec.getTotalProcessTime();
-				int perTick = percent < 1 ? 1 : (int)percent;
-				
-				FluidStack drained = fluid.drain(Math.min(fluid.drain(FluidHelper.copyFluidStackWithAmount(fluidS, perTick), FluidAction.SIMULATE).getAmount(), perTick), FluidAction.EXECUTE);
-				
+				float perTick = rec.fluid.getAmount() / (float)rec.getTotalProcessTime();
+				if (perTick < 1)
+				{
+					toDrain += perTick;
+				}
+				if (toDrain >= 1)
+				{
+					int drain = (int)toDrain;
+
+					FluidStack drained = fluid.drain(Math.min(fluid.drain(FluidHelper.copyFluidStackWithAmount(fluidS, drain), FluidAction.SIMULATE).getAmount(), drain), FluidAction.EXECUTE);
+					drainedFluid += drained.getAmount();
+					toDrain -= drained.getAmount();
+				}
 				elapsedTime++;
-				drainedFluid += drained.getAmount();
 				
 				if (getLevel().getRandom().nextFloat() < 0.2f)
 				{
@@ -137,6 +145,7 @@ public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallb
 		
 		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.ELAPSED_TIME, elapsedTime);
 		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.DRAINED_FLUID, drainedFluid);
+		tag.putFloat(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.TO_DRAIN, toDrain);
 	}
 	
 	@Override
@@ -149,6 +158,7 @@ public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallb
 		
 		elapsedTime = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.ELAPSED_TIME);
 		drainedFluid = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.DRAINED_FLUID);
+		toDrain = tag.getFloat(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Diffuser.TO_DRAIN);
 	}
 	
 	@Override

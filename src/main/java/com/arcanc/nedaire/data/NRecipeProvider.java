@@ -151,6 +151,8 @@ public class NRecipeProvider extends RecipeProvider
 		
 		addShieldDecorationRecipe(out, NRegistration.RegisterRecipes.SHIELD_SERIALIZER.get());
 		
+		crusherRecipes(out);
+		diffuserRecipes(out);
 		
 		//==========================
 		//BOOK
@@ -184,9 +186,6 @@ public class NRecipeProvider extends RecipeProvider
 		unlockedBy("has_" + Tags.Items.STONE.location().getPath(), has(Tags.Items.STONE)).
 		unlockedBy("has_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
 		save(out, NRegistration.RegisterBlocks.TERRAMORFER.getId());
-		
-		crusherRecipes(out);
-		diffuserRecipes(out);
 		
 		//Pedestal
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.PEDESTAL.asItem()).
@@ -437,6 +436,19 @@ public class NRecipeProvider extends RecipeProvider
 		unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
 		unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
 		save(out, NRegistration.RegisterBlocks.DELIVERY_STATION.getId());
+		
+		//ExpExtractor
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.EXP_EXTRACTOR.get().asItem()).
+		define('A', Ingredient.of(NTags.Items.CORIUM.getIngot())).
+		define('B', Ingredient.of(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
+		define('C', Ingredient.of(Blocks.OBSERVER)).
+		pattern("C C").
+		pattern("CBC").
+		pattern("ACA").
+		unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
+		unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
+		unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.OBSERVER).getPath(), has(Blocks.OBSERVER)).
+		save(out, NRegistration.RegisterBlocks.EXP_EXTRACTOR.getId());
 	}
 
 	private void crusherRecipes(Consumer<FinishedRecipe> out) 
@@ -511,7 +523,7 @@ public class NRecipeProvider extends RecipeProvider
 
 		NDiffuserRecipeBuilder.builder(NRegistration.RegisterMaterials.CORIUM.getOreBlock().asItem()).
 			addInput(Tags.Items.ORES_IRON).
-			addFluid(Fluids.LAVA, 1000).
+			addFluid(NRegistration.RegisterFluids.EXPERIENCE.still().get(), 50).
 			setTime(500).
 			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterMaterials.CORIUM.getOreBlock().getId().getPath()));
 		

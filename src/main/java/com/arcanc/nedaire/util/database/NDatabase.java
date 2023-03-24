@@ -136,6 +136,7 @@ public class NDatabase
 				public static final String EXTRUDER = "extruder";
 				public static final String FLUID_FILLER = "fluid_filler";
 				public static final String DIFFUSER = "diffuser";
+				public static final String EXP_EXTRACTOR = "exp_extractor";
 				
 				public static class Crystal
 				{
@@ -200,6 +201,7 @@ public class NDatabase
 					{
 						public static final String ELAPSED_TIME = "elapsed_time";
 						public static final String DRAINED_FLUID = "drained_fluid";
+						public static final String TO_DRAIN = "to_drain";
 					}
 				}
 			}

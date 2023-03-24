@@ -559,7 +559,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         {
 	            TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
 	            RenderSystem.setShaderTexture(0, textureatlassprite.atlasLocation());
-	            blit(stack, i-1, j-1, 100, 18, 18, textureatlassprite);
+	            blit(stack, i-1, j-1, 0, 18, 18, textureatlassprite);
 	         }
 	      }
 
@@ -573,7 +573,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         RenderSystem.enableDepthTest();
 	         if (slot instanceof ItemHandlerGhost)
 	         {
-	        	 RenderHelper.renderFakeItemTransparent(itemstack, i, j, 0.5f);
+	        	 RenderHelper.renderFakeItemTransparent(itemstack, getGuiLeft() + i, getGuiTop() + j, 0.5f);
 	         }
 	         else 
 	         {

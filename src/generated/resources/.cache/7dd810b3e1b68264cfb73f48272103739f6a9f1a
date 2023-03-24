@@ -1,8 +1,9 @@
-// 1.19.4	2023-03-20T20:51:06.0697112	Nedaire Block States
+// 1.19.4	2023-03-24T23:41:03.64471	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
 23264f1eaeaec2444d6a090b4d90286090ab0b51 assets/nedaire/blockstates/diffuser.json
+450b333113257514e23b4c11b1550ad9a55df7bc assets/nedaire/blockstates/exp_extractor.json
 022a9e41eaf3452d85c0adf101bd29bd35720e8e assets/nedaire/blockstates/extruder.json
 da484e58696b09af5f36049816a3ab04a3bc4fd0 assets/nedaire/blockstates/fluid_filler.json
 b3e05dc4d9cb035570f23256fd0d523d1d09177f assets/nedaire/blockstates/fluid_storage.json
@@ -33,6 +34,7 @@ cef4dfcff4aa484d2f9d6b9ee7c9bbc659d5355d assets/nedaire/models/block/crusher_off
 33a5ecad22cca43bc542b13122f547b52c60235b assets/nedaire/models/block/delivery_station.json
 886e7f145d9cd8d0521bfd3deba4c4a42d76fdd1 assets/nedaire/models/block/delivery_station_connector.json
 e765ea093d5a0e6cc7f88b328996bd62eeb97937 assets/nedaire/models/block/diffuser.json
+1e750b03a36ec7e863a4e0c7aa6414362e5c101e assets/nedaire/models/block/exp_extractor.json
 e1b4df8541efad7cdb266f0f0235b18911c5a334 assets/nedaire/models/block/extruder_off.json
 f7e7e479af84b2bcf6241640f8d73a0a7ccdfa7e assets/nedaire/models/block/extruder_on.json
 1001da8508b049f128ee773d0e5fc542ceb2c863 assets/nedaire/models/block/fluid_filler_off.json
@@ -72,6 +74,7 @@ da48b63f50435f4dbde35b2972e0cb73348aedd7 assets/nedaire/models/item/crusher.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json
 130765751aa826dd942ae78986c0d7a8ad468873 assets/nedaire/models/item/diffuser.json
+d3f213779f02c1856ca5b4a38140611fc8b7099d assets/nedaire/models/item/exp_extractor.json
 857e47557f63564339a531a5ad01f92e363032ae assets/nedaire/models/item/extruder.json
 45abd9439f6a8d4f8ffb62ee57dbc7766e170f86 assets/nedaire/models/item/fluid_filler.json
 bc20cc74054c889bed63f44d9daaf0e50f9f01e4 assets/nedaire/models/item/fluid_storage.json

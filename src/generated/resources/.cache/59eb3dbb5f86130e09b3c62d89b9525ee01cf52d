@@ -1,8 +1,9 @@
-// 1.19.4	2023-03-22T04:45:05.2946797	Loot Tables
+// 1.19.4	2023-03-24T22:16:15.6056244	Loot Tables
 90ae2d1b194c0d1dff94f565661d9751947e49cf data/nedaire/loot_tables/blocks/crusher.json
 7ebb1f7e2354bac34aca0202262147a02d46dc91 data/nedaire/loot_tables/blocks/deepslate/corium.json
 f4799b083f98d034dfa42e7dfe88d59988d1cce3 data/nedaire/loot_tables/blocks/delivery_station.json
 44da3bcdfe8b19157a8880487822f09879de97bc data/nedaire/loot_tables/blocks/diffuser.json
+948ceef8d845a891ab3d9536fa54cefc8e9b3741 data/nedaire/loot_tables/blocks/exp_extractor.json
 013f05abf4bb31eb4562aab509a13560d7370648 data/nedaire/loot_tables/blocks/extruder.json
 30c8698a801ad7ab7fa7124df2c5233c05a7c37e data/nedaire/loot_tables/blocks/fluid_filler.json
 7ee9b3e18b28f97db2564dc5db4036e11b95f618 data/nedaire/loot_tables/blocks/fluid_storage.json

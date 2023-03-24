@@ -25,6 +25,7 @@ import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.screen.NCrusherScreen;
 import com.arcanc.nedaire.content.container.screen.NDeliveryStationScreen;
+import com.arcanc.nedaire.content.container.screen.NExpExtractorScreen;
 import com.arcanc.nedaire.content.container.screen.NExtruderScreen;
 import com.arcanc.nedaire.content.container.screen.NFluidFillerScreen;
 import com.arcanc.nedaire.content.container.screen.NFluidStorageScreen;
@@ -45,6 +46,7 @@ import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.EssenceRender;
 import com.arcanc.nedaire.content.renderer.blockEntity.DiffuserRenderer;
+import com.arcanc.nedaire.content.renderer.blockEntity.ExpExtractorRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.FluidStorageRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.HolderRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ManualCrusherRenderer;
@@ -220,6 +222,8 @@ public class Nedaire
 		MenuScreens.register(NRegistration.RegisterMenuTypes.FURNACE.getType(), NFurnaceScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.EXTRUDER.getType(), NExtruderScreen :: new);
 		MenuScreens.register(NRegistration.RegisterMenuTypes.FLUID_FILLER.getType(), NFluidFillerScreen :: new);
+	
+		MenuScreens.register(NRegistration.RegisterMenuTypes.EXP_EXTRACTOR.getType(), NExpExtractorScreen :: new);
 	}
 
 
@@ -239,6 +243,8 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_FLUID_STORAGE.get(), FluidStorageRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_MOB_CATHER.get(), MobCatcherRenderer :: new);
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_DIFFUSER.get(), DiffuserRenderer :: new);
+		
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_EXP_EXTRACTOR.get(), ExpExtractorRenderer :: new);
 	}
 	
 	private void registerParticles(final RegisterParticleProvidersEvent event)

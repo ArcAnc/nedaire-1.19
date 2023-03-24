@@ -8,8 +8,6 @@
  */
 package com.arcanc.nedaire.data;
 
-import java.util.function.Function;
-
 import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -25,7 +23,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -86,6 +83,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		
 		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
 		registerDiffuser(NRegistration.RegisterBlocks.DIFFUSER.get());
+		registerExpExtractor(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get());
+
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
 		
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
@@ -2410,13 +2409,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 					}).
 				end();
 		
-		Function<BlockState, ModelFile> modelFunc = (state) -> 
-		{
-			return state.getValue(BlockHelper.BlockProperties.ENABLED) ? modelOn : modelOff;
-		};
-		
 		getVariantBuilder(block).forAllStates((state)-> ConfiguredModel.builder().
-				modelFile(modelFunc.apply(state)).
+				modelFile(state.getValue(BlockHelper.BlockProperties.ENABLED) ? modelOn : modelOff).
 				build());
 		
 		itemModels().getBuilder(itemPrefix(name(block))).
@@ -2748,6 +2742,122 @@ public class NBlockStatesProvider extends BlockStateProvider
 		
 		registerModels(block, model);
 		
+	}
+	
+	private void registerExpExtractor(Block block)
+	{
+		ResourceLocation plate = StringHelper.getLocFStr(blockPrefix(name(block) + "/plate"));
+		ResourceLocation stance = StringHelper.getLocFStr(blockPrefix(name(block) + "/stance"));
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("thin_block"))).
+				renderType("cutout").
+				texture("plate", plate).
+				texture("stance", stance).
+				texture("port", getPortTexture()).
+				texture("particle", plate).
+				ao(false).
+				element().
+					from(0, 0, 1).
+					to(16, 1, 15).
+						allFaces((face, builder) -> 
+						{
+							builder.texture("#plate").uvs(0, 15, 16, 16);
+							if (face.getAxis() == Axis.Y)
+							{
+								builder.uvs(0, 1, 16, 15);	
+							}
+							if (face.getAxis() == Axis.X || face == Direction.DOWN)
+							{
+									builder.cullface(face);
+							}
+						}).
+				end().
+				element().
+					from(0, 1, 6).
+					to(1, 16, 10).
+						allFaces((face, builder) -> 
+						{
+							builder.texture("#stance");
+							if (face.getAxis() == Axis.Y)
+							{
+								builder.uvs(0, 0, 1, 4);
+								if (face == Direction.UP)
+								{
+									builder.cullface(face);
+								}
+							}
+							else
+							{
+								builder.uvs(0, 0, 1, 15);
+								if (face == Direction.EAST)
+								{
+									builder.uvs(5, 0, 9, 15);
+								}
+								else if (face == Direction.WEST)
+								{
+									builder.uvs(1, 0, 5, 15).cullface(face);
+								}
+							}
+						}).
+				end().
+				element().
+					from(15, 1, 6).
+					to(16, 16, 10).
+						allFaces((face, builder) -> 
+						{
+							builder.texture("#stance");
+							if (face.getAxis() == Axis.Y)
+							{
+								builder.uvs(0, 0, 1, 4);
+								if (face == Direction.UP)
+								{
+									builder.cullface(Direction.UP);
+								}
+							}
+							else
+							{
+								builder.uvs(0, 0, 1, 15);
+								if (face == Direction.EAST)
+								{
+									builder.uvs(1, 0, 5, 15).cullface(face);
+								}
+								else if (face == Direction.WEST)
+								{
+									builder.uvs(5, 0, 9, 15);
+								}
+							}
+						}).
+				end().
+				element().
+					from(-0.001f, -0.001f, -0.001f).
+					to(16.001f, 16.001f, 16.001f).
+						face(Direction.WEST).
+							end().
+						face(Direction.EAST).
+							end().
+						face(Direction.DOWN).
+							end().
+						faces((dir, builder) -> 
+						{
+							builder.texture("#port").
+								cullface(dir).
+								tintindex(dir.get3DDataValue());
+						}).
+				end();
+		
+		horizontalBlock(block, (state) -> model, 0);
+		
+		itemModels().getBuilder(itemPrefix(name(block))).
+		parent(model).
+		transforms().
+			transform(ItemDisplayContext.GUI).
+				rotation(30, 45, 0).
+				scale(0.625f).
+			end().
+			transform(ItemDisplayContext.FIXED).
+				rotation(0, 180, 0).
+				scale(0.5f).
+			end().
+		end();		
 	}
 	
 	private void registerModels(Block block, ModelFile model)

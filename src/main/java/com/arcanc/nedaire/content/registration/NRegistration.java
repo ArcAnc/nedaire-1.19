@@ -31,6 +31,7 @@ import com.arcanc.nedaire.content.block.NBlockCrusher;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
 import com.arcanc.nedaire.content.block.NBlockDiffuser;
+import com.arcanc.nedaire.content.block.NBlockExpExtractor;
 import com.arcanc.nedaire.content.block.NBlockExtruder;
 import com.arcanc.nedaire.content.block.NBlockFluidFiller;
 import com.arcanc.nedaire.content.block.NBlockFluidStorage;
@@ -53,6 +54,7 @@ import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.block.entities.NBEDiffuser;
+import com.arcanc.nedaire.content.block.entities.NBEExpExtractor;
 import com.arcanc.nedaire.content.block.entities.NBEExtruder;
 import com.arcanc.nedaire.content.block.entities.NBEFluidFiller;
 import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
@@ -71,6 +73,7 @@ import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
+import com.arcanc.nedaire.content.container.menu.NExpExtractorMenu;
 import com.arcanc.nedaire.content.container.menu.NExtruderMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidFillerMenu;
 import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
@@ -362,14 +365,16 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockGeneratorFood, NBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD,
-				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockGeneratorFood :: new,
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 
 		public static final BlockRegObject<NBlockGeneratorMob, NBaseBlockItem> GENERATOR_MOB = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.MOB,
-				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockGeneratorMob :: new,
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
@@ -425,21 +430,23 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockMobCatcher, NBaseBlockItem> MOB_CATCHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
-				baseMachineProps,
+				() -> baseMachineProps.get(),
 				NBlockMobCatcher :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 
 		public static final BlockRegObject<NBlockFurnace, NBaseBlockItem> FURNACE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FURNACE,
-				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockFurnace :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
 		
 		public static final BlockRegObject<NBlockCrusher, NBaseBlockItem> CRUSHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
-				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockCrusher :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
@@ -460,7 +467,8 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockExtruder, NBaseBlockItem> EXTRUDER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.EXTRUDER,
-				() -> baseMachineProps.get().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)),
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockExtruder :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
@@ -478,6 +486,14 @@ public class NRegistration
 				NBlockDiffuser :: new, 
 				NRegistration.RegisterItems.baseProps,
 				(b, p) -> new NBaseBlockItem(b, p));
+		
+		public static final BlockRegObject<NBlockExpExtractor, NBaseBlockItem> EXP_EXTRACTOR = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR,
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
+				NBlockExpExtractor :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
 		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
@@ -905,6 +921,12 @@ public class NRegistration
 				makeType(NBEDiffuser :: new,
 						RegisterBlocks.DIFFUSER));
 		
+		public static final RegistryObject<BlockEntityType<NBEExpExtractor>> BE_EXP_EXTRACTOR = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR,
+				makeType(NBEExpExtractor :: new,
+						RegisterBlocks.EXP_EXTRACTOR));
+		
+		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
 			return makeTypeMultipleBlocks(create, ImmutableSet.of(valid));
@@ -1079,6 +1101,9 @@ public class NRegistration
 
 		public static final BEContainer<NBEFluidFiller, NFluidFillerMenu> FLUID_FILLER = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER, NFluidFillerMenu :: makeServer, NFluidFillerMenu :: makeClient);
+		
+		public static final BEContainer<NBEExpExtractor, NExpExtractorMenu> EXP_EXTRACTOR = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR, NExpExtractorMenu :: makeServer, NExpExtractorMenu :: makeClient);
 
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)

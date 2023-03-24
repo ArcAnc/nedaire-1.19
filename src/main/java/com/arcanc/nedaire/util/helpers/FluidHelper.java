@@ -185,6 +185,19 @@ public class FluidHelper
 		}).orElse(false);
 	}
 	
+	public static boolean hasEmptySpace(IFluidHandler handler)
+	{
+		for (int q = 0; q < handler.getTanks(); q++)
+		{
+			FluidStack stack = handler.getFluidInTank(q);
+			if (stack.isEmpty() || stack.getAmount() < handler.getTankCapacity(q))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean hasEmptySpace(IItemHandler in)
 	{
 		for (int q = 0; q < in.getSlots(); q++)

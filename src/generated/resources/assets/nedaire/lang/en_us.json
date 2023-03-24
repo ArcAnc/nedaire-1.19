@@ -88,6 +88,7 @@
   "nedaire.enchiridion.section.advanced": "Advanced",
   "nedaire.enchiridion.section.basic": "Basic",
   "nedaire.enchiridion.section.patch_notes": "Patch Notes",
+  "nedaire.exp_extractor": "Exp Extractor",
   "nedaire.extruder": "Extruder",
   "nedaire.fluid.description": "This tank contains:\n%d | %d %s",
   "nedaire.fluid_filler": "Fluid Filler",

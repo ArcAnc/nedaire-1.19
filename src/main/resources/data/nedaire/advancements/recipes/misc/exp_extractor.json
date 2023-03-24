@@ -1,0 +1,58 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_framework": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "nedaire:framework"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ingots/corium": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/corium"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_observer": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:observer"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "nedaire:exp_extractor"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_ingots/corium",
+      "has_framework",
+      "has_observer",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "nedaire:exp_extractor"
+    ]
+  }
+}
