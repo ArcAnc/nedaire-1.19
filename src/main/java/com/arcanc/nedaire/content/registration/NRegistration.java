@@ -638,44 +638,16 @@ public class NRegistration
 					}
 				);
 		
-/*		public static final ForgeFlowingFluid.Properties SOAP_WATER_FLUID_PROPERTIES = new ForgeFlowingFluid.Properties(
-	            FluidTypes.SOAP_WATER_FLUID_TYPE, Fluids.SOURCE_SOAP_WATER, Fluids.FLOWING_SOAP_WATER)
-	            .slopeFindDistance(2).levelDecreasePerBlock(2).block(Fluids.SOAP_WATER_BLOCK)
-	            .bucket(Fluids.SOAP_WATER_BUCKET);
-*/
 		public static class FluidTypes
 		{
 			public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, NDatabase.MOD_ID);
 		    
-/*			public static final RegistryObject<FluidType> SOAP_WATER_FLUID_TYPE = register("soap_water_fluid",
-		            FluidType.Properties.create().lightLevel(2).density(15).viscosity(5).sound(SoundAction.get("drink"),
-		                    SoundEvents.HONEY_DRINK));
-
-		    private static RegistryObject<FluidType> register(String name, FluidType.Properties properties) 
-		    {
-		        return FLUID_TYPES.register(name, () -> new NFluidType(new ResourceLocation("block/water_still"), new ResourceLocation("block/water_flow"), new ResourceLocation(NDatabase.MOD_ID, "misc/in_soap_water"),
-		                0xA1E038D0, new Vector3f(224f / 255f, 56f / 255f, 208f / 255f), properties));
-		    }		
-*/		}
+		}
 		
 		public static class Fluids
 		{
 			public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, NDatabase.MOD_ID);
-
-/*		    public static final RegistryObject<FlowingFluid> SOURCE_SOAP_WATER = FLUIDS.register("soap_water_fluid",
-		            () -> new ForgeFlowingFluid.Source(SOAP_WATER_FLUID_PROPERTIES));
-		    public static final RegistryObject<FlowingFluid> FLOWING_SOAP_WATER = FLUIDS.register("flowing_soap_water",
-		            () -> new ForgeFlowingFluid.Flowing(SOAP_WATER_FLUID_PROPERTIES));
-
-
-		    public static final RegistryObject<LiquidBlock> SOAP_WATER_BLOCK = RegisterBlocks.BLOCKS.register(
-		    		"soap_water_block", 
-		    		() -> new LiquidBlock(SOURCE_SOAP_WATER, BlockBehaviour.Properties.copy(Blocks.WATER)));
-		    
-		    public static final RegistryObject<BucketItem> SOAP_WATER_BUCKET = RegisterItems.ITEMS.register(
-		    		"soap_water_bucket", 
-		    		() -> new BucketItem(SOURCE_SOAP_WATER, new Item.Properties().craftRemainder(net.minecraft.world.item.Items.BUCKET).stacksTo(1)));
-*/		}
+		}
 		
 		public record FluidEntry(RegistryObject<NFluid> still,
 								 RegistryObject<NFluid> flowing,
