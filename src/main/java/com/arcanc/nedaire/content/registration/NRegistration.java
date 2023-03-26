@@ -27,6 +27,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Vector3f;
 
 import com.arcanc.nedaire.content.block.NBaseBlock;
+import com.arcanc.nedaire.content.block.NBlockCore;
 import com.arcanc.nedaire.content.block.NBlockCrusher;
 import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
 import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
@@ -69,6 +70,7 @@ import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
 import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
+import com.arcanc.nedaire.content.block.entities.NBETerramorfer.CoreType;
 import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
@@ -495,6 +497,13 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
 		
+		public static final BlockRegObject<NBlockCore, NBaseBlockItem> CORE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.CORE,
+				() -> baseMachineProps.get().noLootTable().noParticlesOnBreak().noOcclusion().lightLevel(state -> 15).emissiveRendering((state, getter, pos) -> true),
+				NBlockCore :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
+		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
 //			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
@@ -800,7 +809,7 @@ public class NRegistration
 	
 		public static final RegistryObject<BlockEntityType<NBETerramorfer>> BE_TERRAMORFER = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER, 
-				makeType(NBETerramorfer :: new,
+				makeType((pos, state) -> new NBETerramorfer(pos, state, CoreType.STABLE),
 						RegisterBlocks.TERRAMORFER));
 		
 		public static final RegistryObject<BlockEntityType<NBEGeneratorSolar>> BE_GENERATOR_SOLAR = BLOCK_ENTITIES.register(
@@ -897,6 +906,12 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR,
 				makeType(NBEExpExtractor :: new,
 						RegisterBlocks.EXP_EXTRACTOR));
+		
+		public static final RegistryObject<BlockEntityType<NBETerramorfer>> BE_CORE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.CORE,
+				makeType((pos, state) -> new NBETerramorfer(pos, state, CoreType.UNSTABLE),
+						RegisterBlocks.CORE));
+		
 		
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)

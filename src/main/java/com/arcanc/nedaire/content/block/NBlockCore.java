@@ -1,6 +1,6 @@
 /**
  * @author ArcAnc
- * Created at: 2023-02-05
+ * Created at: 2023-03-25
  * Copyright (c) 2023
  * 
  * This code is licensed under "Ancient's License of Common Sense"	
@@ -12,38 +12,21 @@ import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NBlockTerramorfer extends NTileProviderBlock<NBETerramorfer> 
+public class NBlockCore extends NTileProviderBlock<NBETerramorfer> 
 {
 
-	private static final VoxelShape SHAPE = Shapes.or(
-			box(4, 0, 4, 5, 4, 5), 
-			box(4, 0, 11, 5, 4, 12),
-			box(11, 0, 4, 12, 4, 5),
-			box(11, 0, 11, 12, 4, 12),
-			box(3, 4, 3, 13, 6, 13),
-			box(5, 6, 5, 11, 13, 11)); 
+	private static final VoxelShape SHAPE = Shapes.block();
 	
-	public NBlockTerramorfer(Properties props)
+	public NBlockCore(Properties properties) 
 	{
-		super (props, NRegistration.RegisterBlockEntities.BE_TERRAMORFER);
-	}
-	
-	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
-	{
-		//FIXME: add code to click behavior
-		return super.use(state, level, pos, player, hand, hitResult);
+		super(properties, NRegistration.RegisterBlockEntities.BE_CORE);
 	}
 	
 	@Override
@@ -62,5 +45,11 @@ public class NBlockTerramorfer extends NTileProviderBlock<NBETerramorfer>
 	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
 	{
 		return SHAPE;
+	}
+	
+	@Override
+	public RenderShape getRenderShape(BlockState state) 
+	{
+		return RenderShape.INVISIBLE;
 	}
 }

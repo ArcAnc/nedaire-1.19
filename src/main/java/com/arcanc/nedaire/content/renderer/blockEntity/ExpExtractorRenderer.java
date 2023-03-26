@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 
+
 public class ExpExtractorRenderer implements BlockEntityRenderer<NBEExpExtractor> 
 {
     
@@ -25,8 +26,12 @@ public class ExpExtractorRenderer implements BlockEntityRenderer<NBEExpExtractor
 	@Override
 	public void render(NBEExpExtractor tile, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		// FIXME: add electricity between stands 
-		
+		if (tile != null)
+		{
+			mStack.pushPose();
+				
+			mStack.popPose();
+		}
 	}
 
 }

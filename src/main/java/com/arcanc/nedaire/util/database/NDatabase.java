@@ -124,6 +124,7 @@ public class NDatabase
 				public static final String FURNACE = "furnace";
 				public static final String CRUSHER = "crusher";
 				public static final String TERRAMORFER = "terramorfer";
+				public static final String CORE = "core";
 				public static final String PEDESTAL = "pedestal";
 				public static final String HOLDER = "holder";
 				public static final String MANUAL_CRUSHER = "manual_" + CRUSHER;
@@ -163,6 +164,9 @@ public class NDatabase
 					public static class Terramorfer
 					{
 						public static final String PLACED_TIME = "placed_time";
+						
+						public static final String MORF_AMOUNT = "morf_amount";
+						public static final String BOOM_TIMER = "boom_timer";
 					}
 					public static class DeliveryStation
 					{
@@ -742,6 +746,25 @@ public class NDatabase
 			public static class Poi_Types
 			{
 				public static final String UNDERGROUNDER_POI = "poi_" + UNDERGROUNDER;
+			}
+		}
+	}
+
+	public static class Render
+	{
+
+		public static class RenderTypes
+		{
+			public static final String CORE = StringHelper.getStrLocFStr("core");
+		}
+		public static class Shaders
+		{
+			private static final String PATH = "shaders/";
+			public static final String GLITCH = "glitch";
+		
+			public static ResourceLocation getLoc(String name)
+			{
+				return StringHelper.getLocFStr(name);
 			}
 		}
 	}

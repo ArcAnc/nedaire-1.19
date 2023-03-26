@@ -45,6 +45,7 @@ import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.EssenceRender;
+import com.arcanc.nedaire.content.renderer.blockEntity.CoreRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.DiffuserRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ExpExtractorRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.FluidStorageRenderer;
@@ -63,6 +64,7 @@ import com.arcanc.nedaire.data.NItemModelProvider;
 import com.arcanc.nedaire.data.NRecipeProvider;
 import com.arcanc.nedaire.data.NSpriteSourceProvider;
 import com.arcanc.nedaire.data.NVillagersTags;
+import com.arcanc.nedaire.data.NWorldGenProvider;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
 import com.arcanc.nedaire.data.tags.NBlockTagsProvider;
 import com.arcanc.nedaire.data.tags.NFluidTagsProvider;
@@ -245,6 +247,8 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_DIFFUSER.get(), DiffuserRenderer :: new);
 		
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_EXP_EXTRACTOR.get(), ExpExtractorRenderer :: new);
+		
+		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_CORE.get(), CoreRenderer :: new);	
 	}
 	
 	private void registerParticles(final RegisterParticleProvidersEvent event)
@@ -323,6 +327,7 @@ public class Nedaire
         gen.addProvider(event.includeServer(), new NItemTagsProvider(packOutput, lookupProvider, btp, ext));
         gen.addProvider(event.includeServer(), new NFluidTagsProvider(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), new NRecipeProvider(packOutput));
+        gen.addProvider(event.includeServer(), new NWorldGenProvider(packOutput, lookupProvider));
 /*            gen.addProvider(new NedaireMultiblockProvider(gen));
  */   	
     	
@@ -331,7 +336,6 @@ public class Nedaire
         gen.addProvider(event.includeClient(), new NItemModelProvider(packOutput, ext));
         gen.addProvider(event.includeClient(), new NBlockStatesProvider(packOutput, ext));
         gen.addProvider(event.includeClient(), new NSpriteSourceProvider(packOutput, ext));
-
 /*            
             gen.addProvider(new NedaireSoundsProvider(gen, ext));
             gen.addProvider(new NedaireParticleProvider(gen));

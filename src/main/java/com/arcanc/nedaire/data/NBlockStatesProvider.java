@@ -87,6 +87,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
 		
+		//registerSimpleBlock(NRegistration.RegisterBlocks.CORE.get());
+		
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 //		registerGeneratorMob(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 //		registerFurnace(NRegistration.RegisterBlocks.FURNACE.get());
