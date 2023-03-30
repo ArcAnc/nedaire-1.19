@@ -47,6 +47,7 @@ public class Chapter extends Button
 	@Override
 	public void renderWidget(PoseStack pose, int x, int y, float f) 
 	{
+	    pose.pushPose();
 	    RenderSystem.setShader(GameRenderer::getPositionTexShader);
 	    RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
 	    if (isActive)
@@ -63,9 +64,9 @@ public class Chapter extends Button
     		blit(pose, this.getX(), this.getY(), 236, 26, this.width, this.height);
 	    }
 	    
-	    pose.pushPose();
+	    //FIXME: fix render problem, when icon is ItemStack
 	    pose.scale(1.15f, 1.15f, 1f);
-	    icon.render(pose, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), 16, 16);
+	    icon.render(pose, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f) + 1, 16, 16);
 	    //RenderHelper.renderItemStack(pose, icon, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), true);
 	    pose.popPose();
 	    RenderSystem.disableBlend();

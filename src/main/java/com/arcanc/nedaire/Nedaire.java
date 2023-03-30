@@ -142,6 +142,7 @@ public class Nedaire
 	    NRegistration.RegisterVillage.POI_TYPES.register(modEventBus);
 	    NRegistration.RegisterVillage.VILLAGER_PROFESSIONS.register(modEventBus);
 	    NRegistration.RegisterParticleTypes.PARTICLE_TYPES.register(modEventBus);
+	    NRegistration.RegisterFeatures.FEATURES.register(modEventBus);
 	    
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);

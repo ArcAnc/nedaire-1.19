@@ -39,13 +39,15 @@ public class NRenderTypes
 		private static RenderType core(ResourceLocation loc)
 		{
 			RenderType.CompositeState state =  RenderType.CompositeState.builder().
-					setShaderState(RENDERTYPE_TRANSLUCENT_SHADER).
+					setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER).
 					setTextureState(new RenderStateShard.TextureStateShard(loc, false, false)).
 					setTransparencyState(TRANSLUCENT_TRANSPARENCY).
+					setCullState(NO_CULL).
 					setLightmapState(LIGHTMAP).
 					setOverlayState(OVERLAY).
+					setWriteMaskState(COLOR_WRITE).
 					createCompositeState(true);
-			return create(NDatabase.Render.RenderTypes.CORE, DefaultVertexFormat.BLOCK, VertexFormat.Mode.TRIANGLES, 256, true, true, state);
+			return create(NDatabase.Render.RenderTypes.CORE, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, state);
 		}
 		
 	}

@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-24T23:41:03.64471	Nedaire Block States
+// 1.19.4	2023-03-30T21:33:33.7382131	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -68,7 +68,7 @@ c4d3f11630a86df7ee61af18d4d0cb41a1b9ff98 assets/nedaire/models/block/skystone_wa
 1cc1e92ae5341306ae80033c354ef694c6f7e97b assets/nedaire/models/block/skystone_wall_side_tall.json
 ede951dd917ef3135a4313c3adb936a1d4bdf1b6 assets/nedaire/models/block/storage_block/corium.json
 d0e6f696554536b8bd591889d2d8976875658112 assets/nedaire/models/block/storage_block/raw/corium.json
-39c2aac930c1dfffad83b43ed3bfd040c4b139b8 assets/nedaire/models/block/terramorfer.json
+3a33202eb21f97a917954bb216f1b7d0cf834850 assets/nedaire/models/block/terramorfer.json
 86acd97903fdace2f6bb8ac11ce3b0e4001553f7 assets/nedaire/models/block/vim_storage.json
 da48b63f50435f4dbde35b2972e0cb73348aedd7 assets/nedaire/models/item/crusher.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json

@@ -19,7 +19,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -191,6 +190,8 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 							 10,23,10)
 			};
 	
+    private static final RandomSource RANDOM_SOURCE = RandomSource.create();
+    
 	public CoreRenderer(BlockEntityRendererProvider.Context ctx) 
 	{
 	}
@@ -198,9 +199,6 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 	@Override
 	public void render(NBETerramorfer blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		/**
-		 * FIXME: fix core render type. It's not applying white mask to the crystal mesh 
-		 */
 		if (blockEntity != null)
 		{
 			mStack.pushPose();
@@ -219,6 +217,8 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 		    	overlay = OverlayTexture.NO_OVERLAY;
 		    }
 		    
+		    RANDOM_SOURCE.setSeed(432l);
+		    
 		    int boomTime = NBETerramorfer.MAX_EXPLOSION_TIMER - blockEntity.getExplosionTimer();
 		    if ((float)boomTime - partialTicks < 10.0F) 
 		    {
@@ -230,13 +230,12 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 		        mStack.scale(f1, f1, f1);
 		    }
 			VertexConsumer builder = buffer.getBuffer(NRenderTypes.coreRenderType(TEXTURE));
-			renderCrystal(builder, mStack, overlay);
+			renderCrystal(builder, mStack, overlay, combinedLight);
 			mStack.popPose();
 	
 			float time = (blockEntity.getLevel().getGameTime() + partialTicks) % 200 / 200.0F;
 		    float scale = Math.min(time > 0.8F ? (time - 0.8F) / 0.2F : 0.0F, 1.0F);
 		    
-		    RandomSource randomsource = RandomSource.create(432l);
 		    VertexConsumer vertexconsumer2 = buffer.getBuffer(RenderType.lightning());
 		    mStack.pushPose();
 		    
@@ -244,14 +243,14 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 
 		    for(int i = 0; (float)i < (time + time * time) / 2.0F * 60.0F; ++i) 
 		    {
-		    	mStack.mulPose(Axis.XP.rotationDegrees(randomsource.nextFloat() * 360.0F));
-		        mStack.mulPose(Axis.YP.rotationDegrees(randomsource.nextFloat() * 360.0F));
-		        mStack.mulPose(Axis.ZP.rotationDegrees(randomsource.nextFloat() * 360.0F));
-		        mStack.mulPose(Axis.XP.rotationDegrees(randomsource.nextFloat() * 360.0F));
-		        mStack.mulPose(Axis.YP.rotationDegrees(randomsource.nextFloat() * 360.0F));
-		        mStack.mulPose(Axis.ZP.rotationDegrees(randomsource.nextFloat() * 360.0F + time * 90.0F));
-		        float f3 = randomsource.nextFloat() * 1f + 0.05F + scale * 0.5F;
-		        float f4 = randomsource.nextFloat() * 0.02f + 0.01f + scale * 0.02f;
+		    	mStack.mulPose(Axis.XP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
+		        mStack.mulPose(Axis.YP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
+		        mStack.mulPose(Axis.ZP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
+		        mStack.mulPose(Axis.XP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
+		        mStack.mulPose(Axis.YP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
+		        mStack.mulPose(Axis.ZP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F + time * 90.0F));
+		        float f3 = RANDOM_SOURCE.nextFloat() * 1f + 0.05F + scale * 0.5F;
+		        float f4 = RANDOM_SOURCE.nextFloat() * 0.02f + 0.01f + scale * 0.02f;
 		        Matrix4f matrix4f = mStack.last().pose();
 		        int j = (int)(255.0F * (1.0F - scale));
 		        vertex01(vertexconsumer2, matrix4f, j);
@@ -288,7 +287,7 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 		 builder.vertex(matrix, 0.0F, offsetVertical, 1.0F * offsetHorizontal).color(255, 0, 255, 0).endVertex();
 	 }
 		
-	private void renderCrystal(VertexConsumer builder, PoseStack mStack, int overlay)
+	private void renderCrystal(VertexConsumer builder, PoseStack mStack, int overlay, int light)
 	{
 		Matrix4f matrix = mStack.last().pose();
 		Matrix3f normal = mStack.last().normal();
@@ -299,11 +298,11 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 						VERTEX[face.v00()].x(), 
 						VERTEX[face.v00()].y(), 
 						VERTEX[face.v00()].z()).
-					color(255, 255, 255, 150).
+					color(255, 255, 255, 200).
 					uv(UV[face.v01()].x, 
 					   UV[face.v01()].y).
 					overlayCoords(overlay).
-					uv2(LightTexture.FULL_BRIGHT).
+					uv2(light).
 					normal(normal, 
 						NORMAL[face.v02()].x(), 
 						NORMAL[face.v02()].y(), 
@@ -314,11 +313,11 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 						VERTEX[face.v10()].x(), 
 						VERTEX[face.v10()].y(), 
 						VERTEX[face.v10()].z()).
-					color(255, 255, 255, 150).
+					color(255, 255, 255, 200).
 					uv(UV[face.v11()].x, 
 					   UV[face.v11()].y).
 					overlayCoords(overlay).
-					uv2(LightTexture.FULL_BRIGHT).
+					uv2(light).
 					normal(normal, 
 						NORMAL[face.v12()].x(), 
 						NORMAL[face.v12()].y(), 
@@ -329,11 +328,11 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 						VERTEX[face.v20()].x(), 
 						VERTEX[face.v20()].y(), 
 						VERTEX[face.v20()].z()).
-					color(255, 255, 255, 150).
+					color(255, 255, 255, 200).
 					uv(UV[face.v21()].x, 
 					   UV[face.v21()].y).
 					overlayCoords(overlay).
-					uv2(LightTexture.FULL_BRIGHT).
+					uv2(light).
 					normal(normal, 
 						NORMAL[face.v22()].x(), 
 						NORMAL[face.v22()].y(), 

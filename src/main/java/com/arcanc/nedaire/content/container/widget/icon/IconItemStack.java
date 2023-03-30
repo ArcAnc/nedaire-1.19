@@ -12,7 +12,6 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 
 public class IconItemStack implements Icon<ItemStack> 
 {
@@ -25,11 +24,6 @@ public class IconItemStack implements Icon<ItemStack>
 		this.overlay = requiredOverlay;
 	}
 	
-	public IconItemStack(ItemLike stack)
-	{
-		this(new ItemStack(stack), false);
-	}
-	
 	@Override
 	public void render(PoseStack stack, int x, int y, int width, int height) 
 	{
@@ -40,7 +34,7 @@ public class IconItemStack implements Icon<ItemStack>
 		
 		stack.scale(sizeX, sizeY, 1f);
 		
-		RenderHelper.renderItemStack(stack, this.stack, x, y, overlay);
+		RenderHelper.renderItemStack(stack, this.stack, x - (int)((sizeX) * 16), y - (int)(sizeY * 16), overlay);
 	
 		stack.scale(-sizeX, -sizeY, 1f);
 		

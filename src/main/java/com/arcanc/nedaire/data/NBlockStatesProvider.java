@@ -1579,7 +1579,164 @@ public class NBlockStatesProvider extends BlockStateProvider
 	
 	private void registerTerramorfer(Block block)
 	{
-		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_glass"));
+		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
+		
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				ao(false).
+				texture("texture", texture).
+				texture("particle", texture).
+				element().
+					from(0, 2, 0).
+					to(2, 14, 2).
+					face(Direction.NORTH).end().
+					face(Direction.EAST).end().
+					face(Direction.SOUTH).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+						if (face == Direction.NORTH || face == Direction.WEST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(0, 2, 14).
+					to(2, 14, 16).
+					face(Direction.NORTH).end().
+					face(Direction.EAST).end().
+					face(Direction.SOUTH).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+						if (face == Direction.SOUTH || face == Direction.WEST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(14, 2, 14).
+					to(16, 14, 16).
+					face(Direction.NORTH).end().
+					face(Direction.EAST).end().
+					face(Direction.SOUTH).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+						if (face == Direction.SOUTH || face == Direction.EAST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(14, 2, 0).
+					to(16, 14, 2).
+					face(Direction.NORTH).end().
+					face(Direction.EAST).end().
+					face(Direction.SOUTH).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+						if (face == Direction.NORTH || face == Direction.EAST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(0, 0, 0).
+					to(16, 2, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.texture("#texture");
+						if (face != Direction.UP)
+						{
+							builder.cullface(face);
+						}
+						if (face.getAxis().isHorizontal())
+						{
+							builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
+						}
+						else
+						{
+							builder.uvs(0, 4.25f * face.getOpposite().get3DDataValue(), 4, 4 + 4.25f * face.getOpposite().get3DDataValue());
+						}
+					}).
+				end().
+				element().
+					from(0, 14, 0).
+					to(16, 16, 16).
+					allFaces((face, builder) -> 
+					{
+						builder.texture("#texture");
+						if (face != Direction.DOWN)
+						{
+							builder.cullface(face);
+						}
+						if (face.getAxis().isHorizontal())
+						{
+							builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
+						}
+						else
+						{
+							builder.uvs(4, 4 + 0.25f * face.getOpposite().get3DDataValue(), 0, 8.25f * face.getOpposite().get3DDataValue());
+						}
+					}).
+				end().
+				element().
+					from(2, 2, 0).
+					to(14, 14, 0).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+						if (face == Direction.NORTH)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(16, 2, 2).
+					to(16, 14, 14).
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+						if (face == Direction.EAST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(0, 2, 2).
+					to(0, 14, 14).
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+						if (face == Direction.WEST)
+							builder.cullface(face);
+					}).
+				end().
+				element().
+					from(2, 2, 16).
+					to(14, 14, 16).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					faces((face, builder) -> 
+					{
+						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+						if (face == Direction.SOUTH)
+							builder.cullface(face);
+					}).
+				end();
+
+
+
+
+
+
+/*		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_glass"));
 		ResourceLocation texStone = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_stone"));
 		ResourceLocation texPedestal = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "_pedestal"));
 	
@@ -1693,7 +1850,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					}).
 				end();
 
-		registerModels(block, model);
+*/		registerModels(block, model);
 	}
 	
 	private void registerGeneratorSolar(Block block) 

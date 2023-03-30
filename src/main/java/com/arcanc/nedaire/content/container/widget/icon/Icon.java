@@ -33,6 +33,11 @@ public interface Icon<T>
 	
 	static IconItemStack of (ItemLike stack)
 	{
-		return new IconItemStack(stack);
+		return of(stack, false);
+	}
+	
+	static IconItemStack of (ItemLike stack, boolean overlay)
+	{
+		return of(new ItemStack(stack), overlay);
 	}
 }

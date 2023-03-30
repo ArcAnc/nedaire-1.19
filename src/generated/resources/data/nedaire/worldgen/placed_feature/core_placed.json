@@ -1,5 +1,5 @@
 {
-  "feature": "nedaire:core",
+  "feature": "nedaire:core_configured",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

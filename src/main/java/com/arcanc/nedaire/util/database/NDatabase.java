@@ -20,7 +20,11 @@ import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.base.Preconditions;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class NDatabase 
 {
@@ -764,7 +768,40 @@ public class NDatabase
 		
 			public static ResourceLocation getLoc(String name)
 			{
-				return StringHelper.getLocFStr(name);
+				return StringHelper.getLocFStr(PATH + name);
+			}
+		}
+	}
+
+	public static class Particles
+	{
+		public static final String ESSENCE = "essence";
+	}
+	
+	public static class WorldGen
+	{
+		public static class Features
+		{
+			public static final String CORE = "core";
+
+			public static class Placed
+			{
+				public static final ResourceKey<PlacedFeature> CORE_PLACED_KEY = createKey(CORE);
+
+				private static ResourceKey<PlacedFeature> createKey(String name)
+				{
+					return ResourceKey.create(Registries.PLACED_FEATURE, StringHelper.getLocFStr(name + "_placed"));
+				}
+			}
+			
+			public static class Configured
+			{
+				public static final ResourceKey<ConfiguredFeature<?, ?>> CORE_CONFIGURED_KEY = registerKey(CORE);
+				
+				private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name)
+				{
+					return ResourceKey.create(Registries.CONFIGURED_FEATURE, StringHelper.getLocFStr(name + "_configured"));
+				}
 			}
 		}
 	}

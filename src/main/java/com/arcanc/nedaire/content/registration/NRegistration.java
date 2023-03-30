@@ -103,6 +103,8 @@ import com.arcanc.nedaire.content.item.tool.NBook;
 import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.material.NMaterial.NMaterialProperties;
+import com.arcanc.nedaire.content.world.level.levelgen.feature.core.CoreConfiguration;
+import com.arcanc.nedaire.content.world.level.levelgen.feature.core.CoreFeature;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
@@ -1215,7 +1217,14 @@ public class NRegistration
 	{
 		public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, NDatabase.MOD_ID);
 		
-		public static final RegistryObject<SimpleParticleType> ESSENCE = PARTICLE_TYPES.register("essence", () -> new SimpleParticleType(false));
+		public static final RegistryObject<SimpleParticleType> ESSENCE = PARTICLE_TYPES.register(NDatabase.Particles.ESSENCE, () -> new SimpleParticleType(false));
+	}
+	
+	public static class RegisterFeatures
+	{
+		public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, NDatabase.MOD_ID);
+	
+		public static final RegistryObject<Feature<CoreConfiguration>> CORE = FEATURES.register(NDatabase.WorldGen.Features.CORE, () -> new CoreFeature(CoreConfiguration.CODEC));
 	}
 	
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)
