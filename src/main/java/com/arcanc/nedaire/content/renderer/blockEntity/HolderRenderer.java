@@ -31,7 +31,6 @@ public class HolderRenderer implements BlockEntityRenderer<NBEHolder>
 	@Override
 	public void render(NBEHolder blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
 	{
-		
 		if(blockEntity != null)
 		{
 			if (!ItemHelper.isEmpty(blockEntity))

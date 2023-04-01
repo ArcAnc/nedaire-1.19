@@ -760,6 +760,8 @@ public class NDatabase
 		public static class RenderTypes
 		{
 			public static final String CORE = StringHelper.getStrLocFStr("core");
+			public static final String TRANSLUCENT_ENTITY = StringHelper.getStrLocFStr("translucent_entity");
+			public static final String TRANSLUCENT_TRIANGLE_FAN = StringHelper.getStrLocFStr("translucent_triangle_fan");
 		}
 		public static class Shaders
 		{

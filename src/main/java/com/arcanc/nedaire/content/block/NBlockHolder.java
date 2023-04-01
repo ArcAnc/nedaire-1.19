@@ -32,7 +32,15 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 {
 	private final VoxelShape shape = Shapes.or(
 			box(0, 10, 0, 16, 16, 16),
-			box(1.5f, 3f, 1.5f, 14.5f, 10f, 14.5f));
+			box(4, 9, 4, 12, 10, 12),
+			box(5, 8, 12, 11, 10, 13),
+			box(5, 8, 3, 11, 10, 4),
+			box(12, 8, 5, 13, 10, 11),
+			box(3, 8, 5, 4, 10, 11),
+			box(11, 8, 4, 12, 10, 5),
+			box(11, 8, 11, 12, 10, 12),
+			box(4, 8, 11, 5, 10, 12),
+			box(4, 8, 4, 5, 10, 5));
 	
 	public NBlockHolder(Properties properties, BiFunction<BlockPos, BlockState, NBEHolder> tile) 
 	{

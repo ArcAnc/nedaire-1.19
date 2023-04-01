@@ -26,13 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class NBlockTerramorfer extends NTileProviderBlock<NBETerramorfer> 
 {
 
-	private static final VoxelShape SHAPE = Shapes.or(
-			box(4, 0, 4, 5, 4, 5), 
-			box(4, 0, 11, 5, 4, 12),
-			box(11, 0, 4, 12, 4, 5),
-			box(11, 0, 11, 12, 4, 12),
-			box(3, 4, 3, 13, 6, 13),
-			box(5, 6, 5, 11, 13, 11)); 
+	private static final VoxelShape SHAPE = Shapes.block(); 
 	
 	public NBlockTerramorfer(Properties props)
 	{

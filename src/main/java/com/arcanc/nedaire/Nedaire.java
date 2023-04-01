@@ -45,6 +45,7 @@ import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.EssenceRender;
+import com.arcanc.nedaire.content.renderer.RenderPostProcessor;
 import com.arcanc.nedaire.content.renderer.blockEntity.CoreRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.DiffuserRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ExpExtractorRenderer;
@@ -86,12 +87,14 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -151,6 +154,7 @@ public class Nedaire
 	    modEventBus.addListener(this :: registerCapability);
 	    modEventBus.addListener(this :: registerParticles);
 	    modEventBus.addListener(this :: registerBlockColors);
+	    modEventBus.addListener(this :: registerClientResourceReload);
 	    
 	    registerBECustomModels(modEventBus);
 	    registerEntityCustomModels(modEventBus);
@@ -208,6 +212,8 @@ public class Nedaire
 			
 			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.flowing().get(), RenderType.translucent());
 			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.still().get(), RenderType.translucent());
+            
+			RenderPostProcessor.initRenderTarget();
 		});
 	}
 	
@@ -305,6 +311,11 @@ public class Nedaire
 			}
 			return 0;
 		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> block.get() instanceof NTileProviderBlock<?>).map(RegistryObject :: get).toArray(Block[] :: new));
+	}
+	
+	private void registerClientResourceReload(final RegisterClientReloadListenersEvent event)
+	{
+		event.registerReloadListener((ResourceManagerReloadListener)resourceManager -> RenderPostProcessor.reloadPostProcessPass());
 	}
 	
     public void gatherData(GatherDataEvent event)

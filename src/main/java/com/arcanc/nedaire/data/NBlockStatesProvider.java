@@ -253,9 +253,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 	private void registerHolder(Block block) 
 	{
-		/*TODO: add uvs here!*/
-		
-		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.Names.SKYSTONE));
+		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOLDER + "/texture"));
 		
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
@@ -265,87 +263,162 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0,10,0).
 					to(16,16,16).
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					allFaces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face != Direction.DOWN)
+							builder.cullface(face);
+						if (face.getAxis().isHorizontal())
+							builder.uvs(4.25f, 1.75f * face.get2DDataValue(), 8.25f, 1.5f + 1.75f * face.get2DDataValue());
+						else
+							builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue());
+					}).
 				end().
 				element().
-					from(7.5f, 10.75f, 7.5f).
-					to(14.5f, 11.75f, 8.5f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.Z).
-							origin(7, 9, 8).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(4.001f, 9, 4.001f).
+					to(11.999f, 10, 11.999f).
+					face(Direction.DOWN).
+						uvs(14.5f, 3, 12.5f, 5).
+						texture("#main").
+						end().
 				end().
 				element().
-					from(2.5f, 8.25f, 7.5f).
-					to(9.5f, 9.25f, 8.5f).
-						rotation().
-							angle(45f).
-							axis(Direction.Axis.Z).
-							origin(7, 9, 8).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(5, 8, 12).
+					to(11, 10, 13).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+						{
+							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
+						}
+						else 
+							builder.uvs(10, 0, 8.5f, 0.25f);
+					}).
 				end().
 				element().
-					from(8.5f, 9.75f, 1.75f).
-					to(9.5f, 10.75f, 8.75f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.X).
-							origin(7, 9, 8).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(5, 8, 3).
+					to(11, 10, 4).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(10, 0, 8.5f, 0.25f);
+					}).
 				end().
 				element().
-					from(8.5f, 3f, 8.25f).
-					to(9.5f, 10.0f, 9.25f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.X).
-							origin(7, 9, 8).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(12, 8, 5).
+					to(13, 10, 11).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
+					}).
 				end().
 				element().
-					from(-1.67f, 5.85f, 7.5f).
-					to(1.33f, 6.85f, 8.5f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.Z).
-							origin(0, 0, 0).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(3, 8, 5).
+					to(4, 10, 11).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
+					}).
 				end().
 				element().
-					from(5.85f, 11.07f, 7.5f).
-					to(6.85f, 14.07f, 8.5f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.Z).
-							origin(0, 0, 0).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(11, 8, 4).
+					to(12, 10, 5).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(12.25f, 0, 12, 0.25f);
+					}).
 				end().
 				element().
-					from(8.5f, 10.27f, 5.25f).
-					to(9.5f, 13.27f, 6.25f).
-						rotation().
-							angle(45f).
-							axis(Direction.Axis.X).
-							origin(0, 0, 0).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(11, 8, 11).
+					to(12, 10, 12).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(12.25f, 0, 12, 0.25f);
+					}).
 				end().
 				element().
-					from(8.5f, -0.54f, 4.77f).
-					to(9.5f, 2.46f, 5.77f).
-						rotation().
-							angle(-45f).
-							axis(Direction.Axis.X).
-							origin(0, 0, 0).
-							end().
-						allFaces((face, builder) -> builder.texture("#main").cullface(face).end()).
+					from(4, 8, 11).
+					to(5, 10, 12).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(12.25f, 0, 12, 0.25f);
+					}).
+				end().
+				element().
+					from(4, 8, 4).
+					to(5, 10, 5).
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					face(Direction.EAST).end().
+					face(Direction.WEST).end().
+					face(Direction.DOWN).end().
+					faces((face, builder) -> 
+					{
+						builder.texture("#main");
+						if (face.getAxis().isHorizontal())
+							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+						else 
+							builder.uvs(12.25f, 0, 12, 0.25f);
+					}).
 				end();
 
 		registerModels(block, model);
