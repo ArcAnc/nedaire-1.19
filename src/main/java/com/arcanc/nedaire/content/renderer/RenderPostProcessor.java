@@ -130,7 +130,7 @@ public class RenderPostProcessor
 
     public static void process(int ticks) 
     {
-        if (enableGlitchEffect) 
+    	if (enableGlitchEffect) 
         {
             // Process glitch target
             process(postProcessPass, ticks);

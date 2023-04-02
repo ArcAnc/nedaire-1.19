@@ -86,9 +86,11 @@ public class NRenderTypes
 		private static RenderType translucentEntity (ResourceLocation loc)
 		{
 			RenderType.CompositeState state = RenderType.CompositeState.builder().
-	            	setShaderState(NEW_ENTITY_SHADER).
+	            	setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER).
 	            	setTextureState(new RenderStateShard.TextureStateShard(loc, false, false)).
 	            	setTransparencyState(TRANSLUCENT_TRANSPARENCY).
+	            	setLightmapState(LIGHTMAP).
+	            	setOverlayState(OVERLAY).
 	            	setOutputState(RenderPostProcessor.GLITCH_TARGET).
 	            	createCompositeState(true);
 			

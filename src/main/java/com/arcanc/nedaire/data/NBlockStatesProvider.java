@@ -202,51 +202,202 @@ public class NBlockStatesProvider extends BlockStateProvider
 	
 	private void registerPedestal(Block block) 
 	{
-		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_side"));
-		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/" + NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "_top"));
+		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/texture"));
 		
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
-				texture("side", texSide).
-				texture("top", texTop).
-				texture("particle", texSide).
+				texture("main", texture).
+				texture("particle", texture).
 				element().
 					from(0, 0, 0).
-					to(16, 4, 16).
+					to(16, 3, 16).
 						allFaces((face, builder) -> 
 						{
-							if (face == Direction.DOWN || face == Direction.UP)
-								builder.texture("#top");
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.cullface(face);
+							if (face.getAxis().isHorizontal())
+								builder.uvs(4.25f, face.get2DDataValue(), 8.25f, 0.75f + face.get2DDataValue());
 							else
-								builder.texture("#side");
-							builder.cullface(face).end();
+								builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue() );
 						}).
 					end().
 				element().
-					from(2, 12, 2).
-					to(14, 16, 14).
+					from(2, 11, 2).
+					to(14, 14, 14).
 						allFaces((face, builder) -> 
 						{
-							if (face == Direction.DOWN || face == Direction.UP)
-								builder.texture("#top");
+							builder.texture("#main");
+							if (face.getAxis().isHorizontal())
+								builder.uvs(8.5f, face.get2DDataValue(), 11.5f, 0.75f + face.get2DDataValue());
 							else
-								builder.texture("#side");
-							builder.cullface(face).end();
+								builder.uvs(3, 8.5f + 6.25f * face.get3DDataValue(), 0, 11.5f + 0.25f * face.get3DDataValue());
 						}).
 					end().
 				element().
-					from(4, 4, 4).
-					to(12, 12, 12).
-						allFaces((face, builder) -> 
+					from(4, 3, 4).
+					to(12, 11, 12).
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) -> 
 						{
-							if (face == Direction.DOWN || face == Direction.UP)
-								builder.texture("#top");
-							else
-								builder.texture("#side");
-							builder.cullface(face).end();
+							builder.uvs(4.25f, 4 + 2.25f * face.get2DDataValue(), 6.25f, 6 + 2.25f * face.get2DDataValue()).texture("#main");
 						}).
+					end().
+				element().
+					from(4.001f, 14, 4.001f).
+					to(11.999f, 15, 11.999f).
+						face(Direction.UP).
+							uvs(8.5f, 6, 6.5f, 4).
+							texture("#main").
+						end().
+					end().
+				element().
+					from(5, 14, 3).
+					to(11, 16, 4).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
+							else
+								builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
+						}).
+				end().
+				element().
+					from(5, 14, 12).
+					to(11, 16, 13).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
+							else
+								builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
+						}).	
+					end().
+				element().
+					from(12, 14, 5).
+					to(13, 16, 11).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
+							else
+								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
+						}).	
+					end().
+				element().
+					from(3, 14, 5).
+					to(4, 16, 11).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
+							else
+								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
+						}).	
+					end().
+				element().
+					from(4, 14, 4).
+					to(5, 16, 5).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+							else
+								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+						}).	
+					end().
+				element().
+					from(4, 14, 11).
+					to(5, 16, 12).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+							else
+								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+						}).	
+					end().
+				element().
+					from(11, 14, 11).
+					to(12, 16, 12).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+							else
+								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+						}).	
+					end().
+				element().
+					from(11, 14, 4).
+					to(12, 16, 5).
+						face(Direction.UP).end().
+						face(Direction.EAST).end().
+						face(Direction.WEST).end().
+						face(Direction.NORTH).end().
+						face(Direction.SOUTH).end().
+						faces((face, builder) ->
+						{
+							builder.texture("#main");
+							if (face != Direction.UP)
+								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+							else
+								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+						}).	
 					end();
+
+
+
+
+
+
+
 	
 		registerModels(block, model);
 	}

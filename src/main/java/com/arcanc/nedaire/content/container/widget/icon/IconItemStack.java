@@ -34,7 +34,7 @@ public class IconItemStack implements Icon<ItemStack>
 		
 		stack.scale(sizeX, sizeY, 1f);
 		
-		RenderHelper.renderItemStack(stack, this.stack, x - (int)((sizeX) * 16), y - (int)(sizeY * 16), overlay);
+		RenderHelper.renderItemStack(stack, this.stack, x, y, overlay);
 	
 		stack.scale(-sizeX, -sizeY, 1f);
 		

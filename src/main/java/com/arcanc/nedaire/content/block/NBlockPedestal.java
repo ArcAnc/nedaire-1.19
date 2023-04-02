@@ -31,9 +31,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class NBlockPedestal extends NTileProviderBlock<NBEPedestal> 
 {
 	private static final VoxelShape SHAPE = Shapes.or(
-			box(0, 0, 0, 16, 4, 16), 
-			box(2, 12, 2, 14, 16, 14), 
-			box(4, 4, 4, 12, 12, 12));
+			box(0, 0, 0, 16, 3, 16), 
+			box(2, 11, 2, 14, 14, 14), 
+			box(4, 3, 4, 12, 11, 12),
+			box(4, 14, 4, 12, 15, 12),
+			box(5, 14, 3, 11, 16, 4),
+			box(5, 14, 12, 11, 16, 13),
+			box(12, 14, 5, 13, 16, 11),
+			box(3, 14, 5, 4, 16, 11),
+			box(4, 14, 4, 5, 16, 5),
+			box(4, 14, 11, 5, 16, 12),
+			box(11, 14, 11, 12, 16, 12),
+			box(11, 14, 4, 12, 16, 5));
 
 	public NBlockPedestal(Properties properties, BiFunction<BlockPos, BlockState, NBEPedestal> tile) 
 	{
