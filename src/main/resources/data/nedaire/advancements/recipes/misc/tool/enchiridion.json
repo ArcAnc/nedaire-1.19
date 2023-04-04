@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nedaire:nugget/skystone": {
+    "has_nedaire:nugget/corium": {
       "conditions": {
         "items": [
           {
             "items": [
-              "nedaire:nugget/skystone"
+              "nedaire:nugget/corium"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_nedaire:nugget/skystone",
+      "has_nedaire:nugget/corium",
       "has_the_recipe"
     ]
   ],

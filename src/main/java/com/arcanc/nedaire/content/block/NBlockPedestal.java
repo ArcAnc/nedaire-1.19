@@ -66,7 +66,7 @@ public class NBlockPedestal extends NTileProviderBlock<NBEPedestal>
 			});
 			return InteractionResult.CONSUME;
 		}
-		return InteractionResult.SUCCESS;
+		return super.use(state, world, pos, player, hand, rayTrace);
 	}
 	
 	@Override

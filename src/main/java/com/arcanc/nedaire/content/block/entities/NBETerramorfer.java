@@ -58,7 +58,7 @@ public class NBETerramorfer extends NBERedstoneSensitive implements IInventoryCa
 			for (int q = 0; q < 4; q++) 
 			{
 				BlockState state = getLevel().getBlockState(poses[q]);
-				if (state.getBlock() == Blocks.STONE) 
+				if (state.getBlock() == Blocks.IRON_ORE || state.getBlock() == Blocks.DEEPSLATE_IRON_ORE) 
 				{
 					if (placedTime[q] == -1) 
 					{
@@ -77,7 +77,7 @@ public class NBETerramorfer extends NBERedstoneSensitive implements IInventoryCa
 						if (getLevel().getGameTime() >= placedTime[q] + morfTime) 
 						{
 							getLevel().setBlockAndUpdate(poses[q],
-									NRegistration.RegisterBlocks.SKYSTONE.getDefaultBlockState());
+									NRegistration.RegisterMaterials.CORIUM.getOreBlock().getDefaultBlockState());
 							getLevel().playSound(null, poses[q], SoundEvents.STONE_BREAK, SoundSource.MASTER, 3f, 0.5f);
 							placedTime[q] = -1;
 							morfAmount++;

@@ -152,7 +152,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -1130,7 +1129,6 @@ public class NRegistration
 						MenuType<C> type = IForgeMenuType.create((windowId, inv, data) -> 
 						{
 							Minecraft mc = RenderHelper.mc();
-							Level world = mc.level;
 							// Matches NBaseItem#openGui
 							int slotOrdinal = data.readInt();
 							EquipmentSlot slot = EquipmentSlot.values()[slotOrdinal];

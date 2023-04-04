@@ -5,7 +5,7 @@ plugins {
 }
 
 
-version = "forge-${mc_version}-${forge_version}-${mod_version}"
+version = "${mod_version}"
 group = "${group}.${mod_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${mod_id}"
 
@@ -123,7 +123,7 @@ repositories {
     //     dir 'libs'
     // }
 	
-/*	maven {
+	maven {
     // location of the maven that hosts JEI files
     name = "Progwml6 maven"
     url = "https://dvs1.progwml6.com/files/maven/"
@@ -133,7 +133,7 @@ repositories {
     name = "ModMaven"
     url = "https://modmaven.dev"
 	}
-*/
+
 }
 
 dependencies {
@@ -155,10 +155,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	
 	// compile against the JEI API but do not include it at runtime
-//	compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
-//	compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
 	// at runtime, use the full JEI jar for Forge
-//	runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
+ 	runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

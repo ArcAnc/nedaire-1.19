@@ -575,6 +575,6 @@
   "render_type": "minecraft:cutout",
   "textures": {
     "main": "nedaire:block/holder/texture",
-    "patricle": "nedaire:block/holder/texture"
+    "particle": "nedaire:block/holder/texture"
   }
 }

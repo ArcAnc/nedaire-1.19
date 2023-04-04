@@ -3,18 +3,18 @@
   "category": "misc",
   "key": {
     "A": {
-      "tag": "forge:ingots/corium"
+      "item": "nedaire:ingot/corium"
     },
     "B": {
-      "item": "nedaire:framework"
+      "tag": "forge:glass_panes"
     },
     "C": {
       "item": "minecraft:observer"
     }
   },
   "pattern": [
-    "C C",
-    "CBC",
+    "A A",
+    "B B",
     "ACA"
   ],
   "result": {

@@ -158,9 +158,9 @@ public class NRecipeProvider extends RecipeProvider
 		//BOOK
 		//==========================
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, NRegistration.RegisterItems.BOOK.get()).
-		requires(Ingredient.of(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		requires(Ingredient.of(NRegistration.RegisterMaterials.CORIUM.getNugget().get())).
 		requires(Ingredient.of(net.minecraft.world.item.Items.BOOK)).
-		unlockedBy("has_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		unlockedBy("has_" + NRegistration.RegisterMaterials.CORIUM.getNugget().getId(), has(NRegistration.RegisterMaterials.CORIUM.getNugget().get())).
 		save(out, NRegistration.RegisterItems.BOOK.getId());
 		
 		//Hammer
@@ -178,44 +178,60 @@ public class NRecipeProvider extends RecipeProvider
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.TERRAMORFER.get()).
 		define('A', Ingredient.of(Tags.Items.GLASS_PANES)).
 		define('B', Ingredient.of(Tags.Items.STONE)).
-		define('C', Ingredient.of(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		define('C', Ingredient.of(NRegistration.RegisterMaterials.CORIUM.getIngot().get())).
 		pattern(" A ").
 		pattern("ACA").
 		pattern("BBB").
 		unlockedBy("has_" + Tags.Items.GLASS_PANES.location().getPath(), has(Tags.Items.GLASS_PANES)).
 		unlockedBy("has_" + Tags.Items.STONE.location().getPath(), has(Tags.Items.STONE)).
-		unlockedBy("has_" + NRegistration.RegisterItems.NUGGET_SKYSTONE.getId(), has(NRegistration.RegisterItems.NUGGET_SKYSTONE.get())).
+		unlockedBy("has_" + NRegistration.RegisterMaterials.CORIUM.getIngot().getId(), has(NRegistration.RegisterMaterials.CORIUM.getIngot().get())).
 		save(out, NRegistration.RegisterBlocks.TERRAMORFER.getId());
 		
 		//Pedestal
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.PEDESTAL.asItem()).
 		define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.get().asItem())).
-		pattern(" A ").
+		define('B', Ingredient.of(Tags.Items.GLASS_PANES)).
+		pattern("ABA").
 		pattern(" A ").
 		pattern("AAA").
 		unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.get())).
+		unlockedBy("has_" + Tags.Items.GLASS_PANES.location().getPath(), has(Tags.Items.GLASS_PANES)).
 		save(out, NRegistration.RegisterBlocks.PEDESTAL.getId());
 
 		//Holder
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.HOLDER.asItem()).
 		define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.get().asItem())).
+		define('B', Ingredient.of(Tags.Items.GLASS_PANES)).
 		pattern("AAA").
-		pattern(" A ").
+		pattern(" B ").
 		unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.get())).
+		unlockedBy("has_" + Tags.Items.GLASS_PANES.location().getPath(), has(Tags.Items.GLASS_PANES)).
 		save(out, NRegistration.RegisterBlocks.HOLDER.getId());
 		
 		//Diffuser
-		
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.DIFFUSER.asItem()).
-		define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.get().asItem())).
+		define('A', Ingredient.of(NRegistration.RegisterMaterials.CORIUM.getIngot().asItem())).
 		pattern("A A").
 		pattern("A A").
 		pattern("AAA").
-		unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.get())).
+		unlockedBy("has_" + NRegistration.RegisterMaterials.CORIUM.getIngot().getId().getPath(), has(NRegistration.RegisterMaterials.CORIUM.getIngot().get())).
 		save(out, NRegistration.RegisterBlocks.DIFFUSER.getId());
 		
-		//Framework
+		//ExpExtractor
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.EXP_EXTRACTOR.asItem()).
+		define('A', Ingredient.of(NRegistration.RegisterMaterials.CORIUM.getIngot().asItem())).
+		define('B', Ingredient.of(Tags.Items.GLASS_PANES)).
+		define('C', Ingredient.of(Blocks.OBSERVER)).
+		pattern("A A").
+		pattern("B B").
+		pattern("ACA").
+		unlockedBy("has_" + NRegistration.RegisterMaterials.CORIUM.getIngot().getId().getPath(), has(NRegistration.RegisterMaterials.CORIUM.getIngot().get())).
+		unlockedBy("has_" + Tags.Items.GLASS_PANES.location().getPath(), has(Tags.Items.GLASS_PANES)).
+		unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.OBSERVER).getPath(), has(Blocks.OBSERVER)).
+		save(out, NRegistration.RegisterBlocks.EXP_EXTRACTOR.getId());
 		
+		
+		//Framework
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.FRAMEWORK.get().asItem()).
 		define('A', Ingredient.of(Blocks.CLAY)).
 		define('B', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
@@ -436,19 +452,6 @@ public class NRecipeProvider extends RecipeProvider
 		unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
 		unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
 		save(out, NRegistration.RegisterBlocks.DELIVERY_STATION.getId());
-		
-		//ExpExtractor
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.EXP_EXTRACTOR.get().asItem()).
-		define('A', Ingredient.of(NTags.Items.CORIUM.getIngot())).
-		define('B', Ingredient.of(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-		define('C', Ingredient.of(Blocks.OBSERVER)).
-		pattern("C C").
-		pattern("CBC").
-		pattern("ACA").
-		unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
-		unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-		unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.OBSERVER).getPath(), has(Blocks.OBSERVER)).
-		save(out, NRegistration.RegisterBlocks.EXP_EXTRACTOR.getId());
 	}
 
 	private void crusherRecipes(Consumer<FinishedRecipe> out) 
@@ -521,11 +524,11 @@ public class NRecipeProvider extends RecipeProvider
 			setTime(500).
 			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterBlocks.CRYSTAL_GROWTH.getId().getPath()));
 
-		NDiffuserRecipeBuilder.builder(NRegistration.RegisterMaterials.CORIUM.getOreBlock().asItem()).
-			addInput(Tags.Items.ORES_IRON).
+		NDiffuserRecipeBuilder.builder(NRegistration.RegisterBlocks.SKYSTONE.asItem()).
+			addInput(Tags.Items.STONE).
 			addFluid(NRegistration.RegisterFluids.EXPERIENCE.still().get(), 50).
 			setTime(500).
-			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterMaterials.CORIUM.getOreBlock().getId().getPath()));
+			build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath()));
 		
 		NDiffuserRecipeBuilder.builder(NRegistration.RegisterItems.CRYSTAL_PRISON.get()).
 			addInput(Items.GEMS_AMETHYST).

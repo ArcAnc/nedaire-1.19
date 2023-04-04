@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="[45,)"
 license="All rights reserved"
-issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
+issueTrackerURL="https://github.com/ArcAnc/nedaire-1.19/issues/"
 [[mods]]
 modId="nedaire"
-version="${file.jarVersion}"
+version="0.1.2"
 displayName="Nedaire"
-displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
+displayURL="https://github.com/ArcAnc/nedaire-1.19/"
 logoFile="nedaire_logo.png"
-credits="Thanks for this example mod goes to Java"
+credits="Thanks for this to Java and for me, of course"
 authors="ArcAnc"
 description='''
 Description

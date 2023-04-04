@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-02T22:17:28.0632317	Nedaire Block States
+// 1.19.4	2023-04-03T19:25:30.7004204	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -33,7 +33,7 @@ cef4dfcff4aa484d2f9d6b9ee7c9bbc659d5355d assets/nedaire/models/block/crusher_off
 706ddcbcaf044d8e87bbb4a9a873a223cae2613d assets/nedaire/models/block/deepslate/corium.json
 33a5ecad22cca43bc542b13122f547b52c60235b assets/nedaire/models/block/delivery_station.json
 886e7f145d9cd8d0521bfd3deba4c4a42d76fdd1 assets/nedaire/models/block/delivery_station_connector.json
-e765ea093d5a0e6cc7f88b328996bd62eeb97937 assets/nedaire/models/block/diffuser.json
+023a57f87211c7ebad0322e09dddb8477bedcefa assets/nedaire/models/block/diffuser.json
 1e750b03a36ec7e863a4e0c7aa6414362e5c101e assets/nedaire/models/block/exp_extractor.json
 e1b4df8541efad7cdb266f0f0235b18911c5a334 assets/nedaire/models/block/extruder_off.json
 f7e7e479af84b2bcf6241640f8d73a0a7ccdfa7e assets/nedaire/models/block/extruder_on.json
@@ -49,7 +49,7 @@ ab93723c0d7c4ef31d20be7beee224a5bbb46077 assets/nedaire/models/block/furnace_on.
 0282dc28ea294c39f9d39d417bdeab82939d3d08 assets/nedaire/models/block/generator/mob_on.json
 e83afe52778f35decc73eec661ef546512b9c9ce assets/nedaire/models/block/generator/solar.json
 2d8e8b62677a7da831e5a59fc7f21416e2d64aaf assets/nedaire/models/block/growth_crystal.json
-15ce65558b61609a8f886a432b5b7905fac07c91 assets/nedaire/models/block/holder.json
+4d5aa22beec8f777cca453994ed6b99513b43fc5 assets/nedaire/models/block/holder.json
 838bc7b451226410f8a8831cae63a9304f794779 assets/nedaire/models/block/hoover.json
 d6a613345bf0c5398f2ef7043be7766c810e55b5 assets/nedaire/models/block/jewelry_table.json
 231df9a108f904e741dbec1845454e8d117b28ad assets/nedaire/models/block/manual_crusher.json

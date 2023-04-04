@@ -52,6 +52,7 @@ public class MessageBlockEntitySync implements IMessage
 		buf.writeNbt(this.nbt);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void process(Supplier<Context> context)
 	{

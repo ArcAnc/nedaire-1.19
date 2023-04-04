@@ -23,8 +23,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -80,12 +83,12 @@ public class EnchElementPage extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowLeft))
 			{
-				ench.getScreen().blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
+				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
 				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
 			}
 			else
 			{
-				ench.getScreen().blit(pos, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
+				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
 			}
 		}
 		pos.popPose();
@@ -99,12 +102,12 @@ public class EnchElementPage extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowRight))
 			{
-				ench.getScreen().blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
+				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
 				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
 			}
 			else
 			{
-				ench.getScreen().blit(pos, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
+				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
 			}
 		}
 		pos.popPose();
@@ -117,12 +120,12 @@ public class EnchElementPage extends EnchElementAbstract
 		RenderSystem.enableDepthTest();
 		if (isAboveArrow(mouseX, mouseY, toContent))
 		{
-			ench.getScreen().blit(pos, toContent.getX(), toContent.getY(), 49, 207, 17, toContent.getZ());
+			GuiComponent.blit(pos, toContent.getX(), toContent.getY(), 49, 207, 17, toContent.getZ());
 			ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START), mouseX, mouseY);
 		}
 		else
 		{
-			ench.getScreen().blit(pos, toContent.getX(), toContent.getY(), 49, 194, 17, toContent.getZ());
+			GuiComponent.blit(pos, toContent.getX(), toContent.getY(), 49, 194, 17, toContent.getZ());
 		}
 		pos.popPose();
 	}
@@ -210,7 +213,8 @@ public class EnchElementPage extends EnchElementAbstract
 		{
 			if (q > 0)
 			{
-				Pair<Integer, EnchElementAbstract> el = list.get(q - 1);
+				
+				Pair<Integer, EnchElementAbstract> el = list.get(list.size() - 1);
 				tempShiftH += el.getSecond().getHeight() + shiftH;
 				shiftH = 0;
 			}
@@ -219,14 +223,56 @@ public class EnchElementPage extends EnchElementAbstract
 			
 			if (elem.getHeight() + tempShiftH >= this.y + this.height)
 			{
-				side += 1;
-				tempShiftH = 0;
-				shiftH = 20;
-				elem = createComponent(splitted[q].trim(), 150 * (side % 2), tempShiftH += shiftH);
-//				elem.setShiftY(shiftH);
-//				elem.setShiftX(150 * (side % 2));
+				if (elem instanceof EnchElementText text)
+				{
+					Minecraft mc = RenderHelper.mc();
+					List<FormattedText> split = mc.font.getSplitter().splitLines(splitted[q].trim(), 105, Style.EMPTY);
+					List<FormattedText> secondList = Lists.newArrayList();
+					for (int i = split.size() - 1; i > -1; i--)
+					{
+						FormattedText txt = split.get(i);
+						secondList.add(0, txt);
+						split.remove(i);
+						if (split.size() * 9 + tempShiftH < this.y + this.height)
+							break;
+					}
+					
+					String first = "";
+					String second = "";
+					if (!split.isEmpty())
+					{
+						for (int i = 0; i < split.size(); i++)
+						{
+							first += " " + split.get(i).getString();
+						}
+					}
+					for (int i = 0; i < secondList.size(); i++)
+					{
+						second += " " + secondList.get(i).getString();
+					}
+					
+					elem = createComponent(first.trim(), 150 * (side % 2), tempShiftH += shiftH);
+					list.add(Pair.of(side, elem));
+					side += 1;
+					tempShiftH = 0;
+					shiftH = 20;
+					elem = createComponent(second.trim(), 150 * (side % 2), tempShiftH += shiftH);
+				}
+				else
+				{
+					side += 1;
+					tempShiftH = 0;
+					shiftH = 20;
+					elem = createComponent(splitted[q].trim(), 150 * (side % 2), tempShiftH += shiftH);
+
+//					elem.setShiftY(shiftH);
+//					elem.setShiftX(150 * (side % 2));
+				}
+				
 			}
-			list.add(q, Pair.of(side, elem));
+			list.add(Pair.of(side, elem));
+
+//			Nedaire.getLogger().warn("q " + q);
 		}
 		maxPages = side % 2 == 0 ? side : side - 1;
 		currentPage = 0;
@@ -235,7 +281,6 @@ public class EnchElementPage extends EnchElementAbstract
 
 	private EnchElementAbstract createComponent(String str, int x, int y) 
 	{
-//		Nedaire.getLogger().warn(str);
 		String[] strings = str.split(";");
 		if (str.startsWith("item;"))
 		{

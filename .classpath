@@ -39,7 +39,17 @@
 	</classpathentry>
 	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
-	<classpathentry sourcepath="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.4-45.0.9_mapped_official_1.19.4/forge-1.19.4-45.0.9_mapped_official_1.19.4-sources.jar" kind="lib" path="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.4-45.0.9_mapped_official_1.19.4/forge-1.19.4-45.0.9_mapped_official_1.19.4.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-common-api/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-common-api-13.1.0.2_mapped_official_1.19.4-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-common-api/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-common-api-13.1.0.2_mapped_official_1.19.4.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-forge-api/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-forge-api-13.1.0.2_mapped_official_1.19.4-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-forge-api/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-forge-api-13.1.0.2_mapped_official_1.19.4.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.4-45.0.40_mapped_official_1.19.4/forge-1.19.4-45.0.40_mapped_official_1.19.4-sources.jar" kind="lib" path="S:/Programs/MC mods/nedaire 1.19/build/fg_cache/net/minecraftforge/forge/1.19.4-45.0.40_mapped_official_1.19.4/forge-1.19.4-45.0.40_mapped_official_1.19.4-recomp.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -49,7 +59,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.19.4-45.0.9/a07bdded8ce7e4ac4f958c5e4c498d15b59742c1/fmlloader-1.19.4-45.0.9-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.19.4-45.0.9/4eef781b44bab0994bf24c9ef610dc3ca3517ee4/fmlloader-1.19.4-45.0.9.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.19.4-45.0.40/ff551a8d52597bc03b17850fe84dd5793781ae12/fmlloader-1.19.4-45.0.40-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.19.4-45.0.40/21f9962749857c8062c7005b80ff69c87297578a/fmlloader-1.19.4-45.0.40.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -144,7 +154,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.19.4-45.0.9/72dfda138a453e60e496cde5801cbfe0a9c82542/fmlcore-1.19.4-45.0.9-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.19.4-45.0.9/43e14dfb1aed098a6fba5e28a110fafe449a866b/fmlcore-1.19.4-45.0.9.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.19.4-45.0.40/3fdc4c444ab5114d32bb6d710639bfcdab847f4a/fmlcore-1.19.4-45.0.40-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.19.4-45.0.40/1c080456766b2b0c278ba1809ea6e72c5aede4e7/fmlcore-1.19.4-45.0.40.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -219,17 +229,17 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.19.4-45.0.9/ce3976d350d242e43e46f30977d2ad9739bc5398/javafmllanguage-1.19.4-45.0.9-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.19.4-45.0.9/7c8846825baa44a3809fbbe8bc034b2d9aef2d75/javafmllanguage-1.19.4-45.0.9.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.19.4-45.0.40/3c37cb1e3f420a32864ebb7ac215b3a624f0dbf9/javafmllanguage-1.19.4-45.0.40-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.19.4-45.0.40/7d78cc50e056ab704e9d34ccbc6646d5182c6b6f/javafmllanguage-1.19.4-45.0.40.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.19.4-45.0.9/8a62cdcc8197d53486eb3deedfd703a81dc7741f/lowcodelanguage-1.19.4-45.0.9-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.19.4-45.0.9/faef0335a7461a2afb8d9d5152e27c3f10f6c353/lowcodelanguage-1.19.4-45.0.9.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.19.4-45.0.40/6bf6aa679155e05efa90fe05e38f27bb37c573b8/lowcodelanguage-1.19.4-45.0.40-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.19.4-45.0.40/bbfbd9e47f5fe3c513d915dc7428d5ad229f18a5/lowcodelanguage-1.19.4-45.0.40.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.19.4-45.0.9/ae731682fd3bdf74c41ca48eec53c6c73ff13a93/mclanguage-1.19.4-45.0.9-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.19.4-45.0.9/799450750da35343d9c5e365f5db261786d645e1/mclanguage-1.19.4-45.0.9.jar">
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.19.4-45.0.40/2bed1dcbd3f26ad468862a75cd50cae9eb57832/mclanguage-1.19.4-45.0.40-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.19.4-45.0.40/27e102dd829d08bdd0136a685c37158ab267d4b3/mclanguage-1.19.4-45.0.40.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -565,6 +575,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/ef782abad0d3f1d30644c4023a6bbc6fe371e23a/javax.json-1.0.4-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/3178f73569fd7a1e5ffc464e680f7a8cc784b85a/javax.json-1.0.4.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-forge/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-forge-13.1.0.2_mapped_official_1.19.4-sources.jar" kind="lib" path="C:/Users/Ancie/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.19.4-forge/13.1.0.2_mapped_official_1.19.4/jei-1.19.4-forge-13.1.0.2_mapped_official_1.19.4.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>

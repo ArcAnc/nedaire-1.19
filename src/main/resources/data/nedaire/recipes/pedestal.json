@@ -4,10 +4,13 @@
   "key": {
     "A": {
       "item": "nedaire:skystone"
+    },
+    "B": {
+      "tag": "forge:glass_panes"
     }
   },
   "pattern": [
-    " A ",
+    "ABA",
     " A ",
     "AAA"
   ],

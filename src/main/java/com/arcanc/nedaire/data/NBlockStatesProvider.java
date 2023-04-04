@@ -410,7 +410,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
 				texture("main", tex).
-				texture("patricle", tex).
+				texture("particle", tex).
 				element().
 					from(0,10,0).
 					to(16,16,16).
@@ -2803,7 +2803,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 	
 	private void registerDiffuser(Block block)
 	{
-		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("skystone"));
+		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("storage_block/corium"));
 		
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cauldron"))).
 				renderType("cutout").

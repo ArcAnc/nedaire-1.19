@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_glass_panes": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:glass_panes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_skystone": {
       "conditions": {
         "items": [
@@ -23,6 +33,7 @@
   "requirements": [
     [
       "has_skystone",
+      "has_glass_panes",
       "has_the_recipe"
     ]
   ],

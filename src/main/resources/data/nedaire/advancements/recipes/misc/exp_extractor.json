@@ -1,23 +1,23 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_framework": {
+    "has_glass_panes": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "nedaire:framework"
-            ]
+            "tag": "forge:glass_panes"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ingots/corium": {
+    "has_ingot/corium": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/corium"
+            "items": [
+              "nedaire:ingot/corium"
+            ]
           }
         ]
       },
@@ -44,8 +44,8 @@
   },
   "requirements": [
     [
-      "has_ingots/corium",
-      "has_framework",
+      "has_ingot/corium",
+      "has_glass_panes",
       "has_observer",
       "has_the_recipe"
     ]

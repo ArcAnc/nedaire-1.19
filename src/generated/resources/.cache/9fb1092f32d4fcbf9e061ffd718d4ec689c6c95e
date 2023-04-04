@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-24T22:16:15.6056244	Recipes
+// 1.19.4	2023-04-03T23:27:02.5999499	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -21,8 +21,8 @@ f99dc2725f54f894f5bedc26a0ac5afded58a1a2 data/nedaire/advancements/recipes/misc/
 557ea076f93c68822237bc221c39b4e9795f2c63 data/nedaire/advancements/recipes/misc/conversion/storage_block/raw/corium_to_raw/corium.json
 e1bab0de2e8ce37863a96856746ae9094c1635a1 data/nedaire/advancements/recipes/misc/crusher.json
 afa66dcbcb06fb876a607108cd17699798ebd2bf data/nedaire/advancements/recipes/misc/delivery_station.json
-9d341dcd83a78bd2cf224611618804c4cb860a13 data/nedaire/advancements/recipes/misc/diffuser.json
-b6041ce3213e4e0e6ccad8427f63a3c1480fd3e5 data/nedaire/advancements/recipes/misc/exp_extractor.json
+18f853f1dc27f86652d831ceaa68e1b25aa2e4ac data/nedaire/advancements/recipes/misc/diffuser.json
+96073ce5d0467e311e11263b99d58e988820b7a0 data/nedaire/advancements/recipes/misc/exp_extractor.json
 0625da1b62a0d8b833e4b792831a4cea58c70ec6 data/nedaire/advancements/recipes/misc/extruder.json
 cb7be8b7c02301f33a5ef072f27dee9af10e45a3 data/nedaire/advancements/recipes/misc/fluid_filler.json
 5f6256e73871db4da38fc007b02cd4a49a45b19e data/nedaire/advancements/recipes/misc/fluid_storage.json
@@ -31,16 +31,16 @@ ceec3ced45ed65c37085bef39896be409d4af747 data/nedaire/advancements/recipes/misc/
 5b1a91d6b1abec5bb23cd903175976e04fb2eda5 data/nedaire/advancements/recipes/misc/generator/food.json
 bc157eca4a0d5263ae1b17d5b747bb65059f982d data/nedaire/advancements/recipes/misc/generator/mob.json
 e1fa88514149a51fa6c357415ad38f92efbb1190 data/nedaire/advancements/recipes/misc/generator/solar.json
-47a9365d88dc6649e0937eb32d05c468b12f9696 data/nedaire/advancements/recipes/misc/holder.json
+9ce79c98c4a44eed4a23be07856cfaf6dab0d1c5 data/nedaire/advancements/recipes/misc/holder.json
 799d582596b6473d9d3a1dbbf59ad475852481fc data/nedaire/advancements/recipes/misc/hoover.json
 4a34e46ca0b054ccf604c84b5328efffdad1ee40 data/nedaire/advancements/recipes/misc/manual_crusher.json
 0c4274a12bbbeec36bccad1ccb1f3168304f08a7 data/nedaire/advancements/recipes/misc/mob_catcher.json
-65acef747e134b32701c67b70d11ba6c084d87eb data/nedaire/advancements/recipes/misc/pedestal.json
+dd80779e89020abe7eb58eba1b21c58ef1dafa71 data/nedaire/advancements/recipes/misc/pedestal.json
 ec4b28aeb185ad1453d6c1dadba9ce14b4515bbf data/nedaire/advancements/recipes/misc/smelting/dusts/corium_to_ingot/corium.json
 850782f0778c9ecc1511696e6526abece7ddbebc data/nedaire/advancements/recipes/misc/smelting/ores/corium_to_ingot/corium.json
 33f2d0e4b1f777ae241a8bc136a7d438923052a5 data/nedaire/advancements/recipes/misc/smelting/raw_materials/corium_to_ingot/corium.json
-0757fc4eb1cd7651665ae5233b66426bdd84cb31 data/nedaire/advancements/recipes/misc/terramorfer.json
-e9d2b82779e6a717f2494a1577e1a2b900d85fcf data/nedaire/advancements/recipes/misc/tool/enchiridion.json
+f7dd68736dfdaaa9ee0b0ac95a5e1e448e6054e1 data/nedaire/advancements/recipes/misc/terramorfer.json
+01c8679627a2c985f9af5d759576d98ebd9b4ef1 data/nedaire/advancements/recipes/misc/tool/enchiridion.json
 6be0b40cc5a5be44d5cb4216c70b81a1ad39bfcb data/nedaire/advancements/recipes/misc/tool/hammer.json
 767e999eb36cb828d278e0ba322b45e2edadf717 data/nedaire/advancements/recipes/misc/vim_storage.json
 7f1879214cf99b19a40fccfc242fc1e741566bfe data/nedaire/advancements/recipes/tools/tool/axe/corium.json
@@ -77,12 +77,12 @@ fe17132f53cf13c4e943c1affd0d91be6b1a9096 data/nedaire/recipes/crusher/gravel_fro
 d25c4e87e1a77bb07b517c44cf35d15a4de833a2 data/nedaire/recipes/crusher/redstone_from_redstone_ore.json
 cea97f2722d555e1cedbad67e33f0fa95fad229c data/nedaire/recipes/crusher/sand_from_gravel.json
 d116ea7e56df0d9375561aec509640f0719bc3ae data/nedaire/recipes/delivery_station.json
-d55182c8b617616ac8012759634ee1eca1fbe958 data/nedaire/recipes/diffuser.json
+ad0880c03aa66dcba67e1c6727f7d8e2b46169fd data/nedaire/recipes/diffuser.json
 92111df4e6788cc2b378ac0303abac7f809b0782 data/nedaire/recipes/diffuser/crystal_prison.json
 4314f2878792c57132939935c607138aa919ff80 data/nedaire/recipes/diffuser/growth_crystal.json
-5a7fbabb23d1710aac4efb57d446b430641c30b6 data/nedaire/recipes/diffuser/ore/corium.json
+710aa80e3f665db4b507ddde47475405d3fa9dad data/nedaire/recipes/diffuser/skystone.json
 7afa7662694abf2bf521bd858aff6959349542d4 data/nedaire/recipes/dynamic/shield_decoration.json
-75bd36929f14b0d40b5c3cc2e4c47f962db0a64d data/nedaire/recipes/exp_extractor.json
+190ab364b8d8d530d65a26b7c9dec3aecd9fa81e data/nedaire/recipes/exp_extractor.json
 8785002e248fd3b9f686a9aaac6acc8b191a73b2 data/nedaire/recipes/extruder.json
 7651d6890920edd71d433599c189cf13d046b850 data/nedaire/recipes/fluid_filler.json
 6378f0b5c1a21aa35653d8e2e83fd53fafc24c15 data/nedaire/recipes/fluid_storage.json
@@ -91,17 +91,17 @@ dcd0713e369ecd2e6be47bfed1a991992854a353 data/nedaire/recipes/framework.json
 682cc4cfa927bf548d79afe64ca3047247208211 data/nedaire/recipes/generator/food.json
 293492b5fd4919fa4e75d6204a7255f09aa9612f data/nedaire/recipes/generator/mob.json
 8a6dc12eb7d89c6c62539642df1460d1ac5e6978 data/nedaire/recipes/generator/solar.json
-488e42972da6e3829e3b23ad7b5e3e6139f5d593 data/nedaire/recipes/holder.json
+c7e528694ea80ba1ccee0c3700ebd8b8599e717b data/nedaire/recipes/holder.json
 860307fa695c7063221555a72f38d38beb6edb3b data/nedaire/recipes/hoover.json
 46ca9ed2fcdfef0e10a16ce11e373f1a6cde1ca1 data/nedaire/recipes/manual_crusher.json
 e3aafacc0735780bf35412266c8adefd98fd01a1 data/nedaire/recipes/mob_catcher.json
-6b9d2192dc46d4ca9bf4a2687e327e87302b95ea data/nedaire/recipes/pedestal.json
+dbbdd16aa4790cc02e6aca69d6070fac7e9393c2 data/nedaire/recipes/pedestal.json
 4130bf9359b143c9fd6cab725014dffb429278bf data/nedaire/recipes/smelting/dusts/corium_to_ingot/corium.json
 207c1c0ffade62e51a03c09e781fcff74d4fc1a1 data/nedaire/recipes/smelting/ores/corium_to_ingot/corium.json
 d59557c2a956b14c5702afaff31c1c20e78033b8 data/nedaire/recipes/smelting/raw_materials/corium_to_ingot/corium.json
-ed9beb8c09eed08a497105f11494530bf843139c data/nedaire/recipes/terramorfer.json
+c53cb69ee3b829707aa3f433d07e70b3da534787 data/nedaire/recipes/terramorfer.json
 b2d0c39b2451608ad2c6ea3e1658154baa6a17ea data/nedaire/recipes/tool/axe/corium.json
-2e8c85c79ab1e8e4e17f38293f576e82050f1911 data/nedaire/recipes/tool/enchiridion.json
+83066a2a4cc5a41d295ce25ea2619c14772b84b8 data/nedaire/recipes/tool/enchiridion.json
 ca47f2ae5b42888b2cc9e415061a853bfe2b3ecb data/nedaire/recipes/tool/fishing_rod/corium.json
 d5396b28986209d62e57e09ff48462901edfcd54 data/nedaire/recipes/tool/hammer.json
 58cb3bf1bea198003ae4f88c4c74fe9a5324bc3c data/nedaire/recipes/tool/hoe/corium.json

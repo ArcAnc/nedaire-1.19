@@ -94,11 +94,11 @@ public class EnchiridionScreen extends Screen
 	    RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
 	    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 	    
-	    this.blit(stack, guiLeft + xSize / 2, guiTop, 20, 1, 146, 180);
+	    blit(stack, guiLeft + xSize / 2, guiTop, 20, 1, 146, 180);
 	    
 	    stack.scale(-1f, -1f, 1f);
 	    
-	    this.blit(stack, -guiLeft - xSize / 2, - guiTop - ySize, 20, 1, 146, 180);
+	    blit(stack, -guiLeft - xSize / 2, - guiTop - ySize, 20, 1, 146, 180);
 
 	    stack.scale(-1f, -1f, 1f);
 	    stack.popPose();

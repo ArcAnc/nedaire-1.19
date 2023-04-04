@@ -129,9 +129,9 @@ public class EnchElementDiffuserRecipe extends EnchElementAbstractRecipe
 			RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 			
-			ench.getScreen().blit(pos, (int)arrowDown.x, (int)arrowDown.y, 241, 98, 15, 14);
-			ench.getScreen().blit(pos, (int)arrowDiag.x, (int)arrowDiag.y, 209, 97, 17, 15);
-			ench.getScreen().blit(pos, (int)arrowRight.x, (int)arrowRight.y, 234, 53, animateArrow(rec.getTotalProcessTime()), 15);
+			GuiComponent.blit(pos, (int)arrowDown.x, (int)arrowDown.y, 241, 98, 15, 14);
+			GuiComponent.blit(pos, (int)arrowDiag.x, (int)arrowDiag.y, 209, 97, 17, 15);
+			GuiComponent.blit(pos, (int)arrowRight.x, (int)arrowRight.y, 234, 53, animateArrow(rec.getTotalProcessTime()), 15);
 			
 			if (!highlighted.isEmpty())
 			{

@@ -655,7 +655,8 @@ public class NDatabase
 										addPage(Chapters.MANUAL_CRUSHER, Pages.MANUAL_CRUSHER).
 										addPage(Chapters.GENERATION, Pages.GENERATORS).
 										addPage(Chapters.FLUID_STORAGE, Pages.FLUID_STORAGE).
-										addPage(Chapters.RACK, Pages.RACK),
+										addPage(Chapters.RACK, Pages.RACK).
+										addPage(Chapters.EXP_EXTRACTOR, Pages.EXP_EXTRACTOR),
 								new SectionData (Section.ResourceLocations.ADVANCED,
 									Icon.of(getTexturePath("gui/enchiridion/" + ADVANCED), 5, 0, 0, 16, 16, 16, 16)).
 										addPage(Chapters.FLUID_FILLER, Pages.FLUID_FILLER).
@@ -681,6 +682,7 @@ public class NDatabase
 				public static final ResourceLocation GENERATION = getEnchiridionPath(getChapt(Section.BASIC), "vim_generation");
 				public static final ResourceLocation FLUID_STORAGE = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.FLUID_STORAGE);
 				public static final ResourceLocation RACK = getEnchiridionPath(getChapt(Section.BASIC), "racks");
+				public static final ResourceLocation EXP_EXTRACTOR = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.EXP_EXTRACTOR);
 				//Advanced
 				public static final ResourceLocation FLUID_FILLER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.FLUID_FILLER); 
 				public static final ResourceLocation FURNACE = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.FURNACE); 
@@ -709,6 +711,7 @@ public class NDatabase
 				public static final ResourceLocation GENERATORS = StringHelper.getLocFStr(getPage(Chapters.GENERATION));
 				public static final ResourceLocation RACK = StringHelper.getLocFStr(getPage(Chapters.RACK));
 				public static final ResourceLocation FLUID_STORAGE = StringHelper.getLocFStr(getPage(Chapters.FLUID_STORAGE));
+				public static final ResourceLocation EXP_EXTRACTOR = StringHelper.getLocFStr(getPage(Chapters.EXP_EXTRACTOR));
 				//advanced
 				public static final ResourceLocation FLUID_FILLER = StringHelper.getLocFStr(getPage(Chapters.FLUID_FILLER)); 
 				public static final ResourceLocation FURNACE = StringHelper.getLocFStr(getPage(Chapters.FURNACE)); 

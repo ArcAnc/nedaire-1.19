@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.item.ItemInterfaces.IGemItem;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.SocketHelper;

@@ -331,14 +331,6 @@ public class EssenceRender
 				}
 			}
 		}
-		if (evt.getStage() == Stage.AFTER_TRANSLUCENT_BLOCKS)
-		{
-			RenderPostProcessor.prepareRender();
-		}
-		if (evt.getStage() == Stage.AFTER_WEATHER)
-		{
-			RenderPostProcessor.process(evt.getRenderTick());
-		}
 	}
 	
 	public static boolean addNewPointPatricle(Vector3d startPoint, Vector3d finishPoint)

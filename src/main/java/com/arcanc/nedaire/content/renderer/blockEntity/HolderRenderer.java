@@ -78,23 +78,26 @@ public class HolderRenderer implements BlockEntityRenderer<NBEHolder>
 			        mStack.mulPose(Axis.YP.rotationDegrees(-rotation));
 			        
 			        //FIXME: fix render type add change this to glitching effect
+			        //RenderType.entityTranslucentCull
 			        //NRenderTypes.translucentEntity
-		           
 			        BakedModel model = RenderHelper.renderItem().getModel(stack, blockEntity.getLevel(), null, 0);
 		            RenderHelper.renderItem().render(
 		            		stack,
 		            		ItemDisplayContext.GROUND,
 		            		false,
 		            		mStack,
-		            		renderType -> new TintedVertexConsumer(buffer.getBuffer(RenderType.entityTranslucentCull(InventoryMenu.BLOCK_ATLAS)), 1f, 0.5f, 1f, 175f/255f),
+		            		wrapBuffer(buffer, 1f, 0.5f, 1f, 175f/255f, RenderType.entityTranslucentCull(InventoryMenu.BLOCK_ATLAS)),
 		            		combinedLight, 
 		            		combinedOverlay,
 		            		model);
-			        
 			        mStack.popPose();
 				});
 			}
 		}
 	}
 
+    private static MultiBufferSource wrapBuffer(MultiBufferSource buffer, float red, float green, float blue, float alpha, RenderType type)
+    {
+        return renderType -> new TintedVertexConsumer(buffer.getBuffer(type), red, green, blue, alpha);
+    }
 }

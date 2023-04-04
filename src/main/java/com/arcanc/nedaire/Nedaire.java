@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.arcanc.nedaire.content.block.NTileProviderBlock;
 import com.arcanc.nedaire.content.block.entities.NBESidedAccess;
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
@@ -45,7 +44,6 @@ import com.arcanc.nedaire.content.module.runecarving.ModuleRunecarving;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.renderer.EssenceRender;
-import com.arcanc.nedaire.content.renderer.RenderPostProcessor;
 import com.arcanc.nedaire.content.renderer.blockEntity.CoreRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.DiffuserRenderer;
 import com.arcanc.nedaire.content.renderer.blockEntity.ExpExtractorRenderer;
@@ -81,20 +79,19 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -154,7 +151,7 @@ public class Nedaire
 	    modEventBus.addListener(this :: registerCapability);
 	    modEventBus.addListener(this :: registerParticles);
 	    modEventBus.addListener(this :: registerBlockColors);
-	    modEventBus.addListener(this :: registerClientResourceReload);
+//	    modEventBus.addListener(NRenderTypes :: registerShaders);
 	    
 	    registerBECustomModels(modEventBus);
 	    registerEntityCustomModels(modEventBus);
@@ -212,8 +209,6 @@ public class Nedaire
 			
 			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.flowing().get(), RenderType.translucent());
 			ItemBlockRenderTypes.setRenderLayer(NRegistration.RegisterFluids.EXPERIENCE.still().get(), RenderType.translucent());
-            
-			RenderPostProcessor.initRenderTarget();
 		});
 	}
 	
@@ -260,7 +255,7 @@ public class Nedaire
 	
 	private void registerParticles(final RegisterParticleProvidersEvent event)
 	{
-		event.register(NRegistration.RegisterParticleTypes.ESSENCE.get(), EssenceParticle.Provider :: new);
+		event.registerSpriteSet(NRegistration.RegisterParticleTypes.ESSENCE.get(), EssenceParticle.Provider :: new);
 	}
 	
 	private void registerBECustomModels(IEventBus bus)
@@ -310,12 +305,21 @@ public class Nedaire
 				return access.getAccessType(Direction.values()[tintIndex]).getColor();
 			}
 			return 0;
-		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> block.get() instanceof NTileProviderBlock<?>).map(RegistryObject :: get).toArray(Block[] :: new));
-	}
-	
-	private void registerClientResourceReload(final RegisterClientReloadListenersEvent event)
-	{
-		event.registerReloadListener((ResourceManagerReloadListener)resourceManager -> RenderPostProcessor.reloadPostProcessPass());
+		}, NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().filter(block -> 
+		{
+			return NRegistration.RegisterBlockEntities.BLOCK_ENTITIES.getEntries().
+					stream().
+					filter(tile -> tile.get().isValid(block.get().defaultBlockState())).
+					anyMatch(tile -> 
+					{
+						var type = tile.get();
+						BlockEntity be = type.create(new BlockPos(0,0,0), block.get().defaultBlockState());
+						if (be instanceof NBESidedAccess)
+							return true;
+						be.setRemoved();
+						return false;
+					});
+		}).map(RegistryObject :: get).toArray(Block[] :: new));
 	}
 	
     public void gatherData(GatherDataEvent event)

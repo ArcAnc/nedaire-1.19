@@ -11,12 +11,12 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_nedaire:nugget/skystone": {
+    "has_nedaire:ingot/corium": {
       "conditions": {
         "items": [
           {
             "items": [
-              "nedaire:nugget/skystone"
+              "nedaire:ingot/corium"
             ]
           }
         ]
@@ -44,7 +44,7 @@
     [
       "has_glass_panes",
       "has_stone",
-      "has_nedaire:nugget/skystone",
+      "has_nedaire:ingot/corium",
       "has_the_recipe"
     ]
   ],
