@@ -8,11 +8,6 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
@@ -28,7 +23,6 @@ import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.arcanc.nedaire.util.inventory.ItemStackHolder;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -45,6 +39,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEGeneratorFood> 
 {
@@ -72,7 +70,7 @@ public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventory
 		suctionZone = new AABB(getBlockPos().offset(dir.getNormal()));
 		
 		this.energy = VimStorage.newConfig(this).setMaxEnergy(10000).setEnergy(0).build();
-		this.inv = new NSimpleItemStorage(this).addSlot(new ItemStackHolder( stack -> stack.isEdible())); 
+		this.inv = new NSimpleItemStorage(this).addSlot(new ItemStackHolder(ItemStack::isEdible));
 	}
 
 	@Override

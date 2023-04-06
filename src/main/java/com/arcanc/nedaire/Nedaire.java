@@ -111,7 +111,6 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod(NDatabase.MOD_ID)
 public class Nedaire 
 {
-
     private static Nedaire instance;
 	
 	private static final Logger LOGGER = LogManager.getLogger(NDatabase.MOD_ID);

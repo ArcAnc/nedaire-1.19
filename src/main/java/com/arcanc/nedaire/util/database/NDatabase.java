@@ -123,6 +123,7 @@ public class NDatabase
 					public static final String SOLAR = GENERATOR + "/solar";
 					public static final String FOOD = GENERATOR + "/food";
 					public static final String MOB = GENERATOR + "/mob";
+					public static final String LIGHTNING = GENERATOR + "/lightning";
 				}
 				
 				public static final String FURNACE = "furnace";

@@ -13,7 +13,6 @@ import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.data.PackOutput;
@@ -23,45 +22,41 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.ModelBuilder.FaceRotation;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockStatesProvider extends BlockStateProvider 
 {
 
-	public NBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper) 
+	public NBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper)
 	{
 		super(output, NDatabase.MOD_ID, exFileHelper);
 	}
 
-	
+
 	@Override
-	protected void registerStatesAndModels() 
+	protected void registerStatesAndModels()
 	{
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
-		
+
 		registerSimpleBlock (mat.getStorageBlock().get());
-		
+
 		if (mat.requiredOre())
 		{
-			registerOreBlock(mat.getOreBlock().get());	
+			registerOreBlock(mat.getOreBlock().get());
 			registerSimpleBlock (mat.getRawStorageBlock().get());
 			registerDeepslateOreBlock(mat.getDeepSlateOre().get());
 		}
-		
+
 		registerSimpleBlock(NRegistration.RegisterBlocks.SKYSTONE.get());
 		registerWall(NRegistration.RegisterBlocks.SKYSTONE_WALL.get());
 		registerStairs(NRegistration.RegisterBlocks.SKYSTONE_STAIRS.get());
 		registerSlab(NRegistration.RegisterBlocks.SKYSTONE_SLAB.get());
-		
+
 		registerFramework(NRegistration.RegisterBlocks.FRAMEWORK.get());
-		
+
 		registerPedestal(NRegistration.RegisterBlocks.PEDESTAL.get());
 		registerHolder(NRegistration.RegisterBlocks.HOLDER.get());
 		registerManualChusher(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get());
@@ -71,8 +66,9 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerHoover(NRegistration.RegisterBlocks.HOOVER.get());
 		registerTerramorfer(NRegistration.RegisterBlocks.TERRAMORFER.get());
 		registerGeneratorSolar(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get());
+		registerGeneratorLightning(NRegistration.RegisterBlocks.GENERATOR_LIGHTNING.get());
 		registerMobCather(NRegistration.RegisterBlocks.MOB_CATCHER.get());
-		
+
 		registerMachine(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 		registerMachine(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 		registerMachine(NRegistration.RegisterBlocks.FURNACE.get());
@@ -80,21 +76,21 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerExtruder(NRegistration.RegisterBlocks.EXTRUDER.get());
 
 		registerFluidFiller(NRegistration.RegisterBlocks.FLUID_FILLER.get());
-		
+
 		registerCrossBlock(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
 		registerDiffuser(NRegistration.RegisterBlocks.DIFFUSER.get());
 		registerExpExtractor(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get());
 
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
-		
+
 		//registerSimpleBlock(NRegistration.RegisterBlocks.CORE.get());
-		
+
 //		registerGeneratorFood(NRegistration.RegisterBlocks.GENERATOR_FOOD.get());
 //		registerGeneratorMob(NRegistration.RegisterBlocks.GENERATOR_MOB.get());
 //		registerFurnace(NRegistration.RegisterBlocks.FURNACE.get());
 //		registerCrusher(NRegistration.RegisterBlocks.CRUSHER.get());
 	}
-	
+
 	private void registerSimpleBlock (Block block)
 	{
 		ModelFile model = models().
@@ -102,41 +98,41 @@ public class NBlockStatesProvider extends BlockStateProvider
 				renderType("solid").
 				texture("all", blockTexture(block)).
 				texture("particle", blockTexture(block));
-		
+
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 			parent(model);
 	}
-	
-	private void registerWall(WallBlock block) 
+
+	private void registerWall(WallBlock block)
 	{
-		
+
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
-		
+
 		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 5);
 		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
-		
+
 		ModelFile post = models().wallPost(name + "_post", texture);
 		ModelFile side = models().wallSide(name + "_side", texture);
 		ModelFile sideTall = models().wallSideTall(name + "_side_tall", texture);
 		ModelFile inv = models().wallInventory(name + "_inventory", texture);
-		
+
 		wallBlock(block, post, side, sideTall);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 			parent(inv);
 	}
-	
-	private void registerStairs(StairBlock block) 
+
+	private void registerStairs(StairBlock block)
 	{
         String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
-		
+
 		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 7);
 		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
-		
+
 		ModelFile stairs = models().stairs(name, texture, texture, texture);
         ModelFile stairsInner = models().stairsInner(name + "_inner", texture, texture, texture);
         ModelFile stairsOuter = models().stairsOuter(name + "_outer", texture, texture, texture);
@@ -145,21 +141,21 @@ public class NBlockStatesProvider extends BlockStateProvider
         itemModels().getBuilder(itemPrefix(name(block))).
         	parent(stairs);
 	}
-	
-	private void registerSlab(SlabBlock block) 
+
+	private void registerSlab(SlabBlock block)
 	{
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
-		
+
 		String blockString = blockText.getPath().substring(0, blockText.getPath().length() - 5);
 		ResourceLocation texture = new ResourceLocation(blockText.getNamespace(), blockString);
-		
+
 		ModelFile slab = models().slab(name, texture, texture, texture);
 		ModelFile top = models().slabTop(name + "_top", texture, texture, texture);
 		ModelFile doubleSlab = models().getExistingFile(texture);
-		
+
 		slabBlock(block, slab, top, doubleSlab);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(slab);
 	}
@@ -178,7 +174,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					cube("#ore").
 					end();
-		
+
 		registerModels(block, model);
 	}
 
@@ -196,14 +192,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					cube("#ore").
 					end();
-		
+
 		registerModels(block, model);
 	}
-	
-	private void registerPedestal(Block block) 
+
+	private void registerPedestal(Block block)
 	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/texture"));
-		
+
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
@@ -212,7 +208,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 3, 16).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							builder.texture("#main");
 							if (face != Direction.UP)
@@ -226,7 +222,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(2, 11, 2).
 					to(14, 14, 14).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							builder.texture("#main");
 							if (face.getAxis().isHorizontal())
@@ -242,7 +238,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.WEST).end().
 						face(Direction.NORTH).end().
 						face(Direction.SOUTH).end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							builder.uvs(4.25f, 4 + 2.25f * face.get2DDataValue(), 6.25f, 6 + 2.25f * face.get2DDataValue()).texture("#main");
 						}).
@@ -287,7 +283,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
 							else
 								builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(12, 14, 5).
@@ -304,7 +300,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
 							else
 								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(3, 14, 5).
@@ -321,7 +317,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
 							else
 								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(4, 14, 4).
@@ -338,7 +334,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
 							else
 								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(4, 14, 11).
@@ -355,7 +351,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
 							else
 								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(11, 14, 11).
@@ -372,7 +368,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
 							else
 								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).	
+						}).
 					end().
 				element().
 					from(11, 14, 4).
@@ -389,7 +385,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
 							else
 								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).	
+						}).
 					end();
 
 
@@ -398,14 +394,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 
 
-	
+
 		registerModels(block, model);
 	}
 
-	private void registerHolder(Block block) 
+	private void registerHolder(Block block)
 	{
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOLDER + "/texture"));
-		
+
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
@@ -414,7 +410,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0,10,0).
 					to(16,16,16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face != Direction.DOWN)
@@ -441,14 +437,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 						{
 							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
 						}
-						else 
+						else
 							builder.uvs(10, 0, 8.5f, 0.25f);
 					}).
 				end().
@@ -460,12 +456,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(10, 0, 8.5f, 0.25f);
 					}).
 				end().
@@ -477,12 +473,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
 					}).
 				end().
@@ -494,12 +490,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
 					}).
 				end().
@@ -511,12 +507,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(12.25f, 0, 12, 0.25f);
 					}).
 				end().
@@ -528,12 +524,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(12.25f, 0, 12, 0.25f);
 					}).
 				end().
@@ -545,12 +541,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(12.25f, 0, 12, 0.25f);
 					}).
 				end().
@@ -562,23 +558,23 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
 					face(Direction.DOWN).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.texture("#main");
 						if (face.getAxis().isHorizontal())
 							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else 
+						else
 							builder.uvs(12.25f, 0, 12, 0.25f);
 					}).
 				end();
 
 		registerModels(block, model);
 	}
-	
+
 	private void registerManualChusher(Block block)
 	{
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER + "/" + NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER));
-		
+
 		BlockModelBuilder model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc("block")).
 				renderType("cutout").
@@ -742,9 +738,9 @@ public class NBlockStatesProvider extends BlockStateProvider
 						tintindex(Direction.DOWN.get3DDataValue()).
 						end().
 				end();
-	
+
 		horizontalBlock(block, model, 0);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(model);
 		/*FIXME: take copy of block model and add part which is lower */
@@ -870,13 +866,13 @@ public class NBlockStatesProvider extends BlockStateProvider
 		end();
 */
 	}
-	
-	private void registerVimStorage(Block block) 
+
+	private void registerVimStorage(Block block)
 	{
 		ResourceLocation texFront = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_front"));
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_top"));
-		
+
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
@@ -906,7 +902,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(16, 2, 12, 14).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if(face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -939,7 +935,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(0, 2, 4, 14).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if(face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -972,7 +968,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(6, 2, 10, 14).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if(face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -999,7 +995,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(10, 5, 12, 11).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if (face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -1024,7 +1020,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(10, 5, 12, 11).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if (face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -1049,7 +1045,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(4, 5, 6, 11).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if (face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -1074,7 +1070,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(10, 5, 12, 11).
 							end().
-						faces((face, builder) -> 
+						faces((face, builder) ->
 						{
 							if (face.getAxis() == Direction.Axis.Z)
 								builder.texture("#front");
@@ -1098,19 +1094,19 @@ public class NBlockStatesProvider extends BlockStateProvider
 							tintindex(Direction.EAST.get3DDataValue()).
 							end().
 				end();
-	
+
 		horizontalBlock(block, model, 0);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(model);
 
 	}
 
-	private void registerFluidStorage(Block block) 
+	private void registerFluidStorage(Block block)
 	{
 		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_glass"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_updown"));
-	
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("glass", texGlass).
@@ -1121,7 +1117,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(3, 0, 3).
 					to(13, 16, 13).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16);
 						if (face.getAxis().isHorizontal())
@@ -1165,14 +1161,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 				end();
 
-		
+
 		registerModels(block, model);
 	}
 
 	private void registerDeliveryStation(Block block)
 	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION));
-		
+
 		ModelFile core = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("tex", texture).
@@ -1181,12 +1177,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(5, 5, 5).
 					to(11, 11, 11).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(5, 5, 11, 11).texture("#tex");
 					}).
 				end();
-		
+
 		ModelFile connectorModel = models().getBuilder(blockPrefix(name(block) + "_connector")).
 				renderType("cutout").
 				texture("tex", texture).
@@ -1199,7 +1195,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						axis(Axis.Y).
 						origin(8f, 8f, 8f).
 						end().
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						if (face.getAxis() != Direction.Axis.Z)
 						{
@@ -1211,7 +1207,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 							else if (face == Direction.UP)
 								builder.rotation(FaceRotation.UPSIDE_DOWN);
 						}
-						else 
+						else
 						{
 							builder.uvs(0, 0, 1, 1);
 							if(face == Direction.NORTH)
@@ -1230,7 +1226,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						axis(Axis.Y).
 						origin(8f, 8f, 8f).
 						end().
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						if (face.getAxis() != Direction.Axis.Z)
 						{
@@ -1253,14 +1249,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						builder.texture("#tex");
 					}).
 				end();
-				
+
 		MultiPartBlockStateBuilder builder = getMultipartBuilder(block).part().
 				modelFile(core).addModel().end();
-			
-	        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e -> 
+
+	        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e ->
 	        {
 	            Direction dir = e.getKey();
-	            if (dir.getAxis().isHorizontal()) 
+	            if (dir.getAxis().isHorizontal())
 	            {
 	                builder.part().modelFile(connectorModel).rotationY((((int) dir.toYRot())) % 360).addModel()
 	                    .condition(e.getValue(), true);
@@ -1271,11 +1267,11 @@ public class NBlockStatesProvider extends BlockStateProvider
 	            	condition(e.getValue(), true);
 	            }
 	        });
-		
+
 			itemModels().getBuilder(itemPrefix(name(block))).parent(core);
 	}
-	
-/*	private void registerDeliveryStation(Block block) 
+
+/*	private void registerDeliveryStation(Block block)
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "_side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "_top"));
@@ -1292,7 +1288,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//base
 					from(1, 0, 1).
 					to(15, 6, 15).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 								builder.uvs(1, 10, 15, 16).texture("#side");
@@ -1310,7 +1306,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//antennae_main
 					from(7, 6, 7).
 					to(9, 8, 9).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if(face.getAxis() != Direction.Axis.Y)
 								builder.uvs(7, 8, 9, 10).texture("#side");
@@ -1328,7 +1324,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//antennae_middle
 					from(7.5f, 8, 7.5f).
 					to(8.5f, 13, 8.5f).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 								builder.uvs(7.5f, 3, 8.5f, 8).texture("#side");
@@ -1346,7 +1342,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//antennae_top
 					from(7.75f, 13, 7.75f).
 					to(8.25f, 16, 8.25f).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 								builder.uvs(7.75f, 0, 8.25f, 3).texture("#side");
@@ -1357,14 +1353,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 									builder.texture("#top");
 								else
 									builder.texture("#bot");
-							}	
+							}
 						}).
 				end().
 				element().
 					//platform_se_base
 					from(11, 6, 11).
 					to(14, 9, 14).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 							{
@@ -1382,7 +1378,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//platform_se_top
 					from(11, 9, 11).
 					to(16, 10, 16).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face == Direction.EAST || face == Direction.SOUTH)
 								builder.uvs(9, 5, 14, 6);
@@ -1392,7 +1388,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									if (face == Direction.NORTH)
 										builder.rotation(FaceRotation.UPSIDE_DOWN);
 								}
-							else 
+							else
 							{
 								builder.uvs(9, 0, 14, 5);
 								if (face == Direction.UP)
@@ -1407,7 +1403,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//platfrom_ne_base
 					from(11, 6, 2).
 					to(14, 9, 5).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 							{
@@ -1419,7 +1415,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									builder.uvs(16, 7, 13, 10);
 								builder.texture("#side");
 							}
-							
+
 						}).
 				end().
 				element().
@@ -1436,7 +1432,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									if (face == Direction.WEST)
 										builder.rotation(FaceRotation.UPSIDE_DOWN);
 								}
-							else 
+							else
 							{
 								builder.uvs(9, 0, 14, 5);
 								if (face == Direction.DOWN)
@@ -1452,7 +1448,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//platform_sw_base
 					from(2, 6, 11).
 					to(5, 9, 14).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 							{
@@ -1464,7 +1460,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									builder.uvs(16, 7, 13, 10);
 								builder.texture("#side");
 							}
-						
+
 						}).
 				end().
 				element().
@@ -1481,7 +1477,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									if (face == Direction.EAST)
 										builder.rotation(FaceRotation.UPSIDE_DOWN);
 								}
-							else 
+							else
 							{
 								builder.uvs(9, 0, 14, 5);
 								if (face == Direction.DOWN)
@@ -1495,7 +1491,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//platform_nw_base
 					from(2, 6, 2).
 					to(5, 9, 5).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 							{
@@ -1523,7 +1519,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 									if (face == Direction.SOUTH)
 										builder.rotation(FaceRotation.UPSIDE_DOWN);
 								}
-							else 
+							else
 							{
 								builder.uvs(9, 0, 14, 5);
 								if (face == Direction.UP)
@@ -1531,8 +1527,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 							}
 							builder.texture("#side");
 					}).
-				end(); 
-		
+				end();
+
 		ModelFile connectorModel = models().getBuilder(blockPrefix(name(block) + "_connector")).
 				renderType("solid").
 				texture("texture", texSide).
@@ -1540,13 +1536,13 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//base
 					from(7, 6, 13).
 					to(9, 8, 15).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face != Direction.SOUTH && face != Direction.DOWN)
 							{
 								if (face.getAxis() == Direction.Axis.X)
 									builder.uvs(14, 2, 16, 4);
-								else 
+								else
 									builder.uvs(14, 0, 16, 2);
 								builder.texture("#texture");
 							}
@@ -1556,7 +1552,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//main
 					from(6, 6, 15).
 					to(10, 10, 16).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() == Direction.Axis.Y || face.getAxis() == Direction.Axis.X)
 							{
@@ -1566,25 +1562,25 @@ public class NBlockStatesProvider extends BlockStateProvider
 							}
 							else if (face == Direction.NORTH)
 								builder.uvs(0, 4, 4, 8);
-							else 
+							else
 								builder.uvs(0, 0, 4, 4);
 							builder.texture("#texture");
 						}).
 				end();
-		
+
 		MultiPartBlockStateBuilder builder = getMultipartBuilder(block).part().
 			modelFile(mainModel).addModel().end();
-		
-        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e -> 
+
+        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e ->
         {
             Direction dir = e.getKey();
-            if (dir.getAxis().isHorizontal()) 
+            if (dir.getAxis().isHorizontal())
             {
                 builder.part().modelFile(connectorModel).rotationY((((int) dir.toYRot())) % 360).addModel()
                     .condition(e.getValue(), true);
             }
         });
-	
+
 		itemModels().getBuilder(itemPrefix(name(block))).parent(mainModel);
 	}
 */
@@ -1594,7 +1590,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_top"));
 		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_bot"));
 		ResourceLocation texInside = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_inside"));
-		
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -1607,7 +1603,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					//base
 					from(0, 0, 0).
 					to(16, 7, 16).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							if (face.getAxis() != Direction.Axis.Y)
 								builder.uvs(0, 9, 16, 16).texture("#side").cullface(face);
@@ -1790,21 +1786,21 @@ public class NBlockStatesProvider extends BlockStateProvider
 				end().
 			face(Direction.WEST).
 				end().
-			faces((dir, builder) -> 
+			faces((dir, builder) ->
 			{
 				builder.texture("#port").
 				cullface(dir).
 				tintindex(dir.get3DDataValue());
 			}).
 		end();
-		
+
 		registerModels(block, model);
 	}
-	
+
 	private void registerTerramorfer(Block block)
 	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
-		
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				ao(false).
@@ -1817,7 +1813,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.SOUTH).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
 						if (face == Direction.NORTH || face == Direction.WEST)
@@ -1831,7 +1827,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.SOUTH).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
 						if (face == Direction.SOUTH || face == Direction.WEST)
@@ -1845,7 +1841,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.SOUTH).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
 						if (face == Direction.SOUTH || face == Direction.EAST)
@@ -1859,7 +1855,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					face(Direction.EAST).end().
 					face(Direction.SOUTH).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
 						if (face == Direction.NORTH || face == Direction.EAST)
@@ -1869,7 +1865,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 2, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.texture("#texture");
 						if (face != Direction.UP)
@@ -1889,7 +1885,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 14, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.texture("#texture");
 						if (face != Direction.DOWN)
@@ -1911,7 +1907,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					to(14, 14, 0).
 					face(Direction.NORTH).end().
 					face(Direction.SOUTH).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
 						if (face == Direction.NORTH)
@@ -1923,7 +1919,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					to(16, 14, 14).
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
 						if (face == Direction.EAST)
@@ -1935,7 +1931,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					to(0, 14, 14).
 					face(Direction.EAST).end().
 					face(Direction.WEST).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
 						if (face == Direction.WEST)
@@ -1947,7 +1943,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 					to(14, 14, 16).
 					face(Direction.NORTH).end().
 					face(Direction.SOUTH).end().
-					faces((face, builder) -> 
+					faces((face, builder) ->
 					{
 						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
 						if (face == Direction.SOUTH)
@@ -2076,8 +2072,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 */		registerModels(block, model);
 	}
-	
-	private void registerGeneratorSolar(Block block) 
+
+	private void registerGeneratorSolar(Block block)
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR +"/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/top"));
@@ -2093,7 +2089,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 4, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						if (face.getAxis() != Direction.Axis.Y)
 							builder.uvs(0, 0, 16, 4).texture("#side").cullface(face);
@@ -2117,7 +2113,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 				end();
 
-		
+
 		registerModels(block, model);
 	}
 
@@ -2126,7 +2122,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
-	
+
 		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2136,7 +2132,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
@@ -2156,14 +2152,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.NORTH).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 					}).
 				end();
-		
+
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2173,7 +2169,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
@@ -2193,7 +2189,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.NORTH).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
@@ -2201,14 +2197,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 					}).
 				end();
 
-	
-		horizontalBlock(block, (state) -> 
+
+		horizontalBlock(block, (state) ->
 		{
 			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
 
 			return lit ? modelOn : modelOff;
 		}, 0);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff).
 		transforms().
@@ -2220,9 +2216,9 @@ public class NBlockStatesProvider extends BlockStateProvider
 				rotation(0, 180, 0).
 				scale(0.5f).
 			end().
-		end();		
+		end();
 	}
-	
+
 /*	private void registerGeneratorFood(Block block) 
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.FOOD + "/side"));
@@ -2407,12 +2403,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 		parent(modelOff);
 	}
 */
-	
-	private void registerMobCather(Block block) 
+
+	private void registerMobCather(Block block)
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/top"));
-	
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2422,7 +2418,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).
 						texture("#side").
@@ -2444,29 +2440,29 @@ public class NBlockStatesProvider extends BlockStateProvider
 							end().
 						face(Direction.NORTH).
 							end().
-						faces((dir, builder) -> 
+						faces((dir, builder) ->
 						{
 							builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 						}).
 				end();
-		
+
 		registerModels(block, model);
 	}
 
-	private void registerCrossBlock(Block block) 
+	private void registerCrossBlock(Block block)
 	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
-	
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cross"))).
 				renderType("cutout").
 				ao(false).
 				texture("cross", texture).
 				texture("particle", texture);
-		
+
 		registerModels(block, model);
-		
+
 		itemModels().withExistingParent(itemPrefix(name(block)), mcLoc("item/generated")).
 		texture("layer0", texture).
 		transforms().
@@ -2475,12 +2471,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 			end().
 		end();
 	}
-	
-	private void registerJewelryTable(Block block) 
+
+	private void registerJewelryTable(Block block)
 	{
 		ResourceLocation side = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation top = StringHelper.getLocFStr(blockPrefix(name(block) + "/top"));
-		
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("solid").
 				ao(false).
@@ -2590,7 +2586,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 12, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						if (face.getAxis() != Axis.Y)
 						{
@@ -2604,7 +2600,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						}
 					}).
 				end();
-		
+
 		registerModels(block, model);
 	}
 
@@ -2614,7 +2610,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
 		ResourceLocation texUnderlay = StringHelper.getLocFStr(blockPrefix(name(block) + "/underlay"));
-		
+
 		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2625,7 +2621,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
@@ -2653,14 +2649,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.NORTH).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 					}).
 				end();
-		
+
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2670,7 +2666,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
 						if (face == Direction.SOUTH)
@@ -2690,7 +2686,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.NORTH).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
@@ -2698,14 +2694,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 					}).
 				end();
 
-	
-		horizontalBlock(block, (state) -> 
+
+		horizontalBlock(block, (state) ->
 		{
 			boolean lit = state.getValue(BlockHelper.BlockProperties.LIT);
 
 			return lit ? modelOn : modelOff;
 		}, 0);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff).
 		transforms().
@@ -2719,13 +2715,13 @@ public class NBlockStatesProvider extends BlockStateProvider
 			end().
 		end();
 	}
-	
+
 	private void registerFluidFiller(Block block)
 	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
-		
+
 		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2735,12 +2731,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).cullface(face);
 						if (face.getAxis().isVertical())
 							builder.texture("#side");
-						else 
+						else
 							builder.texture("#face");
 					}).
 				end().
@@ -2751,14 +2747,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.UP).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 					}).
 				end();
-		
+
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				texture("side", texSide).
@@ -2768,12 +2764,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 16, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 16).cullface(face);
 						if (face.getAxis().isVertical())
 							builder.texture("#side");
-						else 
+						else
 							builder.texture("#face");
 					}).
 				end().
@@ -2784,27 +2780,27 @@ public class NBlockStatesProvider extends BlockStateProvider
 						end().
 					face(Direction.UP).
 						end().
-					faces((dir, builder) -> 
+					faces((dir, builder) ->
 					{
 						builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 					}).
 				end();
-		
+
 		getVariantBuilder(block).forAllStates((state)-> ConfiguredModel.builder().
 				modelFile(state.getValue(BlockHelper.BlockProperties.ENABLED) ? modelOn : modelOff).
 				build());
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(modelOff);
 
 	}
-	
+
 	private void registerDiffuser(Block block)
 	{
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("storage_block/corium"));
-		
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cauldron"))).
 				renderType("cutout").
 				ao(false).
@@ -2839,14 +2835,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 						scale(0.4f).
 					end().
 				end();
-		
+
 		registerModels(block, model);
 	}
-	
+
 	private void registerFramework(Block block)
 	{
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
-		
+
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
 				ao(false).
@@ -2855,7 +2851,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 0).
 					to(16, 4, 4).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 12, 16, 16).texture("#tex");
 						if (face == Direction.EAST)
@@ -2869,14 +2865,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 12).
 					to(16, 4, 16).
-					allFaces((face, builder) -> 
+					allFaces((face, builder) ->
 					{
 						builder.uvs(0, 0, 16, 4).texture("#tex");
 						if (face == Direction.EAST)
 							builder.uvs(0, 12, 4, 16).cullface(face);
 						else if(face == Direction.SOUTH)
 							builder.uvs(0, 12, 16, 16).cullface(face);
-						else if (face == Direction.WEST) 
+						else if (face == Direction.WEST)
 							builder.uvs(12, 12, 16, 16).cullface(face);
 						else if (face == Direction.DOWN)
 							builder.cullface(face);
@@ -3120,13 +3116,13 @@ public class NBlockStatesProvider extends BlockStateProvider
 						face(Direction.DOWN).
 							uvs(0, 0, 16, 4).
 							texture("#tex").
-						end().					
+						end().
 				end();
-		
+
 		registerModels(block, model);
-		
+
 	}
-	
+
 	private void registerExpExtractor(Block block)
 	{
 		ResourceLocation plate = StringHelper.getLocFStr(blockPrefix(name(block) + "/plate"));
@@ -3141,12 +3137,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 0, 1).
 					to(16, 1, 15).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							builder.texture("#plate").uvs(0, 15, 16, 16);
 							if (face.getAxis() == Axis.Y)
 							{
-								builder.uvs(0, 1, 16, 15);	
+								builder.uvs(0, 1, 16, 15);
 							}
 							if (face.getAxis() == Axis.X || face == Direction.DOWN)
 							{
@@ -3157,7 +3153,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(0, 1, 6).
 					to(1, 16, 10).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							builder.texture("#stance");
 							if (face.getAxis() == Axis.Y)
@@ -3185,7 +3181,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 				element().
 					from(15, 1, 6).
 					to(16, 16, 10).
-						allFaces((face, builder) -> 
+						allFaces((face, builder) ->
 						{
 							builder.texture("#stance");
 							if (face.getAxis() == Axis.Y)
@@ -3219,16 +3215,16 @@ public class NBlockStatesProvider extends BlockStateProvider
 							end().
 						face(Direction.DOWN).
 							end().
-						faces((dir, builder) -> 
+						faces((dir, builder) ->
 						{
 							builder.texture("#port").
 								cullface(dir).
 								tintindex(dir.get3DDataValue());
 						}).
 				end();
-		
+
 		horizontalBlock(block, (state) -> model, 0);
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(model).
 		transforms().
@@ -3240,39 +3236,138 @@ public class NBlockStatesProvider extends BlockStateProvider
 				rotation(0, 180, 0).
 				scale(0.5f).
 			end().
-		end();		
+		end();
 	}
-	
+
+	private void registerGeneratorLightning(Block block)
+	{
+		ResourceLocation texUp = StringHelper.getLocFStr(blockPrefix(name(block) + "/up"));
+		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
+		ResourceLocation texDown = StringHelper.getLocFStr(blockPrefix(name(block) + "/down"));
+
+		ResourceLocation texUpOn = StringHelper.getLocFStr(blockPrefix(name(block) + "/up_on"));
+		ResourceLocation texSideOn = StringHelper.getLocFStr(blockPrefix(name(block) + "/side_on"));
+		ResourceLocation texDownOn = StringHelper.getLocFStr(blockPrefix(name(block) + "/down_on"));
+
+		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("up", texUp).
+				texture("down", texDown).
+				texture("side", texSide).
+				texture("port", getPortTexture()).
+				texture("particle", texSide).
+				element().
+					from(0,0,0).
+					to(16,16,16).
+					allFaces((face, builder) ->
+					{
+						builder.cullface(face);
+						if (face.getAxis().isHorizontal())
+							builder.texture("#side");
+						else
+						{
+							if(face == Direction.UP)
+								builder.texture("#up");
+							else
+								builder.texture("#down");
+						}
+					}).
+				end().
+				element().
+					from(-0.001f, -0.001f, -0.001f).
+					to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).end().
+					face(Direction.EAST).end().
+					face(Direction.DOWN).end().
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					faces((dir, builder) ->
+					{
+						builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+					}).
+				end();
+
+		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("up", texUpOn).
+				texture("down", texDownOn).
+				texture("side", texSideOn).
+				texture("port", getPortTexture()).
+				texture("particle", texSideOn).
+				element().
+					from(0,0,0).
+					to(16,16,16).
+					allFaces((face, builder) ->
+					{
+						builder.cullface(face);
+						if (face.getAxis().isHorizontal())
+							builder.texture("#side");
+						else
+						{
+							if(face == Direction.UP)
+								builder.texture("#up");
+							else
+								builder.texture("#down");
+						}
+					}).
+				end().
+				element().
+					from(-0.001f, -0.001f, -0.001f).
+					to(16.001f, 16.001f, 16.001f).
+					face(Direction.WEST).end().
+					face(Direction.EAST).end().
+					face(Direction.DOWN).end().
+					face(Direction.NORTH).end().
+					face(Direction.SOUTH).end().
+					faces((dir, builder) ->
+					{
+						builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+					}).
+				end();
+
+
+		getVariantBuilder(block).forAllStates((state)-> ConfiguredModel.builder().
+				modelFile(state.getValue(BlockHelper.BlockProperties.LIT) ? modelOn : modelOff).
+				build());
+
+		itemModels().getBuilder(itemPrefix(name(block))).
+				parent(modelOff);
+	}
+
 	private void registerModels(Block block, ModelFile model)
 	{
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
-		
+
 		itemModels().getBuilder(itemPrefix(name(block))).
 		parent(model);
 	}
-	
+
 	private ResourceLocation getPortTexture()
 	{
 		return StringHelper.getLocFStr(blockPrefix("port"));
 	}
-	
+
 	private String itemPrefix(String str)
 	{
 		return ModelProvider.ITEM_FOLDER + "/" + str;
 	}
-	
+
 	private String blockPrefix(String str)
 	{
 		return ModelProvider.BLOCK_FOLDER + "/" + str;
 	}
-	
-    private String name(Block block) 
+
+    private String name(Block block)
     {
         return BlockHelper.getRegistryName(block).getPath();
     }
-	
+
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire Block States";
 	}

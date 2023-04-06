@@ -8,12 +8,11 @@
  */
 package com.arcanc.nedaire.content.capabilities.vim;
 
-import javax.annotation.Nullable;
-
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.database.NDatabase;
-
 import net.minecraft.nbt.CompoundTag;
+
+import javax.annotation.Nullable;
 
 public class VimStorage implements IVim
 {
@@ -88,7 +87,7 @@ public class VimStorage implements IVim
 	@Override
 	public void setEnergyStored(int count) 
 	{
-		if (count > 0 && count < maxEnergy)
+		if (count > 0 && count <= maxEnergy)
 			this.energy = count;
 	}
 

@@ -11,6 +11,7 @@ package com.arcanc.nedaire.util;
 import javax.annotation.Nullable;
 
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 public enum AccessType implements StringRepresentable
 {
@@ -46,7 +47,7 @@ public enum AccessType implements StringRepresentable
 	}
 
 	@Override
-	public String getSerializedName() 
+	public @NotNull String getSerializedName()
 	{
 		return name;
 	}

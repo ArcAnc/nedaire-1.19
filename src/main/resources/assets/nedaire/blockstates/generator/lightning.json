@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "nedaire:block/generator/lightning_off"
+    },
+    "lit=true": {
+      "model": "nedaire:block/generator/lightning_on"
+    }
+  }
+}

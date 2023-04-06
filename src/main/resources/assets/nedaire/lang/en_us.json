@@ -98,6 +98,7 @@
   "nedaire.framework": "Framework",
   "nedaire.furnace": "Furnace",
   "nedaire.generator.food": "Food Generator",
+  "nedaire.generator.lightning": "Lightning Generator",
   "nedaire.generator.mob": "Mob Generator",
   "nedaire.generator.solar": "Solar Generator",
   "nedaire.growth_crystal": "Growth Crystal",

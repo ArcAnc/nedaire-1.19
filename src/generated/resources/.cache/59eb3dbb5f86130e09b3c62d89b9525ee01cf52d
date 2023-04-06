@@ -1,4 +1,4 @@
-// 1.19.4	2023-03-24T22:16:15.6056244	Loot Tables
+// 1.19.4	2023-04-06T19:05:40.8865377	Loot Tables
 90ae2d1b194c0d1dff94f565661d9751947e49cf data/nedaire/loot_tables/blocks/crusher.json
 7ebb1f7e2354bac34aca0202262147a02d46dc91 data/nedaire/loot_tables/blocks/deepslate/corium.json
 f4799b083f98d034dfa42e7dfe88d59988d1cce3 data/nedaire/loot_tables/blocks/delivery_station.json
@@ -10,6 +10,7 @@ f4799b083f98d034dfa42e7dfe88d59988d1cce3 data/nedaire/loot_tables/blocks/deliver
 8613a27a5944965dee0a7dadc445269875b9a640 data/nedaire/loot_tables/blocks/framework.json
 b215fd583be5449d287fb1e5852c5c816446603e data/nedaire/loot_tables/blocks/furnace.json
 69959e019d86cd0b535141f0ce27229a99a08f12 data/nedaire/loot_tables/blocks/generator/food.json
+fc40f7f7f452dffcb5f23ab42395150061fd5eb0 data/nedaire/loot_tables/blocks/generator/lightning.json
 40f3ca5d502ac2d0b41777ec043c8863f2061748 data/nedaire/loot_tables/blocks/generator/mob.json
 9422993ca769dcd051e4790fda806ec9a44257ec data/nedaire/loot_tables/blocks/generator/solar.json
 eaab1eb9940a7baf2e2fddd46f96f205202b4b42 data/nedaire/loot_tables/blocks/growth_crystal.json

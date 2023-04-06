@@ -22,56 +22,13 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.arcanc.nedaire.content.block.*;
+import com.arcanc.nedaire.content.block.entities.*;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Vector3f;
 
-import com.arcanc.nedaire.content.block.NBaseBlock;
-import com.arcanc.nedaire.content.block.NBlockCore;
-import com.arcanc.nedaire.content.block.NBlockCrusher;
-import com.arcanc.nedaire.content.block.NBlockCrystalGrowth;
-import com.arcanc.nedaire.content.block.NBlockDeliveryStation;
-import com.arcanc.nedaire.content.block.NBlockDiffuser;
-import com.arcanc.nedaire.content.block.NBlockExpExtractor;
-import com.arcanc.nedaire.content.block.NBlockExtruder;
-import com.arcanc.nedaire.content.block.NBlockFluidFiller;
-import com.arcanc.nedaire.content.block.NBlockFluidStorage;
-import com.arcanc.nedaire.content.block.NBlockFurnace;
-import com.arcanc.nedaire.content.block.NBlockGeneratorFood;
-import com.arcanc.nedaire.content.block.NBlockGeneratorMob;
-import com.arcanc.nedaire.content.block.NBlockGeneratorSolar;
-import com.arcanc.nedaire.content.block.NBlockHolder;
-import com.arcanc.nedaire.content.block.NBlockHoover;
-import com.arcanc.nedaire.content.block.NBlockJewelryTable;
-import com.arcanc.nedaire.content.block.NBlockManualCrusher;
-import com.arcanc.nedaire.content.block.NBlockMobCatcher;
-import com.arcanc.nedaire.content.block.NBlockPedestal;
-import com.arcanc.nedaire.content.block.NBlockSlab;
-import com.arcanc.nedaire.content.block.NBlockStairs;
-import com.arcanc.nedaire.content.block.NBlockTerramorfer;
-import com.arcanc.nedaire.content.block.NBlockVimStorage;
-import com.arcanc.nedaire.content.block.NBlockWall;
-import com.arcanc.nedaire.content.block.entities.NBECrusher;
-import com.arcanc.nedaire.content.block.entities.NBECrystalGrowth;
-import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
-import com.arcanc.nedaire.content.block.entities.NBEDiffuser;
-import com.arcanc.nedaire.content.block.entities.NBEExpExtractor;
-import com.arcanc.nedaire.content.block.entities.NBEExtruder;
-import com.arcanc.nedaire.content.block.entities.NBEFluidFiller;
-import com.arcanc.nedaire.content.block.entities.NBEFluidStorage;
-import com.arcanc.nedaire.content.block.entities.NBEFurnace;
-import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
-import com.arcanc.nedaire.content.block.entities.NBEGeneratorMob;
-import com.arcanc.nedaire.content.block.entities.NBEGeneratorSolar;
-import com.arcanc.nedaire.content.block.entities.NBEHolder;
-import com.arcanc.nedaire.content.block.entities.NBEHoover;
-import com.arcanc.nedaire.content.block.entities.NBEJewelryTable;
-import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
-import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
-import com.arcanc.nedaire.content.block.entities.NBEPedestal;
-import com.arcanc.nedaire.content.block.entities.NBETerramorfer;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer.CoreType;
-import com.arcanc.nedaire.content.block.entities.NBEVimStorage;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
 import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
@@ -329,7 +286,7 @@ public class NRegistration
 		public static final BlockRegObject<NBlockStairs, NBaseBlockItem> SKYSTONE_STAIRS = new BlockRegObject<>(
 				NDatabase.Blocks.Names.SKYSTONE.concat("_stairs"),
 				() -> SKYSTONE.getBlockProperties().get().noOcclusion(),
-				(p) -> new NBlockStairs(() -> SKYSTONE.getDefaultBlockState(), p),
+				(p) -> new NBlockStairs(SKYSTONE::getDefaultBlockState, p),
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
 		
@@ -356,15 +313,15 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.TERRAMORFER,
 				baseMachineProps,
 				NBlockTerramorfer :: new,
-				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new NBaseBlockItem(b, p));
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockGeneratorSolar, NBaseBlockItem> GENERATOR_SOLAR = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR,
 				baseMachineProps,
 				NBlockGeneratorSolar :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockGeneratorFood, NBaseBlockItem> GENERATOR_FOOD = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.FOOD,
@@ -372,7 +329,7 @@ public class NRegistration
 				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockGeneratorFood :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 
 		public static final BlockRegObject<NBlockGeneratorMob, NBaseBlockItem> GENERATOR_MOB = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Generators.MOB,
@@ -380,63 +337,71 @@ public class NRegistration
 				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockGeneratorMob :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
+
+		public static final BlockRegObject<NBlockGeneratorLightning, NBaseBlockItem> GENERATOR_LIGHTNING = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.Generators.LIGHTNING,
+				() -> baseMachineProps.get().noOcclusion().emissiveRendering((state, getter, pos) -> state.getValue(BlockHelper.BlockProperties.LIT)).
+						lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
+				NBlockGeneratorLightning :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockPedestal, NBaseBlockItem> PEDESTAL = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL, 
 				baseMachineProps,
 				NBlockPedestal :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));		
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockHolder, NBaseBlockItem> HOLDER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.HOLDER,
 				baseMachineProps,
 				NBlockHolder :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockManualCrusher, NBaseBlockItem> MANUAL_CRUSHER = new BlockRegObject<> (
 				NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER,
 				baseMachineProps,
 				NBlockManualCrusher :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockFluidStorage, NBaseBlockItem> FLUID_STORAGE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE, 
 				baseMachineProps, 
 				NBlockFluidStorage :: new, 
-				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new NBaseBlockItem(b, p));
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockVimStorage, NBaseBlockItem> VIM_STORAGE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE, 
 				baseMachineProps, 
 				NBlockVimStorage :: new, 
-				NRegistration.RegisterItems.baseProps, 
-				(b, p) -> new NBaseBlockItem(b, p));
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockDeliveryStation, NBaseBlockItem> DELIVERY_STATION = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION,
 				baseMachineProps,
 				NBlockDeliveryStation :: new,
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockHoover, NBaseBlockItem> HOOVER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.HOOVER,
 				baseMachineProps,
 				NBlockHoover :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockMobCatcher, NBaseBlockItem> MOB_CATCHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER,
-				() -> baseMachineProps.get(),
+				baseMachineProps,
 				NBlockMobCatcher :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 
 		public static final BlockRegObject<NBlockFurnace, NBaseBlockItem> FURNACE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FURNACE,
@@ -444,7 +409,7 @@ public class NRegistration
 				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockFurnace :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockCrusher, NBaseBlockItem> CRUSHER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.CRUSHER,
@@ -452,21 +417,21 @@ public class NRegistration
 				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockCrusher :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockJewelryTable, NBaseBlockItem> JEWERLY_TABLE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE,
 				() -> Block.Properties.of(Material.WOOD).noOcclusion().requiresCorrectToolForDrops().strength(1),
 				NBlockJewelryTable :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 
 		public static final BlockRegObject<NBlockCrystalGrowth, NBaseBlockItem> CRYSTAL_GROWTH = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.Crystal.GROWTH,
 				() -> baseProps.get().noCollission().emissiveRendering((state, getter, pos) -> true).sound(SoundType.AMETHYST_CLUSTER).lightLevel(state -> 5).requiresCorrectToolForDrops().strength(2),
 				NBlockCrystalGrowth :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockExtruder, NBaseBlockItem> EXTRUDER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.EXTRUDER,
@@ -474,21 +439,21 @@ public class NRegistration
 				lightLevel(state -> state.getValue(BlockHelper.BlockProperties.LIT) ? 15 : 0),
 				NBlockExtruder :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockFluidFiller, NBaseBlockItem> FLUID_FILLER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER,
 				baseMachineProps,
 				NBlockFluidFiller :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockDiffuser, NBaseBlockItem> DIFFUSER = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.DIFFUSER,
 				baseMachineProps,
 				NBlockDiffuser :: new, 
 				NRegistration.RegisterItems.baseProps,
-				(b, p) -> new NBaseBlockItem(b, p));
+				NBaseBlockItem::new);
 		
 		public static final BlockRegObject<NBlockExpExtractor, NBaseBlockItem> EXP_EXTRACTOR = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR,
@@ -827,7 +792,12 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.Generators.MOB, 
 				makeType(NBEGeneratorMob :: new, 
 						RegisterBlocks.GENERATOR_MOB));
-		
+
+		public static final RegistryObject<BlockEntityType<NBEGeneratorLightning>> BE_GENERATOR_LIGHTNING = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.Generators.LIGHTNING,
+				makeType(NBEGeneratorLightning :: new,
+						RegisterBlocks.GENERATOR_LIGHTNING));
+
 		public static final RegistryObject<BlockEntityType<NBEPedestal>> BE_PEDESTAL = BLOCK_ENTITIES.register(
 				NDatabase.Blocks.BlockEntities.Names.PEDESTAL,
 				makeType(NBEPedestal :: new, 

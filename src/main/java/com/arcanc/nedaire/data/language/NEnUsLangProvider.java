@@ -13,7 +13,6 @@ import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -88,6 +87,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get().asItem(), "Solar Generator");
 		add(NRegistration.RegisterBlocks.GENERATOR_FOOD.get().asItem(), "Food Generator");
 		add(NRegistration.RegisterBlocks.GENERATOR_MOB.get().asItem(), "Mob Generator");
+		add(NRegistration.RegisterBlocks.GENERATOR_LIGHTNING.get().asItem(), "Lightning Generator");
 		add(NRegistration.RegisterBlocks.PEDESTAL.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PEDESTAL));
 		add(NRegistration.RegisterBlocks.HOLDER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.HOLDER));
 		add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER.replace("_c", " C")));

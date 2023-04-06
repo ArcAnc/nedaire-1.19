@@ -8,14 +8,9 @@
  */
 package com.arcanc.nedaire.data;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
@@ -25,55 +20,56 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class NBlockLootSubProvider extends BlockLootSubProvider
 {
-	private static final Set<Item> EXPLOSION_RESISTANT = 	Stream.of(Blocks.DRAGON_EGG, 
-			   														  Blocks.BEACON, 
-			   														  Blocks.CONDUIT, 
-			   														  Blocks.SKELETON_SKULL, 
-			   														  Blocks.WITHER_SKELETON_SKULL, 
-			   														  Blocks.PLAYER_HEAD, 
-			   														  Blocks.ZOMBIE_HEAD, 
-			   														  Blocks.CREEPER_HEAD,
-			   														  Blocks.DRAGON_HEAD,
-			   														  Blocks.PIGLIN_HEAD,
-			   														  Blocks.SHULKER_BOX, 
-			   														  Blocks.BLACK_SHULKER_BOX,
-			   														  Blocks.BLUE_SHULKER_BOX,
-			   														  Blocks.BROWN_SHULKER_BOX,
-			   														  Blocks.CYAN_SHULKER_BOX, 
-			   														  Blocks.GRAY_SHULKER_BOX, 
-			   														  Blocks.GREEN_SHULKER_BOX,
-			   														  Blocks.LIGHT_BLUE_SHULKER_BOX, 
-			   														  Blocks.LIGHT_GRAY_SHULKER_BOX, 
-			   														  Blocks.LIME_SHULKER_BOX, 
-			   														  Blocks.MAGENTA_SHULKER_BOX, 
-			   														  Blocks.ORANGE_SHULKER_BOX, 
-			   														  Blocks.PINK_SHULKER_BOX, 
-			   														  Blocks.PURPLE_SHULKER_BOX, 
-			   														  Blocks.RED_SHULKER_BOX, 
-			   														  Blocks.WHITE_SHULKER_BOX, 
-			   														  Blocks.YELLOW_SHULKER_BOX).
-			   map(ItemLike::asItem).collect(ImmutableSet.toImmutableSet());
-	
-	public NBlockLootSubProvider() 
-	{
+	private static final Set<Item> EXPLOSION_RESISTANT = Stream.of(Blocks.DRAGON_EGG,
+					Blocks.BEACON,
+					Blocks.CONDUIT,
+					Blocks.SKELETON_SKULL,
+					Blocks.WITHER_SKELETON_SKULL,
+					Blocks.PLAYER_HEAD,
+					Blocks.ZOMBIE_HEAD,
+					Blocks.CREEPER_HEAD,
+					Blocks.DRAGON_HEAD,
+					Blocks.PIGLIN_HEAD,
+					Blocks.SHULKER_BOX,
+					Blocks.BLACK_SHULKER_BOX,
+					Blocks.BLUE_SHULKER_BOX,
+					Blocks.BROWN_SHULKER_BOX,
+					Blocks.CYAN_SHULKER_BOX,
+					Blocks.GRAY_SHULKER_BOX,
+					Blocks.GREEN_SHULKER_BOX,
+					Blocks.LIGHT_BLUE_SHULKER_BOX,
+					Blocks.LIGHT_GRAY_SHULKER_BOX,
+					Blocks.LIME_SHULKER_BOX,
+					Blocks.MAGENTA_SHULKER_BOX,
+					Blocks.ORANGE_SHULKER_BOX,
+					Blocks.PINK_SHULKER_BOX,
+					Blocks.PURPLE_SHULKER_BOX,
+					Blocks.RED_SHULKER_BOX,
+					Blocks.WHITE_SHULKER_BOX,
+					Blocks.YELLOW_SHULKER_BOX).
+			map(ItemLike::asItem).collect(ImmutableSet.toImmutableSet());
+
+	public NBlockLootSubProvider() {
 		super(EXPLOSION_RESISTANT, FeatureFlags.REGISTRY.allFlags());
 	}
 
 	@Override
-	protected void generate() 
-	{
+	protected void generate() {
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
-		
+
 		this.dropSelf(mat.getStorageBlock().get());
-		if (mat.requiredOre())
-		{
+		if (mat.requiredOre()) {
 			this.dropSelf(mat.getRawStorageBlock().get());
 			this.add(mat.getOreBlock().get(), createOreDrop(mat.getOreBlock().get(), mat.getRaw().get()));
 			this.add(mat.getDeepSlateOre().get(), createOreDrop(mat.getDeepSlateOre().get(), mat.getRaw().get()));
 		}
-		
+
 		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE.get());
 		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE_STAIRS.get());
 		this.dropSelf(NRegistration.RegisterBlocks.SKYSTONE_WALL.get());
@@ -81,11 +77,12 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 
 		this.dropSelf(NRegistration.RegisterBlocks.FRAMEWORK.get());
 		this.dropSelf(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.get());
-		
+
 		this.add(NRegistration.RegisterBlocks.TERRAMORFER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.TERRAMORFER.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_SOLAR.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_FOOD.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_FOOD.get()));
 		this.add(NRegistration.RegisterBlocks.GENERATOR_MOB.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_MOB.get()));
+		this.add(NRegistration.RegisterBlocks.GENERATOR_LIGHTNING.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.GENERATOR_LIGHTNING.get()));
 		this.add(NRegistration.RegisterBlocks.PEDESTAL.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PEDESTAL.get()));
 		this.add(NRegistration.RegisterBlocks.HOLDER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.HOLDER.get()));
 		this.add(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get()));
@@ -104,13 +101,12 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 
 		this.add(NRegistration.RegisterBlocks.JEWERLY_TABLE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get()));
 	}
-	
+
 	@Override
-	protected Iterable<Block> getKnownBlocks() 
-	{
+	protected Iterable<Block> getKnownBlocks() {
 		return NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().map(RegistryObject :: get).filter(block -> !block.getLootTable().equals(BuiltInLootTables.EMPTY)).collect(Collectors.toSet());
 	}
-	
+
 /*	private void registerSelfDrop(Block block)
 	{
 		register(block, singleItem(block));

@@ -3,15 +3,15 @@ loaderVersion="[45,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/ArcAnc/nedaire-1.19/issues/"
 [[mods]]
-modId="nedaire"
-version="0.1.2"
+modId="${modId}"
+version="${version}"
 displayName="Nedaire"
 displayURL="https://github.com/ArcAnc/nedaire-1.19/"
 logoFile="nedaire_logo.png"
 credits="Thanks for this to Java and for me, of course"
 authors="ArcAnc"
 description='''
-Description
+Nedaire is big mod Techno Magic mod for Minecraft with a focus on perfomance and really interesting content
 '''
 [[dependencies.nedaire]]
     modId="forge"
