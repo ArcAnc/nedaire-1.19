@@ -8,23 +8,17 @@
  */
 package com.arcanc.nedaire.util.database;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.base.Preconditions;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class NDatabase 
 {
@@ -598,7 +592,7 @@ public class NDatabase
 					public static final ResourceLocation ADVANCED = getEnchiridionPath(SECTION, Section.ADVANCED);
 				}
 				
-				public static record SectionData (ResourceLocation name, Icon<?> icon, Map<ResourceLocation, ResourceLocation> data)
+				public record SectionData (ResourceLocation name, Icon<?> icon, Map<ResourceLocation, ResourceLocation> data)
 				{
 					
 					public SectionData(@Nonnull ResourceLocation name, @Nonnull Icon<?> icon, @Nonnull Map<ResourceLocation, ResourceLocation> data) 
