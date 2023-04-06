@@ -640,7 +640,8 @@ public class NDatabase
 						Arrays.asList(
 								new SectionData (Section.ResourceLocations.PATCH_NOTES,
 									Icon.of(net.minecraft.world.item.Items.WRITABLE_BOOK)).
-										addPage(Chapters.CHANGELOG, Pages.PATCH_0_1),
+										addPage(Chapters.PATCH_0_1, Pages.PATCH_0_1).
+										addPage(Chapters.PATCH_0_3, Pages.PATCH_0_3),
 								new SectionData (Section.ResourceLocations.BASIC,
 									Icon.of(getTexturePath("gui/enchiridion/" + BASIC), 5, 0, 0, 16, 16, 16, 16)).
 										addPage(Chapters.SKYSTONE, Pages.SKYSTONE).
@@ -667,7 +668,8 @@ public class NDatabase
 			public static class Chapters
 			{
 				//PatchNotes
-				public static final ResourceLocation CHANGELOG = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "changelog");
+				public static final ResourceLocation PATCH_0_1 = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "0.1");
+				public static final ResourceLocation PATCH_0_3 = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "0.3");
 				//Basic
 				public static final ResourceLocation SKYSTONE = getEnchiridionPath(getChapt(Section.BASIC), Blocks.Names.SKYSTONE);
 				public static final ResourceLocation TERRAMORFER = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.TERRAMORFER);
@@ -696,7 +698,8 @@ public class NDatabase
 			public static class Pages 
 			{
 				//patch notes
-				public static final ResourceLocation PATCH_0_1 = StringHelper.getLocFStr(getPage(Chapters.CHANGELOG, "0.1"));
+				public static final ResourceLocation PATCH_0_1 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_1, "0.1"));
+				public static final ResourceLocation PATCH_0_3 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_3, "0.1"));
 				//basic
 				public static final ResourceLocation SKYSTONE = StringHelper.getLocFStr(getPage(Chapters.SKYSTONE));
 				public static final ResourceLocation TERRAMORFER = StringHelper.getLocFStr(getPage(Chapters.TERRAMORFER));

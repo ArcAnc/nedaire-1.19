@@ -8,11 +8,6 @@
  */
 package com.arcanc.nedaire.content.book.parts;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.commons.compress.utils.Lists;
-
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.content.registration.NRegistration;
@@ -21,7 +16,6 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.Vec3i;
@@ -38,6 +32,10 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.compress.utils.Lists;
+
+import java.util.List;
+import java.util.Optional;
 
 public class EnchElementPage extends EnchElementAbstract 
 {
@@ -53,7 +51,7 @@ public class EnchElementPage extends EnchElementAbstract
 	
 	public EnchElementPage(EnchiridionInstance instance, ResourceLocation loc) 
 	{
-		super(instance, 0, 0, 110, 150);
+		super(instance, 0, 0, 110, 140);
 		chap = instance.getScreen().lastActiveChapter;
 		
 		toContent = new Vec3i(this.x + 15 + 122, this.y + 161, 9);
