@@ -8,20 +8,18 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-
 import com.arcanc.nedaire.content.block.entities.NBEExpExtractor;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 
 public class ExpExtractorRenderer implements BlockEntityRenderer<NBEExpExtractor> 
@@ -42,7 +40,7 @@ public class ExpExtractorRenderer implements BlockEntityRenderer<NBEExpExtractor
 	{
 		if (tile != null)
 		{
-			Direction dir = tile.getBlockState().getValue(BlockHelper.BlockProperties.FACING);
+			Direction dir = tile.getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 
 			if (tile.getBlockState().getValue(BlockHelper.BlockProperties.LIT))
 			{

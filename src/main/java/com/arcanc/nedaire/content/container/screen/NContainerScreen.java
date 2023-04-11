@@ -8,21 +8,14 @@
  */
 package com.arcanc.nedaire.content.container.screen;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.container.NSlot.ItemHandlerGhost;
-import com.arcanc.nedaire.content.container.widget.ChangeSizeButton;
+import com.arcanc.nedaire.content.container.widget.*;
 import com.arcanc.nedaire.content.container.widget.ChangeSizeButton.ButtonCtx;
-import com.arcanc.nedaire.content.container.widget.DropPanel;
-import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
 import com.arcanc.nedaire.content.container.widget.Label;
 import com.arcanc.nedaire.content.container.widget.Panel;
-import com.arcanc.nedaire.content.container.widget.RadioButton;
+import com.arcanc.nedaire.content.container.widget.DropPanel.Side;
 import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox;
 import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.content.container.widget.info.IconCheckbox;
@@ -30,18 +23,11 @@ import com.arcanc.nedaire.content.container.widget.info.InfoArea;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.BlockHelper;
-import com.arcanc.nedaire.util.helpers.FilterHelper;
-import com.arcanc.nedaire.util.helpers.FluidHelper;
-import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.arcanc.nedaire.util.helpers.RenderHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
-import com.arcanc.nedaire.util.helpers.VimHelper;
+import com.arcanc.nedaire.util.helpers.*;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -59,6 +45,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class NContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> 
 {
@@ -252,7 +243,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					addWidget(new Label(50, 25, 20, 10, () -> Component.translatable(tile.getCurrentRedstoneMod() == 2 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_DISABLED : 
 																								NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_CONTROL_MODE_ENABLED).withStyle(ChatFormatting.GRAY))).
 					addWidget(new Label(50, 35, 20, 10, () -> Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_NAME).withStyle(ChatFormatting.YELLOW))).
-					addWidget(new Label(50, 45, 20, 10, () -> Component.translatable(tile.getCurrentRedstoneMod() == 0 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT :
+					addWidget(new Label(50, 45, 20, 10, () -> Component.translatable(tile.getCurrentRedstoneMod() == 0 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_STRONG :
 																					 tile.getCurrentRedstoneMod() == 1 ? NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_LOW :
 																								NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_DISABLED).withStyle(ChatFormatting.GRAY))).
 					
@@ -261,7 +252,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 					setSize(60, 20).
 					setCurrentButtonId(tile.getCurrentRedstoneMod()).
 					build().
-						addButton(RadioButton.newButton(Icon.of(new ItemStack(Items.REDSTONE_BLOCK), false), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_HIGHT))).
+						addButton(RadioButton.newButton(Icon.of(new ItemStack(Items.REDSTONE_BLOCK), false), () -> Tooltip.create(Component.translatable(NDatabase.GUI.Elements.DropPanel.RedstoneSensitivePanel.DESCRIPTION_REQUIRED_SIGNAL_STRONG))).
 								pressAction(but -> 
 								{
 									CompoundTag tag = new CompoundTag();

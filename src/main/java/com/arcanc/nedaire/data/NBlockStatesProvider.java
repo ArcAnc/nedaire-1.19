@@ -30,21 +30,18 @@ import org.jetbrains.annotations.NotNull;
 public class NBlockStatesProvider extends BlockStateProvider 
 {
 
-	public NBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper)
-	{
+	public NBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, NDatabase.MOD_ID, exFileHelper);
 	}
 
 
 	@Override
-	protected void registerStatesAndModels()
-	{
+	protected void registerStatesAndModels() {
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		registerSimpleBlock (mat.getStorageBlock().get());
 
-		if (mat.requiredOre())
-		{
+		if (mat.requiredOre()) {
 			registerOreBlock(mat.getOreBlock().get());
 			registerSimpleBlock (mat.getRawStorageBlock().get());
 			registerDeepslateOreBlock(mat.getDeepSlateOre().get());
@@ -82,6 +79,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerExpExtractor(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get());
 
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
+		registerPlatform(NRegistration.RegisterBlocks.PLATFORM.get());
 
 		//registerSimpleBlock(NRegistration.RegisterBlocks.CORE.get());
 
@@ -91,8 +89,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 //		registerCrusher(NRegistration.RegisterBlocks.CRUSHER.get());
 	}
 
-	private void registerSimpleBlock (Block block)
-	{
+	private void registerSimpleBlock (Block block) {
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cube_all"))).
 				renderType("solid").
@@ -102,11 +99,10 @@ public class NBlockStatesProvider extends BlockStateProvider
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(model);
+				parent(model);
 	}
 
-	private void registerWall(WallBlock block)
-	{
+	private void registerWall(WallBlock block) {
 
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
@@ -122,11 +118,10 @@ public class NBlockStatesProvider extends BlockStateProvider
 		wallBlock(block, post, side, sideTall);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-			parent(inv);
+				parent(inv);
 	}
 
-	private void registerStairs(StairBlock block)
-	{
+	private void registerStairs(StairBlock block) {
         String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
 
@@ -139,11 +134,10 @@ public class NBlockStatesProvider extends BlockStateProvider
         stairsBlock(block, stairs, stairsInner, stairsOuter);
         
         itemModels().getBuilder(itemPrefix(name(block))).
-        	parent(stairs);
+				parent(stairs);
 	}
 
-	private void registerSlab(SlabBlock block)
-	{
+	private void registerSlab(SlabBlock block) {
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
 
@@ -157,11 +151,10 @@ public class NBlockStatesProvider extends BlockStateProvider
 		slabBlock(block, slab, top, doubleSlab);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(slab);
+				parent(slab);
 	}
 
-	private void registerOreBlock(Block block)
-	{
+	private void registerOreBlock(Block block) {
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
@@ -169,17 +162,16 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("back", mcLoc(blockPrefix("stone"))).
 				texture("particle", mcLoc(blockPrefix("stone"))).
 				element().
-					cube("#back").
-					end().
+				cube("#back").
+				end().
 				element().
-					cube("#ore").
-					end();
+				cube("#ore").
+				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerDeepslateOreBlock(Block block)
-	{
+	private void registerDeepslateOreBlock(Block block) {
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
@@ -187,17 +179,16 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("back", mcLoc(blockPrefix("deepslate"))).
 				texture("particle", mcLoc(blockPrefix("deepslate"))).
 				element().
-					cube("#back").
-					end().
+				cube("#back").
+				end().
 				element().
-					cube("#ore").
-					end();
+				cube("#ore").
+				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerPedestal(Block block)
-	{
+	private void registerPedestal(Block block) {
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/texture"));
 
 		ModelFile model = models().
@@ -206,200 +197,193 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("main", texture).
 				texture("particle", texture).
 				element().
-					from(0, 0, 0).
-					to(16, 3, 16).
-						allFaces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.cullface(face);
-							if (face.getAxis().isHorizontal())
-								builder.uvs(4.25f, face.get2DDataValue(), 8.25f, 0.75f + face.get2DDataValue());
-							else
-								builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue() );
-						}).
-					end().
-				element().
-					from(2, 11, 2).
-					to(14, 14, 14).
-						allFaces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face.getAxis().isHorizontal())
-								builder.uvs(8.5f, face.get2DDataValue(), 11.5f, 0.75f + face.get2DDataValue());
-							else
-								builder.uvs(3, 8.5f + 6.25f * face.get3DDataValue(), 0, 11.5f + 0.25f * face.get3DDataValue());
-						}).
-					end().
-				element().
-					from(4, 3, 4).
-					to(12, 11, 12).
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.uvs(4.25f, 4 + 2.25f * face.get2DDataValue(), 6.25f, 6 + 2.25f * face.get2DDataValue()).texture("#main");
-						}).
-					end().
-				element().
-					from(4.001f, 14, 4.001f).
-					to(11.999f, 15, 11.999f).
-						face(Direction.UP).
-							uvs(8.5f, 6, 6.5f, 4).
-							texture("#main").
-						end().
-					end().
-				element().
-					from(5, 14, 3).
-					to(11, 16, 4).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
-							else
-								builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
-						}).
+				from(0, 0, 0).
+				to(16, 3, 16).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.cullface(face);
+					if (face.getAxis().isHorizontal())
+						builder.uvs(4.25f, face.get2DDataValue(), 8.25f, 0.75f + face.get2DDataValue());
+					else
+						builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue() );
+				}).
 				end().
 				element().
-					from(5, 14, 12).
-					to(11, 16, 13).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
-							else
-								builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
-						}).
-					end().
+				from(2, 11, 2).
+				to(14, 14, 14).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(8.5f, face.get2DDataValue(), 11.5f, 0.75f + face.get2DDataValue());
+					else
+						builder.uvs(3, 8.5f + 6.25f * face.get3DDataValue(), 0, 11.5f + 0.25f * face.get3DDataValue());
+				}).
+				end().
 				element().
-					from(12, 14, 5).
-					to(13, 16, 11).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
-							else
-								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
-						}).
-					end().
+				from(4, 3, 4).
+				to(12, 11, 12).
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(4.25f, 4 + 2.25f * face.get2DDataValue(), 6.25f, 6 + 2.25f * face.get2DDataValue()).texture("#main");
+				}).
+				end().
 				element().
-					from(3, 14, 5).
-					to(4, 16, 11).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
-							else
-								builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
-						}).
-					end().
+				from(4.001f, 14, 4.001f).
+				to(11.999f, 15, 11.999f).
+				face(Direction.UP).
+				uvs(8.5f, 6, 6.5f, 4).
+				texture("#main").
+				end().
+				end().
 				element().
-					from(4, 14, 4).
-					to(5, 16, 5).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
-							else
-								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).
-					end().
+				from(5, 14, 3).
+				to(11, 16, 4).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
+				}).
+				end().
 				element().
-					from(4, 14, 11).
-					to(5, 16, 12).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
-							else
-								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).
-					end().
+				from(5, 14, 12).
+				to(11, 16, 13).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(6.5f, 6.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 8 : 6.75f, 6.75f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 7.25f, 7, 7).cullface(face);
+				}).
+				end().
 				element().
-					from(11, 14, 11).
-					to(12, 16, 12).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
-							else
-								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).
-					end().
+				from(12, 14, 5).
+				to(13, 16, 11).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
+				}).
+				end().
 				element().
-					from(11, 14, 4).
-					to(12, 16, 5).
-						face(Direction.UP).end().
-						face(Direction.EAST).end().
-						face(Direction.WEST).end().
-						face(Direction.NORTH).end().
-						face(Direction.SOUTH).end().
-						faces((face, builder) ->
-						{
-							builder.texture("#main");
-							if (face != Direction.UP)
-								builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
-							else
-								builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
-						}).
-					end();
-
-
-
-
-
-
+				from(3, 14, 5).
+				to(4, 16, 11).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(6.5f, 9.25f + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 8 : 6.75f, 9.75f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 11.5f, 8.25f, 10).cullface(face);
+				}).
+				end().
+				element().
+				from(4, 14, 4).
+				to(5, 16, 5).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+					else
+						builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+				}).
+				end().
+				element().
+				from(4, 14, 11).
+				to(5, 16, 12).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+					else
+						builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+				}).
+				end().
+				element().
+				from(11, 14, 11).
+				to(12, 16, 12).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+					else
+						builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+				}).
+				end().
+				element().
+				from(11, 14, 4).
+				to(12, 16, 5).
+				face(Direction.UP).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.UP)
+						builder.uvs(8.75f + 0.5f * face.get2DDataValue(), 4, 9 + 0.5f * face.get2DDataValue(), 4.5f);
+					else
+						builder.uvs(11, 4.25f, 10.75f, 4).cullface(face);
+				}).
+				end();
 
 
 		registerModels(block, model);
 	}
 
-	private void registerHolder(Block block)
-	{
+	private void registerHolder(Block block) {
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOLDER + "/texture"));
 
 		ModelFile model = models().
@@ -408,171 +392,168 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("main", tex).
 				texture("particle", tex).
 				element().
-					from(0,10,0).
-					to(16,16,16).
-					allFaces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face != Direction.DOWN)
-							builder.cullface(face);
-						if (face.getAxis().isHorizontal())
-							builder.uvs(4.25f, 1.75f * face.get2DDataValue(), 8.25f, 1.5f + 1.75f * face.get2DDataValue());
-						else
-							builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue());
-					}).
+				from(0,10,0).
+				to(16,16,16).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face != Direction.DOWN)
+						builder.cullface(face);
+					if (face.getAxis().isHorizontal())
+						builder.uvs(4.25f, 1.75f * face.get2DDataValue(), 8.25f, 1.5f + 1.75f * face.get2DDataValue());
+					else
+						builder.uvs(4, 8.25f * face.get3DDataValue(), 0, 4 + 0.25f * face.get3DDataValue());
+				}).
 				end().
 				element().
-					from(4.001f, 9, 4.001f).
-					to(11.999f, 10, 11.999f).
-					face(Direction.DOWN).
-						uvs(14.5f, 3, 12.5f, 5).
-						texture("#main").
-						end().
+				from(4.001f, 9, 4.001f).
+				to(11.999f, 10, 11.999f).
+				face(Direction.DOWN).
+				uvs(14.5f, 3, 12.5f, 5).
+				texture("#main").
+				end().
 				end().
 				element().
-					from(5, 8, 12).
-					to(11, 10, 13).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-						{
-							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
-						}
-						else
-							builder.uvs(10, 0, 8.5f, 0.25f);
-					}).
+				from(5, 8, 12).
+				to(11, 10, 13).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal()) {
+						builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
+					} else
+						builder.uvs(10, 0, 8.5f, 0.25f);
+				}).
 				end().
 				element().
-					from(5, 8, 3).
-					to(11, 10, 4).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(10, 0, 8.5f, 0.25f);
-					}).
+				from(5, 8, 3).
+				to(11, 10, 4).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(10.25f, 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.X ? 10.5f : 11.75f, 0.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(10, 0, 8.5f, 0.25f);
+				}).
 				end().
 				element().
-					from(12, 8, 5).
-					to(13, 10, 11).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
-					}).
+				from(12, 8, 5).
+				to(13, 10, 11).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
+				}).
 				end().
 				element().
-					from(3, 8, 5).
-					to(4, 10, 11).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
-					}).
+				from(3, 8, 5).
+				to(4, 10, 11).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(10.25f, 3 + 0.75f * face.get2DDataValue(), face.getAxis() == Direction.Axis.Z ? 10.5f : 11.75f, 3.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(8.5f, 3.25f, 10, 3).rotation(FaceRotation.CLOCKWISE_90);
+				}).
 				end().
 				element().
-					from(11, 8, 4).
-					to(12, 10, 5).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(12.25f, 0, 12, 0.25f);
-					}).
+				from(11, 8, 4).
+				to(12, 10, 5).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(12.25f, 0, 12, 0.25f);
+				}).
 				end().
 				element().
-					from(11, 8, 11).
-					to(12, 10, 12).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(12.25f, 0, 12, 0.25f);
-					}).
+				from(11, 8, 11).
+				to(12, 10, 12).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(12.25f, 0, 12, 0.25f);
+				}).
 				end().
 				element().
-					from(4, 8, 11).
-					to(5, 10, 12).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(12.25f, 0, 12, 0.25f);
-					}).
+				from(4, 8, 11).
+				to(5, 10, 12).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(12.25f, 0, 12, 0.25f);
+				}).
 				end().
 				element().
-					from(4, 8, 4).
-					to(5, 10, 5).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					face(Direction.DOWN).end().
-					faces((face, builder) ->
-					{
-						builder.texture("#main");
-						if (face.getAxis().isHorizontal())
-							builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
-						else
-							builder.uvs(12.25f, 0, 12, 0.25f);
-					}).
+				from(4, 8, 4).
+				to(5, 10, 5).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				face(Direction.DOWN).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#main");
+					if (face.getAxis().isHorizontal())
+						builder.uvs(12.5f, 0.75f * face.get2DDataValue(), 12.75f, 0.5f + 0.75f * face.get2DDataValue());
+					else
+						builder.uvs(12.25f, 0, 12, 0.25f);
+				}).
 				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerManualChusher(Block block)
-	{
+	private void registerManualChusher(Block block) {
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER + "/" + NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER));
 
 		BlockModelBuilder model = models().
@@ -582,167 +563,167 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", tex).
 				element().
-					//base
-					from(2, 0, 2).
-					to(14, 6, 14).
-						face(Direction.NORTH).
-							uvs(9, 3, 12, 4.5f).
-							end().
-						face(Direction.SOUTH).
-							uvs(3, 3, 6, 4.5f).
-							end().
-						face(Direction.EAST).
-							uvs(0, 3, 3, 4.5f).
-							end().
-						face(Direction.WEST).
-							uvs(6, 3, 9, 4.5f).
-							end().
-						face(Direction.UP).
-							uvs(6, 3, 3, 0).
-							end().
-						face(Direction.DOWN).
-							uvs(9, 0, 6, 3).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//base
+						from(2, 0, 2).
+				to(14, 6, 14).
+				face(Direction.NORTH).
+				uvs(9, 3, 12, 4.5f).
+				end().
+				face(Direction.SOUTH).
+				uvs(3, 3, 6, 4.5f).
+				end().
+				face(Direction.EAST).
+				uvs(0, 3, 3, 4.5f).
+				end().
+				face(Direction.WEST).
+				uvs(6, 3, 9, 4.5f).
+				end().
+				face(Direction.UP).
+				uvs(6, 3, 3, 0).
+				end().
+				face(Direction.DOWN).
+				uvs(9, 0, 6, 3).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
-					//glassN
-					from(3, 6, 3).
-					to(13, 14, 3.005f).
-						face(Direction.NORTH).
-							uvs(2.5f, 7, 5, 9).
-							end().
-						face(Direction.SOUTH).
-							uvs(7.5f, 7, 10, 9).
-							end().
-						face(Direction.EAST).
-							uvs(0, 7, 2.5f, 9).
-							end().
-						face(Direction.WEST).
-							uvs(5, 7, 7.5f, 9).
-							end().
-						face(Direction.UP).
-							uvs(5, 7, 2.5f, 4.5f).
-							end().
-						face(Direction.DOWN).
-							uvs(7.5f, 4.5f, 5, 7).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//glassN
+						from(3, 6, 3).
+				to(13, 14, 3.005f).
+				face(Direction.NORTH).
+				uvs(2.5f, 7, 5, 9).
+				end().
+				face(Direction.SOUTH).
+				uvs(7.5f, 7, 10, 9).
+				end().
+				face(Direction.EAST).
+				uvs(0, 7, 2.5f, 9).
+				end().
+				face(Direction.WEST).
+				uvs(5, 7, 7.5f, 9).
+				end().
+				face(Direction.UP).
+				uvs(5, 7, 2.5f, 4.5f).
+				end().
+				face(Direction.DOWN).
+				uvs(7.5f, 4.5f, 5, 7).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
-					//glassS
-					from(3, 6, 13).
-					to(13, 14, 13.005f).
-						face(Direction.NORTH).
-							uvs(2.5f, 7, 5, 9).
-							end().
-						face(Direction.SOUTH).
-							uvs(7.5f, 7, 10, 9).
-							end().
-						face(Direction.EAST).
-							uvs(0, 7, 2.5f, 9).
-							end().
-						face(Direction.WEST).
-							uvs(5, 7, 7.5f, 9).
-							end().
-						face(Direction.UP).
-							uvs(5, 7, 2.5f, 4.5f).
-							end().
-						face(Direction.DOWN).
-							uvs(7.5f, 4.5f, 5, 7).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//glassS
+						from(3, 6, 13).
+				to(13, 14, 13.005f).
+				face(Direction.NORTH).
+				uvs(2.5f, 7, 5, 9).
+				end().
+				face(Direction.SOUTH).
+				uvs(7.5f, 7, 10, 9).
+				end().
+				face(Direction.EAST).
+				uvs(0, 7, 2.5f, 9).
+				end().
+				face(Direction.WEST).
+				uvs(5, 7, 7.5f, 9).
+				end().
+				face(Direction.UP).
+				uvs(5, 7, 2.5f, 4.5f).
+				end().
+				face(Direction.DOWN).
+				uvs(7.5f, 4.5f, 5, 7).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
-					//glassE
-					from(13, 6, 3).
-					to(13.005f, 14, 13).
-						face(Direction.NORTH).
-							uvs(2.5f, 7, 5, 9).
-							end().
-						face(Direction.SOUTH).
-							uvs(7.5f, 7, 10, 9).
-							end().
-						face(Direction.EAST).
-							uvs(0, 7, 2.5f, 9).
-							end().
-						face(Direction.WEST).
-							uvs(5, 7, 7.5f, 9).
-							end().
-						face(Direction.UP).
-							uvs(5, 7, 2.5f, 4.5f).
-							rotation(FaceRotation.COUNTERCLOCKWISE_90).
-							end().
-						face(Direction.DOWN).
-							uvs(7.5f, 4.5f, 5, 7).
-							rotation(FaceRotation.CLOCKWISE_90).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//glassE
+						from(13, 6, 3).
+				to(13.005f, 14, 13).
+				face(Direction.NORTH).
+				uvs(2.5f, 7, 5, 9).
+				end().
+				face(Direction.SOUTH).
+				uvs(7.5f, 7, 10, 9).
+				end().
+				face(Direction.EAST).
+				uvs(0, 7, 2.5f, 9).
+				end().
+				face(Direction.WEST).
+				uvs(5, 7, 7.5f, 9).
+				end().
+				face(Direction.UP).
+				uvs(5, 7, 2.5f, 4.5f).
+				rotation(FaceRotation.COUNTERCLOCKWISE_90).
+				end().
+				face(Direction.DOWN).
+				uvs(7.5f, 4.5f, 5, 7).
+				rotation(FaceRotation.CLOCKWISE_90).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
-					//glassW
-					from(3, 6, 3).
-					to(3.005f, 14, 13).
-						face(Direction.NORTH).
-							uvs(2.5f, 7, 5, 9).
-							end().
-						face(Direction.SOUTH).
-							uvs(7.5f, 7, 10, 9).
-							end().
-						face(Direction.EAST).
-							uvs(0, 7, 2.5f, 9).
-							end().
-						face(Direction.WEST).
-							uvs(5, 7, 7.5f, 9).
-							end().
-						face(Direction.UP).
-							uvs(5, 7, 2.5f, 4.5f).
-							rotation(FaceRotation.COUNTERCLOCKWISE_90).
-							end().
-						face(Direction.DOWN).
-							uvs(7.5f, 4.5f, 5, 7).
-							rotation(FaceRotation.CLOCKWISE_90).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//glassW
+						from(3, 6, 3).
+				to(3.005f, 14, 13).
+				face(Direction.NORTH).
+				uvs(2.5f, 7, 5, 9).
+				end().
+				face(Direction.SOUTH).
+				uvs(7.5f, 7, 10, 9).
+				end().
+				face(Direction.EAST).
+				uvs(0, 7, 2.5f, 9).
+				end().
+				face(Direction.WEST).
+				uvs(5, 7, 7.5f, 9).
+				end().
+				face(Direction.UP).
+				uvs(5, 7, 2.5f, 4.5f).
+				rotation(FaceRotation.COUNTERCLOCKWISE_90).
+				end().
+				face(Direction.DOWN).
+				uvs(7.5f, 4.5f, 5, 7).
+				rotation(FaceRotation.CLOCKWISE_90).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
-					//up
-					from(2, 14, 2).
-					to(14, 16, 14).
-						face(Direction.NORTH).
-							uvs(3, 12, 6, 12.5f).
-							end().
-						face(Direction.SOUTH).
-							uvs(9, 12, 12, 12.5f).
-							end().
-						face(Direction.EAST).
-							uvs(0, 12, 3, 12.5f).
-							end().
-						face(Direction.WEST).
-							uvs(6, 12, 9, 12.5f).
-							end().
-						face(Direction.UP).
-							uvs(6, 12, 3, 9).
-							end().
-						face(Direction.DOWN).
-							uvs(9, 9, 6, 12).
-							end().
-						faces((face, builder) -> builder.texture("#main").cullface(face).end()).
+				//up
+						from(2, 14, 2).
+				to(14, 16, 14).
+				face(Direction.NORTH).
+				uvs(3, 12, 6, 12.5f).
+				end().
+				face(Direction.SOUTH).
+				uvs(9, 12, 12, 12.5f).
+				end().
+				face(Direction.EAST).
+				uvs(0, 12, 3, 12.5f).
+				end().
+				face(Direction.WEST).
+				uvs(6, 12, 9, 12.5f).
+				end().
+				face(Direction.UP).
+				uvs(6, 12, 3, 9).
+				end().
+				face(Direction.DOWN).
+				uvs(9, 9, 6, 12).
+				end().
+				faces((face, builder) -> builder.texture("#main").cullface(face).end()).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.DOWN).
-						texture("#port").
-						cullface(Direction.DOWN).
-						tintindex(Direction.DOWN.get3DDataValue()).
-						end().
+				face(Direction.DOWN).
+				texture("#port").
+				cullface(Direction.DOWN).
+				tintindex(Direction.DOWN.get3DDataValue()).
+				end().
 				end();
 
 		horizontalBlock(block, model, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(model);
+				parent(model);
 		/*FIXME: take copy of block model and add part which is lower */
 /*		//pressTop
 		element().
@@ -867,8 +848,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 */
 	}
 
-	private void registerVimStorage(Block block)
-	{
+	private void registerVimStorage(Block block) {
 		ResourceLocation texFront = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_front"));
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_top"));
@@ -882,228 +862,227 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFront).
 				element().
-					from(0, 0, 2).
-					to(4, 16, 14).
-						face(Direction.NORTH).
-							uvs(12, 0, 16, 16).
-							end().
-						face(Direction.EAST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.SOUTH).
-							uvs(0, 0, 4, 16).
-							end().
-						face(Direction.WEST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.UP).
-							uvs(4, 14, 0, 2).
-							end().
-						face(Direction.DOWN).
-							uvs(16, 2, 12, 14).
-							end().
-						faces((face, builder) ->
-						{
-							if(face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if (face.getAxis() == Direction.Axis.X)
-								builder.texture("#side");
-							else if (face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face != Direction.EAST)
-								builder.cullface(face);
-						}).
+				from(0, 0, 2).
+				to(4, 16, 14).
+				face(Direction.NORTH).
+				uvs(12, 0, 16, 16).
+				end().
+				face(Direction.EAST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 0, 4, 16).
+				end().
+				face(Direction.WEST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.UP).
+				uvs(4, 14, 0, 2).
+				end().
+				face(Direction.DOWN).
+				uvs(16, 2, 12, 14).
+				end().
+				faces((face, builder) ->
+				{
+					if(face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if (face.getAxis() == Direction.Axis.X)
+						builder.texture("#side");
+					else if (face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face != Direction.EAST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(12, 0, 2).
-					to(16, 16, 14).
-						face(Direction.NORTH).
-							uvs(0, 0, 4, 16).
-							end().
-						face(Direction.EAST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.SOUTH).
-							uvs(12, 0, 16, 16).
-							end().
-						face(Direction.WEST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.UP).
-							uvs(12, 2, 16, 14).
-							end().
-						face(Direction.DOWN).
-							uvs(0, 2, 4, 14).
-							end().
-						faces((face, builder) ->
-						{
-							if(face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if (face.getAxis() == Direction.Axis.X)
-								builder.texture("#side");
-							else if (face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face != Direction.WEST)
-								builder.cullface(face);
-						}).
+				from(12, 0, 2).
+				to(16, 16, 14).
+				face(Direction.NORTH).
+				uvs(0, 0, 4, 16).
+				end().
+				face(Direction.EAST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.SOUTH).
+				uvs(12, 0, 16, 16).
+				end().
+				face(Direction.WEST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.UP).
+				uvs(12, 2, 16, 14).
+				end().
+				face(Direction.DOWN).
+				uvs(0, 2, 4, 14).
+				end().
+				faces((face, builder) ->
+				{
+					if(face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if (face.getAxis() == Direction.Axis.X)
+						builder.texture("#side");
+					else if (face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face != Direction.WEST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(6, 0, 2).
-					to(10, 16, 14).
-						face(Direction.NORTH).
-							uvs(6, 0, 10, 16).
-							end().
-						face(Direction.EAST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.SOUTH).
-							uvs(6, 0, 10, 16).
-							end().
-						face(Direction.WEST).
-							uvs(2, 0, 14, 16).
-							end().
-						face(Direction.UP).
-							uvs(6, 2, 10, 14).
-							end().
-						face(Direction.DOWN).
-							uvs(6, 2, 10, 14).
-							end().
-						faces((face, builder) ->
-						{
-							if(face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if (face.getAxis() == Direction.Axis.X)
-								builder.texture("#side");
-							else if (face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face.getAxis() != Direction.Axis.X)
-								builder.cullface(face);
-						}).
+				from(6, 0, 2).
+				to(10, 16, 14).
+				face(Direction.NORTH).
+				uvs(6, 0, 10, 16).
+				end().
+				face(Direction.EAST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.SOUTH).
+				uvs(6, 0, 10, 16).
+				end().
+				face(Direction.WEST).
+				uvs(2, 0, 14, 16).
+				end().
+				face(Direction.UP).
+				uvs(6, 2, 10, 14).
+				end().
+				face(Direction.DOWN).
+				uvs(6, 2, 10, 14).
+				end().
+				faces((face, builder) ->
+				{
+					if(face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if (face.getAxis() == Direction.Axis.X)
+						builder.texture("#side");
+					else if (face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face.getAxis() != Direction.Axis.X)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(4, 10, 5).
-					to(6, 15, 11).
-						face(Direction.NORTH).
-							uvs(10, 1, 12, 6).
-							end().
-						face(Direction.SOUTH).
-							uvs(4, 1, 6, 6).
-							end().
-						face(Direction.UP).
-							uvs(4, 5, 6, 11).
-							end().
-						face(Direction.DOWN).
-							uvs(10, 5, 12, 11).
-							end().
-						faces((face, builder) ->
-						{
-							if (face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if(face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face.getAxis() != Direction.Axis.Y)
-								builder.cullface(face);
-						}).
+				from(4, 10, 5).
+				to(6, 15, 11).
+				face(Direction.NORTH).
+				uvs(10, 1, 12, 6).
+				end().
+				face(Direction.SOUTH).
+				uvs(4, 1, 6, 6).
+				end().
+				face(Direction.UP).
+				uvs(4, 5, 6, 11).
+				end().
+				face(Direction.DOWN).
+				uvs(10, 5, 12, 11).
+				end().
+				faces((face, builder) ->
+				{
+					if (face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if(face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(4, 1, 5).
-					to(6, 6, 11).
-						face(Direction.NORTH).
-							uvs(10, 10, 12, 15).
-							end().
-						face(Direction.SOUTH).
-							uvs(4, 10, 6, 15).
-							end().
-						face(Direction.UP).
-							uvs(4, 5, 6, 11).
-							end().
-						face(Direction.DOWN).
-							uvs(10, 5, 12, 11).
-							end().
-						faces((face, builder) ->
-						{
-							if (face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if(face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face.getAxis() != Direction.Axis.Y)
-								builder.cullface(face);
-						}).
+				from(4, 1, 5).
+				to(6, 6, 11).
+				face(Direction.NORTH).
+				uvs(10, 10, 12, 15).
+				end().
+				face(Direction.SOUTH).
+				uvs(4, 10, 6, 15).
+				end().
+				face(Direction.UP).
+				uvs(4, 5, 6, 11).
+				end().
+				face(Direction.DOWN).
+				uvs(10, 5, 12, 11).
+				end().
+				faces((face, builder) ->
+				{
+					if (face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if(face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(10, 10, 5).
-					to(12, 15, 11).
-						face(Direction.NORTH).
-							uvs(4, 1, 6, 6).
-							end().
-						face(Direction.SOUTH).
-							uvs(10, 1, 12, 6).
-							end().
-						face(Direction.UP).
-							uvs(10, 5, 12, 11).
-							end().
-						face(Direction.DOWN).
-							uvs(4, 5, 6, 11).
-							end().
-						faces((face, builder) ->
-						{
-							if (face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if(face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face.getAxis() != Direction.Axis.Y)
-								builder.cullface(face);
-						}).
+				from(10, 10, 5).
+				to(12, 15, 11).
+				face(Direction.NORTH).
+				uvs(4, 1, 6, 6).
+				end().
+				face(Direction.SOUTH).
+				uvs(10, 1, 12, 6).
+				end().
+				face(Direction.UP).
+				uvs(10, 5, 12, 11).
+				end().
+				face(Direction.DOWN).
+				uvs(4, 5, 6, 11).
+				end().
+				faces((face, builder) ->
+				{
+					if (face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if(face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(10, 1, 5).
-					to(12, 6, 11).
-						face(Direction.NORTH).
-							uvs(4, 10, 6, 15).
-							end().
-						face(Direction.SOUTH).
-							uvs(10, 10, 12, 15).
-							end().
-						face(Direction.UP).
-							uvs(10, 5, 12, 11).
-							end().
-						face(Direction.DOWN).
-							uvs(10, 5, 12, 11).
-							end().
-						faces((face, builder) ->
-						{
-							if (face.getAxis() == Direction.Axis.Z)
-								builder.texture("#front");
-							else if(face.getAxis() == Direction.Axis.Y)
-								builder.texture("#top");
-							if (face.getAxis() != Direction.Axis.Y)
-								builder.cullface(face);
-						}).
+				from(10, 1, 5).
+				to(12, 6, 11).
+				face(Direction.NORTH).
+				uvs(4, 10, 6, 15).
+				end().
+				face(Direction.SOUTH).
+				uvs(10, 10, 12, 15).
+				end().
+				face(Direction.UP).
+				uvs(10, 5, 12, 11).
+				end().
+				face(Direction.DOWN).
+				uvs(10, 5, 12, 11).
+				end().
+				faces((face, builder) ->
+				{
+					if (face.getAxis() == Direction.Axis.Z)
+						builder.texture("#front");
+					else if(face.getAxis() == Direction.Axis.Y)
+						builder.texture("#top");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(-0.001f, -0.001f, -0.001f).
-					to(16.001f, 16.001f, 16.001f).
-						face(Direction.WEST).
-							texture("#port").
-							cullface(Direction.WEST).
-							tintindex(Direction.WEST.get3DDataValue()).
-							end().
-						face(Direction.EAST).
-							texture("#port").
-							cullface(Direction.EAST).
-							tintindex(Direction.EAST.get3DDataValue()).
-							end().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.WEST).
+				texture("#port").
+				cullface(Direction.WEST).
+				tintindex(Direction.WEST.get3DDataValue()).
+				end().
+				face(Direction.EAST).
+				texture("#port").
+				cullface(Direction.EAST).
+				tintindex(Direction.EAST.get3DDataValue()).
+				end().
 				end();
 
 		horizontalBlock(block, model, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(model);
+				parent(model);
 
 	}
 
-	private void registerFluidStorage(Block block)
-	{
+	private void registerFluidStorage(Block block) {
 		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_glass"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_updown"));
 
@@ -1115,58 +1094,57 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				ao(false).
 				element().
-					from(3, 0, 3).
-					to(13, 16, 13).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16);
-						if (face.getAxis().isHorizontal())
-							builder.texture("#glass");
-						else
-							builder.texture("#updown").cullface(face);
-					}).
+				from(3, 0, 3).
+				to(13, 16, 13).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16);
+					if (face.getAxis().isHorizontal())
+						builder.texture("#glass");
+					else
+						builder.texture("#updown").cullface(face);
+				}).
 				end().
 				element().
-					from(13, 16, 13).
-					to(3, 0, 3).
-					face(Direction.NORTH).
-						uvs(0, 16, 16, 0).
-						texture("#glass").
-						end().
-					face(Direction.SOUTH).
-						uvs(0, 16, 16, 0).
-						texture("#glass").
-						end().
-					face(Direction.WEST).
-						uvs(0, 16, 16, 0).
-						texture("#glass").
-						end().
-					face(Direction.EAST).
-						uvs(0, 16, 16, 0).
-						texture("#glass").
-						end().
+				from(13, 16, 13).
+				to(3, 0, 3).
+				face(Direction.NORTH).
+				uvs(0, 16, 16, 0).
+				texture("#glass").
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 16, 16, 0).
+				texture("#glass").
+				end().
+				face(Direction.WEST).
+				uvs(0, 16, 16, 0).
+				texture("#glass").
+				end().
+				face(Direction.EAST).
+				uvs(0, 16, 16, 0).
+				texture("#glass").
+				end().
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.UP).
-						texture("#port").
-						cullface(Direction.UP).
-						tintindex(Direction.UP.get3DDataValue()).
-						end().
-					face(Direction.DOWN).
-						texture("#port").
-						cullface(Direction.DOWN).
-						tintindex(Direction.DOWN.get3DDataValue()).
-						end().
+				face(Direction.UP).
+				texture("#port").
+				cullface(Direction.UP).
+				tintindex(Direction.UP.get3DDataValue()).
+				end().
+				face(Direction.DOWN).
+				texture("#port").
+				cullface(Direction.DOWN).
+				tintindex(Direction.DOWN.get3DDataValue()).
+				end().
 				end();
 
 
 		registerModels(block, model);
 	}
 
-	private void registerDeliveryStation(Block block)
-	{
+	private void registerDeliveryStation(Block block) {
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION));
 
 		ModelFile core = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -1175,12 +1153,12 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("particle", texture).
 				ao(false).
 				element().
-					from(5, 5, 5).
-					to(11, 11, 11).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(5, 5, 11, 11).texture("#tex");
-					}).
+				from(5, 5, 5).
+				to(11, 11, 11).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(5, 5, 11, 11).texture("#tex");
+				}).
 				end();
 
 		ModelFile connectorModel = models().getBuilder(blockPrefix(name(block) + "_connector")).
@@ -1188,87 +1166,77 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("tex", texture).
 				texture("particle", texture).
 				element().
-					from(7.5f, 7.5f, 11).
-					to(8.5f, 8.5f, 15).
-					rotation().
-						angle(0).
-						axis(Axis.Y).
-						origin(8f, 8f, 8f).
-						end().
-					allFaces((face, builder) ->
-					{
-						if (face.getAxis() != Direction.Axis.Z)
-						{
-							builder.uvs(1, 0, 2, 4);
-							if (face == Direction.EAST)
-								builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
-							else if(face == Direction.WEST)
-								builder.rotation(FaceRotation.CLOCKWISE_90);
-							else if (face == Direction.UP)
-								builder.rotation(FaceRotation.UPSIDE_DOWN);
+				from(7.5f, 7.5f, 11).
+				to(8.5f, 8.5f, 15).
+				rotation().
+				angle(0).
+				axis(Axis.Y).
+				origin(8f, 8f, 8f).
+				end().
+				allFaces((face, builder) ->
+				{
+					if (face.getAxis() != Direction.Axis.Z) {
+						builder.uvs(1, 0, 2, 4);
+						if (face == Direction.EAST)
+							builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
+						else if(face == Direction.WEST)
+							builder.rotation(FaceRotation.CLOCKWISE_90);
+						else if (face == Direction.UP)
+							builder.rotation(FaceRotation.UPSIDE_DOWN);
+					} else {
+						builder.uvs(0, 0, 1, 1);
+						if(face == Direction.NORTH) {
+							builder.rotation(FaceRotation.UPSIDE_DOWN);
 						}
-						else
-						{
-							builder.uvs(0, 0, 1, 1);
-							if(face == Direction.NORTH)
-							{
-								builder.rotation(FaceRotation.UPSIDE_DOWN);
-							}
-						}
-						builder.texture("#tex");
-					}).
+					}
+					builder.texture("#tex");
+				}).
 				end().
 				element().
-					from(6, 6, 15).
-					to(10, 10, 16).
-					rotation().
-						angle(0f).
-						axis(Axis.Y).
-						origin(8f, 8f, 8f).
-						end().
-					allFaces((face, builder) ->
-					{
-						if (face.getAxis() != Direction.Axis.Z)
-						{
-							builder.uvs(0, 8, 4, 9);
-							if (face == Direction.EAST)
-								builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
-							else if (face == Direction.WEST)
-								builder.rotation(FaceRotation.CLOCKWISE_90);
-							else if (face == Direction.UP)
-								builder.rotation(FaceRotation.UPSIDE_DOWN);
-						}
+				from(6, 6, 15).
+				to(10, 10, 16).
+				rotation().
+				angle(0f).
+				axis(Axis.Y).
+				origin(8f, 8f, 8f).
+				end().
+				allFaces((face, builder) ->
+				{
+					if (face.getAxis() != Direction.Axis.Z) {
+						builder.uvs(0, 8, 4, 9);
+						if (face == Direction.EAST)
+							builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
+						else if (face == Direction.WEST)
+							builder.rotation(FaceRotation.CLOCKWISE_90);
+						else if (face == Direction.UP)
+							builder.rotation(FaceRotation.UPSIDE_DOWN);
+					} else {
+						builder.uvs(0, 9, 4, 13);
+						if (face == Direction.NORTH)
+							builder.rotation(FaceRotation.UPSIDE_DOWN);
 						else
-						{
-							builder.uvs(0, 9, 4, 13);
-							if (face == Direction.NORTH)
-								builder.rotation(FaceRotation.UPSIDE_DOWN);
-							else
-								builder.cullface(Direction.SOUTH);
-						}
-						builder.texture("#tex");
-					}).
+							builder.cullface(Direction.SOUTH);
+					}
+					builder.texture("#tex");
+				}).
 				end();
 
 		MultiPartBlockStateBuilder builder = getMultipartBuilder(block).part().
 				modelFile(core).addModel().end();
 
-	        BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e ->
-	        {
-	            Direction dir = e.getKey();
-	            if (dir.getAxis().isHorizontal())
-	            {
-	                builder.part().modelFile(connectorModel).rotationY((((int) dir.toYRot())) % 360).addModel()
-	                    .condition(e.getValue(), true);
-	            }
-	            else
-	            {
-	            	builder.part().modelFile(connectorModel).rotationX(dir.getStepY() * 90).addModel().
-	            	condition(e.getValue(), true);
-	            }
-	        });
+		BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.entrySet().forEach(e ->
+		{
+			Direction dir = e.getKey();
+			if (dir.getAxis().isHorizontal()) {
+				builder.part().modelFile(connectorModel).rotationY((((int) dir.toYRot())) % 360).addModel()
+						.condition(e.getValue(), true);
+			} else {
+				builder.part().modelFile(connectorModel).rotationX(dir.getStepY() * 90).addModel().
+						condition(e.getValue(), true);
+			}
+		});
 
-			itemModels().getBuilder(itemPrefix(name(block))).parent(core);
+		itemModels().getBuilder(itemPrefix(name(block))).parent(core);
 	}
 
 /*	private void registerDeliveryStation(Block block)
@@ -1584,221 +1552,218 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).parent(mainModel);
 	}
 */
-	private void registerHoover(Block block)
-	{
-		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_side"));
-		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_top"));
-		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_bot"));
-		ResourceLocation texInside = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_inside"));
+private void registerHoover(Block block) {
+	ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_side"));
+	ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_top"));
+	ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_bot"));
+	ResourceLocation texInside = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_inside"));
 
-		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
-				renderType("cutout").
-				texture("side", texSide).
-				texture("top", texTop).
-				texture("bot", texBot).
-				texture("inside", texInside).
-				texture("port", getPortTexture()).
-				texture("particle", texSide).
-				element().
-					//base
+	ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+			renderType("cutout").
+			texture("side", texSide).
+			texture("top", texTop).
+			texture("bot", texBot).
+			texture("inside", texInside).
+			texture("port", getPortTexture()).
+			texture("particle", texSide).
+			element().
+			//base
 					from(0, 0, 0).
-					to(16, 7, 16).
-						allFaces((face, builder) ->
-						{
-							if (face.getAxis() != Direction.Axis.Y)
-								builder.uvs(0, 9, 16, 16).texture("#side").cullface(face);
-							else
-							{
-								builder.uvs(0, 0, 16, 16).cullface(face);
-								if(face == Direction.UP)
-									builder.texture("#top");
-								else
-									builder.texture("#bot");
-							}
-						}).
-				end().
-				element().
-					//frame_big_n
-					from(3, 7, 0).
-					to(13, 16, 3).
-						face(Direction.NORTH).
-							uvs(3, 0, 13, 9).
-							texture("#side").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.SOUTH).
-							uvs(3, 0, 13, 9).
-							texture("#inside").
-							end().
-						face(Direction.UP).
-							uvs(3, 0, 13, 3).
-							texture("#top").
-							cullface(Direction.UP).
-							end().
-				end().
-				element().
-					//frame_big_s
-					from(3, 7, 13).
-					to(13, 16, 16).
-						face(Direction.NORTH).
-							uvs(3, 0, 13, 9).
-							texture("#inside").
-							end().
-						face(Direction.SOUTH).
-							uvs(3, 0, 13, 9).
-							texture("#side").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.UP).
-							uvs(3, 0, 13, 3).
-							texture("#top").
-							cullface(Direction.UP).
-							rotation(FaceRotation.UPSIDE_DOWN).
-							end().
-				end().
-				element().
-					//frame_big_w
-					from(0, 7, 0).
-					to(3, 16, 16).
-						face(Direction.NORTH).
-							uvs(13, 0, 16, 9).
-							texture("#side").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.SOUTH).
-							uvs(0, 0, 3, 9).
-							texture("#side").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.EAST).
-							uvs(0, 0, 16, 9).
-							texture("#inside").
-							end().
-						face(Direction.WEST).
-							uvs(0, 0, 16, 9).
-							texture("#side").
-							cullface(Direction.WEST).
-							end().
-						face(Direction.UP).
-							uvs(16, 0, 0, 3).
-							texture("#top").
-							cullface(Direction.UP).
-							rotation(FaceRotation.COUNTERCLOCKWISE_90).
-							end().
-				end().
-				element().
-					//frame_big_e
-					from(13, 7, 0).
-					to(16, 16, 16).
-						face(Direction.NORTH).
-							uvs(0, 0, 3, 9).
-							texture("#side").
-							cullface(Direction.NORTH).
-							end().
-						face(Direction.SOUTH).
-							uvs(13, 0, 16, 9).
-							texture("#side").
-							cullface(Direction.SOUTH).
-							end().
-						face(Direction.EAST).
-							uvs(0, 0, 16, 9).
-							texture("#side").
-							cullface(Direction.EAST).
-							end().
-						face(Direction.WEST).
-							uvs(0, 0, 16, 9).
-							texture("#inside").
-							end().
-						face(Direction.UP).
-							uvs(16, 0, 0, 3).
-							texture("#top").
-							cullface(Direction.UP).
-							rotation(FaceRotation.CLOCKWISE_90).
-							end().
-
-				end().
-				element().
-					//frame_small_s
-					from(3, 7, 10).
-					to(13, 11, 13).
-						face(Direction.NORTH).
-							uvs(3, 5, 13, 9).
-							texture("#inside").
-							rotation(FaceRotation.UPSIDE_DOWN).
-							end().
-						face(Direction.UP).
-							uvs(3, 3, 13, 6).
-							texture("#top").
-							rotation(FaceRotation.UPSIDE_DOWN).
-							end().
-				end().
-				element().
-					//frame_small_n
-					from(3, 7, 3).
-					to(13, 11, 6).
-						face(Direction.SOUTH).
-							uvs(3, 5, 13, 9).
-							texture("#inside").
-							end().
-						face(Direction.UP).
-							uvs(3, 3, 13, 6).
-							texture("#top").
-							end().
-				end().
-				element().
-					//frame_small_e
-					from(10, 7, 6).
-					to(13, 11, 10).
-						face(Direction.WEST).
-							uvs(6, 5, 10, 9).
-							texture("#inside").
-							end().
-						face(Direction.UP).
-							uvs(6, 3, 10, 6).
-							texture("#top").
-							rotation(FaceRotation.CLOCKWISE_90).
-							end().
+			to(16, 7, 16).
+			allFaces((face, builder) ->
+			{
+				if (face.getAxis() != Direction.Axis.Y)
+					builder.uvs(0, 9, 16, 16).texture("#side").cullface(face);
+				else {
+					builder.uvs(0, 0, 16, 16).cullface(face);
+					if(face == Direction.UP)
+						builder.texture("#top");
+					else
+						builder.texture("#bot");
+				}
+			}).
 			end().
 			element().
-				//frame_small_w
-				from(3, 7, 6).
-				to(6, 11, 10).
-					face(Direction.EAST).
-						uvs(6, 5, 10, 9).
-						texture("#inside").
-						end().
-					face(Direction.UP).
-						uvs(6, 3, 10, 6).
-						texture("#top").
-						rotation(FaceRotation.COUNTERCLOCKWISE_90).
-						end().
-		end().
-		element().
-		from(-0.001f, -0.001f, -0.001f).
-		to(16.001f, 16.001f, 16.001f).
-			face(Direction.DOWN).
-				end().
-			face(Direction.SOUTH).
-				end().
+			//frame_big_n
+					from(3, 7, 0).
+			to(13, 16, 3).
 			face(Direction.NORTH).
-				end().
+			uvs(3, 0, 13, 9).
+			texture("#side").
+			cullface(Direction.NORTH).
+			end().
+			face(Direction.SOUTH).
+			uvs(3, 0, 13, 9).
+			texture("#inside").
+			end().
+			face(Direction.UP).
+			uvs(3, 0, 13, 3).
+			texture("#top").
+			cullface(Direction.UP).
+			end().
+			end().
+			element().
+			//frame_big_s
+					from(3, 7, 13).
+			to(13, 16, 16).
+			face(Direction.NORTH).
+			uvs(3, 0, 13, 9).
+			texture("#inside").
+			end().
+			face(Direction.SOUTH).
+			uvs(3, 0, 13, 9).
+			texture("#side").
+			cullface(Direction.SOUTH).
+			end().
+			face(Direction.UP).
+			uvs(3, 0, 13, 3).
+			texture("#top").
+			cullface(Direction.UP).
+			rotation(FaceRotation.UPSIDE_DOWN).
+			end().
+			end().
+			element().
+			//frame_big_w
+					from(0, 7, 0).
+			to(3, 16, 16).
+			face(Direction.NORTH).
+			uvs(13, 0, 16, 9).
+			texture("#side").
+			cullface(Direction.NORTH).
+			end().
+			face(Direction.SOUTH).
+			uvs(0, 0, 3, 9).
+			texture("#side").
+			cullface(Direction.SOUTH).
+			end().
 			face(Direction.EAST).
-				end().
+			uvs(0, 0, 16, 9).
+			texture("#inside").
+			end().
 			face(Direction.WEST).
-				end().
+			uvs(0, 0, 16, 9).
+			texture("#side").
+			cullface(Direction.WEST).
+			end().
+			face(Direction.UP).
+			uvs(16, 0, 0, 3).
+			texture("#top").
+			cullface(Direction.UP).
+			rotation(FaceRotation.COUNTERCLOCKWISE_90).
+			end().
+			end().
+			element().
+			//frame_big_e
+					from(13, 7, 0).
+			to(16, 16, 16).
+			face(Direction.NORTH).
+			uvs(0, 0, 3, 9).
+			texture("#side").
+			cullface(Direction.NORTH).
+			end().
+			face(Direction.SOUTH).
+			uvs(13, 0, 16, 9).
+			texture("#side").
+			cullface(Direction.SOUTH).
+			end().
+			face(Direction.EAST).
+			uvs(0, 0, 16, 9).
+			texture("#side").
+			cullface(Direction.EAST).
+			end().
+			face(Direction.WEST).
+			uvs(0, 0, 16, 9).
+			texture("#inside").
+			end().
+			face(Direction.UP).
+			uvs(16, 0, 0, 3).
+			texture("#top").
+			cullface(Direction.UP).
+			rotation(FaceRotation.CLOCKWISE_90).
+			end().
+
+			end().
+			element().
+			//frame_small_s
+					from(3, 7, 10).
+			to(13, 11, 13).
+			face(Direction.NORTH).
+			uvs(3, 5, 13, 9).
+			texture("#inside").
+			rotation(FaceRotation.UPSIDE_DOWN).
+			end().
+			face(Direction.UP).
+			uvs(3, 3, 13, 6).
+			texture("#top").
+			rotation(FaceRotation.UPSIDE_DOWN).
+			end().
+			end().
+			element().
+			//frame_small_n
+					from(3, 7, 3).
+			to(13, 11, 6).
+			face(Direction.SOUTH).
+			uvs(3, 5, 13, 9).
+			texture("#inside").
+			end().
+			face(Direction.UP).
+			uvs(3, 3, 13, 6).
+			texture("#top").
+			end().
+			end().
+			element().
+			//frame_small_e
+					from(10, 7, 6).
+			to(13, 11, 10).
+			face(Direction.WEST).
+			uvs(6, 5, 10, 9).
+			texture("#inside").
+			end().
+			face(Direction.UP).
+			uvs(6, 3, 10, 6).
+			texture("#top").
+			rotation(FaceRotation.CLOCKWISE_90).
+			end().
+			end().
+			element().
+			//frame_small_w
+					from(3, 7, 6).
+			to(6, 11, 10).
+			face(Direction.EAST).
+			uvs(6, 5, 10, 9).
+			texture("#inside").
+			end().
+			face(Direction.UP).
+			uvs(6, 3, 10, 6).
+			texture("#top").
+			rotation(FaceRotation.COUNTERCLOCKWISE_90).
+			end().
+			end().
+			element().
+			from(-0.001f, -0.001f, -0.001f).
+			to(16.001f, 16.001f, 16.001f).
+			face(Direction.DOWN).
+			end().
+			face(Direction.SOUTH).
+			end().
+			face(Direction.NORTH).
+			end().
+			face(Direction.EAST).
+			end().
+			face(Direction.WEST).
+			end().
 			faces((dir, builder) ->
 			{
 				builder.texture("#port").
-				cullface(dir).
-				tintindex(dir.get3DDataValue());
+						cullface(dir).
+						tintindex(dir.get3DDataValue());
 			}).
-		end();
+			end();
 
-		registerModels(block, model);
-	}
+	registerModels(block, model);
+}
 
-	private void registerTerramorfer(Block block)
-	{
+	private void registerTerramorfer(Block block) {
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -1807,148 +1772,140 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("texture", texture).
 				texture("particle", texture).
 				element().
-					from(0, 2, 0).
-					to(2, 14, 2).
-					face(Direction.NORTH).end().
-					face(Direction.EAST).end().
-					face(Direction.SOUTH).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
-						if (face == Direction.NORTH || face == Direction.WEST)
-							builder.cullface(face);
-					}).
+				from(0, 2, 0).
+				to(2, 14, 2).
+				face(Direction.NORTH).end().
+				face(Direction.EAST).end().
+				face(Direction.SOUTH).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+					if (face == Direction.NORTH || face == Direction.WEST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(0, 2, 14).
-					to(2, 14, 16).
-					face(Direction.NORTH).end().
-					face(Direction.EAST).end().
-					face(Direction.SOUTH).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
-						if (face == Direction.SOUTH || face == Direction.WEST)
-							builder.cullface(face);
-					}).
+				from(0, 2, 14).
+				to(2, 14, 16).
+				face(Direction.NORTH).end().
+				face(Direction.EAST).end().
+				face(Direction.SOUTH).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+					if (face == Direction.SOUTH || face == Direction.WEST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(14, 2, 14).
-					to(16, 14, 16).
-					face(Direction.NORTH).end().
-					face(Direction.EAST).end().
-					face(Direction.SOUTH).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
-						if (face == Direction.SOUTH || face == Direction.EAST)
-							builder.cullface(face);
-					}).
+				from(14, 2, 14).
+				to(16, 14, 16).
+				face(Direction.NORTH).end().
+				face(Direction.EAST).end().
+				face(Direction.SOUTH).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+					if (face == Direction.SOUTH || face == Direction.EAST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(14, 2, 0).
-					to(16, 14, 2).
-					face(Direction.NORTH).end().
-					face(Direction.EAST).end().
-					face(Direction.SOUTH).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
-						if (face == Direction.NORTH || face == Direction.EAST)
-							builder.cullface(face);
-					}).
+				from(14, 2, 0).
+				to(16, 14, 2).
+				face(Direction.NORTH).end().
+				face(Direction.EAST).end().
+				face(Direction.SOUTH).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(4.25f, 3, 4.75f, 6).texture("#texture");
+					if (face == Direction.NORTH || face == Direction.EAST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(0, 0, 0).
-					to(16, 2, 16).
-					allFaces((face, builder) ->
-					{
-						builder.texture("#texture");
-						if (face != Direction.UP)
-						{
-							builder.cullface(face);
-						}
-						if (face.getAxis().isHorizontal())
-						{
-							builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
-						}
-						else
-						{
-							builder.uvs(0, 4.25f * face.getOpposite().get3DDataValue(), 4, 4 + 4.25f * face.getOpposite().get3DDataValue());
-						}
-					}).
+				from(0, 0, 0).
+				to(16, 2, 16).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face != Direction.UP) {
+						builder.cullface(face);
+					}
+					if (face.getAxis().isHorizontal()) {
+						builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
+					} else {
+						builder.uvs(0, 4.25f * face.getOpposite().get3DDataValue(), 4, 4 + 4.25f * face.getOpposite().get3DDataValue());
+					}
+				}).
 				end().
 				element().
-					from(0, 14, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.texture("#texture");
-						if (face != Direction.DOWN)
-						{
-							builder.cullface(face);
-						}
-						if (face.getAxis().isHorizontal())
-						{
-							builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
-						}
-						else
-						{
-							builder.uvs(4, 4 + 0.25f * face.getOpposite().get3DDataValue(), 0, 8.25f * face.getOpposite().get3DDataValue());
-						}
-					}).
+				from(0, 14, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face != Direction.DOWN) {
+						builder.cullface(face);
+					}
+					if (face.getAxis().isHorizontal()) {
+						builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
+					} else {
+						builder.uvs(4, 4 + 0.25f * face.getOpposite().get3DDataValue(), 0, 8.25f * face.getOpposite().get3DDataValue());
+					}
+				}).
 				end().
 				element().
-					from(2, 2, 0).
-					to(14, 14, 0).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
-						if (face == Direction.NORTH)
-							builder.cullface(face);
-					}).
+				from(2, 2, 0).
+				to(14, 14, 0).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+					if (face == Direction.NORTH)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(16, 2, 2).
-					to(16, 14, 14).
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
-						if (face == Direction.EAST)
-							builder.cullface(face);
-					}).
+				from(16, 2, 2).
+				to(16, 14, 14).
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+					if (face == Direction.EAST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(0, 2, 2).
-					to(0, 14, 14).
-					face(Direction.EAST).end().
-					face(Direction.WEST).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
-						if (face == Direction.WEST)
-							builder.cullface(face);
-					}).
+				from(0, 2, 2).
+				to(0, 14, 14).
+				face(Direction.EAST).end().
+				face(Direction.WEST).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+					if (face == Direction.WEST)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(2, 2, 16).
-					to(14, 14, 16).
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					faces((face, builder) ->
-					{
-						builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
-						if (face == Direction.SOUTH)
-							builder.cullface(face);
-					}).
+				from(2, 2, 16).
+				to(14, 14, 16).
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((face, builder) ->
+				{
+					builder.uvs(8.5f, 0, 11.5f, 3).texture("#texture");
+					if (face == Direction.SOUTH)
+						builder.cullface(face);
+				}).
 				end();
 
 
@@ -2070,11 +2027,11 @@ public class NBlockStatesProvider extends BlockStateProvider
 					}).
 				end();
 
-*/		registerModels(block, model);
+*/
+		registerModels(block, model);
 	}
 
-	private void registerGeneratorSolar(Block block)
-	{
+	private void registerGeneratorSolar(Block block) {
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR +"/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/top"));
 		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/bot"));
@@ -2087,38 +2044,36 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texTop).
 				element().
-					from(0, 0, 0).
-					to(16, 4, 16).
-					allFaces((face, builder) ->
-					{
-						if (face.getAxis() != Direction.Axis.Y)
-							builder.uvs(0, 0, 16, 4).texture("#side").cullface(face);
+				from(0, 0, 0).
+				to(16, 4, 16).
+				allFaces((face, builder) ->
+				{
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(0, 0, 16, 4).texture("#side").cullface(face);
+					else {
+						builder.uvs(0, 0, 16, 16);
+						if(face == Direction.DOWN)
+							builder.texture("#bot").cullface(face);
 						else
-						{
-							builder.uvs(0, 0, 16, 16);
-							if(face == Direction.DOWN)
-								builder.texture("#bot").cullface(face);
-							else
-								builder.texture("#top");
-						}
-					}).
+							builder.texture("#top");
+					}
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.DOWN).
-						texture("#port").
-						cullface(Direction.DOWN).
-						tintindex(Direction.DOWN.get3DDataValue()).
-						end().
+				face(Direction.DOWN).
+				texture("#port").
+				cullface(Direction.DOWN).
+				tintindex(Direction.DOWN.get3DDataValue()).
+				end().
 				end();
 
 
 		registerModels(block, model);
 	}
 
-	private void registerMachine(Block block)
-	{
+	private void registerMachine(Block block) {
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2130,34 +2085,34 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
-						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(15, 15);
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+					if (face == Direction.SOUTH)
+						builder.texture("#face").emissivity(15, 15);
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).
-						end().
-					face(Direction.EAST).
-						end().
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					face(Direction.NORTH).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				face(Direction.NORTH).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
@@ -2167,34 +2122,34 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
-						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(0, 0);
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+					if (face == Direction.SOUTH)
+						builder.texture("#face").emissivity(0, 0);
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).
-						end().
-					face(Direction.EAST).
-						end().
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					face(Direction.NORTH).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				face(Direction.NORTH).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 
@@ -2206,17 +2161,17 @@ public class NBlockStatesProvider extends BlockStateProvider
 		}, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(modelOff).
-		transforms().
-			transform(ItemDisplayContext.GUI).
+				parent(modelOff).
+				transforms().
+				transform(ItemDisplayContext.GUI).
 				rotation(30, 45, 0).
 				scale(0.625f).
-			end().
-			transform(ItemDisplayContext.FIXED).
+				end().
+				transform(ItemDisplayContext.FIXED).
 				rotation(0, 180, 0).
 				scale(0.5f).
-			end().
-		end();
+				end().
+				end();
 	}
 
 /*	private void registerGeneratorFood(Block block) 
@@ -2404,8 +2359,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 	}
 */
 
-	private void registerMobCather(Block block)
-	{
+	private void registerMobCather(Block block) {
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/top"));
 
@@ -2416,43 +2370,42 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texTop).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).
-						texture("#side").
-						cullface(face);
-						if (face == Direction.UP)
-							builder.texture("#top");
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).
+							texture("#side").
+							cullface(face);
+					if (face == Direction.UP)
+						builder.texture("#top");
+				}).
 				end().
 				element().
-					from(-0.001f, -0.001f, -0.001f).
-					to(16.001f, 16.001f, 16.001f).
-						face(Direction.WEST).
-							end().
-						face(Direction.EAST).
-							end().
-						face(Direction.DOWN).
-							end().
-						face(Direction.SOUTH).
-							end().
-						face(Direction.NORTH).
-							end().
-						faces((dir, builder) ->
-						{
-							builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-						}).
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				face(Direction.SOUTH).
+				end().
+				face(Direction.NORTH).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerCrossBlock(Block block)
-	{
+	private void registerCrossBlock(Block block) {
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cross"))).
@@ -2464,16 +2417,15 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 
 		itemModels().withExistingParent(itemPrefix(name(block)), mcLoc("item/generated")).
-		texture("layer0", texture).
-		transforms().
-			transform(ItemDisplayContext.HEAD).
+				texture("layer0", texture).
+				transforms().
+				transform(ItemDisplayContext.HEAD).
 				translation(0, 14, -5).
-			end().
-		end();
+				end().
+				end();
 	}
 
-	private void registerJewelryTable(Block block)
-	{
+	private void registerJewelryTable(Block block) {
 		ResourceLocation side = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation top = StringHelper.getLocFStr(blockPrefix(name(block) + "/top"));
 
@@ -2484,128 +2436,124 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("top", top).
 				texture("particle", top).
 				element().
-					from(2, 0, 2).
-					to(6, 12, 6).
-						face(Direction.NORTH).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.DOWN).
-							uvs(10, 2, 14, 6).
-							texture("#top").
-							cullface(Direction.DOWN).
-							end().
+				from(2, 0, 2).
+				to(6, 12, 6).
+				face(Direction.NORTH).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.EAST).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.SOUTH).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.WEST).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.DOWN).
+				uvs(10, 2, 14, 6).
+				texture("#top").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(10, 0, 2).
-					to(14, 12, 6).
-						face(Direction.NORTH).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.DOWN).
-							uvs(2, 2, 6, 6).
-							texture("#top").
-							cullface(Direction.DOWN).
-							end().
+				from(10, 0, 2).
+				to(14, 12, 6).
+				face(Direction.NORTH).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.EAST).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.SOUTH).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.WEST).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.DOWN).
+				uvs(2, 2, 6, 6).
+				texture("#top").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(10, 0, 10).
-					to(14, 12, 14).
-						face(Direction.NORTH).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.DOWN).
-							uvs(2, 11, 5, 14).
-							texture("#top").
-							cullface(Direction.DOWN).
-							end().
+				from(10, 0, 10).
+				to(14, 12, 14).
+				face(Direction.NORTH).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.EAST).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.SOUTH).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.WEST).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.DOWN).
+				uvs(2, 11, 5, 14).
+				texture("#top").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(2, 0, 10).
-					to(6, 12, 14).
-						face(Direction.NORTH).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.EAST).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.SOUTH).
-							uvs(1, 4, 5, 16).
-							texture("#side").
-							end().
-						face(Direction.WEST).
-							uvs(11, 4, 15, 16).
-							texture("#side").
-							end().
-						face(Direction.DOWN).
-							uvs(10, 10, 14, 14).
-							texture("#top").
-							cullface(Direction.DOWN).
-							end().
+				from(2, 0, 10).
+				to(6, 12, 14).
+				face(Direction.NORTH).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.EAST).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.SOUTH).
+				uvs(1, 4, 5, 16).
+				texture("#side").
+				end().
+				face(Direction.WEST).
+				uvs(11, 4, 15, 16).
+				texture("#side").
+				end().
+				face(Direction.DOWN).
+				uvs(10, 10, 14, 14).
+				texture("#top").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(0, 12, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						if (face.getAxis() != Axis.Y)
-						{
-							builder.uvs(0, 0, 16, 4).texture("#side");
-						}
-						else
-						{
-							builder.uvs(0, 0, 16, 16).texture("#top");
-							if (face == Direction.NORTH)
-								builder.cullface(face);
-						}
-					}).
+				from(0, 12, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					if (face.getAxis() != Axis.Y) {
+						builder.uvs(0, 0, 16, 4).texture("#side");
+					} else {
+						builder.uvs(0, 0, 16, 16).texture("#top");
+						if (face == Direction.NORTH)
+							builder.cullface(face);
+					}
+				}).
 				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerExtruder(Block block)
-	{
+	private void registerExtruder(Block block) {
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2619,42 +2567,42 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("underlay", texUnderlay).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
-						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(15, 15);
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+					if (face == Direction.SOUTH)
+						builder.texture("#face").emissivity(15, 15);
+				}).
 				end().
 				element().
-					from(0.001f, 0.001f, 0.001f).
-					to(15.999f, 15.999f, 15.999f).
-						face(Direction.SOUTH).
-							texture("#underlay").
-							cullface(Direction.SOUTH).
-							end().
+				from(0.001f, 0.001f, 0.001f).
+				to(15.999f, 15.999f, 15.999f).
+				face(Direction.SOUTH).
+				texture("#underlay").
+				cullface(Direction.SOUTH).
+				end().
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).
-						end().
-					face(Direction.EAST).
-						end().
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					face(Direction.NORTH).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				face(Direction.NORTH).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
@@ -2664,34 +2612,34 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
-						if (face == Direction.SOUTH)
-							builder.texture("#face").emissivity(0, 0);
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).texture("#side").cullface(face);
+					if (face == Direction.SOUTH)
+						builder.texture("#face").emissivity(0, 0);
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).
-						end().
-					face(Direction.EAST).
-						end().
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					face(Direction.NORTH).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				face(Direction.NORTH).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 
@@ -2703,21 +2651,20 @@ public class NBlockStatesProvider extends BlockStateProvider
 		}, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(modelOff).
-		transforms().
-			transform(ItemDisplayContext.GUI).
+				parent(modelOff).
+				transforms().
+				transform(ItemDisplayContext.GUI).
 				rotation(30, 45, 0).
 				scale(0.625f).
-			end().
-			transform(ItemDisplayContext.FIXED).
+				end().
+				transform(ItemDisplayContext.FIXED).
 				rotation(0, 180, 0).
 				scale(0.5f).
-			end().
-		end();
+				end().
+				end();
 	}
 
-	private void registerFluidFiller(Block block)
-	{
+	private void registerFluidFiller(Block block) {
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2729,30 +2676,30 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).cullface(face);
-						if (face.getAxis().isVertical())
-							builder.texture("#side");
-						else
-							builder.texture("#face");
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).cullface(face);
+					if (face.getAxis().isVertical())
+						builder.texture("#side");
+					else
+						builder.texture("#face");
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		ModelFile modelOff = models().withExistingParent(blockPrefix(name(block) + "_off"), mcLoc(blockPrefix("block"))).
@@ -2762,30 +2709,30 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texFace).
 				element().
-					from(0, 0, 0).
-					to(16, 16, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 16).cullface(face);
-						if (face.getAxis().isVertical())
-							builder.texture("#side");
-						else
-							builder.texture("#face");
-					}).
+				from(0, 0, 0).
+				to(16, 16, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 16).cullface(face);
+					if (face.getAxis().isVertical())
+						builder.texture("#side");
+					else
+						builder.texture("#face");
+				}).
 				end().
 				element().
 				from(-0.001f, -0.001f, -0.001f).
 				to(16.001f, 16.001f, 16.001f).
-					face(Direction.DOWN).
-						end().
-					face(Direction.UP).
-						end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-					}).
+				face(Direction.DOWN).
+				end().
+				face(Direction.UP).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		getVariantBuilder(block).forAllStates((state)-> ConfiguredModel.builder().
@@ -2793,12 +2740,11 @@ public class NBlockStatesProvider extends BlockStateProvider
 				build());
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(modelOff);
+				parent(modelOff);
 
 	}
 
-	private void registerDiffuser(Block block)
-	{
+	private void registerDiffuser(Block block) {
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("storage_block/corium"));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cauldron"))).
@@ -2810,37 +2756,36 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("inside", text).
 				texture("particle", text).
 				transforms().
-					transform(ItemDisplayContext.GUI).
-						rotation(30, 225, 0).
-						scale(0.625f).
-					end().
-					transform(ItemDisplayContext.GROUND).
-						translation(0, 3, 0).
-						scale(0.25f).
-					end().
-					transform(ItemDisplayContext.FIXED).
-						scale(0.5f).
-					end().
-					transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).
-						rotation(75, 45, 0).
-						translation(0, 2.5f, 0).
-						scale(0.375f).
-					end().
-					transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).
-						rotation(0, 45, 0).
-						scale(0.4f).
-					end().
-					transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).
-						rotation(0, 225, 0).
-						scale(0.4f).
-					end().
+				transform(ItemDisplayContext.GUI).
+				rotation(30, 225, 0).
+				scale(0.625f).
+				end().
+				transform(ItemDisplayContext.GROUND).
+				translation(0, 3, 0).
+				scale(0.25f).
+				end().
+				transform(ItemDisplayContext.FIXED).
+				scale(0.5f).
+				end().
+				transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).
+				rotation(75, 45, 0).
+				translation(0, 2.5f, 0).
+				scale(0.375f).
+				end().
+				transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).
+				rotation(0, 45, 0).
+				scale(0.4f).
+				end().
+				transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).
+				rotation(0, 225, 0).
+				scale(0.4f).
+				end().
 				end();
 
 		registerModels(block, model);
 	}
 
-	private void registerFramework(Block block)
-	{
+	private void registerFramework(Block block) {
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -2849,282 +2794,281 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("tex", text).
 				texture("particle", text).
 				element().
-					from(0, 0, 0).
-					to(16, 4, 4).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 12, 16, 16).texture("#tex");
-						if (face == Direction.EAST)
-							builder.uvs(12, 12, 16, 16).cullface(face);
-						else if(face == Direction.WEST)
-							builder.uvs(0, 12, 4, 16).cullface(face);
-						else if(face == Direction.NORTH || face == Direction.DOWN)
-							builder.cullface(face);
-					}).
+				from(0, 0, 0).
+				to(16, 4, 4).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 12, 16, 16).texture("#tex");
+					if (face == Direction.EAST)
+						builder.uvs(12, 12, 16, 16).cullface(face);
+					else if(face == Direction.WEST)
+						builder.uvs(0, 12, 4, 16).cullface(face);
+					else if(face == Direction.NORTH || face == Direction.DOWN)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from(0, 0, 12).
-					to(16, 4, 16).
-					allFaces((face, builder) ->
-					{
-						builder.uvs(0, 0, 16, 4).texture("#tex");
-						if (face == Direction.EAST)
-							builder.uvs(0, 12, 4, 16).cullface(face);
-						else if(face == Direction.SOUTH)
-							builder.uvs(0, 12, 16, 16).cullface(face);
-						else if (face == Direction.WEST)
-							builder.uvs(12, 12, 16, 16).cullface(face);
-						else if (face == Direction.DOWN)
-							builder.cullface(face);
-					}).
+				from(0, 0, 12).
+				to(16, 4, 16).
+				allFaces((face, builder) ->
+				{
+					builder.uvs(0, 0, 16, 4).texture("#tex");
+					if (face == Direction.EAST)
+						builder.uvs(0, 12, 4, 16).cullface(face);
+					else if(face == Direction.SOUTH)
+						builder.uvs(0, 12, 16, 16).cullface(face);
+					else if (face == Direction.WEST)
+						builder.uvs(12, 12, 16, 16).cullface(face);
+					else if (face == Direction.DOWN)
+						builder.cullface(face);
+				}).
 				end().
 				element().
-					from (0, 0, 4).
-					to(4, 4, 12).
-						face(Direction.EAST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-						end().
-						face(Direction.WEST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
-						face(Direction.UP).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
-						face(Direction.DOWN).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.DOWN).
-						end().
+				from (0, 0, 4).
+				to(4, 4, 12).
+				face(Direction.EAST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				end().
+				face(Direction.WEST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
+				face(Direction.UP).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
+				face(Direction.DOWN).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(12, 0, 4).
-					to(16, 4, 12).
-						face(Direction.EAST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.WEST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-						end().
-						face(Direction.UP).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
-						face(Direction.DOWN).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-							cullface(Direction.DOWN).
-						end().
+				from(12, 0, 4).
+				to(16, 4, 12).
+				face(Direction.EAST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.WEST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				end().
+				face(Direction.UP).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
+				face(Direction.DOWN).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				cullface(Direction.DOWN).
+				end().
 				end().
 				element().
-					from(12, 12, 4).
-					to(16, 16, 12).
-						face(Direction.EAST).
-							uvs(4, 0, 12, 4).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.WEST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-						end().
-						face(Direction.UP).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.UP).
-						end().
-						face(Direction.DOWN).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
+				from(12, 12, 4).
+				to(16, 16, 12).
+				face(Direction.EAST).
+				uvs(4, 0, 12, 4).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.WEST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				end().
+				face(Direction.UP).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.UP).
+				end().
+				face(Direction.DOWN).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
 				end().
 				element().
-					from(0, 12, 4).
-					to(4, 16, 12).
-						face(Direction.EAST).
-							uvs(4, 12, 12, 16).
-							texture("#tex").
-						end().
-						face(Direction.WEST).
-							uvs(4, 0, 12, 4).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
-						face(Direction.UP).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.UP).
-						end().
-						face(Direction.DOWN).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-						end().
+				from(0, 12, 4).
+				to(4, 16, 12).
+				face(Direction.EAST).
+				uvs(4, 12, 12, 16).
+				texture("#tex").
+				end().
+				face(Direction.WEST).
+				uvs(4, 0, 12, 4).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
+				face(Direction.UP).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.UP).
+				end().
+				face(Direction.DOWN).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				end().
 				end().
 				element().
-					from(0, 4, 0).
-					to(4, 12, 4).
-						face(Direction.NORTH).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-							cullface(Direction.NORTH).
-						end().
-						face(Direction.EAST).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-						end().
-						face(Direction.SOUTH).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
-						face(Direction.WEST).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
+				from(0, 4, 0).
+				to(4, 12, 4).
+				face(Direction.NORTH).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				cullface(Direction.NORTH).
+				end().
+				face(Direction.EAST).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
+				face(Direction.WEST).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
 				end().
 				element().
-					from(12, 4, 0).
-					to(16, 12, 4).
-						face(Direction.NORTH).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.NORTH).
-						end().
-						face(Direction.EAST).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.SOUTH).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
-						face(Direction.WEST).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
+				from(12, 4, 0).
+				to(16, 12, 4).
+				face(Direction.NORTH).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.NORTH).
+				end().
+				face(Direction.EAST).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
+				face(Direction.WEST).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
 				end().
 				element().
-					from(12, 4, 12).
-					to(16, 12, 16).
-						face(Direction.NORTH).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-						end().
-						face(Direction.EAST).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.SOUTH).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-							cullface(Direction.SOUTH).
-						end().
-						face(Direction.WEST).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-						end().
+				from(12, 4, 12).
+				to(16, 12, 16).
+				face(Direction.NORTH).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				end().
+				face(Direction.EAST).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.SOUTH).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				cullface(Direction.SOUTH).
+				end().
+				face(Direction.WEST).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				end().
 				end().
 				element().
-					from(0, 4, 12).
-					to(4, 12, 16).
-						face(Direction.NORTH).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-						end().
-						face(Direction.EAST).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-						end().
-						face(Direction.SOUTH).
-							uvs(0, 4, 4, 12).
-							texture("#tex").
-							cullface(Direction.SOUTH).
-						end().
-						face(Direction.WEST).
-							uvs(12, 4, 16, 12).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
+				from(0, 4, 12).
+				to(4, 12, 16).
+				face(Direction.NORTH).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				end().
+				face(Direction.EAST).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 4, 4, 12).
+				texture("#tex").
+				cullface(Direction.SOUTH).
+				end().
+				face(Direction.WEST).
+				uvs(12, 4, 16, 12).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
 				end().
 				element().
-					from(0, 12, 0).
-					to(16, 16, 4).
-						face(Direction.NORTH).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-							cullface(Direction.NORTH).
-						end().
-						face(Direction.EAST).
-							uvs(12, 0, 16, 4).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.SOUTH).
-							uvs(0, 12, 16, 16).
-							texture("#tex").
-						end().
-						face(Direction.WEST).
-							uvs(0, 0, 4, 4).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
-						face(Direction.UP).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-							cullface(Direction.UP).
-						end().
-						face(Direction.DOWN).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-						end().
+				from(0, 12, 0).
+				to(16, 16, 4).
+				face(Direction.NORTH).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				cullface(Direction.NORTH).
+				end().
+				face(Direction.EAST).
+				uvs(12, 0, 16, 4).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 12, 16, 16).
+				texture("#tex").
+				end().
+				face(Direction.WEST).
+				uvs(0, 0, 4, 4).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
+				face(Direction.UP).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				cullface(Direction.UP).
+				end().
+				face(Direction.DOWN).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				end().
 				end().
 				element().
-					from(0, 12, 12).
-					to(16, 16, 16).
-						face(Direction.NORTH).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-						end().
-						face(Direction.EAST).
-							uvs(0, 0, 4, 4).
-							texture("#tex").
-							cullface(Direction.EAST).
-						end().
-						face(Direction.SOUTH).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-							cullface(Direction.SOUTH).
-						end().
-						face(Direction.WEST).
-							uvs(12, 0, 16, 4).
-							texture("#tex").
-							cullface(Direction.WEST).
-						end().
-						face(Direction.UP).
-							uvs(0, 12, 16, 16).
-							texture("#tex").
-							cullface(Direction.UP).
-						end().
-						face(Direction.DOWN).
-							uvs(0, 0, 16, 4).
-							texture("#tex").
-						end().
+				from(0, 12, 12).
+				to(16, 16, 16).
+				face(Direction.NORTH).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				end().
+				face(Direction.EAST).
+				uvs(0, 0, 4, 4).
+				texture("#tex").
+				cullface(Direction.EAST).
+				end().
+				face(Direction.SOUTH).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				cullface(Direction.SOUTH).
+				end().
+				face(Direction.WEST).
+				uvs(12, 0, 16, 4).
+				texture("#tex").
+				cullface(Direction.WEST).
+				end().
+				face(Direction.UP).
+				uvs(0, 12, 16, 16).
+				texture("#tex").
+				cullface(Direction.UP).
+				end().
+				face(Direction.DOWN).
+				uvs(0, 0, 16, 4).
+				texture("#tex").
+				end().
 				end();
 
 		registerModels(block, model);
 
 	}
 
-	private void registerExpExtractor(Block block)
-	{
+	private void registerExpExtractor(Block block) {
 		ResourceLocation plate = StringHelper.getLocFStr(blockPrefix(name(block) + "/plate"));
 		ResourceLocation stance = StringHelper.getLocFStr(blockPrefix(name(block) + "/stance"));
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("thin_block"))).
@@ -3135,112 +3079,95 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("particle", plate).
 				ao(false).
 				element().
-					from(0, 0, 1).
-					to(16, 1, 15).
-						allFaces((face, builder) ->
-						{
-							builder.texture("#plate").uvs(0, 15, 16, 16);
-							if (face.getAxis() == Axis.Y)
-							{
-								builder.uvs(0, 1, 16, 15);
-							}
-							if (face.getAxis() == Axis.X || face == Direction.DOWN)
-							{
-									builder.cullface(face);
-							}
-						}).
+				from(0, 0, 1).
+				to(16, 1, 15).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#plate").uvs(0, 15, 16, 16);
+					if (face.getAxis() == Axis.Y) {
+						builder.uvs(0, 1, 16, 15);
+					}
+					if (face.getAxis() == Axis.X || face == Direction.DOWN) {
+						builder.cullface(face);
+					}
+				}).
 				end().
 				element().
-					from(0, 1, 6).
-					to(1, 16, 10).
-						allFaces((face, builder) ->
-						{
-							builder.texture("#stance");
-							if (face.getAxis() == Axis.Y)
-							{
-								builder.uvs(0, 0, 1, 4);
-								if (face == Direction.UP)
-								{
-									builder.cullface(face);
-								}
-							}
-							else
-							{
-								builder.uvs(0, 0, 1, 15);
-								if (face == Direction.EAST)
-								{
-									builder.uvs(5, 0, 9, 15);
-								}
-								else if (face == Direction.WEST)
-								{
-									builder.uvs(1, 0, 5, 15).cullface(face);
-								}
-							}
-						}).
+				from(0, 1, 6).
+				to(1, 16, 10).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#stance");
+					if (face.getAxis() == Axis.Y) {
+						builder.uvs(0, 0, 1, 4);
+						if (face == Direction.UP) {
+							builder.cullface(face);
+						}
+					} else {
+						builder.uvs(0, 0, 1, 15);
+						if (face == Direction.EAST) {
+							builder.uvs(5, 0, 9, 15);
+						} else if (face == Direction.WEST) {
+							builder.uvs(1, 0, 5, 15).cullface(face);
+						}
+					}
+				}).
 				end().
 				element().
-					from(15, 1, 6).
-					to(16, 16, 10).
-						allFaces((face, builder) ->
-						{
-							builder.texture("#stance");
-							if (face.getAxis() == Axis.Y)
-							{
-								builder.uvs(0, 0, 1, 4);
-								if (face == Direction.UP)
-								{
-									builder.cullface(Direction.UP);
-								}
-							}
-							else
-							{
-								builder.uvs(0, 0, 1, 15);
-								if (face == Direction.EAST)
-								{
-									builder.uvs(1, 0, 5, 15).cullface(face);
-								}
-								else if (face == Direction.WEST)
-								{
-									builder.uvs(5, 0, 9, 15);
-								}
-							}
-						}).
+				from(15, 1, 6).
+				to(16, 16, 10).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#stance");
+					if (face.getAxis() == Axis.Y) {
+						builder.uvs(0, 0, 1, 4);
+						if (face == Direction.UP) {
+							builder.cullface(Direction.UP);
+						}
+					} else {
+						builder.uvs(0, 0, 1, 15);
+						if (face == Direction.EAST) {
+							builder.uvs(1, 0, 5, 15).cullface(face);
+						} else if (face == Direction.WEST) {
+							builder.uvs(5, 0, 9, 15);
+						}
+					}
+				}).
 				end().
 				element().
-					from(-0.001f, -0.001f, -0.001f).
-					to(16.001f, 16.001f, 16.001f).
-						face(Direction.WEST).
-							end().
-						face(Direction.EAST).
-							end().
-						face(Direction.DOWN).
-							end().
-						faces((dir, builder) ->
-						{
-							builder.texture("#port").
-								cullface(dir).
-								tintindex(dir.get3DDataValue());
-						}).
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.WEST).
+				end().
+				face(Direction.EAST).
+				end().
+				face(Direction.DOWN).
+				end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
 				end();
 
 		horizontalBlock(block, (state) -> model, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(model).
-		transforms().
-			transform(ItemDisplayContext.GUI).
+				parent(model).
+				transforms().
+				transform(ItemDisplayContext.GUI).
 				rotation(30, 45, 0).
 				scale(0.625f).
-			end().
-			transform(ItemDisplayContext.FIXED).
+				end().
+				transform(ItemDisplayContext.FIXED).
 				rotation(0, 180, 0).
 				scale(0.5f).
-			end().
-		end();
+				end().
+				end();
 	}
 
-	private void registerGeneratorLightning(Block block)
-	{
+	private void registerGeneratorLightning(Block block) {
 		ResourceLocation texUp = StringHelper.getLocFStr(blockPrefix(name(block) + "/up"));
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texDown = StringHelper.getLocFStr(blockPrefix(name(block) + "/down"));
@@ -3257,36 +3184,35 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texSide).
 				element().
-					from(0,0,0).
-					to(16,16,16).
-					allFaces((face, builder) ->
-					{
-						builder.cullface(face);
-						if (face.getAxis().isHorizontal())
-							builder.texture("#side");
+				from(0,0,0).
+				to(16,16,16).
+				allFaces((face, builder) ->
+				{
+					builder.cullface(face);
+					if (face.getAxis().isHorizontal())
+						builder.texture("#side");
+					else {
+						if(face == Direction.UP)
+							builder.texture("#up");
 						else
-						{
-							if(face == Direction.UP)
-								builder.texture("#up");
-							else
-								builder.texture("#down");
-						}
-					}).
+							builder.texture("#down");
+					}
+				}).
 				end().
 				element().
-					from(-0.001f, -0.001f, -0.001f).
-					to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).end().
-					face(Direction.EAST).end().
-					face(Direction.DOWN).end().
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.WEST).end().
+				face(Direction.EAST).end().
+				face(Direction.DOWN).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
 							cullface(dir).
 							tintindex(dir.get3DDataValue());
-					}).
+				}).
 				end();
 
 		ModelFile modelOn = models().withExistingParent(blockPrefix(name(block) + "_on"), mcLoc(blockPrefix("block"))).
@@ -3297,36 +3223,35 @@ public class NBlockStatesProvider extends BlockStateProvider
 				texture("port", getPortTexture()).
 				texture("particle", texSideOn).
 				element().
-					from(0,0,0).
-					to(16,16,16).
-					allFaces((face, builder) ->
-					{
-						builder.cullface(face);
-						if (face.getAxis().isHorizontal())
-							builder.texture("#side");
+				from(0,0,0).
+				to(16,16,16).
+				allFaces((face, builder) ->
+				{
+					builder.cullface(face);
+					if (face.getAxis().isHorizontal())
+						builder.texture("#side");
+					else {
+						if(face == Direction.UP)
+							builder.texture("#up");
 						else
-						{
-							if(face == Direction.UP)
-								builder.texture("#up");
-							else
-								builder.texture("#down");
-						}
-					}).
+							builder.texture("#down");
+					}
+				}).
 				end().
 				element().
-					from(-0.001f, -0.001f, -0.001f).
-					to(16.001f, 16.001f, 16.001f).
-					face(Direction.WEST).end().
-					face(Direction.EAST).end().
-					face(Direction.DOWN).end().
-					face(Direction.NORTH).end().
-					face(Direction.SOUTH).end().
-					faces((dir, builder) ->
-					{
-						builder.texture("#port").
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.WEST).end().
+				face(Direction.EAST).end().
+				face(Direction.DOWN).end().
+				face(Direction.NORTH).end().
+				face(Direction.SOUTH).end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
 							cullface(dir).
 							tintindex(dir.get3DDataValue());
-					}).
+				}).
 				end();
 
 
@@ -3338,26 +3263,164 @@ public class NBlockStatesProvider extends BlockStateProvider
 				parent(modelOff);
 	}
 
-	private void registerModels(Block block, ModelFile model)
-	{
+	private void registerPlatform(Block block) {
+		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/texture"));
+
+		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("texture", texture).
+				texture("port", getPortTexture()).
+				texture("particle", texture).
+				element().
+					from(0,0,0).
+					to(16, 1, 16).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face != Direction.UP)
+							builder.cullface(face);
+						if (face.getAxis() != Direction.Axis.Y)
+							builder.uvs(face.get2DDataValue() * 4, 4, 4 + face.get2DDataValue(), 4.5f);
+						else
+							builder.uvs(4 + 4 * face.get3DDataValue(), 0, 8 + 4 * face.get3DDataValue(), 4);
+					}).
+				end().
+				element().
+					from(0,15,0).
+					to(16, 16, 16).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face != Direction.DOWN)
+							builder.cullface(face);
+						if (face.getAxis() != Axis.Y)
+							builder.uvs(face.get2DDataValue() * 4, 4, 4 + face.get2DDataValue(), 4.5f);
+						else
+							builder.uvs(4 + 4 * face.get3DDataValue(), 0, 8 + 4 * face.get3DDataValue(), 4);
+					}).
+				end().
+				element().
+					from(1, 1,11).
+					to(5, 15, 15).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face.getAxis()!= Axis.Y)
+							builder.uvs(face.get2DDataValue(), 5.625f, 1 + face.get2DDataValue(), 8.625f);
+						else
+							builder.uvs(1 + face.get3DDataValue(), 4.625f, 2 + face.get3DDataValue(), 5.625f);
+					}).
+				end().
+				element().
+					from(11, 1,11).
+					to(15, 15, 15).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face.getAxis()!= Axis.Y)
+							builder.uvs(face.get2DDataValue(), 5.625f, 1 + face.get2DDataValue(), 8.625f);
+						else
+							builder.uvs(1 + face.get3DDataValue(), 4.625f, 2 + face.get3DDataValue(), 5.625f);
+					}).
+				end().
+				element().
+					from(11, 1,1).
+					to(15, 15, 5).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face.getAxis()!= Axis.Y)
+							builder.uvs(face.get2DDataValue(), 5.625f, 1 + face.get2DDataValue(), 8.625f);
+						else
+							builder.uvs(1 + face.get3DDataValue(), 4.625f, 2 + face.get3DDataValue(), 5.625f);
+					}).
+				end().
+				element().
+				from(1, 1,1).
+				to(5, 15, 5).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis()!= Axis.Y)
+						builder.uvs(face.get2DDataValue(), 5.625f, 1 + face.get2DDataValue(), 8.625f);
+					else
+						builder.uvs(1 + face.get3DDataValue(), 4.625f, 2 + face.get3DDataValue(), 5.625f);
+				}).
+				end().
+				element().
+					from(6, 1,6).
+					to(10, 15, 10).
+					face(Direction.SOUTH).end().
+					face(Direction.NORTH).end().
+					face(Direction.WEST).end().
+					face(Direction.EAST).end().
+					faces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face.getAxis()!= Axis.Y)
+							builder.uvs( 5 + 1.25f * face.get2DDataValue(), 5.875f, 6.25f + 1.25f * face.get2DDataValue(), 8.875f);
+					}).
+				end().
+				element().
+					from(6, 6, 10).
+					to(10, 10, 16).
+					allFaces((face, builder) ->
+					{
+						builder.texture("#texture");
+						if (face.getAxis() != Axis.Y)
+						{
+							builder.uvs(face.getAxis() == Axis.Z ? 10.125f + 1.5f * (face.get3DDataValue() % 2) : 11.375f + 1.5f * (face.get2DDataValue() % 2), 5.875f, face.getAxis() == Axis.Z ? 11.375f + 1.5f * (face.get2DDataValue() % 2) : 11.625f + 1.5f * (face.get2DDataValue() % 2), 7.125f);
+							if (face == Direction.SOUTH)
+								builder.cullface(face);
+						}
+						else
+							builder.uvs(11.375f + 0.25f * face.get3DDataValue(), 4.625f, 11.625f + 0.25f * face.get3DDataValue(), 5.875f);
+					}).
+				end().
+				element().
+				from(-0.001f, -0.001f, -0.001f).
+				to(16.001f, 16.001f, 16.001f).
+				face(Direction.SOUTH).end().
+				faces((dir, builder) ->
+				{
+					builder.texture("#port").
+							cullface(dir).
+							tintindex(dir.get3DDataValue());
+				}).
+				end();
+
+		horizontalBlock(block, (state) -> model, 0);
+
+		itemModels().getBuilder(itemPrefix(name(block))).
+				parent(model).
+				transforms().
+				transform(ItemDisplayContext.GUI).
+				rotation(30, 45, 0).
+				scale(0.625f).
+				end().
+				transform(ItemDisplayContext.FIXED).
+				rotation(0, 180, 0).
+				scale(0.5f).
+				end().
+				end();
+	}
+
+	private void registerModels(Block block, ModelFile model) {
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
 
 		itemModels().getBuilder(itemPrefix(name(block))).
-		parent(model);
+				parent(model);
 	}
 
-	private ResourceLocation getPortTexture()
-	{
+	private ResourceLocation getPortTexture() {
 		return StringHelper.getLocFStr(blockPrefix("port"));
 	}
 
-	private String itemPrefix(String str)
-	{
+	private String itemPrefix(String str) {
 		return ModelProvider.ITEM_FOLDER + "/" + str;
 	}
 
-	private String blockPrefix(String str)
-	{
+	private String blockPrefix(String str) {
 		return ModelProvider.BLOCK_FOLDER + "/" + str;
 	}
 
@@ -3367,8 +3430,7 @@ public class NBlockStatesProvider extends BlockStateProvider
     }
 
 	@Override
-	public @NotNull String getName()
-	{
+	public @NotNull String getName() {
 		return "Nedaire Block States";
 	}
 

@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-06T20:31:05.4324187	Recipes
+// 1.19.4	2023-04-11T20:01:25.2886993	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -37,6 +37,7 @@ e1fa88514149a51fa6c357415ad38f92efbb1190 data/nedaire/advancements/recipes/misc/
 4a34e46ca0b054ccf604c84b5328efffdad1ee40 data/nedaire/advancements/recipes/misc/manual_crusher.json
 0c4274a12bbbeec36bccad1ccb1f3168304f08a7 data/nedaire/advancements/recipes/misc/mob_catcher.json
 dd80779e89020abe7eb58eba1b21c58ef1dafa71 data/nedaire/advancements/recipes/misc/pedestal.json
+1d38db04a68fdaa328bf34046e0fd7a517249ee9 data/nedaire/advancements/recipes/misc/platform.json
 ec4b28aeb185ad1453d6c1dadba9ce14b4515bbf data/nedaire/advancements/recipes/misc/smelting/dusts/corium_to_ingot/corium.json
 850782f0778c9ecc1511696e6526abece7ddbebc data/nedaire/advancements/recipes/misc/smelting/ores/corium_to_ingot/corium.json
 33f2d0e4b1f777ae241a8bc136a7d438923052a5 data/nedaire/advancements/recipes/misc/smelting/raw_materials/corium_to_ingot/corium.json
@@ -98,6 +99,7 @@ c7e528694ea80ba1ccee0c3700ebd8b8599e717b data/nedaire/recipes/holder.json
 46ca9ed2fcdfef0e10a16ce11e373f1a6cde1ca1 data/nedaire/recipes/manual_crusher.json
 e3aafacc0735780bf35412266c8adefd98fd01a1 data/nedaire/recipes/mob_catcher.json
 dbbdd16aa4790cc02e6aca69d6070fac7e9393c2 data/nedaire/recipes/pedestal.json
+b85be16ca36c31c06ad20b879e7def21a40351b5 data/nedaire/recipes/platform.json
 4130bf9359b143c9fd6cab725014dffb429278bf data/nedaire/recipes/smelting/dusts/corium_to_ingot/corium.json
 207c1c0ffade62e51a03c09e781fcff74d4fc1a1 data/nedaire/recipes/smelting/ores/corium_to_ingot/corium.json
 d59557c2a956b14c5702afaff31c1c20e78033b8 data/nedaire/recipes/smelting/raw_materials/corium_to_ingot/corium.json

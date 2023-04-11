@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "nedaire:skystone"
+    },
+    "B": {
+      "item": "nedaire:framework"
+    },
+    "C": {
+      "item": "minecraft:dispenser"
+    },
+    "D": {
+      "tag": "forge:ingots/corium"
+    }
+  },
+  "pattern": [
+    "ADA",
+    "DBD",
+    "ACA"
+  ],
+  "result": {
+    "item": "nedaire:platform"
+  },
+  "show_notification": true
+}

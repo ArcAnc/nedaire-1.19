@@ -8,9 +8,6 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
@@ -21,7 +18,6 @@ import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +25,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback, IInteractionObjectN<NBEVimStorage>
 {
@@ -72,7 +70,7 @@ public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback,
 	{
 		if (cap == VimHelper.vimHandler)
 		{
-			Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.FACING); 
+			Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 			if ((side != null && dir.getAxis().isHorizontal() && dir.getAxis() != side.getAxis()) || side == null)
 			{
 				return energyHandler.cast();

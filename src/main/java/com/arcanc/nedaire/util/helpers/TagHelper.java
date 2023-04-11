@@ -8,9 +8,7 @@
  */
 package com.arcanc.nedaire.util.helpers;
 
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -19,6 +17,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class TagHelper 
 {
@@ -73,4 +74,38 @@ public class TagHelper
 		dest.put(address, writeVec3(vec));
 		return dest;
 	}
+
+	public static BlockPos readBlockPos(CompoundTag compound, String address)
+	{
+		BlockPos pos = new BlockPos(0,0,0);
+
+		if (compound.contains(address))
+		{
+			CompoundTag tag = compound.getCompound(address);
+			if (!tag.isEmpty())
+			{
+				pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+			}
+		}
+
+		return pos;
+	}
+
+	public static CompoundTag writeBlockPos (BlockPos pos)
+	{
+		CompoundTag tag = new CompoundTag();
+
+		tag.putInt("x", pos.getX());
+		tag.putInt("y", pos.getY());
+		tag.putInt("z", pos.getZ());
+
+		return tag;
+	}
+
+	public static CompoundTag writeBlockPos(BlockPos pos, CompoundTag dest, String address)
+	{
+		dest.put(address, writeBlockPos(pos));
+		return dest;
+	}
+
 }

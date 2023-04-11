@@ -8,51 +8,16 @@
  */
 package com.arcanc.nedaire.content.registration;
 
-import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.arcanc.nedaire.content.block.*;
 import com.arcanc.nedaire.content.block.entities.*;
-import org.apache.commons.lang3.mutable.Mutable;
-import org.apache.commons.lang3.mutable.MutableObject;
-import org.joml.Vector3f;
-
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer.CoreType;
-import com.arcanc.nedaire.content.container.menu.NContainerMenu;
-import com.arcanc.nedaire.content.container.menu.NCrusherMenu;
-import com.arcanc.nedaire.content.container.menu.NDeliveryStationMenu;
-import com.arcanc.nedaire.content.container.menu.NExpExtractorMenu;
-import com.arcanc.nedaire.content.container.menu.NExtruderMenu;
-import com.arcanc.nedaire.content.container.menu.NFluidFillerMenu;
-import com.arcanc.nedaire.content.container.menu.NFluidStorageMenu;
-import com.arcanc.nedaire.content.container.menu.NFurnaceMenu;
-import com.arcanc.nedaire.content.container.menu.NGeneratorFoodMenu;
-import com.arcanc.nedaire.content.container.menu.NGeneratorMobMenu;
-import com.arcanc.nedaire.content.container.menu.NGeneratorSolarMenu;
-import com.arcanc.nedaire.content.container.menu.NHooverMenu;
-import com.arcanc.nedaire.content.container.menu.NMobCatcherMenu;
-import com.arcanc.nedaire.content.container.menu.NVimStorageMenu;
+import com.arcanc.nedaire.content.container.menu.*;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
 import com.arcanc.nedaire.content.fluid.NFluid;
 import com.arcanc.nedaire.content.fluid.NFluidType;
 import com.arcanc.nedaire.content.fluid.NFluidType.FogGetter;
-import com.arcanc.nedaire.content.item.CrystalPrisonItem;
-import com.arcanc.nedaire.content.item.FakeIconItem;
-import com.arcanc.nedaire.content.item.NBaseBlockItem;
-import com.arcanc.nedaire.content.item.NBaseItem;
-import com.arcanc.nedaire.content.item.NJewelryToolsItem;
+import com.arcanc.nedaire.content.item.*;
 import com.arcanc.nedaire.content.item.gem.GemEffect;
 import com.arcanc.nedaire.content.item.gem.GemEffectHealth;
 import com.arcanc.nedaire.content.item.gem.GemEffectRegen;
@@ -74,7 +39,6 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -98,12 +62,8 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item.Properties;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -129,11 +89,23 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.*;
+import org.apache.commons.lang3.mutable.Mutable;
+import org.apache.commons.lang3.mutable.MutableObject;
+import org.joml.Vector3f;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class NRegistration 
 {
@@ -467,6 +439,13 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.CORE,
 				() -> baseMachineProps.get().noLootTable().noParticlesOnBreak().noOcclusion().lightLevel(state -> 15).emissiveRendering((state, getter, pos) -> true),
 				NBlockCore :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
+
+		public static final BlockRegObject<NBlockPlatform, NBaseBlockItem> PLATFORM = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.PLATFORM,
+				() -> baseMachineProps.get().noOcclusion(),
+				NBlockPlatform :: new,
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
 		
@@ -882,7 +861,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.CORE,
 				makeType((pos, state) -> new NBETerramorfer(pos, state, CoreType.UNSTABLE),
 						RegisterBlocks.CORE));
-		
+
+		public static final RegistryObject<BlockEntityType<NBEPlatform>> BE_PLATFORM = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.PLATFORM,
+				makeType(NBEPlatform::new,
+						RegisterBlocks.PLATFORM));
 		
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)

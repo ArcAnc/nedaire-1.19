@@ -9,12 +9,8 @@
 package com.arcanc.nedaire.util.helpers;
 
 
-import java.util.Map;
-import java.util.Optional;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,11 +24,16 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Map;
+import java.util.Optional;
+
 public class BlockHelper 
 {
 	public static class BlockProperties
 	{
-		public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+		public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+		public static final DirectionProperty FACING = BlockStateProperties.FACING;
+		public static final DirectionProperty VERTICAL_ATTACHMENT = BlockStateProperties.VERTICAL_DIRECTION;
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 		public static final BooleanProperty ENABLED =  BlockStateProperties.ENABLED;
 		public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -44,7 +45,7 @@ public class BlockHelper
 			public static final BooleanProperty WEST = BlockStateProperties.WEST;
 			public static final BooleanProperty UP = BlockStateProperties.UP;
 			public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
-			public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (map) -> 
+			public static final Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), (map) ->
 			{
 				map.put(Direction.NORTH, NORTH);
 				map.put(Direction.EAST, EAST);
@@ -57,7 +58,7 @@ public class BlockHelper
 	}
 
 
-	public static final Optional<BlockEntity> getTileEntity(LevelReader world, Vec3 pos)
+	public static Optional<BlockEntity> getTileEntity(LevelReader world, Vec3 pos)
 	{
 		if (pos != null)
 		{
@@ -65,9 +66,9 @@ public class BlockHelper
 		}
 		return Optional.empty();
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	public static final Optional<BlockEntity> getTileEntity(LevelReader world, BlockPos pos)
+	public static Optional<BlockEntity> getTileEntity(LevelReader world, BlockPos pos)
 	{
 		if (world != null && world.hasChunkAt(pos))
 		{
@@ -75,7 +76,7 @@ public class BlockHelper
 		}
 		return Optional.empty();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> Optional<T> castTileEntity(BlockEntity tile, Class<T> to)
 	{
@@ -86,19 +87,16 @@ public class BlockHelper
 		}
 		return Optional.empty();
 	}
-	
+
 	public static <T> Optional<T> castTileEntity(LevelReader world, BlockPos pos, Class<T> to)
 	{
 		if (world != null && pos != null)
 		{
-			return getTileEntity(world, pos).map(tile -> 
-			{
-				return castTileEntity(tile, to); 
-			}).orElse(Optional.empty());
+			return getTileEntity(world, pos).flatMap(tile -> castTileEntity(tile, to));
 		}
 		return Optional.empty();
 	}
-	
+
 	public static <T> Optional<T> castTileEntity(LevelReader world, Vec3 pos, Class<T> to)
 	{
 		if (world != null && pos != null)
@@ -107,8 +105,8 @@ public class BlockHelper
 		}
 		return Optional.empty();
 	}
-	
-	public static ResourceLocation getRegistryName (Block block) 
+
+	public static ResourceLocation getRegistryName (Block block)
 	{
 		return ForgeRegistries.BLOCKS.getKey(block);
 	}

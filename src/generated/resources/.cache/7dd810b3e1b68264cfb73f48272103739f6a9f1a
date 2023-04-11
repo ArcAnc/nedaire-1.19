@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-06T19:49:42.9207029	Nedaire Block States
+// 1.19.4	2023-04-11T21:30:33.4335156	Nedaire Block States
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -21,6 +21,7 @@ d7f04091fc6a6737684e0c481cc5d215ce169e74 assets/nedaire/blockstates/manual_crush
 28a5a3182976f9277b01d7610f7d4e39de03a15b assets/nedaire/blockstates/mob_catcher.json
 a65d08ea21081d12b4b0c4840c4a02f136170bed assets/nedaire/blockstates/ore/corium.json
 79db76921b08ff34406f41dde9443e737fb4101f assets/nedaire/blockstates/pedestal.json
+f75d8be96ffe7c43ba6d84aac2a20a81a587b4f0 assets/nedaire/blockstates/platform.json
 af014dcfafe19f0dd12073ff143a26e2b8d9c2ba assets/nedaire/blockstates/skystone.json
 772b2f7be7bcf0a1bba0d64cc401ff84b477d20e assets/nedaire/blockstates/skystone_slab.json
 8cb84c14d0712a1c23db986b498c71c67c823ec9 assets/nedaire/blockstates/skystone_stairs.json
@@ -59,6 +60,7 @@ d6a613345bf0c5398f2ef7043be7766c810e55b5 assets/nedaire/models/block/jewelry_tab
 1f568ad276e3d0e6831d64dc48dd03e8df7ac8b0 assets/nedaire/models/block/mob_catcher.json
 7833433fc84476e2e7ef55c0eeb130d4e4b57cb3 assets/nedaire/models/block/ore/corium.json
 426f098ab4be916632f8cc6aa5d24da6723ae693 assets/nedaire/models/block/pedestal.json
+f192c5f03f5bd7697e28410fcd1e84c78e6b468b assets/nedaire/models/block/platform.json
 98fb51fa7a7e0937cb32a4045f8dfb6331998060 assets/nedaire/models/block/skystone.json
 86d9ec6c00a37aa0bd5be45ca174180b6ccba556 assets/nedaire/models/block/skystone_slab.json
 495c15a77852cecb4cddcecd152b99fdf21174ba assets/nedaire/models/block/skystone_slab_top.json
@@ -95,6 +97,7 @@ b72b2f7cb2e9a4d58c7ddbdbfc215bea5aa19a9e assets/nedaire/models/item/jewelry_tabl
 584e7441e86f83f92ee19a09685cd49754177d27 assets/nedaire/models/item/mob_catcher.json
 f9c7fce4c1a1c579c318a1262df5dac623de021b assets/nedaire/models/item/ore/corium.json
 1ca8386edc932c6f011ac10160ac5e1918a85e9b assets/nedaire/models/item/pedestal.json
+6b4355fe5df7e81bd378a0ce5eada8922e42442a assets/nedaire/models/item/platform.json
 8c269f39267173c02adb3a55903ad895e29d10c9 assets/nedaire/models/item/skystone.json
 0220e4df6c5ce443cb511406b2b15d3b86ef35e2 assets/nedaire/models/item/skystone_slab.json
 544381c641c9587fa2542470ea1fe7089a2f16b4 assets/nedaire/models/item/skystone_stairs.json

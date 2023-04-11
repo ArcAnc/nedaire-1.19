@@ -137,6 +137,9 @@ public class NDatabase
 				public static final String FLUID_FILLER = "fluid_filler";
 				public static final String DIFFUSER = "diffuser";
 				public static final String EXP_EXTRACTOR = "exp_extractor";
+
+				public static final String BORE = "bore";
+				public static final String PLATFORM = "platform";
 				
 				public static class Crystal
 				{
@@ -205,6 +208,11 @@ public class NDatabase
 						public static final String ELAPSED_TIME = "elapsed_time";
 						public static final String DRAINED_FLUID = "drained_fluid";
 						public static final String TO_DRAIN = "to_drain";
+					}
+					public static class Bore
+					{
+						public static final String MINING = "mining";
+						public static final String START_DIG = "start_dig";
 					}
 				}
 			}
@@ -469,7 +477,7 @@ public class NDatabase
 					
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_NAME = PATH.replace(':', '.').replace('/', '.') + ".required_signal";
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_LOW = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".low";
-					public static final String DESCRIPTION_REQUIRED_SIGNAL_HIGHT = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".hight";
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_STRONG = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".hight";
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_DISABLED = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".disabled";
 				}
 				public static class PanelSwitcherPanel 
@@ -641,7 +649,8 @@ public class NDatabase
 								new SectionData (Section.ResourceLocations.PATCH_NOTES,
 									Icon.of(net.minecraft.world.item.Items.WRITABLE_BOOK)).
 										addPage(Chapters.PATCH_0_1, Pages.PATCH_0_1).
-										addPage(Chapters.PATCH_0_3, Pages.PATCH_0_3),
+										addPage(Chapters.PATCH_0_3, Pages.PATCH_0_3).
+										addPage(Chapters.PATCH_0_4, Pages.PATCH_0_4),
 								new SectionData (Section.ResourceLocations.BASIC,
 									Icon.of(getTexturePath("gui/enchiridion/" + BASIC), 5, 0, 0, 16, 16, 16, 16)).
 										addPage(Chapters.SKYSTONE, Pages.SKYSTONE).
@@ -661,7 +670,8 @@ public class NDatabase
 										addPage(Chapters.HOOVER, Pages.HOOVER).
 										addPage(Chapters.GROWTH_CRYSTAL, Pages.GROWTH_CRYSTAL).
 										addPage(Chapters.EXTRUDER, Pages.EXTRUDER).
-										addPage(Chapters.DELIVERY, Pages.DELIVERY)
+										addPage(Chapters.DELIVERY, Pages.DELIVERY).
+										addPage(Chapters.PLATFORM, Pages.PLATFORM)
 						));
 			}
 			public static final String CHAPTER = "chapter";
@@ -670,6 +680,7 @@ public class NDatabase
 				//PatchNotes
 				public static final ResourceLocation PATCH_0_1 = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "0.1");
 				public static final ResourceLocation PATCH_0_3 = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "0.3");
+				public static final ResourceLocation PATCH_0_4 = getEnchiridionPath(getChapt(Section.PATCH_NOTES), "0.4");
 				//Basic
 				public static final ResourceLocation SKYSTONE = getEnchiridionPath(getChapt(Section.BASIC), Blocks.Names.SKYSTONE);
 				public static final ResourceLocation TERRAMORFER = getEnchiridionPath(getChapt(Section.BASIC), Blocks.BlockEntities.Names.TERRAMORFER);
@@ -687,8 +698,9 @@ public class NDatabase
 				public static final ResourceLocation HOOVER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.HOOVER); 
 				public static final ResourceLocation GROWTH_CRYSTAL = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.Crystal.GROWTH); 
 				public static final ResourceLocation EXTRUDER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.EXTRUDER); 
-				public static final ResourceLocation DELIVERY = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.DELIVERY_STATION); 
-				
+				public static final ResourceLocation DELIVERY = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.DELIVERY_STATION);
+				public static final ResourceLocation PLATFORM = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.PLATFORM);
+
 				private static String getChapt(String name)
 				{
 					return CHAPTER + "." + name;
@@ -699,7 +711,8 @@ public class NDatabase
 			{
 				//patch notes
 				public static final ResourceLocation PATCH_0_1 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_1, "0.1"));
-				public static final ResourceLocation PATCH_0_3 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_3, "0.1"));
+				public static final ResourceLocation PATCH_0_3 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_3, "0.3"));
+				public static final ResourceLocation PATCH_0_4 = StringHelper.getLocFStr(getPage(Chapters.PATCH_0_4, "0.4"));
 				//basic
 				public static final ResourceLocation SKYSTONE = StringHelper.getLocFStr(getPage(Chapters.SKYSTONE));
 				public static final ResourceLocation TERRAMORFER = StringHelper.getLocFStr(getPage(Chapters.TERRAMORFER));
@@ -718,7 +731,8 @@ public class NDatabase
 				public static final ResourceLocation GROWTH_CRYSTAL = StringHelper.getLocFStr(getPage(Chapters.GROWTH_CRYSTAL)); 
 				public static final ResourceLocation EXTRUDER = StringHelper.getLocFStr(getPage(Chapters.EXTRUDER)); 
 				public static final ResourceLocation DELIVERY = StringHelper.getLocFStr(getPage(Chapters.DELIVERY));
-				
+				public static final ResourceLocation PLATFORM = StringHelper.getLocFStr(getPage(Chapters.PLATFORM));
+
 				private static String getPage(ResourceLocation chapter)
 				{
 					return getPage(chapter, "description");

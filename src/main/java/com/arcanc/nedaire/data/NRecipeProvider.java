@@ -30,6 +30,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.Tags.Items;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -40,7 +41,7 @@ public class NRecipeProvider extends RecipeProvider
 	}
 
 	@Override
-	protected void buildRecipes(Consumer<FinishedRecipe> out) {
+	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> out) {
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		//=========================
@@ -459,6 +460,22 @@ public class NRecipeProvider extends RecipeProvider
 				unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
 				unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
 				save(out, NRegistration.RegisterBlocks.DELIVERY_STATION.getId());
+
+		//Delivery Station
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.PLATFORM.get().asItem()).
+				define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
+				define('B', Ingredient.of(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
+				define('C', Ingredient.of(Blocks.DISPENSER)).
+				define('D', Ingredient.of(NTags.Items.CORIUM.getIngot())).
+				pattern("ADA").
+				pattern("DBD").
+				pattern("ACA").
+				unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
+				unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
+				unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
+				unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
+				save(out, NRegistration.RegisterBlocks.PLATFORM.getId());
+
 	}
 
 	private void crusherRecipes(Consumer<FinishedRecipe> out) {

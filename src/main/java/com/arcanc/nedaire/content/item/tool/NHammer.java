@@ -8,22 +8,17 @@
  */
 package com.arcanc.nedaire.content.item.tool;
 
-import java.util.Optional;
-
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.item.NBaseItem;
-import com.arcanc.nedaire.util.helpers.BlockHelper;
-import com.arcanc.nedaire.util.helpers.FluidHelper;
-import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.arcanc.nedaire.util.helpers.StringHelper;
-import com.arcanc.nedaire.util.helpers.VimHelper;
-
+import com.arcanc.nedaire.util.helpers.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.util.Optional;
 
 public class NHammer extends NBaseItem
 {
@@ -53,9 +48,7 @@ public class NHammer extends NBaseItem
 					{
 						if (tag.contains(COORDS) && ctx.getPlayer().isCrouching())
 						{
-							CompoundTag coords = tag.getCompound(COORDS);
-							
-							BlockPos tilePos = new BlockPos(coords.getInt("x"), coords.getInt("y"), coords.getInt("z"));
+							BlockPos tilePos = TagHelper.readBlockPos(tag, COORDS);
 							if(tilePos.closerThan(pos, 32))
 							{
 								station.addTile(ctx.getLevel(), tilePos);
@@ -68,12 +61,7 @@ public class NHammer extends NBaseItem
 					{
 						if ((ItemHelper.isItemHandler(t) || FluidHelper.isFluidHandler(t) || VimHelper.isVimHandler(t)) && ctx.getPlayer().isCrouching())
 						{
-							CompoundTag coords = new CompoundTag();
-							coords.putInt("x", pos.getX());
-							coords.putInt("y", pos.getY());
-							coords.putInt("z", pos.getZ());
-							
-							tag.put(COORDS, coords);
+							TagHelper.writeBlockPos(pos, tag, COORDS);
 						}
 					}
 				}

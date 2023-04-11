@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nedaire:block/platform",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "nedaire:block/platform",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "nedaire:block/platform"
+    },
+    "facing=west": {
+      "model": "nedaire:block/platform",
+      "y": 90
+    }
+  }
+}

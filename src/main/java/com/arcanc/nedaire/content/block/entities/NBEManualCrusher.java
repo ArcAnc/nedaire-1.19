@@ -8,11 +8,6 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
@@ -26,7 +21,6 @@ import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.arcanc.nedaire.util.helpers.WorldHelper;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -39,6 +33,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class NBEManualCrusher extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity
 {
@@ -147,7 +145,7 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 	private void popResult(NonNullList<ItemStack> stacks) 
 	{
 		BlockState state = getBlockState();
-		Direction dir = state.getValue(BlockHelper.BlockProperties.FACING);
+		Direction dir = state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 		Vec3 pos = new Vec3(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ()).add(0.5f, 0.2f, 0.5f).relative(dir, 0.6f);
 		Double speed = level.random.nextDouble() * 0.2D - 0.1D;
 		for (ItemStack stack : stacks)

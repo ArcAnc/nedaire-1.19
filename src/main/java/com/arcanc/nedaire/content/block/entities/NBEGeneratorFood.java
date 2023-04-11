@@ -66,7 +66,7 @@ public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventory
 			}
 		}
 		
-		Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.FACING);
+		Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 		suctionZone = new AABB(getBlockPos().offset(dir.getNormal()));
 		
 		this.energy = VimStorage.newConfig(this).setMaxEnergy(10000).setEnergy(0).build();
@@ -166,7 +166,7 @@ public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventory
 	@Override
 	public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) 
 	{
-		Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.FACING);
+		Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 		if (dir != side)
 		{
 			if (cap == VimHelper.vimHandler)

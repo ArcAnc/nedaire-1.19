@@ -100,6 +100,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 		this.add(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get()));
 
 		this.add(NRegistration.RegisterBlocks.JEWERLY_TABLE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get()));
+		this.add(NRegistration.RegisterBlocks.PLATFORM.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PLATFORM.get()));
 	}
 
 	@Override

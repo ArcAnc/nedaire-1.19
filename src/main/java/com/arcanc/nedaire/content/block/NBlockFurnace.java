@@ -12,7 +12,6 @@ import com.arcanc.nedaire.content.block.entities.NBEFurnace;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -42,9 +41,9 @@ public class NBlockFurnace extends NTileProviderBlock<NBEFurnace>
 	protected BlockState getInitDefaultState() 
 	{
 		BlockState state = super.getInitDefaultState();
-		if (state.hasProperty(BlockHelper.BlockProperties.FACING))
+		if (state.hasProperty(BlockHelper.BlockProperties.HORIZONTAL_FACING))
 		{
-			state = state.setValue(BlockHelper.BlockProperties.FACING, Direction.SOUTH).setValue(BlockHelper.BlockProperties.LIT, false);
+			state = state.setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, Direction.SOUTH).setValue(BlockHelper.BlockProperties.LIT, false);
 		}
 		return state;
 	}
@@ -52,20 +51,20 @@ public class NBlockFurnace extends NTileProviderBlock<NBEFurnace>
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) 
 	{
-		return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.FACING, context.getHorizontalDirection().getOpposite());
+		return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
 	}
 	
 	@Override
 	public BlockState rotate(BlockState state, Rotation rot) 
 	{
-		return state.setValue(BlockHelper.BlockProperties.FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.FACING)));
+		return state.setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirror) 
 	{
-		return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.FACING)));
+		return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class NBlockFurnace extends NTileProviderBlock<NBEFurnace>
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
 	{
-		builder.add(BlockHelper.BlockProperties.FACING, BlockHelper.BlockProperties.LIT);
+		builder.add(BlockHelper.BlockProperties.HORIZONTAL_FACING, BlockHelper.BlockProperties.LIT);
 	}
 	
 	@Override
