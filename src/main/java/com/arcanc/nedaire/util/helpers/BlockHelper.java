@@ -2,7 +2,7 @@
  * @author ArcAnc
  * Created at: 2022-04-09
  * Copyright (c) 2022
- * 
+ * <p>
  * This code is licensed under "Ancient's License of Common Sense"	
  * Details can be found in the license file in the root folder of this project
  */
@@ -33,7 +33,7 @@ public class BlockHelper
 	{
 		public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 		public static final DirectionProperty FACING = BlockStateProperties.FACING;
-		public static final DirectionProperty VERTICAL_ATTACHMENT = BlockStateProperties.VERTICAL_DIRECTION;
+		public static final DirectionProperty VERTICAL_ATTACHMENT = DirectionProperty.create("vertical_attachment", Direction.UP, Direction.DOWN);
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 		public static final BooleanProperty ENABLED =  BlockStateProperties.ENABLED;
 		public static final BooleanProperty LIT = BlockStateProperties.LIT;

@@ -477,12 +477,12 @@ public class NDatabase
 					
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_NAME = PATH.replace(':', '.').replace('/', '.') + ".required_signal";
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_LOW = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".low";
-					public static final String DESCRIPTION_REQUIRED_SIGNAL_STRONG = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".hight";
+					public static final String DESCRIPTION_REQUIRED_SIGNAL_STRONG = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".strong";
 					public static final String DESCRIPTION_REQUIRED_SIGNAL_DISABLED = DESCRIPTION_REQUIRED_SIGNAL_NAME + ".disabled";
 				}
 				public static class PanelSwitcherPanel 
 				{
-					public static final String PATH = DropPanel.PATH + "panel_swither";
+					public static final String PATH = DropPanel.PATH + "panel_switcher";
 					
 					public static final String DESCRIPTION_NAME = PATH.replace(':','.').replace('/', '.') + ".description";
 					public static final String DESCRIPTION_MAIN = PATH.replace(':','.').replace('/', '.') + ".main";
@@ -671,7 +671,8 @@ public class NDatabase
 										addPage(Chapters.GROWTH_CRYSTAL, Pages.GROWTH_CRYSTAL).
 										addPage(Chapters.EXTRUDER, Pages.EXTRUDER).
 										addPage(Chapters.DELIVERY, Pages.DELIVERY).
-										addPage(Chapters.PLATFORM, Pages.PLATFORM)
+										addPage(Chapters.PLATFORM, Pages.PLATFORM).
+										addPage(Chapters.BORE, Pages.BORE)
 						));
 			}
 			public static final String CHAPTER = "chapter";
@@ -700,6 +701,7 @@ public class NDatabase
 				public static final ResourceLocation EXTRUDER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.EXTRUDER); 
 				public static final ResourceLocation DELIVERY = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.DELIVERY_STATION);
 				public static final ResourceLocation PLATFORM = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.PLATFORM);
+				public static final ResourceLocation BORE = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.BORE);
 
 				private static String getChapt(String name)
 				{
@@ -732,6 +734,7 @@ public class NDatabase
 				public static final ResourceLocation EXTRUDER = StringHelper.getLocFStr(getPage(Chapters.EXTRUDER)); 
 				public static final ResourceLocation DELIVERY = StringHelper.getLocFStr(getPage(Chapters.DELIVERY));
 				public static final ResourceLocation PLATFORM = StringHelper.getLocFStr(getPage(Chapters.PLATFORM));
+				public static final ResourceLocation BORE = StringHelper.getLocFStr(getPage(Chapters.BORE));
 
 				private static String getPage(ResourceLocation chapter)
 				{

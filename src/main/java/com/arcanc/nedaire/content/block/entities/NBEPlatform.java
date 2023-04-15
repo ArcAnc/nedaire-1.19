@@ -127,7 +127,7 @@ public class NBEPlatform extends NBESidedAccess implements BlockInterfaces.IInve
             super(type, pos, state);
 
             Direction dir = state.getValue(VERTICAL_ATTACHMENT);
-            BlockHelper.castTileEntity(getLevel(), pos.relative(dir), NBEPlatform.class).ifPresentOrElse(tile -> platform = tile, this::setRemoved);
+            BlockHelper.castTileEntity(getLevel(), pos.relative(dir), NBEPlatform.class).ifPresent(tile -> platform = tile);
         }
 
         public void setPlatform(NBEPlatform platform)

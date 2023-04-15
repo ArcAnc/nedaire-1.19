@@ -36,7 +36,7 @@ public class NBlockPlatform extends NTileProviderBlock<NBEPlatform>
             box(11, 1, 11, 15, 15, 15),
             box(11, 1, 1, 15, 15, 5),
             box(1, 1,1, 5, 15, 5),
-            box(6, 1, 6, 10, 15, 16)
+            box(6, 1, 6, 10, 15, 10)
     );
 
     public NBlockPlatform(Properties properties)

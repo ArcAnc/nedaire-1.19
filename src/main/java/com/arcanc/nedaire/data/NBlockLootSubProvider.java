@@ -101,10 +101,12 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 
 		this.add(NRegistration.RegisterBlocks.JEWERLY_TABLE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get()));
 		this.add(NRegistration.RegisterBlocks.PLATFORM.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.PLATFORM.get()));
+		this.add(NRegistration.RegisterBlocks.BORE.get(), createNameableBlockEntityTable(NRegistration.RegisterBlocks.BORE.get()));
 	}
 
 	@Override
-	protected Iterable<Block> getKnownBlocks() {
+	protected Iterable<Block> getKnownBlocks()
+	{
 		return NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().map(RegistryObject :: get).filter(block -> !block.getLootTable().equals(BuiltInLootTables.EMPTY)).collect(Collectors.toSet());
 	}
 

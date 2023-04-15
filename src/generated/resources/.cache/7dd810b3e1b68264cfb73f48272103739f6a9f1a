@@ -1,4 +1,5 @@
-// 1.19.4	2023-04-11T21:30:33.4335156	Nedaire Block States
+// 1.19.4	2023-04-15T23:50:56.9297931	Nedaire Block States
+d793b8acec3718090047822ba03be8fc11e67f89 assets/nedaire/blockstates/bore.json
 b588557d5e229416cd3b05e5f9eff18e0cc6d36b assets/nedaire/blockstates/crusher.json
 b51fad8c61c68339b584f0dff857c8764fedd2c9 assets/nedaire/blockstates/deepslate/corium.json
 eb6826f80939f61fd3cc40678c232945970e82d2 assets/nedaire/blockstates/delivery_station.json
@@ -30,6 +31,9 @@ f80b9dba946e35e93238ea9cda59e79ccffde9dd assets/nedaire/blockstates/skystone_wal
 d49da51c847b38b10c0794c411379a9262c5f25f assets/nedaire/blockstates/storage_block/raw/corium.json
 f1b0077cb2f3d88972d029951cb2251faa609c41 assets/nedaire/blockstates/terramorfer.json
 5ef24b2c6ee50cef9181d4c79770bd84032b3980 assets/nedaire/blockstates/vim_storage.json
+35aef8475ef81dec79635691b1b0bbb1a0b4d9c7 assets/nedaire/models/block/bore/base.json
+97796f7bb68ff642107d9aaff44eaf5dffc1ce0a assets/nedaire/models/block/bore/control.json
+5b99ec808538b4710d63c7056afa81161a173e29 assets/nedaire/models/block/bore/rotor.json
 cef4dfcff4aa484d2f9d6b9ee7c9bbc659d5355d assets/nedaire/models/block/crusher_off.json
 5081de30073e3bbdae3ee7ac9ef1b8b3a4f75b9e assets/nedaire/models/block/crusher_on.json
 706ddcbcaf044d8e87bbb4a9a873a223cae2613d assets/nedaire/models/block/deepslate/corium.json
@@ -75,6 +79,7 @@ ede951dd917ef3135a4313c3adb936a1d4bdf1b6 assets/nedaire/models/block/storage_blo
 d0e6f696554536b8bd591889d2d8976875658112 assets/nedaire/models/block/storage_block/raw/corium.json
 3a33202eb21f97a917954bb216f1b7d0cf834850 assets/nedaire/models/block/terramorfer.json
 86acd97903fdace2f6bb8ac11ce3b0e4001553f7 assets/nedaire/models/block/vim_storage.json
+8f47bc03c8194febfc43806794e3f951208d5993 assets/nedaire/models/item/bore.json
 da48b63f50435f4dbde35b2972e0cb73348aedd7 assets/nedaire/models/item/crusher.json
 bb15965328d6923054ecbc7a07135d1550986dd7 assets/nedaire/models/item/deepslate/corium.json
 2b70012df8494fad7d2d4408f79da6810a2f2846 assets/nedaire/models/item/delivery_station.json

@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-11T20:01:25.2886993	Recipes
+// 1.19.4	2023-04-15T22:57:47.1533582	Recipes
 27fab7ec8fcd539ab9ec9a3f11e0ec789b9a4fd9 data/nedaire/advancements/recipes/building_blocks/conversion/ingot/corium_to_storage_block/corium.json
 beb6c275429f9ce460f0d88445cce02fb8b52c08 data/nedaire/advancements/recipes/building_blocks/conversion/raw/corium_to_storage_block/raw/corium.json
 08e4b1e9a928f2c692fa78efb9c46d153bff1554 data/nedaire/advancements/recipes/combat/weapon/bow/corium.json
@@ -13,6 +13,7 @@ b7d71804698274de546b771b33b53e8ac8404075 data/nedaire/advancements/recipes/misc/
 4cc181286e669df1901a751c6caefe753e7ece5a data/nedaire/advancements/recipes/misc/blasting/dusts/corium_to_ingot/corium.json
 f7545acd7740eb8ab7e141e5b002d77bd489f491 data/nedaire/advancements/recipes/misc/blasting/ores/corium_to_ingot/corium.json
 67ed13002c4e6007033c30eb20013b3ae322b29a data/nedaire/advancements/recipes/misc/blasting/raw_materials/corium_to_ingot/corium.json
+0d3afc8d0917b2c22bca22d689e7f17e227c1d7a data/nedaire/advancements/recipes/misc/bore.json
 ace3c0e28b665d3d0e94aad4011502e4269fcd88 data/nedaire/advancements/recipes/misc/conversion/ingot/corium_to_nugget/corium.json
 f99dc2725f54f894f5bedc26a0ac5afded58a1a2 data/nedaire/advancements/recipes/misc/conversion/nugget/corium_to_ingot/corium.json
 2218e000c658e583e6424fc34da762d6838fa88d data/nedaire/advancements/recipes/misc/conversion/nugget/skystone_to_skystone.json
@@ -59,6 +60,7 @@ ab73335e891979d8a3e5d3993ef481d70e70cc4e data/nedaire/recipes/armor/player/legs/
 c6786101e49c685a9072808a17879c90647feaa8 data/nedaire/recipes/blasting/dusts/corium_to_ingot/corium.json
 78cbc91212e73913adefebc82a17711f8189180f data/nedaire/recipes/blasting/ores/corium_to_ingot/corium.json
 5ed778740cccc9af14243f2e51e9375bdf791a1b data/nedaire/recipes/blasting/raw_materials/corium_to_ingot/corium.json
+4824de5585ca7873c8f73eb792ff9b31305ee7b0 data/nedaire/recipes/bore.json
 62a0eba6d1e033d369be8dd3f44615371275bc91 data/nedaire/recipes/conversion/ingot/corium_to_nugget/corium.json
 1506e09b5b3e30ad6cb0020b86e45927d2f181c9 data/nedaire/recipes/conversion/ingot/corium_to_storage_block/corium.json
 412b5134811bcad41c05c0cd5391940102911e92 data/nedaire/recipes/conversion/nugget/corium_to_ingot/corium.json

@@ -1,0 +1,350 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            1.5,
+            1.5,
+            3.0,
+            3.0
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            4.5,
+            3.0,
+            6.0,
+            3.25
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            3.0,
+            3.0,
+            4.5,
+            3.25
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            3.0,
+            1.5,
+            3.25
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            3.0,
+            1.5,
+            4.5,
+            3.0
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            1.5,
+            3.0,
+            3.0,
+            3.25
+          ]
+        }
+      },
+      "from": [
+        6.25,
+        9,
+        6.25
+      ],
+      "to": [
+        9.75,
+        10,
+        9.75
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            5.75,
+            0.0,
+            6.75,
+            1.0
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            7.75,
+            1.0,
+            8.75,
+            2.0
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            6.75,
+            1.0,
+            7.75,
+            2.0
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            4.75,
+            1.0,
+            5.75,
+            2.0
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            6.75,
+            0.0,
+            7.75,
+            1.0
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            5.75,
+            1.0,
+            6.75,
+            2.0
+          ]
+        }
+      },
+      "from": [
+        6.75,
+        14,
+        6.75
+      ],
+      "to": [
+        9.25,
+        16.5,
+        9.25
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            1.0,
+            3.375,
+            2.0,
+            4.375
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            3.0,
+            4.375,
+            4.0,
+            4.625
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            4.375,
+            3.0,
+            4.625
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            4.375,
+            1.0,
+            4.625
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            3.375,
+            3.0,
+            4.375
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            1.0,
+            4.375,
+            2.0,
+            4.625
+          ]
+        }
+      },
+      "from": [
+        6.75,
+        11,
+        6.75
+      ],
+      "to": [
+        9.25,
+        12,
+        9.25
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            1.0,
+            3.375,
+            2.0,
+            4.375
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            3.0,
+            4.375,
+            4.0,
+            4.625
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            4.375,
+            3.0,
+            4.625
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            4.375,
+            1.0,
+            4.625
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            3.375,
+            3.0,
+            4.375
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            1.0,
+            4.375,
+            2.0,
+            4.625
+          ]
+        }
+      },
+      "from": [
+        6.75,
+        7,
+        6.75
+      ],
+      "to": [
+        9.25,
+        8,
+        9.25
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            6.625,
+            2.125,
+            7.125,
+            2.625
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            7.625,
+            2.625,
+            8.125,
+            5.375
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            7.125,
+            2.625,
+            7.625,
+            5.375
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            6.125,
+            2.625,
+            6.625,
+            5.375
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            7.125,
+            2.125,
+            7.625,
+            2.625
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            6.625,
+            2.625,
+            7.125,
+            5.375
+          ]
+        }
+      },
+      "from": [
+        7.25,
+        7,
+        7.25
+      ],
+      "to": [
+        8.75,
+        16,
+        8.75
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "nedaire:block/bore/rotor",
+    "texture": "nedaire:block/bore/rotor"
+  }
+}

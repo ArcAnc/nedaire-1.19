@@ -448,6 +448,13 @@ public class NRegistration
 				NBlockPlatform :: new,
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
+
+		public static final BlockRegObject<NBlockBore, NBaseBlockItem> BORE = new BlockRegObject<>(
+				NDatabase.Blocks.BlockEntities.Names.BORE,
+				() -> baseMachineProps.get().noOcclusion(),
+				NBlockBore :: new,
+				NRegistration.RegisterItems.baseProps,
+				NBaseBlockItem :: new);
 		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
@@ -866,6 +873,11 @@ public class NRegistration
 				NDatabase.Blocks.BlockEntities.Names.PLATFORM,
 				makeType(NBEPlatform::new,
 						RegisterBlocks.PLATFORM));
+
+		public static final RegistryObject<BlockEntityType<NBEBore>> BE_BORE = BLOCK_ENTITIES.register(
+				NDatabase.Blocks.BlockEntities.Names.BORE,
+				makeType(NBEBore::new,
+						RegisterBlocks.BORE));
 		
 		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)

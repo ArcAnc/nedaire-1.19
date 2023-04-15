@@ -105,6 +105,7 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.DIFFUSER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DIFFUSER));
 		add(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR).replace("_e", " E"));
 		add(NRegistration.RegisterBlocks.PLATFORM.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PLATFORM));
+		add(NRegistration.RegisterBlocks.BORE.get().asItem(), "Drill");
 
 		add(NRegistration.RegisterFluids.EXPERIENCE.bucket().get(), StringHelper.capitalize(NDatabase.Fluids.Names.EXPERIENCE) + " Bucket");
 		add(NRegistration.RegisterFluids.EXPERIENCE.type().get().getDescriptionId(), StringHelper.capitalize(NDatabase.Fluids.Names.EXPERIENCE));
@@ -262,6 +263,8 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Enchiridion.Chapters.PLATFORM.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PLATFORM));
 		add(NDatabase.GUI.Enchiridion.Pages.PLATFORM.toLanguageKey(), "It's just platform for blocks like Bore or Defensive Tower. They may be placed ONLY on platform, on top or bottom side. May be rotated with hammer. Bore mining result will expel from face of this block. Oh yea, almost forgot... Recipe... </recipe;" + NRegistration.RegisterBlocks.PLATFORM.getId() + "/>");
 
+		add(NDatabase.GUI.Enchiridion.Chapters.BORE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.BORE));
+		add(NDatabase.GUI.Enchiridion.Pages.BORE.toLanguageKey(), "I'm a drill and I digging a hole, diggy diggy hole, diggy diggy hole! Place me on platform and rotate me with hammer. </recipe;" + NRegistration.RegisterBlocks.BORE.getId() + "/>");
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
 	}
 	

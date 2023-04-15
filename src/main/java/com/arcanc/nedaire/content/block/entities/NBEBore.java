@@ -28,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -57,9 +56,9 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
     private Optional<BlockPos> mining = Optional.empty();
     private long startDiggingBlock;
 
-    public NBEBore(BlockEntityType<?> type, BlockPos pos, BlockState state)
+    public NBEBore(BlockPos pos, BlockState state)
     {
-        super(type, pos, state);
+        super(NRegistration.RegisterBlockEntities.BE_BORE.get(), pos, state);
 
         this.inv = new NSimpleItemStorage(this).addSlot(1, stack -> stack.is(ItemTags.PICKAXES));
     }

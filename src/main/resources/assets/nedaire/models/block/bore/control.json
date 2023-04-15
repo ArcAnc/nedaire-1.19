@@ -1,0 +1,137 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            4.0,
+            11.5,
+            8.0,
+            15.5
+          ]
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            12.0,
+            15.5,
+            16.0,
+            16.0
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            8.0,
+            15.5,
+            12.0,
+            16.0
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            15.5,
+            4.0,
+            16.0
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            8.0,
+            11.5,
+            12.0,
+            15.5
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            4.0,
+            15.5,
+            8.0,
+            16.0
+          ]
+        }
+      },
+      "from": [
+        6,
+        3,
+        6
+      ],
+      "to": [
+        10,
+        5,
+        10
+      ]
+    },
+    {
+      "faces": {
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            3.0,
+            6.0,
+            4.0,
+            7.25
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            6.0,
+            3.0,
+            7.25
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            6.0,
+            1.0,
+            7.25
+          ]
+        },
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            2.0,
+            4.75,
+            3.25,
+            6.0
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            1.0,
+            6.0,
+            2.0,
+            7.25
+          ]
+        }
+      },
+      "from": [
+        6.5,
+        5,
+        6.5
+      ],
+      "to": [
+        9.5,
+        7,
+        9.5
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "nedaire:block/bore/rotor",
+    "texture": "nedaire:block/bore/rotor"
+  }
+}

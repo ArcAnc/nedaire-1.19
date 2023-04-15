@@ -56,7 +56,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 		registerPedestal(NRegistration.RegisterBlocks.PEDESTAL.get());
 		registerHolder(NRegistration.RegisterBlocks.HOLDER.get());
-		registerManualChusher(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get());
+		registerManualCrusher(NRegistration.RegisterBlocks.MANUAL_CRUSHER.get());
 		registerVimStorage(NRegistration.RegisterBlocks.VIM_STORAGE.get());
 		registerFluidStorage(NRegistration.RegisterBlocks.FLUID_STORAGE.get());
 		registerDeliveryStation(NRegistration.RegisterBlocks.DELIVERY_STATION.get());
@@ -80,6 +80,7 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 		registerJewelryTable(NRegistration.RegisterBlocks.JEWERLY_TABLE.get());
 		registerPlatform(NRegistration.RegisterBlocks.PLATFORM.get());
+		registerBoreBlock(NRegistration.RegisterBlocks.BORE.get());
 
 		//registerSimpleBlock(NRegistration.RegisterBlocks.CORE.get());
 
@@ -89,7 +90,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 //		registerCrusher(NRegistration.RegisterBlocks.CRUSHER.get());
 	}
 
-	private void registerSimpleBlock (Block block) {
+	private void registerSimpleBlock (Block block)
+	{
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cube_all"))).
 				renderType("solid").
@@ -102,7 +104,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				parent(model);
 	}
 
-	private void registerWall(WallBlock block) {
+	private void registerWall(WallBlock block)
+	{
 
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
@@ -121,7 +124,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				parent(inv);
 	}
 
-	private void registerStairs(StairBlock block) {
+	private void registerStairs(StairBlock block)
+	{
         String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
 
@@ -137,7 +141,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				parent(stairs);
 	}
 
-	private void registerSlab(SlabBlock block) {
+	private void registerSlab(SlabBlock block)
+	{
 		String name = blockPrefix(name(block));
 		ResourceLocation blockText = blockTexture(block);
 
@@ -154,7 +159,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				parent(slab);
 	}
 
-	private void registerOreBlock(Block block) {
+	private void registerOreBlock(Block block)
+	{
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
@@ -171,7 +177,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerDeepslateOreBlock(Block block) {
+	private void registerDeepslateOreBlock(Block block)
+	{
 		ModelFile model = models().
 				withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
 				renderType("cutout").
@@ -188,7 +195,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerPedestal(Block block) {
+	private void registerPedestal(Block block)
+	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.PEDESTAL + "/texture"));
 
 		ModelFile model = models().
@@ -383,7 +391,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerHolder(Block block) {
+	private void registerHolder(Block block)
+	{
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOLDER + "/texture"));
 
 		ModelFile model = models().
@@ -553,7 +562,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerManualChusher(Block block) {
+	private void registerManualCrusher(Block block)
+	{
 		ResourceLocation tex = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER + "/" + NDatabase.Blocks.BlockEntities.Names.MANUAL_CRUSHER));
 
 		BlockModelBuilder model = models().
@@ -848,7 +858,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 */
 	}
 
-	private void registerVimStorage(Block block) {
+	private void registerVimStorage(Block block)
+	{
 		ResourceLocation texFront = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_front"));
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.VIM_STORAGE + "_top"));
@@ -1082,7 +1093,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 	}
 
-	private void registerFluidStorage(Block block) {
+	private void registerFluidStorage(Block block)
+	{
 		ResourceLocation texGlass = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_glass"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "/" + NDatabase.Blocks.BlockEntities.Names.FLUID_STORAGE + "_updown"));
 
@@ -1144,7 +1156,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		registerModels(block, model);
 	}
 
-	private void registerDeliveryStation(Block block) {
+	private void registerDeliveryStation(Block block)
+	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION + "/" + NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION));
 
 		ModelFile core = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -1175,7 +1188,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				end().
 				allFaces((face, builder) ->
 				{
-					if (face.getAxis() != Direction.Axis.Z) {
+					if (face.getAxis() != Direction.Axis.Z)
+					{
 						builder.uvs(1, 0, 2, 4);
 						if (face == Direction.EAST)
 							builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
@@ -1202,7 +1216,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 				end().
 				allFaces((face, builder) ->
 				{
-					if (face.getAxis() != Direction.Axis.Z) {
+					if (face.getAxis() != Direction.Axis.Z)
+					{
 						builder.uvs(0, 8, 4, 9);
 						if (face == Direction.EAST)
 							builder.rotation(FaceRotation.COUNTERCLOCKWISE_90);
@@ -1552,7 +1567,8 @@ public class NBlockStatesProvider extends BlockStateProvider
 		itemModels().getBuilder(itemPrefix(name(block))).parent(mainModel);
 	}
 */
-private void registerHoover(Block block) {
+private void registerHoover(Block block)
+{
 	ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_side"));
 	ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_top"));
 	ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.HOOVER + "/" + NDatabase.Blocks.BlockEntities.Names.HOOVER + "_bot"));
@@ -1763,7 +1779,8 @@ private void registerHoover(Block block) {
 	registerModels(block, model);
 }
 
-	private void registerTerramorfer(Block block) {
+	private void registerTerramorfer(Block block)
+	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.TERRAMORFER + "/" + NDatabase.Blocks.BlockEntities.Names.TERRAMORFER));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -1849,14 +1866,12 @@ private void registerHoover(Block block) {
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
-					if (face != Direction.DOWN) {
+					if (face != Direction.DOWN)
 						builder.cullface(face);
-					}
-					if (face.getAxis().isHorizontal()) {
+					if (face.getAxis().isHorizontal())
 						builder.uvs(4.25f, face.get2DDataValue() * 0.75f, 8.25f, 0.5f + 0.75f * face.get2DDataValue());
-					} else {
+					else
 						builder.uvs(4, 4 + 0.25f * face.getOpposite().get3DDataValue(), 0, 8.25f * face.getOpposite().get3DDataValue());
-					}
 				}).
 				end().
 				element().
@@ -2031,7 +2046,8 @@ private void registerHoover(Block block) {
 		registerModels(block, model);
 	}
 
-	private void registerGeneratorSolar(Block block) {
+	private void registerGeneratorSolar(Block block)
+	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR +"/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/top"));
 		ResourceLocation texBot = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.Generators.SOLAR + "/bot"));
@@ -2073,7 +2089,8 @@ private void registerHoover(Block block) {
 		registerModels(block, model);
 	}
 
-	private void registerMachine(Block block) {
+	private void registerMachine(Block block)
+	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2359,7 +2376,8 @@ private void registerHoover(Block block) {
 	}
 */
 
-	private void registerMobCather(Block block) {
+	private void registerMobCather(Block block)
+	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/side"));
 		ResourceLocation texTop = StringHelper.getLocFStr(blockPrefix(NDatabase.Blocks.BlockEntities.Names.MOB_CATCHER + "/top"));
 
@@ -2405,7 +2423,8 @@ private void registerHoover(Block block) {
 		registerModels(block, model);
 	}
 
-	private void registerCrossBlock(Block block) {
+	private void registerCrossBlock(Block block)
+	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cross"))).
@@ -2425,7 +2444,8 @@ private void registerHoover(Block block) {
 				end();
 	}
 
-	private void registerJewelryTable(Block block) {
+	private void registerJewelryTable(Block block)
+	{
 		ResourceLocation side = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation top = StringHelper.getLocFStr(blockPrefix(name(block) + "/top"));
 
@@ -2553,7 +2573,8 @@ private void registerHoover(Block block) {
 		registerModels(block, model);
 	}
 
-	private void registerExtruder(Block block) {
+	private void registerExtruder(Block block)
+	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2664,7 +2685,8 @@ private void registerHoover(Block block) {
 				end();
 	}
 
-	private void registerFluidFiller(Block block) {
+	private void registerFluidFiller(Block block)
+	{
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texFace = StringHelper.getLocFStr(blockPrefix(name(block) + "/face"));
 		ResourceLocation texFaceOff = StringHelper.getLocFStr(blockPrefix(name(block) + "/face_off"));
@@ -2744,7 +2766,8 @@ private void registerHoover(Block block) {
 
 	}
 
-	private void registerDiffuser(Block block) {
+	private void registerDiffuser(Block block)
+	{
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix("storage_block/corium"));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("cauldron"))).
@@ -2785,7 +2808,8 @@ private void registerHoover(Block block) {
 		registerModels(block, model);
 	}
 
-	private void registerFramework(Block block) {
+	private void registerFramework(Block block)
+	{
 		ResourceLocation text = StringHelper.getLocFStr(blockPrefix(name(block) + "/" + name(block)));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -3068,7 +3092,8 @@ private void registerHoover(Block block) {
 
 	}
 
-	private void registerExpExtractor(Block block) {
+	private void registerExpExtractor(Block block)
+	{
 		ResourceLocation plate = StringHelper.getLocFStr(blockPrefix(name(block) + "/plate"));
 		ResourceLocation stance = StringHelper.getLocFStr(blockPrefix(name(block) + "/stance"));
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("thin_block"))).
@@ -3167,7 +3192,8 @@ private void registerHoover(Block block) {
 				end();
 	}
 
-	private void registerGeneratorLightning(Block block) {
+	private void registerGeneratorLightning(Block block)
+	{
 		ResourceLocation texUp = StringHelper.getLocFStr(blockPrefix(name(block) + "/up"));
 		ResourceLocation texSide = StringHelper.getLocFStr(blockPrefix(name(block) + "/side"));
 		ResourceLocation texDown = StringHelper.getLocFStr(blockPrefix(name(block) + "/down"));
@@ -3263,7 +3289,8 @@ private void registerHoover(Block block) {
 				parent(modelOff);
 	}
 
-	private void registerPlatform(Block block) {
+	private void registerPlatform(Block block)
+	{
 		ResourceLocation texture = StringHelper.getLocFStr(blockPrefix(name(block) + "/texture"));
 
 		ModelFile model = models().withExistingParent(blockPrefix(name(block)), mcLoc(blockPrefix("block"))).
@@ -3389,7 +3416,7 @@ private void registerHoover(Block block) {
 				}).
 				end();
 
-		horizontalBlock(block, (state) -> model, 0);
+		horizontalBlock(block, state -> model, 0);
 
 		itemModels().getBuilder(itemPrefix(name(block))).
 				parent(model).
@@ -3404,8 +3431,305 @@ private void registerHoover(Block block) {
 				end().
 				end();
 	}
+	private void registerBoreBlock(Block block)
+	{
+		ResourceLocation base = StringHelper.getLocFStr(blockPrefix(name(block) + "/base"));
+		ResourceLocation rotor = StringHelper.getLocFStr(blockPrefix(name(block) + "/rotor"));
 
-	private void registerModels(Block block, ModelFile model) {
+		ModelFile baseModel = models().withExistingParent(blockPrefix(name(block) + "/base"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("texture", base).
+				texture("particle", base).
+				element().
+				from(5, 0, 5).
+				to(11, 1 ,11).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.get2DDataValue() * 4, 4, 4 + face.get2DDataValue() * 4, 4.5f);
+					else
+					{
+						builder.uvs(4 + face.get3DDataValue() * 4, 0, 8 + face.get3DDataValue() * 4, 4);
+						if (face == Direction.DOWN)
+							builder.cullface(face);
+					}
+				}).
+				end().
+				element().
+				from(5, 1, 7).
+				to(6, 6, 9).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.getAxis() == Axis.Z ? 2 + (face.get3DDataValue() % 2) * 3.5f : (face.get3DDataValue() % 2) * 3.5f,6.625f,face.getAxis() == Axis.Z ? 3.5f + 3.5f * (face.get3DDataValue() % 2) : 2 + 3.5f * (face.get3DDataValue() % 2), 8.625f);
+					else
+						builder.uvs(3.5f + face.get3DDataValue() * 1.5f,4.625f,2 + (face.get3DDataValue() * 1.5f),6.625f);
+				}).
+				end().
+				element().
+				from(10, 1, 7).
+				to(11, 6, 9).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.getAxis() == Axis.Z ? 9.125f + (face.get3DDataValue() % 2) * 3.5f : 7.125f + (face.get3DDataValue() % 2) * 3.5f,6.625f,face.getAxis() == Axis.Z ? 10.625f + 3.5f * (face.get3DDataValue() % 2) : 9.125f + 3.5f * (face.get3DDataValue() % 2), 8.625f);
+					else
+						builder.uvs(9.125f + face.get3DDataValue() * 1.5f,4.625f,10.625f + (face.get3DDataValue() * 1.5f),6.625f);
+				}).
+				end();
+
+		ModelFile controlModel = models().withExistingParent(blockPrefix(name(block) + "/control"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("texture", rotor).
+				texture("particle", rotor).
+				element().
+				from(6, 3, 6).
+				to(10, 5, 10).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(4 * face.get2DDataValue(), 15.5f, 4 + 4 * face.get2DDataValue(), 16);
+					else
+						builder.uvs(4 + 4 * face.get3DDataValue(), 11.5f, 8 + 4 * face.get3DDataValue(), 15.5f);
+				}).
+				end().
+				element().
+				from(6.5f, 5, 6.5f).
+				to(9.5f, 7, 9.5f).
+				face(Direction.UP).end().
+				face(Direction.SOUTH).end().
+				face(Direction.NORTH).end().
+				face(Direction.WEST).end().
+				face(Direction.EAST).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 6, 1 + face.get2DDataValue(), 7.25f);
+					else
+						builder.uvs(2, 4.75f, 3.25f, 6);
+				}).
+				end();
+
+		ModelFile rotorModel = models().withExistingParent(blockPrefix(name(block) + "/rotor"), mcLoc(blockPrefix("block"))).
+				renderType("cutout").
+				texture("texture", rotor).
+				texture("particle", rotor).
+				element().
+				from(6.25f, 9, 6.25f).
+				to(9.75f, 10, 9.75f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(1.5f * face.get2DDataValue(), 3, 1.5f + 1.5f * face.get2DDataValue(), 3.25f);
+					else
+						builder.uvs(1.5f + 1.5f * face.get3DDataValue(), 1.5f, 3 + 1.5f * face.get3DDataValue(), 3);
+				}).
+				end().
+				element().
+				from(6.75f, 14, 6.75f).
+				to(9.25f, 16.5f, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(4.75f + face.get2DDataValue(), 1, 5.75f + face.get2DDataValue(), 2);
+					else
+						builder.uvs(5.75f + face.get3DDataValue(), 0, 6.75f + face.get3DDataValue(), 1);
+				}).
+				end().
+				element().
+				from(6.75f, 11, 6.75f).
+				to(9.25f, 12, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 4.375f, 1 + face.get2DDataValue(), 4.625f);
+					else
+						builder.uvs(1 + face.get3DDataValue(), 3.375f, 2 + face.get3DDataValue(), 4.375f);
+				}).
+				end().
+				element().
+				from(6.75f, 7, 6.75f).
+				to(9.25f, 8, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 4.375f, 1 + face.get2DDataValue(), 4.625f);
+					else
+						builder.uvs(1 + face.get3DDataValue(), 3.375f, 2 + face.get3DDataValue(), 4.375f);
+				}).
+				end().
+				element().
+				from(7.25f, 7, 7.25f).
+				to(8.75f, 16, 8.75f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#texture");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(6.125f + 0.5f * face.get2DDataValue(), 2.625f, 6.625f + 0.5f * face.get2DDataValue(), 5.375f);
+					else
+						builder.uvs(6.625f + 0.5f * face.get3DDataValue(), 2.125f, 7.125f + 0.5f * face.get3DDataValue(), 2.625f);
+				}).
+				end();
+
+		getVariantBuilder(block).forAllStates(state ->
+		{
+			Direction dir = state.getValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
+			Direction horDir = state.getValue(BlockHelper.BlockProperties.FACING);
+					return ConfiguredModel.builder()
+							.modelFile(baseModel)
+							.rotationX(dir == Direction.DOWN ? 0 : 180)
+							.rotationY(horDir.getAxis().isVertical() ? 0 : (((int) horDir.toYRot())) % 360)
+							.build();
+		});
+
+		itemModels().getBuilder(itemPrefix(name(block))).parent(baseModel).
+				texture("base", base).
+				texture("rotor", rotor).
+				element().
+				from(5, 0, 5).
+				to(11, 1 ,11).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#base");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.get2DDataValue() * 4, 4, 4 + face.get2DDataValue() * 4, 4.5f);
+					else
+					{
+						builder.uvs(4 + face.get3DDataValue() * 4, 0, 8 + face.get3DDataValue() * 4, 4);
+						if (face == Direction.DOWN)
+							builder.cullface(face);
+					}
+				}).
+				end().
+				element().
+				from(5, 1, 7).
+				to(6, 6, 9).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#base");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.getAxis() == Axis.Z ? 2 + (face.get3DDataValue() % 2) * 3.5f : (face.get3DDataValue() % 2) * 3.5f,6.625f,face.getAxis() == Axis.Z ? 3.5f + 3.5f * (face.get3DDataValue() % 2) : 2 + 3.5f * (face.get3DDataValue() % 2), 8.625f);
+					else
+						builder.uvs(3.5f + face.get3DDataValue() * 1.5f,4.625f,2 + (face.get3DDataValue() * 1.5f),6.625f);
+				}).
+				end().
+				element().
+				from(10, 1, 7).
+				to(11, 6, 9).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#base");
+					if (face.getAxis() != Direction.Axis.Y)
+						builder.uvs(face.getAxis() == Axis.Z ? 9.125f + (face.get3DDataValue() % 2) * 3.5f : 7.125f + (face.get3DDataValue() % 2) * 3.5f,6.625f,face.getAxis() == Axis.Z ? 10.625f + 3.5f * (face.get3DDataValue() % 2) : 9.125f + 3.5f * (face.get3DDataValue() % 2), 8.625f);
+					else
+						builder.uvs(9.125f + face.get3DDataValue() * 1.5f,4.625f,10.625f + (face.get3DDataValue() * 1.5f),6.625f);
+				}).
+				end().
+				//---------------------
+				element().
+				from(6, 3, 6).
+				to(10, 5, 10).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(4 * face.get2DDataValue(), 15.5f, 4 + 4 * face.get2DDataValue(), 16);
+					else
+						builder.uvs(4 + 4 * face.get3DDataValue(), 11.5f, 8 + 4 * face.get3DDataValue(), 15.5f);
+				}).
+				end().
+				element().
+				from(6.5f, 5, 6.5f).
+				to(9.5f, 7, 9.5f).
+				face(Direction.UP).end().
+				face(Direction.SOUTH).end().
+				face(Direction.NORTH).end().
+				face(Direction.WEST).end().
+				face(Direction.EAST).end().
+				faces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 6, 1 + face.get2DDataValue(), 7.25f);
+					else
+						builder.uvs(2, 4.75f, 3.25f, 6);
+				}).
+				end().
+				//------
+				element().
+				from(6.25f, 9, 6.25f).
+				to(9.75f, 10, 9.75f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(1.5f * face.get2DDataValue(), 3, 1.5f + 1.5f * face.get2DDataValue(), 3.25f);
+					else
+						builder.uvs(1.5f + 1.5f * face.get3DDataValue(), 1.5f, 3 + 1.5f * face.get3DDataValue(), 3);
+				}).
+				end().
+				element().
+				from(6.75f, 14, 6.75f).
+				to(9.25f, 16.5f, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(4.75f + face.get2DDataValue(), 1, 5.75f + face.get2DDataValue(), 2);
+					else
+						builder.uvs(5.75f + face.get3DDataValue(), 0, 6.75f + face.get3DDataValue(), 1);
+				}).
+				end().
+				element().
+				from(6.75f, 11, 6.75f).
+				to(9.25f, 12, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 4.375f, 1 + face.get2DDataValue(), 4.625f);
+					else
+						builder.uvs(1 + face.get3DDataValue(), 3.375f, 2 + face.get3DDataValue(), 4.375f);
+				}).
+				end().
+				element().
+				from(6.75f, 7, 6.75f).
+				to(9.25f, 8, 9.25f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(face.get2DDataValue(), 4.375f, 1 + face.get2DDataValue(), 4.625f);
+					else
+						builder.uvs(1 + face.get3DDataValue(), 3.375f, 2 + face.get3DDataValue(), 4.375f);
+				}).
+				end().
+				element().
+				from(7.25f, 7, 7.25f).
+				to(8.75f, 16, 8.75f).
+				allFaces((face, builder) ->
+				{
+					builder.texture("#rotor");
+					if (face.getAxis() != Axis.Y)
+						builder.uvs(6.125f + 0.5f * face.get2DDataValue(), 2.625f, 6.625f + 0.5f * face.get2DDataValue(), 5.375f);
+					else
+						builder.uvs(6.625f + 0.5f * face.get3DDataValue(), 2.125f, 7.125f + 0.5f * face.get3DDataValue(), 2.625f);
+				}).
+				end();
+	}
+
+
+	private void registerModels(Block block, ModelFile model)
+	{
 		getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
 
 		itemModels().getBuilder(itemPrefix(name(block))).
