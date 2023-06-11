@@ -10,7 +10,6 @@ package com.arcanc.nedaire.util.helpers;
 
 import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +48,22 @@ public class VimHelper
 	{
 		return !stack.isEmpty() && stack.getCapability(vimHandler).isPresent();
 	}
-	
+
+	public static LazyOptional<IVim> getNearbyVimHandler (BlockEntity tile, Direction dir)
+	{
+		if (tile != null)
+		{
+			Level world = tile.getLevel();
+			BlockPos pos = tile.getBlockPos();
+
+			return BlockHelper.getTileEntity(world, pos.relative(dir)).map(t ->
+			{
+				return getVimHandler(t, dir.getOpposite());
+			}).orElse(LazyOptional.empty());
+		}
+		return LazyOptional.empty();
+	}
+
 	public static LazyOptional<IVim> getVimHandler (BlockEntity tile, Direction dir)
 	{
 		if (isVimHandler(tile, dir))

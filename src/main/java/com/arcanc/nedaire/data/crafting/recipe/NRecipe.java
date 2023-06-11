@@ -25,6 +25,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class NRecipe extends NSerializableRecipe implements INMachineRecipe
 {
@@ -34,7 +35,7 @@ public abstract class NRecipe extends NSerializableRecipe implements INMachineRe
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess regisrty)
+	public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registry)
 	{
 		NonNullList<ItemStack> outputs = getItemOutputs();
 		if(outputs!=null&&outputs.size() > 0)

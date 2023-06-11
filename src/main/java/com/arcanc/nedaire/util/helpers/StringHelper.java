@@ -52,7 +52,7 @@ public class StringHelper
 		return strings[0];
 	}
 	
-	public static final String slashPlacer(String name, String... path )
+	public static String slashPlacer(String name, String... path )
 	{
 		String s = "";
 		

@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions.FontContext;
+import org.jetbrains.annotations.NotNull;
 
 public class RenderHelper 
 {
@@ -170,13 +171,13 @@ public class RenderHelper
         }
 
         @Override
-        public VertexConsumer vertex(double x, double y, double z) 
+        public @NotNull VertexConsumer vertex(double x, double y, double z)
         { 
         	return wrapped.vertex(x, y, z); 
         }
 
         @Override
-        public VertexConsumer color(int red, int green, int blue, int alpha)
+        public @NotNull VertexConsumer color(int red, int green, int blue, int alpha)
         {
             return wrapped.color(
                     (int) (red * this.red),
@@ -187,25 +188,25 @@ public class RenderHelper
         }
 
         @Override
-        public VertexConsumer uv(float u, float v) 
+        public @NotNull VertexConsumer uv(float u, float v)
         { 
         	return wrapped.uv(u, v); 
         }
 
         @Override
-        public VertexConsumer overlayCoords(int u, int v) 
+        public @NotNull VertexConsumer overlayCoords(int u, int v)
         { 
         	return wrapped.overlayCoords(u, v); 
         }
 
         @Override
-        public VertexConsumer uv2(int u, int v) 
+        public @NotNull VertexConsumer uv2(int u, int v)
         { 
         	return wrapped.uv2(u, v); 
         }
 
         @Override
-        public VertexConsumer normal(float x, float y, float z) 
+        public @NotNull VertexConsumer normal(float x, float y, float z)
         { 
         	return wrapped.normal(x, y, z); 
         }

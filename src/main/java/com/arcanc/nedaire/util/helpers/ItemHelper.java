@@ -224,10 +224,7 @@ public class ItemHelper
 	
 	public static boolean isEmpty(LazyOptional<IItemHandler> in) 
 	{
-		return in.map(handler -> 
-		{
-			return isEmpty(handler);
-		}).orElse(true);
+		return in.map(ItemHelper::isEmpty).orElse(true);
 	}
 	
 	public static boolean isEmpty(IItemHandler inv)

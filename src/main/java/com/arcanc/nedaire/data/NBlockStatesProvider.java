@@ -36,12 +36,14 @@ public class NBlockStatesProvider extends BlockStateProvider
 
 
 	@Override
-	protected void registerStatesAndModels() {
+	protected void registerStatesAndModels()
+	{
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		registerSimpleBlock (mat.getStorageBlock().get());
 
-		if (mat.requiredOre()) {
+		if (mat.requiredOre())
+		{
 			registerOreBlock(mat.getOreBlock().get());
 			registerSimpleBlock (mat.getRawStorageBlock().get());
 			registerDeepslateOreBlock(mat.getDeepSlateOre().get());
@@ -3441,8 +3443,8 @@ private void registerHoover(Block block)
 				texture("texture", base).
 				texture("particle", base).
 				element().
-				from(5, 0, 5).
-				to(11, 1 ,11).
+				from(-3, 0, -3).
+				to(3, 1 ,3).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3457,8 +3459,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(5, 1, 7).
-				to(6, 6, 9).
+				from(-3, 1, -1).
+				to(-2, 6, 1).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3469,8 +3471,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(10, 1, 7).
-				to(11, 6, 9).
+				from(2, 1, -1).
+				to(3, 6, 1).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3486,8 +3488,8 @@ private void registerHoover(Block block)
 				texture("texture", rotor).
 				texture("particle", rotor).
 				element().
-				from(6, 3, 6).
-				to(10, 5, 10).
+				from(-2, -1, -2).
+				to(2, 1, 2).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3498,8 +3500,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(6.5f, 5, 6.5f).
-				to(9.5f, 7, 9.5f).
+				from(-1.5f, 1, -1.5f).
+				to(1.5f, 3, 1.5f).
 				face(Direction.UP).end().
 				face(Direction.SOUTH).end().
 				face(Direction.NORTH).end().
@@ -3520,8 +3522,8 @@ private void registerHoover(Block block)
 				texture("texture", rotor).
 				texture("particle", rotor).
 				element().
-				from(6.25f, 9, 6.25f).
-				to(9.75f, 10, 9.75f).
+				from(-1.75f, 5, -1.75f).
+				to(1.75f, 6, 1.75f).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3532,8 +3534,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(6.75f, 14, 6.75f).
-				to(9.25f, 16.5f, 9.25f).
+				from(-1.25f, 10, -1.25f).
+				to(1.25f, 12.5f, 1.25f).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3544,8 +3546,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(6.75f, 11, 6.75f).
-				to(9.25f, 12, 9.25f).
+				from(-1.25f, 7, -1.25f).
+				to(1.25f, 8, 1.25f).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3556,8 +3558,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(6.75f, 7, 6.75f).
-				to(9.25f, 8, 9.25f).
+				from(-1.25f, 3, -1.25f).
+				to(1.25f, 4, 1.25f).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3568,8 +3570,8 @@ private void registerHoover(Block block)
 				}).
 				end().
 				element().
-				from(7.25f, 7, 7.25f).
-				to(8.75f, 16, 8.75f).
+				from(-0.75f, 3, -0.75f).
+				to(0.75f, 12, 0.75f).
 				allFaces((face, builder) ->
 				{
 					builder.texture("#texture");
@@ -3583,11 +3585,9 @@ private void registerHoover(Block block)
 		getVariantBuilder(block).forAllStates(state ->
 		{
 			Direction dir = state.getValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
-			Direction horDir = state.getValue(BlockHelper.BlockProperties.FACING);
 					return ConfiguredModel.builder()
 							.modelFile(baseModel)
 							.rotationX(dir == Direction.DOWN ? 0 : 180)
-							.rotationY(horDir.getAxis().isVertical() ? 0 : (((int) horDir.toYRot())) % 360)
 							.build();
 		});
 

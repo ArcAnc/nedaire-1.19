@@ -48,6 +48,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -77,10 +78,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -100,6 +102,7 @@ import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -246,10 +249,18 @@ public class NRegistration
 	{
 		public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NDatabase.MOD_ID);
 
-		private static final Supplier<Block.Properties> baseProps = () -> Block.Properties.of(Material.STONE);
-		private static final Supplier<Block.Properties> baseMachineProps = () -> Block.Properties.of(Material.METAL).
+		private static final Supplier<Block.Properties> baseProps = () -> Block.Properties.of().
+				mapColor(MapColor.STONE).
+				instrument(NoteBlockInstrument.BASEDRUM).
 				requiresCorrectToolForDrops().
-				strength(2.0f);
+				strength(1.5F, 6.0F).
+				sound(SoundType.STONE);
+		private static final Supplier<Block.Properties> baseMachineProps = () -> Block.Properties.of().
+				mapColor(MapColor.METAL).
+				instrument(NoteBlockInstrument.IRON_XYLOPHONE).
+				requiresCorrectToolForDrops().
+				strength(2.0f).
+				sound(SoundType.METAL);
 		
 		public static final BlockRegObject<NBaseBlock, NBaseBlockItem> SKYSTONE = BlockRegObject.simple(
 				NDatabase.Blocks.Names.SKYSTONE, 
@@ -393,7 +404,14 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockJewelryTable, NBaseBlockItem> JEWERLY_TABLE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.JEWELRY_TABLE,
-				() -> Block.Properties.of(Material.WOOD).noOcclusion().requiresCorrectToolForDrops().strength(1),
+				() -> Block.Properties.of().
+						mapColor(MapColor.WOOD).
+						instrument(NoteBlockInstrument.BASS).
+						noOcclusion().
+						requiresCorrectToolForDrops().
+						strength(1).
+						sound(SoundType.WOOD).
+						ignitedByLava(),
 				NBlockJewelryTable :: new, 
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem::new);
@@ -1058,6 +1076,9 @@ public class NRegistration
 		public static final BEContainer<NBEExpExtractor, NExpExtractorMenu> EXP_EXTRACTOR = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR, NExpExtractorMenu :: makeServer, NExpExtractorMenu :: makeClient);
 
+		public static final BEContainer<NBEBore, NBoreMenu> BORE = registerBENew(
+				NDatabase.Blocks.BlockEntities.Names.BORE, NBoreMenu :: makeServer, NBoreMenu :: makeClient);
+
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)
 		{
@@ -1189,7 +1210,37 @@ public class NRegistration
 	
 		public static final RegistryObject<Feature<CoreConfiguration>> CORE = FEATURES.register(NDatabase.WorldGen.Features.CORE, () -> new CoreFeature(CoreConfiguration.CODEC));
 	}
-	
+
+	public static class RegisterCreativeTabs
+	{
+		public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, NDatabase.MOD_ID);
+
+		public static final RegistryObject<CreativeModeTab> MAIN_TAB = register(
+				NDatabase.ItemGroups.Main.MAIN,
+				new ItemStack(Blocks.BEACON.asItem()),
+				NRegistration.RegisterItems.ITEMS.getEntries().
+					stream().
+					filter(obj -> !(obj.get() instanceof FakeIconItem)).
+					map(RegistryObject :: get).
+					map(ItemStack :: new).
+					sorted(Comparator.comparing(stack -> stack.getDisplayName().getString())).
+					toList());
+		private static RegistryObject<CreativeModeTab> register(String name, ItemStack icon, Collection<ItemStack> items)
+		{
+			return CREATIVE_MODE_TABS.register(name, () -> CreativeModeTab.builder().
+					icon(() -> icon).
+					title(Component.translatable(NDatabase.MOD_ID + ".itemgroup." + name)).
+					hideTitle().
+					withBackgroundLocation(StringHelper.getLocFStr(NDatabase.ItemGroups.BACKGROUND_IMAGE_PATH + name + ".png")).
+					withSearchBar().
+					displayItems((params, output) ->
+					{
+						output.acceptAll(items);
+					}).
+					build());
+		}
+	}
+
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)
     {
         return new RegistryBuilder<T>().setName(key.location()).setMaxID(Integer.MAX_VALUE - 1);

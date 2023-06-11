@@ -8,17 +8,11 @@
  */
 package com.arcanc.nedaire.content.block;
 
-import java.util.Optional;
-import java.util.function.BiFunction;
-
-import javax.annotation.Nullable;
-
-import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
+import com.arcanc.nedaire.content.block.BlockInterfaces.INInteractionObject;
 import com.arcanc.nedaire.content.block.entities.ticker.NClientTickerBlockEntity;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -34,6 +28,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implements EntityBlock 
 {
@@ -63,7 +62,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 			{
 				if(player instanceof ServerPlayer serverPlayer)
 				{
-					if(prov instanceof IInteractionObjectN<?> interaction)
+					if(prov instanceof INInteractionObject<?> interaction)
 					{
 						interaction = interaction.getBE();
 						if(interaction != null && interaction.canUseGui(player))
@@ -82,7 +81,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update) 
+	public void onRemove(BlockState oldState, @NotNull Level level, BlockPos pos, BlockState newState, boolean update)
 	{
 		if (!level.isClientSide && !oldState.is(newState.getBlock())) 
 		{
@@ -101,7 +100,7 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 	}
 	
 	@Override
-	public <T2 extends BlockEntity> BlockEntityTicker<T2> getTicker(Level level, BlockState state, BlockEntityType<T2> type) 
+	public <T2 extends BlockEntity> BlockEntityTicker<T2> getTicker(@NotNull Level level, BlockState state, BlockEntityType<T2> type)
 	{
 		BlockEntityTicker<T2> baseTicker = getClassData().makeBaseTicker(level.isClientSide());
 		

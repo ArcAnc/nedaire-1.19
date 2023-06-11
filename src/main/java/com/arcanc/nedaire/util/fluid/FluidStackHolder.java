@@ -11,11 +11,13 @@ package com.arcanc.nedaire.util.fluid;
 import javax.annotation.Nonnull;
 
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.common.base.Predicate;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Predicate;
 
 public class FluidStackHolder implements IFluidStackAccess 
 {
@@ -65,13 +67,13 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 	
 	@Override
-	public FluidStack getFluidStack() 
+	public @NotNull FluidStack getFluidStack()
 	{
 		return stack;
 	}
 
 	@Override
-	public void setFluidStack(FluidStack stack) 
+	public void setFluidStack(@NotNull FluidStack stack)
 	{
 		if (stack != null)
 		{
@@ -128,7 +130,7 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 
 	@Override
-	public int insert(FluidStack resource, FluidAction simulate) 
+	public int insert(@NotNull FluidStack resource, FluidAction simulate)
 	{
         if (resource.isEmpty() || !isValid(resource))
         {
@@ -173,7 +175,7 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 
 	@Override
-	public FluidStack extract(FluidStack resource, FluidAction simulate) 
+	public @NotNull FluidStack extract(FluidStack resource, FluidAction simulate)
 	{
         if (resource.isEmpty() || !resource.isFluidEqual(stack))
         {
@@ -183,7 +185,7 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 	
 	@Override
-	public FluidStack extract(int amount, FluidAction simulate) 
+	public @NotNull FluidStack extract(int amount, FluidAction simulate)
 	{
         int drained = amount;
         if (stack.getAmount() < drained)
@@ -227,7 +229,7 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 
 	@Override
-	public IFluidStackAccess setValidator(Predicate<FluidStack> validator) 
+	public IFluidStackAccess setValidator(Predicate<FluidStack> validator)
 	{
 		if (validator != null)
 		{
@@ -238,7 +240,7 @@ public class FluidStackHolder implements IFluidStackAccess
 	}
 
 	@Override
-	public boolean isValid(FluidStack stack) 
+	public boolean isValid(@NotNull FluidStack stack)
 	{
 		if (stack != null)
 		{

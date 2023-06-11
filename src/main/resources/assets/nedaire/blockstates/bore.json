@@ -1,52 +1,11 @@
 {
   "variants": {
-    "facing=down,vertical_attachment=down": {
+    "vertical_attachment=down": {
       "model": "nedaire:block/bore/base"
     },
-    "facing=down,vertical_attachment=up": {
+    "vertical_attachment=up": {
       "model": "nedaire:block/bore/base",
       "x": 180
-    },
-    "facing=east,vertical_attachment=down": {
-      "model": "nedaire:block/bore/base",
-      "y": 270
-    },
-    "facing=east,vertical_attachment=up": {
-      "model": "nedaire:block/bore/base",
-      "x": 180,
-      "y": 270
-    },
-    "facing=north,vertical_attachment=down": {
-      "model": "nedaire:block/bore/base",
-      "y": 180
-    },
-    "facing=north,vertical_attachment=up": {
-      "model": "nedaire:block/bore/base",
-      "x": 180,
-      "y": 180
-    },
-    "facing=south,vertical_attachment=down": {
-      "model": "nedaire:block/bore/base"
-    },
-    "facing=south,vertical_attachment=up": {
-      "model": "nedaire:block/bore/base",
-      "x": 180
-    },
-    "facing=up,vertical_attachment=down": {
-      "model": "nedaire:block/bore/base"
-    },
-    "facing=up,vertical_attachment=up": {
-      "model": "nedaire:block/bore/base",
-      "x": 180
-    },
-    "facing=west,vertical_attachment=down": {
-      "model": "nedaire:block/bore/base",
-      "y": 90
-    },
-    "facing=west,vertical_attachment=up": {
-      "model": "nedaire:block/bore/base",
-      "x": 180,
-      "y": 90
     }
   }
 }

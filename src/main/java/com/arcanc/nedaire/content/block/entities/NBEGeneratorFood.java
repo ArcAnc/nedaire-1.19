@@ -8,8 +8,8 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
+import com.arcanc.nedaire.content.block.BlockInterfaces.INInteractionObject;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEGeneratorFood> 
+public class NBEGeneratorFood extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, INInteractionObject<NBEGeneratorFood>
 {
 
 	private final AABB suctionZone;

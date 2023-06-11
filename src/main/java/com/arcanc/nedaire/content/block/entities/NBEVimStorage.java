@@ -8,8 +8,8 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
+import com.arcanc.nedaire.content.block.BlockInterfaces.INInteractionObject;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
 import com.arcanc.nedaire.content.capabilities.vim.VimStorage;
 import com.arcanc.nedaire.content.registration.NRegistration;
@@ -28,7 +28,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback, IInteractionObjectN<NBEVimStorage>
+public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback, INInteractionObject<NBEVimStorage>
 {
 
 	protected VimStorage energy;

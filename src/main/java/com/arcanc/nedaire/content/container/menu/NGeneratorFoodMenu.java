@@ -10,15 +10,14 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorFood;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.GeneratorFoodSlot;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -36,7 +35,7 @@ public class NGeneratorFoodMenu extends NContainerMenu
 	public static NGeneratorFoodMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEGeneratorFood be = BlockHelper.castTileEntity(l, pos, NBEGeneratorFood.class).get();
 		return new NGeneratorFoodMenu(clientCtx(type, id), player, be);
 	}
@@ -51,7 +50,7 @@ public class NGeneratorFoodMenu extends NContainerMenu
 				map(handler -> handler).
 				orElse(new ItemStackHandler(1));
 		
-		this.addSlot(new GeneratorFoodSlot(inv, 0, 0, 62 + 18, 15 + 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_BOTH).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 0, 62 + 18, 15 + 18, ItemStack::isEdible).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_BOTH).setActive(true));
 		
 		this.ownSlotCount = 1;
 		

@@ -29,7 +29,7 @@ public class NFluidStorageMenu extends NContainerMenu
 	public static NFluidStorageMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEFluidStorage be = BlockHelper.castTileEntity(l, pos, NBEFluidStorage.class).get();
 		return new NFluidStorageMenu(clientCtx(type, id), player, be);
 	}

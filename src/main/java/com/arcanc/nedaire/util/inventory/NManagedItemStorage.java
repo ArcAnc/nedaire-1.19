@@ -10,6 +10,7 @@ package com.arcanc.nedaire.util.inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ import javax.annotation.Nullable;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.AccessType;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.common.base.Predicate;
+
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -125,19 +126,14 @@ public class NManagedItemStorage extends NSimpleItemStorage
 
 	public LazyOptional<IItemHandler> getHandler(AccessType type)
 	{
-		switch (type)
+		return switch (type)
 		{
-			case NONE:
-				return LazyOptional.empty();
-			case INPUT:
-				return input;
-			case OUTPUT:
-				return output;
-			case FULL:
-				return full;
-			default:
-				return full;
-		}
+			case NONE -> LazyOptional.empty();
+			case INPUT -> input;
+			case OUTPUT -> output;
+			case FULL -> full;
+			default -> full;
+		};
 	}
 	
 	@Override

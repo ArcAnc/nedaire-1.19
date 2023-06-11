@@ -8,20 +8,20 @@
  */
 package com.arcanc.nedaire.content.container;
 
-import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.arcanc.nedaire.util.inventory.IItemStackAccess;
 import com.arcanc.nedaire.util.inventory.NManagedItemStorage;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
-
+import com.google.common.base.Preconditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.function.Predicate;
 
 public class NSlot extends SlotItemHandler 
 {	
@@ -31,17 +31,26 @@ public class NSlot extends SlotItemHandler
 	public static final ResourceLocation BACKGROUND_BOTH = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.BOTH);
 	protected boolean active = true;
 	protected int panelIndex = 0;
+	protected Predicate<ItemStack> mayPlace = null;
 	
 	public NSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
 	{
 		super(inv, id, x, y);
 		this.panelIndex = panelIndex;
+		mayPlace = $ -> true;
+	}
+
+	public NSlot(IItemHandler inv, int panelIndex, int id, int x, int y, Predicate<ItemStack> mayPlace)
+	{
+		this(inv, panelIndex, id, x, y);
+		Preconditions.checkNotNull(mayPlace);
+		this.mayPlace = mayPlace;
 	}
 	
 	@Override
 	public boolean mayPlace(ItemStack stack) 
 	{
-		return true;
+		return this.mayPlace.test(stack);
 	}
 	
 	@Override
@@ -118,106 +127,25 @@ public class NSlot extends SlotItemHandler
 	{
 		return panelIndex;
 	}
-	
-	public static class Output extends NSlot 
-	{
-		public Output(IItemHandler inv, int panelIndex, int id, int x, int y) 
-		{
-			super(inv, panelIndex, id, x, y);
-		}
-	
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return false;
-		}
-	}
-	
-	public static class GeneratorFoodSlot extends NSlot
-	{
 
-		public GeneratorFoodSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
-		{
-			super(inv, panelIndex, id, x, y);
-		}
-		
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return stack.isEdible();
-		}
-	}
-	
-	public static class MobCatcherSlot extends NSlot
-	{
-
-		public MobCatcherSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
-		{
-			super(inv, panelIndex, id, x, y);
-		}
-		
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return stack.getItem() instanceof CrystalPrisonItem && stack.getOrCreateTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty();
-		}
-	}
-	
-	public static class GeneratorMobSlot extends NSlot
-	{
-		public GeneratorMobSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
-		{
-			super(inv, panelIndex, id, x, y);
-		}
-		
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return stack.getItem() instanceof CrystalPrisonItem && !stack.getTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty();
-		}
-	}
-	
-	public static class FluidHandler extends NSlot
-	{
-
-		public FluidHandler(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
-		{
-			super(itemHandler, panelIndex, index, xPosition, yPosition);
-		}
-		
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return FluidHelper.isFluidHandler(stack);
-		}
-	}
 	public static class ItemHandlerGhost extends NSlot
 	{
 
-		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
+		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition, Predicate<ItemStack> mayPlace)
 		{
 			super(itemHandler, panelIndex, index, xPosition, yPosition);
+			Preconditions.checkNotNull(mayPlace);
+			this.mayPlace = mayPlace;
+		}
+		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
+		{
+			this(itemHandler, panelIndex, index, xPosition, yPosition, $ -> true);
 		}
 
 		@Override
 		public boolean mayPickup(Player playerIn) 
 		{
 			return false;
-		}
-	}
-	
-	public static class FluidHandlerGhost extends ItemHandlerGhost
-	{
-
-		public FluidHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
-		{
-			super(itemHandler, panelIndex, index, xPosition, yPosition);
-		}
-		
-		@Override
-		public boolean mayPlace(ItemStack stack) 
-		{
-			return FluidHelper.isFluidHandler(stack);
 		}
 	}
 }

@@ -8,50 +8,30 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.jetbrains.annotations.NotNull;
-
-import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
+import com.arcanc.nedaire.content.block.BlockInterfaces;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
+import com.arcanc.nedaire.content.block.BlockInterfaces.INInteractionObject;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
-import com.arcanc.nedaire.content.capabilities.filter.CapabilityFilter;
-import com.arcanc.nedaire.content.capabilities.filter.FluidFilter;
-import com.arcanc.nedaire.content.capabilities.filter.IFilter;
+import com.arcanc.nedaire.content.capabilities.filter.*;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IFluidFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IVimFilter;
-import com.arcanc.nedaire.content.capabilities.filter.ItemFilter;
-import com.arcanc.nedaire.content.capabilities.filter.VimFilter;
+import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.network.NNetworkEngine;
 import com.arcanc.nedaire.content.network.messages.MessageDeliveryStationToClient;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.arcanc.nedaire.content.renderer.particle.delivery.DeliveryParticle;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.BlockHelper;
-import com.arcanc.nedaire.util.helpers.FluidHelper;
-import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.arcanc.nedaire.util.helpers.TagHelper;
-import com.arcanc.nedaire.util.helpers.VimHelper;
+import com.arcanc.nedaire.util.helpers.*;
 import com.google.common.base.Preconditions;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -61,9 +41,22 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.jetbrains.annotations.NotNull;
 
-public class NBEDeliveryStation extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, IInteractionObjectN<NBEDeliveryStation>
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.arcanc.nedaire.util.database.NDatabase.Blocks.BlockEntities.TagAddress.Machines.DeliveryStation.COORDS;
+
+public class NBEDeliveryStation extends NBERedstoneSensitive implements IInventoryCallback, NServerTickerBlockEntity, INInteractionObject<NBEDeliveryStation>, BlockInterfaces.INWrencheble
 {
+	private static final int DISTANCE_TO_TARGET = 32;
+
 	private final List<BlockPos> attachedEntities = new ArrayList<>();
 	public List<TransferData> path = new ArrayList<>();
 	public static final int INVENTORY_SIZE = 9;
@@ -311,7 +304,36 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		}
 		moveObjects();
 	}
-	
+
+	@Override
+	public InteractionResult onUsed(UseOnContext ctx)
+	{
+		BlockPos pos = ctx.getClickedPos();
+		ItemStack stack = ctx.getItemInHand();
+		Level level = ctx.getLevel();
+
+		if (level .isClientSide())
+			return InteractionResult.PASS;
+
+		if (!(stack.getItem() instanceof NHammer))
+			return InteractionResult.PASS;
+
+
+		CompoundTag tag = stack.getOrCreateTag();
+
+		if (tag.contains(COORDS))
+		{
+			BlockPos tilePos = TagHelper.readBlockPos(tag, COORDS);
+			if(tilePos.closerThan(pos, DISTANCE_TO_TARGET))
+			{
+				addTile(ctx.getLevel(), tilePos);
+			}
+			tag.remove(COORDS);
+			return InteractionResult.sidedSuccess(level.isClientSide());
+		}
+		return InteractionResult.PASS;
+	}
+
 	private void moveObjects()
 	{
 		List<TransferData> additionalInfo = new ArrayList<>();
@@ -670,7 +692,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 	{
 		return true;
 	}
-	
+
 	private record TransferData(Vec3 startPos, Vec3 finishPos, Vec3 station, MutableBoolean toStation, MutableInt currentPos, MutableInt path, Object obj)
 	{
 		

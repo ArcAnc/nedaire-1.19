@@ -10,7 +10,7 @@ package com.arcanc.nedaire.util.fluid;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
@@ -37,7 +37,6 @@ public interface IFluidStackAccess
 
     boolean isEmpty();
 
-    @Nonnull
     int insert(@Nonnull FluidStack stack, FluidAction simulate);
     
     @Nonnull

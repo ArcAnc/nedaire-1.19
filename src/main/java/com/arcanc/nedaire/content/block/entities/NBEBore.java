@@ -9,23 +9,26 @@
 
 package com.arcanc.nedaire.content.block.entities;
 
+import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.content.block.BlockInterfaces;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.ItemHelper;
-import com.arcanc.nedaire.util.helpers.TagHelper;
-import com.arcanc.nedaire.util.helpers.VimHelper;
+import com.arcanc.nedaire.util.helpers.*;
 import com.arcanc.nedaire.util.inventory.NSimpleItemStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,25 +45,34 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-import static com.arcanc.nedaire.util.helpers.BlockHelper.BlockProperties.FACING;
 import static com.arcanc.nedaire.util.helpers.BlockHelper.BlockProperties.WATERLOGGED;
 
-public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBlockEntity, BlockInterfaces.IInteractionObjectN<NBEBore>, BlockInterfaces.IInventoryCallback
+public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBlockEntity, BlockInterfaces.INInteractionObject<NBEBore>, BlockInterfaces.IInventoryCallback, BlockInterfaces.INWrencheble
 {
     private static final int PER_TICK = 2;
     private static final int DIG_DIST = 40;
     private static final int DIG_RAD = 6;
+    private static final double ROT_STEP = 0.125d;
+    private static final double ROT_CHECK = ROT_STEP/8d;
 
     protected NSimpleItemStorage inv;
     protected final LazyOptional<IItemHandler> itemHandler = LazyOptional.of(() -> inv);
     private Optional<BlockPos> mining = Optional.empty();
     private long startDiggingBlock;
 
+    private Vec3 prevRot;
+    private Vec3 currentRot;
+    private Vec3 targetRot;
+
     public NBEBore(BlockPos pos, BlockState state)
     {
         super(NRegistration.RegisterBlockEntities.BE_BORE.get(), pos, state);
 
         this.inv = new NSimpleItemStorage(this).addSlot(1, stack -> stack.is(ItemTags.PICKAXES));
+
+        prevRot = Vec3.ZERO;
+        currentRot = Vec3.ZERO;
+        targetRot = Vec3.ZERO;
     }
 
     @Override
@@ -68,41 +80,89 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
     {
         if (isPowered())
         {
-            VimHelper.getVimHandler(platform).ifPresent(energyHandler ->
+            Direction attach = getBlockState().getValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
+            BlockPos blockPos = getBlockPos().relative(attach);
+            BlockHelper.castTileEntity(getLevel(), blockPos, NBEPlatform.class).ifPresent( tile ->
             {
-                if (energyHandler.getEnergyStored() >= PER_TICK)
+                VimHelper.getVimHandler(tile).ifPresent(energyHandler ->
                 {
-                    mining.ifPresentOrElse( pos ->
+                    if (energyHandler.getEnergyStored() >= PER_TICK)
                     {
-                        ItemStack stack = inv.getStackInSlot(0);
-                        if (!stack.isEmpty())
+                        rotate();
+                        mining.ifPresentOrElse(pos ->
                         {
-                            energyHandler.extract(PER_TICK, false);
-
-                            BlockState state = getLevel().getBlockState(pos);
-                            float speed = stack.getDestroySpeed(state);
-
-                            if (speed > 1.0f)
+                            ItemStack stack = inv.getStackInSlot(0);
+                            if (!stack.isEmpty())
                             {
-                                int effLvl = stack.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
-                                if (effLvl > 0)
-                                {
-                                    speed += (float)(effLvl * effLvl + 1);
-                                }
-                                if (state.getValue(WATERLOGGED))
-                                {
-                                    speed /= 5.0f;
-                                }
+                                energyHandler.extract(PER_TICK, false);
 
-                                float destroyProgress = speed / state.getDestroySpeed(getLevel(), pos) / 30;
+                                BlockState state = getLevel().getBlockState(pos);
+                                float speed = stack.getDestroySpeed(state);
 
-                                mineBlock(destroyProgress, pos, state);
+                                if (speed > 1.0f)
+                                {
+                                    int effLvl = stack.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
+                                    if (effLvl > 0)
+                                    {
+                                        speed += (float)(effLvl * effLvl + 1);
+                                    }
+                                    if (state.hasProperty(WATERLOGGED) && state.getValue(WATERLOGGED))
+                                    {
+                                        speed /= 5.0f;
+                                    }
+
+                                    float destroyProgress = speed / state.getDestroySpeed(getLevel(), pos) / 30;
+
+                                    //Nedaire.getLogger().warn("Speed: " + speed + " DestroyProgress: " + destroyProgress);
+
+                                    mineBlock(destroyProgress, pos, state);
+                                }
                             }
-                        }
-                    }, () -> mining = getClosesMinebleBlock());
+                        }, () -> mining = getClosestMinebleBlock());
 
-                }
+                    }
+                });
             });
+        }
+    }
+
+    @Override
+    public InteractionResult onUsed(UseOnContext ctx)
+    {
+        Level level = ctx.getLevel();
+        if (level.isClientSide())
+            return InteractionResult.PASS;
+
+        Direction dir = ctx.getClickedFace();
+        Nedaire.getLogger().warn("Direction: " + dir.getName());
+        BlockPos pos = ctx.getClickedPos();
+        BlockState state = level.getBlockState(pos);
+        Direction attachState = state.getValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
+
+        if (dir != attachState)
+        {
+            Vec3i newDir = dir.getNormal();
+            targetRot = new Vec3(newDir.getX(), newDir.getY(), newDir.getZ());
+            setChanged();
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
+
+        return InteractionResult.PASS;
+    }
+
+    private void rotate()
+    {
+        float x = Math.abs((float)(targetRot.x() - currentRot.x()));
+        float y = Math.abs((float)(targetRot.y() - currentRot.y()));
+        float z = Math.abs((float)(targetRot.z() - currentRot.z()));
+        Nedaire.getLogger().warn("X: " + x + " Y: " + y + " Z: " + z);
+        if (x > ROT_CHECK || y > ROT_CHECK || z > ROT_CHECK)
+        {
+            Nedaire.getLogger().warn("Rotated");
+            prevRot = new Vec3(currentRot.x(), currentRot.y(), currentRot.z());
+            currentRot = MathHelper.lerp(currentRot, targetRot, ROT_STEP);
+            //Nedaire.getLogger().warn(String.format("Current: %s, Target: %s", currentRot, targetRot));
+            setChanged();
         }
     }
 
@@ -116,6 +176,8 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
         long timeDiff = getLevel().getGameTime() - startDiggingBlock;
         int stage = (int)(((timeDiff + 1) * destroyProgress) * 10);
 
+        //Nedaire.getLogger().warn("Stage: " + stage + " TimeDiff: " + timeDiff);
+
         AABB around = new AABB(pos).inflate(16);
 
         List<Player> pl =  getLevel().getEntitiesOfClass(Player.class, around);
@@ -126,6 +188,7 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
                 getLevel().destroyBlockProgress(p.getId(), getBlockPos(), stage);
             }
         }
+
         if (destroyProgress >= 1.0f)
         {
             ItemStack stack = inv.getStackInSlot(0).copy();
@@ -152,9 +215,9 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
         }
     }
 
-    private Optional<BlockPos> getClosesMinebleBlock()
+    private Optional<BlockPos> getClosestMinebleBlock()
     {
-        Direction facing = getBlockState().getValue(FACING);
+        Direction facing = Direction.getNearest(currentRot.x(), currentRot.y(), currentRot.z());
         BlockPos startPos = getBlockPos().relative(facing);
         Vec3 startVec = Vec3.atCenterOf(startPos);
         for (int d = 0; d < DIG_DIST; d++)
@@ -176,7 +239,10 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
                     BlockPos mineble = BlockPos.containing(pos);
                     BlockState state = getLevel().getBlockState(mineble);
                     if (state.is(BlockTags.MINEABLE_WITH_PICKAXE))
+                    {
+                        targetRot = getBlockPos().getCenter().vectorTo(pos);
                         return Optional.of(mineble);
+                    }
                 }
             }
         }
@@ -198,6 +264,12 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
         startDiggingBlock = 0;
         mining = Optional.empty();
     }
+
+    public Vec3 getCurrentRot()
+    {
+        return currentRot;
+    }
+
     @Override
     public boolean isPowered()
     {
@@ -224,6 +296,9 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
             BlockPos pos = TagHelper.readBlockPos(tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.MINING);
             mining = Optional.of(pos);
         }
+        prevRot = TagHelper.readVec3(tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.PREV_ROT);
+        currentRot = TagHelper.readVec3(tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.CUR_ROT);
+        targetRot = TagHelper.readVec3(tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.TARGET_ROT);
     }
 
     @Override
@@ -239,6 +314,9 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
         {
             tag.put(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.MINING, new CompoundTag());
         });
+        TagHelper.writeVec3(prevRot, tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.PREV_ROT);
+        TagHelper.writeVec3(currentRot, tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.CUR_ROT);
+        TagHelper.writeVec3(targetRot, tag, NDatabase.Blocks.BlockEntities.TagAddress.Machines.Bore.TARGET_ROT);
     }
 
     @Override
@@ -259,9 +337,9 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
     }
 
     @Override
-    public NRegistration.RegisterMenuTypes.BEContainer<? super NBEBore, ?> getContainerType()
+    public NRegistration.RegisterMenuTypes.BEContainer<NBEBore, ?> getContainerType()
     {
-        return null;
+        return NRegistration.RegisterMenuTypes.BORE;
     }
 
     @Override

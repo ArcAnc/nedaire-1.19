@@ -8,13 +8,8 @@
  */
 package com.arcanc.nedaire.content.block.entities;
 
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.arcanc.nedaire.content.block.BlockInterfaces.IInteractionObjectN;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
+import com.arcanc.nedaire.content.block.BlockInterfaces.INInteractionObject;
 import com.arcanc.nedaire.content.block.entities.ticker.NClientTickerBlockEntity;
 import com.arcanc.nedaire.content.block.entities.ticker.NServerTickerBlockEntity;
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
@@ -29,7 +24,6 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.VimHelper;
 import com.arcanc.nedaire.util.inventory.NManagedItemStorage;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -45,8 +39,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCallback, NClientTickerBlockEntity, NServerTickerBlockEntity, IInteractionObjectN<NBEMobCatcher>
+import java.util.List;
+
+public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCallback, NClientTickerBlockEntity, NServerTickerBlockEntity, INInteractionObject<NBEMobCatcher>
 {
 	public AnimationState catchAnim = new AnimationState();
 	

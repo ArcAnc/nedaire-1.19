@@ -88,7 +88,7 @@ public class NVillage
 				if(trader==null)
 					this.buyingItem = Objects.requireNonNull(this.getBuyingItem.apply(null));
 				else
-					this.buyingItem = Objects.requireNonNull(this.getBuyingItem.apply(trader.level));
+					this.buyingItem = Objects.requireNonNull(this.getBuyingItem.apply(trader.level()));
 			return new MerchantOffer(
 					ItemHandlerHelper.copyStackWithSize(this.buyingItem, this.buyAmounts.getPrice(rand)),
 					new ItemStack(Items.EMERALD),

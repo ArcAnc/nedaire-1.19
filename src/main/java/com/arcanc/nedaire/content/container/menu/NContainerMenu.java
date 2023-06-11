@@ -8,12 +8,6 @@
  */
 package com.arcanc.nedaire.content.container.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import com.arcanc.nedaire.content.block.entities.NBERedstoneSensitive;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IFluidFilter;
 import com.arcanc.nedaire.content.capabilities.filter.IFilter.IItemFilter;
@@ -25,9 +19,9 @@ import com.arcanc.nedaire.content.network.messages.MessageContainerData;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.FilterHelper;
+import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -35,17 +29,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.network.NetworkDirection;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class NContainerMenu extends AbstractContainerMenu 
 {
@@ -85,7 +80,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		{
 			for (int q = 0; q < fil.getContent().getSlots(); q++)
 			{
-				this.addSlot(new NSlot.FluidHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18, FluidHelper::isFluidHandler).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
 			}
 		});
 	}
@@ -173,7 +168,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 				slot.set(ItemStack.EMPTY);
 			else if(slot.mayPlace(stackHeld))
 			{
-				if (ItemStack.isSame(stackSlot, stackHeld))
+				if (ItemStack.matches(stackSlot, stackHeld))
 					stackSlot.grow(amount);
 				else
 					slot.set(ItemHelper.copyStackWithAmount(stackHeld, amount));
@@ -240,7 +235,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 	public void receiveMessageFromScreen(CompoundTag tag)
 	{
 		ServerPlayer player = usingPlayers.get(0);
-		ServerLevel level = player.getLevel();
+		ServerLevel level = player.serverLevel();
 		BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.RedstoneSensitive.REDSTONE_MOD))
 		{
@@ -379,7 +374,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		{
 			if (p != playerInv.player)
 				return false;
-			return ItemStack.isSame(p.getItemBySlot(slot), stack);
+			return ItemStack.matches(p.getItemBySlot(slot), stack);
 		}); 
 	}
 	

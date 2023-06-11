@@ -251,10 +251,7 @@ public class FluidHelper
 	{
 		if (hasEmptySpace(in))
 		{
-			return in.map(handler -> 
-			{
-				return getEmptySpace(handler);
-			}).orElse(0);
+			return in.map(FluidHelper::getEmptySpace).orElse(0);
 		}
 		return 0;
 	}
@@ -263,10 +260,7 @@ public class FluidHelper
 	{
 		if (hasEmptyItemSpace(in))
 		{
-			return in.map(handler -> 
-			{
-				return getEmptySpace(handler);
-			}).orElse(0);
+			return in.map(FluidHelper::getEmptySpace).orElse(0);
 		}
 		return 0;
 	}

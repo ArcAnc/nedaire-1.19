@@ -162,9 +162,9 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 		inv.deserializeNBT(tag.getCompound(NDatabase.Capabilities.ItemHandler.TAG_LOCATION));
 		energy.deserializeNBT(tag.getCompound(NDatabase.Capabilities.Vim.TAG_LOCATION));
 		
-		this.lastActiveTime = tag.getLong(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.LAST_ACTIVE_TIME);
-		this.currentAngle = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.CURRENT_ANGLE);
-		this.usedEnergy = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.USED_ENERGY);
+		this.lastActiveTime = tag.getLong(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.LAST_ACTIVE_TIME);
+		this.currentAngle = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.CURRENT_ANGLE);
+		this.usedEnergy = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.USED_ENERGY);
 	}
 
 	@Override
@@ -175,9 +175,9 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 		tag.put(NDatabase.Capabilities.ItemHandler.TAG_LOCATION, inv.serializeNBT());
 		tag.put(NDatabase.Capabilities.Vim.TAG_LOCATION, energy.serializeNBT());
 		
-		tag.putLong(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.LAST_ACTIVE_TIME, lastActiveTime);
-		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.CURRENT_ANGLE, currentAngle);
-		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Manual_Crusher.USED_ENERGY, usedEnergy);
+		tag.putLong(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.LAST_ACTIVE_TIME, lastActiveTime);
+		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.CURRENT_ANGLE, currentAngle);
+		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.ManualCrusher.USED_ENERGY, usedEnergy);
 	}
 	
 	@Override

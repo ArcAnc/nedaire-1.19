@@ -11,11 +11,11 @@ package com.arcanc.nedaire.util.inventory;
 import javax.annotation.Nonnull;
 
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.common.base.Predicate;
-
+import java.util.function.Predicate;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemStackHolder implements IItemStackAccess 
 {
@@ -65,19 +65,16 @@ public class ItemStackHolder implements IItemStackAccess
 	}
 	
 	@Override
-	public ItemStack getItemStack() 
+	public @NotNull ItemStack getItemStack()
 	{
 		return stack;
 	}
 
 	@Override
-	public void setItemStack(ItemStack stack) 
+	public void setItemStack(@NotNull ItemStack stack)
 	{
-		if (stack != null)
-		{
-			this.stack = stack;
-			onContentsChanged();
-		}
+		this.stack = stack;
+		onContentsChanged();
 	}
 
 	@Override
@@ -89,13 +86,10 @@ public class ItemStackHolder implements IItemStackAccess
 	@Override
 	public void setCount(int newCount) 
 	{
-		int limit = stackLimit < stack.getMaxStackSize() ? stackLimit : stack.getMaxStackSize();
+		int limit = Math.min(stackLimit, stack.getMaxStackSize());
 		if (newCount <= 0)
 			stack = ItemStack.EMPTY;
-		else if (newCount > limit)
-			stack.setCount(limit);
-		else
-			stack.setCount(newCount);
+		else stack.setCount(Math.min(newCount, limit));
 		onContentsChanged();
 	}
 
@@ -106,10 +100,7 @@ public class ItemStackHolder implements IItemStackAccess
 
 		if (newCount <= 0)
 			stack = ItemStack.EMPTY;
-		else if (newCount > stack.getMaxStackSize())
-			stack.setCount(stack.getMaxStackSize());
-		else
-			stack.setCount(newCount);
+		else stack.setCount(Math.min(newCount, stack.getMaxStackSize()));
 		onContentsChanged();
 		
 		return newCount;
@@ -128,7 +119,7 @@ public class ItemStackHolder implements IItemStackAccess
 	}
 
 	@Override
-	public ItemStack insert(ItemStack stack, boolean simulate) 
+	public @NotNull ItemStack insert(@NotNull ItemStack stack, boolean simulate)
 	{
         if (stack.isEmpty())
             return ItemStack.EMPTY;
@@ -168,7 +159,7 @@ public class ItemStackHolder implements IItemStackAccess
 	}
 
 	@Override
-	public ItemStack extract(int amount, boolean simulate) 
+	public @NotNull ItemStack extract(int amount, boolean simulate)
 	{
         if (amount == 0)
             return ItemStack.EMPTY;
@@ -231,7 +222,7 @@ public class ItemStackHolder implements IItemStackAccess
 	}
 
 	@Override
-	public IItemStackAccess setValidator(Predicate<ItemStack> validator) 
+	public IItemStackAccess setValidator(Predicate<ItemStack> validator)
 	{
 		if (validator != null)
 		{
@@ -242,12 +233,8 @@ public class ItemStackHolder implements IItemStackAccess
 	}
 
 	@Override
-	public boolean isValid(ItemStack stack) 
+	public boolean isValid(@NotNull ItemStack stack)
 	{
-		if (stack != null)
-		{
-			return validator.test(stack);
-		}
-		return false;	
+		return validator.test(stack);
 	}
 }

@@ -8,18 +8,19 @@
  */
 package com.arcanc.nedaire.content.block;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.google.common.base.Preconditions;
-
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class BlockInterfaces 
 {
@@ -56,7 +57,7 @@ public class BlockInterfaces
 	}
 	/*
 	 * taken from Immersive Engineering*/
-	public interface IInteractionObjectN<T extends BlockEntity & IInteractionObjectN<T>> extends MenuProvider
+	public interface INInteractionObject<T extends BlockEntity & INInteractionObject<T>> extends MenuProvider
 	{
 		@Nullable
 		T getBE();
@@ -85,6 +86,11 @@ public class BlockInterfaces
 		{
 			return Component.literal("");
 		}
+	}
+
+	public interface INWrencheble
+	{
+		InteractionResult onUsed(UseOnContext ctx);
 	}
 
 }

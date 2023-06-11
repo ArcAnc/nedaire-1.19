@@ -86,13 +86,13 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 		}
 		else
 		{
-	        this.getLevel().addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
+	        this.level().addFreshEntity(new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
 		}
  	}
 	
 	private void tryReleaseEntity(HitResult hitResult)
 	{
-		Level level = this.getLevel();
+		Level level = this.level();
 		
 		if (!level.isClientSide())
 		{
@@ -107,13 +107,13 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 			});
 			
 			stack.getOrCreateTag().put(CrystalPrisonItem.ENTITY_DATA, new CompoundTag());
-	        level.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
+	        level.addFreshEntity(new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
  		}
 	}
 
 	private void tryCatchEntity(EntityHitResult hitResult) 
 	{
-		Level level = this.getLevel();
+		Level level = this.level();
 		ItemStack stack = this.getItem();
 		CompoundTag data = new CompoundTag();
 			
@@ -128,9 +128,9 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 		
 		ent.discard();
 			
-		if (!getLevel().isClientSide()) 
+		if (!level().isClientSide())
 		{
-			level.addFreshEntity(new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
+			level.addFreshEntity(new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), stack, 0, 0.25f, 0));
 		}
 	}
 
@@ -140,7 +140,7 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 
 		for(int i = 0; i < 32; ++i) 
 		{
-			this.level.addParticle(ParticleTypes.PORTAL, this.getX(), this.getY() + this.random.nextDouble() * 2.0D, this.getZ(), this.random.nextGaussian(), 0.0D, this.random.nextGaussian());
+			this.level().addParticle(ParticleTypes.PORTAL, this.getX(), this.getY() + this.random.nextDouble() * 2.0D, this.getZ(), this.random.nextGaussian(), 0.0D, this.random.nextGaussian());
 		}
 		this.discard();
 	}
@@ -165,7 +165,7 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 	public Entity changeDimension(ServerLevel level, net.minecraftforge.common.util.ITeleporter teleporter) 
 	{
 		Entity entity = this.getOwner();
-		if (entity != null && entity.level.dimension() != level.dimension()) 
+		if (entity != null && entity.level().dimension() != level.dimension())
 		{
 			this.setOwner((Entity)null);
 		}

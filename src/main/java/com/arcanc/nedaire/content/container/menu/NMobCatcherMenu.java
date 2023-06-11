@@ -10,11 +10,9 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.MobCatcherSlot;
-import com.arcanc.nedaire.content.container.NSlot.Output;
+import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +35,7 @@ public class NMobCatcherMenu extends NContainerMenu
 	public static NMobCatcherMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEMobCatcher be = BlockHelper.castTileEntity(l, pos, NBEMobCatcher.class).get();
 		return new NMobCatcherMenu(clientCtx(type, id), player, be);
 	}
@@ -52,11 +50,11 @@ public class NMobCatcherMenu extends NContainerMenu
 				orElse(new ItemStackHandler(5));
 
 		
-		this.addSlot(new MobCatcherSlot(inv, 0, 0, 145, 15).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 0, 145, 15, stack -> stack.getItem() instanceof CrystalPrisonItem && stack.getOrCreateTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty()).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 		
 		for (int q = 1; q < inv.getSlots(); q++)
 		{
-			this.addSlot(new Output(inv, 0, q, 70 + ((q - 1) % 2) * 18, 20 + ((q - 1) / 2) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+			this.addSlot(new NSlot(inv, 0, q, 70 + ((q - 1) % 2) * 18, 20 + ((q - 1) / 2) * 18, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 		}
 
 		this.ownSlotCount = inv.getSlots();

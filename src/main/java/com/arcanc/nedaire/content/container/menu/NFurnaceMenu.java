@@ -10,10 +10,8 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEFurnace;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.Output;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +33,7 @@ public class NFurnaceMenu extends NContainerMenu
 	public static NFurnaceMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEFurnace be = BlockHelper.castTileEntity(l, pos, NBEFurnace.class).get();
 		return new NFurnaceMenu(clientCtx(type, id), player, be);
 	}
@@ -51,7 +49,7 @@ public class NFurnaceMenu extends NContainerMenu
 
 		this.addSlot(new NSlot(inv, 0, 0, 70, 30).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 
-		this.addSlot(new Output(inv, 0, 1, 145, 30).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 1, 145, 30, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 
 		this.ownSlotCount = 2;
 

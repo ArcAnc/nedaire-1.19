@@ -11,24 +11,28 @@ package com.arcanc.nedaire.content.block;
 
 import com.arcanc.nedaire.content.block.entities.NBEBore;
 import com.arcanc.nedaire.content.block.entities.NBEPlatform;
+import com.arcanc.nedaire.content.item.tool.NHammer;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Quaternionf;
 
 import java.util.Optional;
 
@@ -46,14 +50,34 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
         BlockState state = super.getInitDefaultState();
         if (state.hasProperty(BlockHelper.BlockProperties.FACING))
         {
-            state = state.setValue(BlockHelper.BlockProperties.FACING, Direction.SOUTH).setValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT, Direction.DOWN);
+            state = state.setValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT, Direction.DOWN);
         }
         return state;
     }
 
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+    {
+        if (!level.isClientSide())
+        {
+            ItemStack stack = player.getItemInHand(hand);
+            Direction dir = hitResult.getDirection();
+            Direction attachState = state.getValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
+
+            if (stack.getItem() instanceof NHammer && dir != attachState)
+            {
+                BlockHelper.castTileEntity(level, pos, NBEBore.class).ifPresent(tile ->
+                {
+                    Quaternionf rotation = dir.getRotation();
+                });
+            }
+        }
+        return super.use(state, level, pos, player, hand, hitResult);
+    }
+
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.FACING, context.getHorizontalDirection().getOpposite()).setValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT, context.getNearestLookingVerticalDirection());
+        return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT, context.getNearestLookingVerticalDirection());
     }
 
     @SuppressWarnings("deprecation")
@@ -96,34 +120,16 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
         });
     }
 
-    public BlockState rotate(BlockState state, Rotation rot)
-    {
-        return state.setValue(BlockHelper.BlockProperties.FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.FACING)));
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public BlockState mirror(BlockState state, Mirror mirror)
-    {
-        return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.FACING)));
-    }
-
     @Override
     public RenderShape getRenderShape(BlockState state)
     {
-        return RenderShape.MODEL;
-    }
-
-    @Override
-    public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update)
-    {
-        super.onRemove(oldState, level, pos, newState, update);
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(BlockHelper.BlockProperties.FACING, BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
+        builder.add(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
     }
 
     @Override

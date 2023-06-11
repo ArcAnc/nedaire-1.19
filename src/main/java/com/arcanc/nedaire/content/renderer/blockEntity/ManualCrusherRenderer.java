@@ -8,8 +8,6 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
-import org.joml.Quaternionf;
-
 import com.arcanc.nedaire.content.block.entities.NBEManualCrusher;
 import com.arcanc.nedaire.content.renderer.blockEntity.model.CrankModel;
 import com.arcanc.nedaire.content.renderer.blockEntity.model.PressModel;
@@ -18,7 +16,6 @@ import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -27,6 +24,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import org.joml.Quaternionf;
 
 public class ManualCrusherRenderer implements BlockEntityRenderer<NBEManualCrusher> 
 {
@@ -61,7 +59,6 @@ public class ManualCrusherRenderer implements BlockEntityRenderer<NBEManualCrush
 			
 			ItemHelper.getItemHandler(blockEntity).ifPresent(handler -> 
 			{
-				
 				if (!handler.getStackInSlot(0).isEmpty())
 				{
 					NCrusherRecipe.findRecipe(blockEntity.getLevel(), handler.getStackInSlot(0)).ifPresentOrElse(rec -> 

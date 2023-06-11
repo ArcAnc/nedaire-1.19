@@ -36,7 +36,7 @@ public class NHooverMenu extends NContainerMenu
 	public static NHooverMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEHoover be = BlockHelper.castTileEntity(l, pos, NBEHoover.class).get();
 		return new NHooverMenu(clientCtx(type, id), player, be);
 	}

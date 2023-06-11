@@ -30,7 +30,7 @@ public class NVimStorageMenu extends NContainerMenu
 	public static NVimStorageMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEVimStorage be = BlockHelper.castTileEntity(l, pos, NBEVimStorage.class).get();
 		return new NVimStorageMenu(clientCtx(type, id), player, be);
 	}

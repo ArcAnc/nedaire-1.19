@@ -34,7 +34,7 @@ public class NDeliveryStationMenu extends NContainerMenu
 	public static NDeliveryStationMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEDeliveryStation be = BlockHelper.castTileEntity(l, pos, NBEDeliveryStation.class).get();
 		return new NDeliveryStationMenu(clientCtx(type, id), player, be);
 	}
@@ -59,7 +59,7 @@ public class NDeliveryStationMenu extends NContainerMenu
 		super.receiveMessageFromScreen(tag);
 		
 		ServerPlayer player = usingPlayers.get(0);
-		ServerLevel level = player.getLevel();
+		ServerLevel level = player.serverLevel();
 		BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.DeliveryStation.MODE))
 		{

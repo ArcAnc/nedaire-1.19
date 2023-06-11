@@ -157,7 +157,7 @@ public class NDatabase
 						public static final String REDSTONE_MOD = "redstone_mod";
 					}
 					
-					public static class Manual_Crusher
+					public static class ManualCrusher
 					{
 						public static final String LAST_ACTIVE_TIME = "last_active_time";
 						public static final String CURRENT_ANGLE = "current_angle";
@@ -175,6 +175,7 @@ public class NDatabase
 						public static final String ATTACHED_POSES = "poses";
 						public static final String MODE = "delivery_mode";
 						public static final String PATH = "path";
+						public static final String COORDS = "coords";
 					}
 					public static class MobCatcher
 					{
@@ -213,6 +214,9 @@ public class NDatabase
 					{
 						public static final String MINING = "mining";
 						public static final String START_DIG = "start_dig";
+						public static final String PREV_ROT = "prev_rot";
+						public static final String CUR_ROT = "cur_rot";
+						public static final String TARGET_ROT = "target_rot";
 					}
 				}
 			}

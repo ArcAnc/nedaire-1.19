@@ -57,7 +57,7 @@ public class ItemFilter implements IItemFilter
 		{
 			for (int q = 0; q < content.getSlots(); q++)
 			{
-				if (ItemStack.isSame(obj, content.getStackInSlot(q)))
+				if (ItemStack.matches(obj, content.getStackInSlot(q)))
 				{
 					return true;
 				}
@@ -67,7 +67,7 @@ public class ItemFilter implements IItemFilter
 		{
 			for (int q = 0; q < content.getSlots(); q++)
 			{
-				if (ItemStack.isSame(obj, content.getStackInSlot(q)))
+				if (ItemStack.matches(obj, content.getStackInSlot(q)))
 				{
 					return false;
 				}
@@ -107,7 +107,7 @@ public class ItemFilter implements IItemFilter
 			for (int q = 0; q < content.getSlots(); q++)
 			{
 				ItemStack stack = content.getStackInSlot(q);
-				if (ItemStack.tagMatches(stack, obj))
+				if (ItemStack.isSameItemSameTags(stack, obj))
 				{
 					return true;
 				}

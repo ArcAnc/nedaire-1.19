@@ -10,10 +10,8 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBECrusher;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.Output;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +33,7 @@ public class NCrusherMenu extends NContainerMenu
 	public static NCrusherMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBECrusher be = BlockHelper.castTileEntity(l, pos, NBECrusher.class).get();
 		return new NCrusherMenu(clientCtx(type, id), player, be);
 	}
@@ -51,9 +49,9 @@ public class NCrusherMenu extends NContainerMenu
 
 		this.addSlot(new NSlot(inv, 0, 0, 70, 30).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 
-		this.addSlot(new Output(inv, 0, 1, 145, 20).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 1, 145, 20, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 
-		this.addSlot(new Output(inv, 0, 2, 145, 40).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 2, 145, 40, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 
 		this.ownSlotCount = 3;
 

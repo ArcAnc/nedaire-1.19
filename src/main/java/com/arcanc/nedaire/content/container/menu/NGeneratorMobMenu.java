@@ -10,11 +10,9 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEGeneratorMob;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.GeneratorMobSlot;
-import com.arcanc.nedaire.content.container.NSlot.Output;
+import com.arcanc.nedaire.content.item.CrystalPrisonItem;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +34,7 @@ public class NGeneratorMobMenu extends NContainerMenu
 	public static NGeneratorMobMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEGeneratorMob be = BlockHelper.castTileEntity(l, pos, NBEGeneratorMob.class).get();
 		return new NGeneratorMobMenu(clientCtx(type, id), player, be);
 	}
@@ -52,10 +50,10 @@ public class NGeneratorMobMenu extends NContainerMenu
 
 		for (int q = 0; q < 4; q++)
 		{
-			this.addSlot(new GeneratorMobSlot(inv, 0, q, 70 + (q % 2) * 18, 20 + (q / 2) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
+			this.addSlot(new NSlot(inv, 0, q, 70 + (q % 2) * 18, 20 + (q / 2) * 18, stack -> stack.getItem() instanceof CrystalPrisonItem && !stack.getTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty()).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 		}
 
-		this.addSlot(new Output(inv, 0, 4, 145, 29).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 4, 145, 29, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 
 		this.ownSlotCount = 5;
 

@@ -19,14 +19,14 @@ import javax.annotation.Nullable;
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
-import com.google.common.base.Predicate;
-
+import java.util.function.Predicate;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class NSimpleFluidStorage implements IFluidHandler, INBTSerializable<CompoundTag> 
 {
@@ -93,7 +93,7 @@ public class NSimpleFluidStorage implements IFluidHandler, INBTSerializable<Comp
 	}
 	
 	@Override
-	public FluidStack getFluidInTank(int tank) 
+	public @NotNull FluidStack getFluidInTank(int tank)
 	{
 		validateTankIndex(tank);
 		return fluids.get(tank).getFluidStack();
@@ -144,7 +144,7 @@ public class NSimpleFluidStorage implements IFluidHandler, INBTSerializable<Comp
 	}
 	
 	@Override
-	public FluidStack drain(FluidStack resource, FluidAction action) 
+	public @NotNull FluidStack drain(FluidStack resource, FluidAction action)
 	{
 		if (resource.isEmpty())
 			return FluidStack.EMPTY;
@@ -178,7 +178,7 @@ public class NSimpleFluidStorage implements IFluidHandler, INBTSerializable<Comp
 	}
 	
 	@Override
-	public FluidStack drain(int amount, FluidAction simulate) 
+	public @NotNull FluidStack drain(int amount, FluidAction simulate)
 	{
 		return FluidStack.EMPTY;
 	}
@@ -191,7 +191,7 @@ public class NSimpleFluidStorage implements IFluidHandler, INBTSerializable<Comp
 	}
 
 	@Override
-	public boolean isFluidValid(int tank, FluidStack stack) 
+	public boolean isFluidValid(int tank, @NotNull FluidStack stack)
 	{
 		validateTankIndex(tank);
 		return fluids.get(tank).isValid(stack);

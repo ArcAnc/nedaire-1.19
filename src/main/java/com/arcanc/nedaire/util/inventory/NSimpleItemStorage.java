@@ -10,6 +10,7 @@ package com.arcanc.nedaire.util.inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,7 +19,7 @@ import javax.annotation.Nullable;
 
 import com.arcanc.nedaire.content.block.BlockInterfaces.IInventoryCallback;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.common.base.Predicate;
+
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class NSimpleItemStorage implements IItemHandler, INBTSerializable<CompoundTag> 
 {
@@ -91,7 +93,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	}
 	
 	@Override
-	public ItemStack getStackInSlot(int slot) 
+	public @NotNull ItemStack getStackInSlot(int slot)
 	{
 		validateSlotIndex(slot);
 		return items.get(slot).getItemStack();
@@ -105,7 +107,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	}
 
 	@Override
-	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) 
+	public @NotNull ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
 	{
 		if (stack.isEmpty())
 			return ItemStack.EMPTY;
@@ -124,7 +126,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	}
 
 	@Override
-	public ItemStack extractItem(int slot, int amount, boolean simulate) 
+	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate)
 	{
 		if (amount == 0)
 			return ItemStack.EMPTY;
@@ -147,7 +149,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	}
 
 	@Override
-	public boolean isItemValid(int slot, ItemStack stack) 
+	public boolean isItemValid(int slot, @NotNull ItemStack stack)
 	{
 		validateSlotIndex(slot);
 		return items.get(slot).isValid(stack);

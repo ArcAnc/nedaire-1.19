@@ -10,11 +10,9 @@ package com.arcanc.nedaire.content.container.menu;
 
 import com.arcanc.nedaire.content.block.entities.NBEExtruder;
 import com.arcanc.nedaire.content.container.NSlot;
-import com.arcanc.nedaire.content.container.NSlot.Output;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.ItemHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -39,7 +37,7 @@ public class NExtruderMenu extends NContainerMenu
 	public static NExtruderMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEExtruder be = BlockHelper.castTileEntity(l, pos, NBEExtruder.class).get();
 		return new NExtruderMenu(clientCtx(type, id), player, be);
 	}
@@ -53,7 +51,7 @@ public class NExtruderMenu extends NContainerMenu
 				map(handler -> handler).
 				orElse(new ItemStackHandler(1));
 
-		this.addSlot(new Output(inv, 0, 0, 87, 45).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 0, 87, 45, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
 		
 		this.ownSlotCount = 1;
 		
@@ -66,7 +64,7 @@ public class NExtruderMenu extends NContainerMenu
 		super.receiveMessageFromScreen(tag);
 		
 		ServerPlayer player = usingPlayers.get(0);
-		ServerLevel level = player.getLevel();
+		ServerLevel level = player.serverLevel();
 		BlockPos pos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
 		if (tag.contains(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Extruder.MODE))
 		{

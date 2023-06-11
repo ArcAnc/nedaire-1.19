@@ -29,7 +29,7 @@ public class NGeneratorSolarMenu extends NContainerMenu
 	public static NGeneratorSolarMenu makeClient(MenuType<?> type, int id, Inventory player, BlockPos pos)
 	{
 		Player p = player.player;
-		Level l = p.getLevel();
+		Level l = p.level();
 		NBEGeneratorSolar be = BlockHelper.castTileEntity(l, pos, NBEGeneratorSolar.class).get();
 		return new NGeneratorSolarMenu(clientCtx(type, id), player, be);
 	}
