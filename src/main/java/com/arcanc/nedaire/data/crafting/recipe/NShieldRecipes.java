@@ -21,6 +21,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShieldDecorationRecipe;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class NShieldRecipes extends ShieldDecorationRecipe
 {
@@ -37,7 +38,7 @@ public class NShieldRecipes extends ShieldDecorationRecipe
 
 	   
 	@Override
-	public boolean matches(CraftingContainer inventory, Level world) 
+	public boolean matches(CraftingContainer inventory, @NotNull Level world)
 	{
 		ItemStack itemstack = ItemStack.EMPTY;
 		ItemStack itemstack1 = ItemStack.EMPTY;
@@ -82,7 +83,7 @@ public class NShieldRecipes extends ShieldDecorationRecipe
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer inventory, RegistryAccess registry) 
+	public @NotNull ItemStack assemble(CraftingContainer inventory, @NotNull RegistryAccess registry)
 	{
 		ItemStack itemstack = ItemStack.EMPTY;
 		ItemStack itemstack1 = ItemStack.EMPTY;
@@ -124,7 +125,7 @@ public class NShieldRecipes extends ShieldDecorationRecipe
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() 
+	public @NotNull RecipeSerializer<?> getSerializer()
 	{
 		return NRegistration.RegisterRecipes.SHIELD_SERIALIZER.get();
 	}

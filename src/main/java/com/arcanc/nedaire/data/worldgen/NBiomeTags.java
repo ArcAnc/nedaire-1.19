@@ -18,6 +18,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NBiomeTags extends TagsProvider<Biome> 
 {
@@ -28,12 +29,12 @@ public class NBiomeTags extends TagsProvider<Biome>
 	}
 
 	@Override
-	protected void addTags(HolderLookup.Provider provider) 
+	protected void addTags(HolderLookup.@NotNull Provider provider)
 	{
 	}
 	
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire Biome Tags";
 	}

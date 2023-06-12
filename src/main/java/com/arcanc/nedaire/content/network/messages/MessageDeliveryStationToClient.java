@@ -34,10 +34,10 @@ public class MessageDeliveryStationToClient implements IMessage
 {
 
 	private Object obj;
-	private Vec3 startPos;
-	private Vec3 finishPos;
-	private Vec3 station;
-	private boolean toStation;
+	private final Vec3 startPos;
+	private final Vec3 finishPos;
+	private final Vec3 station;
+	private final boolean toStation;
 	
 	public MessageDeliveryStationToClient(BlockPos startPos, BlockPos finishPos, BlockPos station, boolean toStation, Object obj)
 	{
@@ -53,7 +53,7 @@ public class MessageDeliveryStationToClient implements IMessage
 		this.finishPos = finishPos;
 		this.station = station;
 		this.toStation = toStation;
-		if (obj != null && ((obj instanceof ItemStack) || (obj instanceof FluidStack) || (obj instanceof Integer)))
+		if ((obj instanceof ItemStack) || (obj instanceof FluidStack) || (obj instanceof Integer))
 		{
 			this.obj = obj;
 		}

@@ -16,6 +16,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockGeneratorSolar extends NTileProviderBlock<NBEGeneratorSolar> 
 {
@@ -27,20 +28,23 @@ public class NBlockGeneratorSolar extends NTileProviderBlock<NBEGeneratorSolar>
 		super(properties, NRegistration.RegisterBlockEntities.BE_GENERATOR_SOLAR);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) 
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState p_60572_, BlockGetter p_60573_, BlockPos p_60574_, CollisionContext p_60575_) 
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getInteractionShape(BlockState p_60547_, BlockGetter p_60548_, BlockPos p_60549_) 
+	public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
 	{
 		return SHAPE;
 	}

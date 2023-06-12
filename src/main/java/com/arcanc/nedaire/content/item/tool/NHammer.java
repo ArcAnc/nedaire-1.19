@@ -68,7 +68,7 @@ public class NHammer extends NBaseItem
 	}
 	
 	@Override
-	public boolean isEnchantable(ItemStack stack) 
+	public boolean isEnchantable(@NotNull ItemStack stack)
 	{
 		return false;
 	}

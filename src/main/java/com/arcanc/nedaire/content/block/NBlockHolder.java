@@ -27,10 +27,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockHolder extends NTileProviderBlock<NBEHolder> 
 {
-	private final VoxelShape shape = Shapes.or(
+	private final VoxelShape SHAPE = Shapes.or(
 			box(0, 10, 0, 16, 16, 16),
 			box(4, 9, 4, 12, 10, 12),
 			box(5, 8, 12, 11, 10, 13),
@@ -53,7 +54,7 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 	}
 	
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTrace) 
+	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult rayTrace)
 	{
 		if (!world.isClientSide() && hand == InteractionHand.MAIN_HAND)
 		{
@@ -68,7 +69,7 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 	}
 	
 	@Override
-	public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update) 
+	public void onRemove(@NotNull BlockState oldState, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean update)
 	{
 		if (!level.isClientSide && !oldState.is(newState.getBlock())) 
 		{
@@ -79,23 +80,26 @@ public class NBlockHolder extends NTileProviderBlock<NBEHolder>
 		super.onRemove(oldState, level, pos, newState, update);
 		}
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
-		return shape;
+		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
-		return shape;
+		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
+	public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
 	{
-		return shape;
+		return SHAPE;
 	}
 
 }

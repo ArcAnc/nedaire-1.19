@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class NSerializableRecipe implements Recipe<Container> 
 {
@@ -42,19 +43,19 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 	}
 
 	@Override
-	public ItemStack getToastSymbol()
+	public @NotNull ItemStack getToastSymbol()
 	{
 		return getNSerializer().getIcon();
 	}
 
 	@Override
-	public boolean matches(Container inv, Level worldIn)
+	public boolean matches(@NotNull Container inv, @NotNull Level worldIn)
 	{
 		return false;
 	}
 
 	@Override
-	public ItemStack assemble(Container inv, RegistryAccess registry)
+	public @NotNull ItemStack assemble(@NotNull Container inv, @NotNull RegistryAccess registry)
 	{
 		return this.outputDummy.get();
 	}
@@ -66,13 +67,13 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public @NotNull ResourceLocation getId()
 	{
 		return this.id;
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer()
+	public @NotNull RecipeSerializer<?> getSerializer()
 	{
 		return getNSerializer();
 	}
@@ -80,7 +81,7 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 	protected abstract NRecipeSerializer<?> getNSerializer();
 
 	@Override
-	public RecipeType<?> getType()
+	public @NotNull RecipeType<?> getType()
 	{
 		return this.type;
 	}

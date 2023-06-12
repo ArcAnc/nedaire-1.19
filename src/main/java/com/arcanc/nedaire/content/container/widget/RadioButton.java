@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
 import com.arcanc.nedaire.content.container.widget.RadioButton.CustomCheckbox.ButtonBuilder;
@@ -49,15 +51,15 @@ public class RadioButton extends Button
 	private int countInRow = 1;
 	private Vector2i distanceBetweenButtons = new Vector2i();
 	
-	public RadioButton(int x, int y, int width, int height, int countInRow, Vector2i distanceBetweenButtons, int currentbuttonId) 
+	public RadioButton(int x, int y, int width, int height, int countInRow, @NotNull Vector2i distanceBetweenButtons, int currentButtonId)
 	{
 		super(x, y, width, height, Component.empty(), but -> {}, Button.DEFAULT_NARRATION);
 		this.countInRow = countInRow;
 		this.distanceBetweenButtons = distanceBetweenButtons;
-		this.currentButtonId = currentbuttonId;
+		this.currentButtonId = currentButtonId;
 	}
 	
-	protected RadioButton(RadioButtonBuilder builder)
+	protected RadioButton(@NotNull RadioButtonBuilder builder)
 	{
 		this(builder.pos.getX(), builder.pos.getY(), builder.pos.getWidth(), builder.pos.getHeight(), builder.countInRow, builder.distanceBetweenButtons, builder.currentButtonId);
 	}
@@ -72,23 +74,23 @@ public class RadioButton extends Button
 		return new RadioButtonBuilder(countInRow, distanceBetweenButtons);
 	}
 	
-	public static ButtonBuilder newButton(Icon<?> icon, Supplier<Tooltip> tooltip)
+	public static ButtonBuilder newButton(@NotNull Icon<?> icon, @NotNull Supplier<Tooltip> tooltip)
 	{
 		return new ButtonBuilder(icon, tooltip);
 	}
 	
-	public RadioButton addButton(CustomCheckbox button)
+	public RadioButton addButton(@NotNull CustomCheckbox button)
 	{
 		this.buttons.add(button);
 		return this;
 	}
 	
-	public List<CustomCheckbox> getButtons() 
+	public @NotNull List<CustomCheckbox> getButtons()
 	{
 		return ImmutableList.copyOf(this.buttons);
 	}
 	
-	public RadioButton finishRadioButton()
+	public @NotNull RadioButton finishRadioButton()
 	{
 		
 		int buttonWidth = (this.width - (countInRow > 1 ? (distanceBetweenButtons.x() * (countInRow - 1)) : 0)) / countInRow ;
@@ -154,7 +156,7 @@ public class RadioButton extends Button
 		
 		private int currentButtonId = 0;
 		private int countInRow = 1;
-		private Vector2i distanceBetweenButtons;
+		private final Vector2i distanceBetweenButtons;
 		
 		public RadioButtonBuilder(int countInRow, Vector2i distanceBetweenButtons) 
 		{
@@ -194,34 +196,35 @@ public class RadioButton extends Button
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-	    stack.pushPose(); 
+	    PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-	    RenderSystem.setShaderTexture(0, BACKGROUND);
 	    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75f);
 	    RenderSystem.enableBlend();
 	    RenderSystem.defaultBlendFunc();
 	    RenderSystem.enableDepthTest();	    
 	    
-		blit(stack, this.getX() - 3, this.getY() - 2, this.width + 3, this.height + 4, 0.0F, 0.0F, 16, 16, 16, 16);
+		guiGraphics.blit(BACKGROUND, this.getX() - 3, this.getY() - 2, this.width + 3, this.height + 4, 0.0F, 0.0F, 16, 16, 16, 16);
 	    
-	    stack.popPose();
+	    poseStack.popPose();
 	}
 	
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderWidget(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 			if (!buttons.isEmpty())
 			{
 				finishRadioButton();
 				for (CustomCheckbox cc : buttons)
 				{
-					cc.render(stack, mouseX, mouseY, partialTicks);
+					cc.render(guiGraphics, mouseX, mouseY, partialTicks);
 				}
 			}
 		}
@@ -230,10 +233,10 @@ public class RadioButton extends Button
 	public static class CustomCheckbox extends AbstractButton
 	{
 		
-		private Supplier<Tooltip> tooltip;
+		private final Supplier<Tooltip> tooltip;
 		private boolean selected = false;
-		private Icon<?> icon;
-		private CustomCheckbox.OnPress press;
+		private final Icon<?> icon;
+		private final CustomCheckbox.OnPress press;
 		
 		public CustomCheckbox(Rect2i pos, boolean active, Supplier<Tooltip> tooltip, Icon<?> icon, CustomCheckbox.OnPress press) 
 		{
@@ -257,36 +260,37 @@ public class RadioButton extends Button
 		}
 
 		@Override
-		public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+		public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 		{
-			
-			stack.pushPose();
+			PoseStack poseStack = guiGraphics.pose();
+
+			poseStack.pushPose();
 			
 			RenderSystem.setShaderTexture(0, TEXTURE);
 			RenderSystem.enableDepthTest();
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 			
-			blit(stack, this.getX(), this.getY(), this.width, this.height, this.isHovered() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.width, this.height, this.isHovered() ? 20.0F : 0.0F, this.selected ? 20.0F : 0.0F, 20, 20, 64, 64);
 			
-			icon.render(stack, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, 16, 16);
+			icon.render(guiGraphics, this.getX() + this.getWidth() / 2 - 8, this.getY() + this.getHeight() / 2 - 8, 16, 16);
 			
 			RenderSystem.disableBlend();
-			stack.popPose();
+			poseStack.popPose();
 		}
 		
 		@Override
-		public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+		public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 		{
 			if (this.visible) 
 			{
 				this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-				this.renderWidget(stack, mouseX, mouseY, partialTicks);
-				this.renderTootip();
+				this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
+				this.renderTooltip();
 			}
 		}
 		
-		private void renderTootip() 
+		private void renderTooltip()
 		{
 			if (this.tooltip != null) 
 		    {
@@ -309,7 +313,7 @@ public class RadioButton extends Button
 		}
 
 		@Override
-		protected void updateWidgetNarration(NarrationElementOutput p_259858_) 
+		protected void updateWidgetNarration(@NotNull NarrationElementOutput p_259858_)
 		{
 			
 		}
@@ -322,38 +326,38 @@ public class RadioButton extends Button
 		
 		public static class ButtonBuilder 
 		{
-			private Rect2i bounds = new Rect2i(0, 0, 0, 0);
+			private final Rect2i bounds = new Rect2i(0, 0, 0, 0);
 		
-			private Supplier<Tooltip> tooltip;
-			private Icon<?> icon;
+			private final Supplier<Tooltip> tooltip;
+			private final Icon<?> icon;
 			private CustomCheckbox.OnPress pressAction;
 			
-			private ButtonBuilder(Icon<?> icon, Supplier<Tooltip> tooltip)
+			private ButtonBuilder(@NotNull Icon<?> icon, @NotNull  Supplier<Tooltip> tooltip)
 			{
 				this.tooltip = tooltip;
 				this.icon = icon;
 			}
 			
-			public ButtonBuilder setPos(int x, int y)
+			public @NotNull ButtonBuilder setPos(int x, int y)
 			{
 				bounds.setPosition(x, y);
 				return this;
 			}
 			
-			public ButtonBuilder setSize(int width, int height)
+			public @NotNull ButtonBuilder setSize(int width, int height)
 			{
 				bounds.setWidth(width);
 				bounds.setHeight(height);
 				return this;
 			}
 			
-			public ButtonBuilder pressAction(CustomCheckbox.OnPress press)
+			public @NotNull ButtonBuilder pressAction(CustomCheckbox.OnPress press)
 			{
 				pressAction = press;
 				return this;
 			}
 			
-			public CustomCheckbox build()
+			public @NotNull CustomCheckbox build()
 			{
 				return new CustomCheckbox(bounds, false, tooltip, icon, pressAction);
 			}

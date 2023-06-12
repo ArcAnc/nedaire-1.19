@@ -53,7 +53,7 @@ public class NGeneratorMobMenu extends NContainerMenu
 			this.addSlot(new NSlot(inv, 0, q, 70 + (q % 2) * 18, 20 + (q / 2) * 18, stack -> stack.getItem() instanceof CrystalPrisonItem && !stack.getTag().getCompound(CrystalPrisonItem.ENTITY_DATA).isEmpty()).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 		}
 
-		this.addSlot(new NSlot(inv, 0, 4, 145, 29, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 4, 145, 29, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUTPUT).setActive(true));
 
 		this.ownSlotCount = 5;
 

@@ -10,6 +10,7 @@ package com.arcanc.nedaire.content.container.widget;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.container.screen.NContainerScreen;
@@ -23,6 +24,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public class Panel extends AbstractButton  
 {
@@ -35,12 +37,12 @@ public class Panel extends AbstractButton
 		this(index, x, y, width, height, Component.empty(), Lists.newArrayList());
 	}
 	
-	public Panel(int index, int x, int y, int width, int height, Component label) 
+	public Panel(int index, int x, int y, int width, int height, @NotNull Component label)
 	{
 		this(index, x, y, width, height, label, Lists.newArrayList());
 	}
 	
-	public Panel(int index, int x, int y, int width, int height, Component label, List<AbstractWidget> widgets) 
+	public Panel(int index, int x, int y, int width, int height, @NotNull Component label, @NotNull List<AbstractWidget> widgets)
 	{
 		super(x, y, width, height, label);
 		Preconditions.checkNotNull(widgets);
@@ -48,14 +50,13 @@ public class Panel extends AbstractButton
 		this.index = index;
 	}
 
-	public Panel addWidget(AbstractWidget widget)
+	public @NotNull Panel addWidget(@NotNull AbstractWidget widget)
 	{
-		Preconditions.checkNotNull(widget);
 		objects.add(widget);
 		return this;
 	}
 	
-	public List<AbstractWidget> getObjects() 
+	public @NotNull List<AbstractWidget> getObjects()
 	{
 		return ImmutableList.copyOf(objects);
 	}
@@ -67,9 +68,9 @@ public class Panel extends AbstractButton
 	}
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.render(stack, mouseX, mouseY, partialTicks);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		if (visible)
 			for(AbstractWidget w : this.objects)
 				w.visible = true;
@@ -79,45 +80,38 @@ public class Panel extends AbstractButton
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
-		blit(stack, getX(), getY(), 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.LEFT_TOP, getX(), getY(), 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
-		blit(stack, getX() + 8, getY(), 0, 0, 0, getWidth() - 16, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_TOP, getX() + 8, getY(), 0, 0, 0, getWidth() - 16, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
-		blit(stack, getX() + getWidth() - 8, getY(), 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.RIGHT_TOP, getX() + getWidth() - 8, getY(), 0, 0, 0, 8, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
-		blit(stack, getX(), getY() + 8, 0, 0, 0, 8, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_LEFT, getX(), getY() + 8, 0, 0, 0, 8, getHeight() - 16, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
-		blit(stack, getX(), getY() + getHeight() - 8, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.LEFT_BOT, getX(), getY() + getHeight() - 8, 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
-		blit(stack, getX() + 8, getY() + getHeight() - 8, 0, 0, 0, getWidth() - 16, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_BOT, getX() + 8, getY() + getHeight() - 8, 0, 0, 0, getWidth() - 16, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
-		blit(stack, getX() + getWidth() - 8, getY() + getHeight() - 8, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.RIGHT_BOT, getX() + getWidth() - 8, getY() + getHeight() - 8, 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
-		blit(stack, getX() + getWidth() - 8, getY() + 8, 0, 0, 0, 8, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_RIGHT, getX() + getWidth() - 8, getY() + 8, 0, 0, 0, 8, getHeight() - 16, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
-		blit(stack, getX() + 8, getY() + 8, 0, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE, getX() + 8, getY() + 8, 0, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
 
-		stack.popPose();
+		poseStack.popPose();
 	}
 	
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput p_259858_) 
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput p_259858_)
 	{
 		
 	}

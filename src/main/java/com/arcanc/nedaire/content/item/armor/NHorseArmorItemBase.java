@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class NHorseArmorItemBase extends HorseArmorItem
 {
@@ -30,13 +31,13 @@ public class NHorseArmorItemBase extends HorseArmorItem
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}
 	
 	@Override
-	public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) 
+	public void appendHoverText(@NotNull ItemStack stack, Level p_41422_, List<Component> p_41423_, @NotNull TooltipFlag flag)
 	{
 		p_41423_.add(Component.empty());
 		p_41423_.add(Component.translatable(NDatabase.MOD_ID + ".item.modifiers.horse").withStyle(ChatFormatting.GRAY));

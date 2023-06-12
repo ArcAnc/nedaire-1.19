@@ -25,6 +25,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LecternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class NBook extends NBaseItem 
 {
@@ -37,7 +38,7 @@ public class NBook extends NBaseItem
 	
 	@Nonnull
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player pl, InteractionHand hand) 
+	public InteractionResultHolder<ItemStack> use(Level level, Player pl, @NotNull InteractionHand hand)
 	{
 		ItemStack stack = pl.getItemInHand(hand);
 		if (level.isClientSide)
@@ -49,7 +50,7 @@ public class NBook extends NBaseItem
 	}
 	
 	@Override
-	public InteractionResult useOn(UseOnContext context) 
+	public @NotNull InteractionResult useOn(UseOnContext context)
 	{
 	      Level level = context.getLevel();
 	      BlockPos blockpos = context.getClickedPos();

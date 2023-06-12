@@ -306,7 +306,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 	}
 
 	@Override
-	public InteractionResult onUsed(UseOnContext ctx)
+	public InteractionResult onUsed(@NotNull UseOnContext ctx)
 	{
 		BlockPos pos = ctx.getClickedPos();
 		ItemStack stack = ctx.getItemInHand();

@@ -32,6 +32,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser> 
 {
@@ -53,7 +54,7 @@ public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser>
 	}
 	
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
+	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult)
 	{
 		if (!level.isClientSide())
 		{
@@ -90,7 +91,7 @@ public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser>
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) 
+	public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity)
 	{
 		BlockHelper.getTileEntity(level, pos).ifPresent(tile -> 
 		{
@@ -107,14 +108,16 @@ public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser>
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public boolean hasAnalogOutputSignal(BlockState state) 
+	public boolean hasAnalogOutputSignal(@NotNull BlockState state)
 	{
 		return true;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) 
+	public int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos)
 	{
 		return BlockHelper.getTileEntity(level, pos).map(tile -> 
 		{
@@ -129,27 +132,31 @@ public class NBlockDiffuser extends NTileProviderBlock<NBEDiffuser>
 	{
 		return entity.getY() < (double)pos.getY() + fluidHeight && entity.getBoundingBox().maxY > (double)pos.getY() + 0.25D;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType pCompType) 
+	public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull PathComputationType pCompType)
 	{
 		return false;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
+	public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
 	{
 		return INSIDE;
 	}

@@ -13,6 +13,7 @@ import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 public class NHoeBase extends HoeItem 
 {
@@ -23,7 +24,7 @@ public class NHoeBase extends HoeItem
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}

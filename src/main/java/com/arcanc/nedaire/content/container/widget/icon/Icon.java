@@ -10,6 +10,7 @@ package com.arcanc.nedaire.content.container.widget.icon;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -19,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public interface Icon<T> 
 {
-	void render(PoseStack stack, int x, int y, int width, int height);
+	void render(GuiGraphics guiGraphics, int x, int y, int width, int height);
 
 	static IconResourceLocation of(ResourceLocation loc, int blitOffset, int texX, int texY, int texW, int texH, int textureSizeX, int textureSizeY)
 	{

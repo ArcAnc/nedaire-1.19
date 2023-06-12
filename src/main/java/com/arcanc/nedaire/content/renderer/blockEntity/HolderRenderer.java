@@ -37,9 +37,10 @@ public class HolderRenderer implements BlockEntityRenderer<NBEHolder>
 	}
 	
 	@Override
-	public void render(@NotNull NBEHolder blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	public void render(@NotNull NBEHolder blockEntity, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (!ItemHelper.isEmpty(blockEntity)) {
+		if (!ItemHelper.isEmpty(blockEntity))
+		{
 			ItemHelper.getItemHandler(blockEntity).ifPresent(handler ->
 			{
 				Minecraft mc = RenderHelper.mc();

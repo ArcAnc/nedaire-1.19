@@ -86,7 +86,7 @@ public class GemUtils
 				{
 					GemEffect<?> effect = GemUtils.getEffect(stack);
 					
-					effect.removeInstanteousEffect(stack, ent.level(), ent);
+					effect.removeInstantaneousEffect(stack, ent.level(), ent);
 				}
 			}
 
@@ -104,7 +104,7 @@ public class GemUtils
 				{
 					GemEffect<?> effect = GemUtils.getEffect(stack);
 					
-					effect.applyInstateousEffect(stack, ent.level(), ent);
+					effect.applyInstantaneousEffect(stack, ent.level(), ent);
 				}
 			}
 		});

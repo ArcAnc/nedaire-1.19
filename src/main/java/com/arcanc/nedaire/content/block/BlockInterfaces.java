@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,7 +57,9 @@ public class BlockInterfaces
 	     */
 	}
 	/*
-	 * taken from Immersive Engineering*/
+	 * taken from Immersive Engineering
+	 * Sorry, bro, but your code is perfect
+	 */
 	public interface INInteractionObject<T extends BlockEntity & INInteractionObject<T>> extends MenuProvider
 	{
 		@Nullable
@@ -73,7 +76,7 @@ public class BlockInterfaces
 
 		@Nonnull//Super is annotated nullable, but Forge assumes Nonnull in at least one place
 		@Override
-		default AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player playerEntity)
+		default AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player playerEntity)
 		{
 			T tile = getBE();
 			Preconditions.checkNotNull(tile);
@@ -82,7 +85,7 @@ public class BlockInterfaces
 		}
 
 		@Override
-		default Component getDisplayName()
+		default @NotNull Component getDisplayName()
 		{
 			return Component.literal("");
 		}
@@ -90,7 +93,7 @@ public class BlockInterfaces
 
 	public interface INWrencheble
 	{
-		InteractionResult onUsed(UseOnContext ctx);
+		InteractionResult onUsed(@NotNull UseOnContext ctx);
 	}
 
 }

@@ -34,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
+import org.jetbrains.annotations.NotNull;
 
 public class ShieldTileEntityRenderer extends BlockEntityWithoutLevelRenderer 
 {
@@ -47,13 +48,13 @@ public class ShieldTileEntityRenderer extends BlockEntityWithoutLevelRenderer
     }
     
     @Override
-    public void onResourceManagerReload(ResourceManager manager) 
+    public void onResourceManagerReload(@NotNull ResourceManager manager)
     {
         this.modelShield = new ShieldModel(this.modelSet.bakeLayer(ModelLayers.SHIELD));
     }
 	
 	@Override
-	public void renderByItem(ItemStack stack, ItemDisplayContext type, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void renderByItem(ItemStack stack, @NotNull ItemDisplayContext type, PoseStack matrixStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
 		matrixStack.pushPose();
 		matrixStack.scale(1, -1, -1);
@@ -63,10 +64,9 @@ public class ShieldTileEntityRenderer extends BlockEntityWithoutLevelRenderer
 
 		Item shield = stack.getItem();
 
-		if (shield instanceof NShieldBase)
+		if (shield instanceof NShieldBase nShield)
 		{
-			NShieldBase nShield = (NShieldBase)shield;
-			
+
 			renderMaterial = flag ? nShield.getMaterial().getShieldBase() : nShield.getMaterial().getShieldNoPattern();
 		}
 		

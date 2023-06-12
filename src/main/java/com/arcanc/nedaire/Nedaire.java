@@ -148,7 +148,7 @@ public class Nedaire
 		NNetworkEngine.init();
 		event.enqueueWork(() ->
 		{
-			NRegistration.RegisterVillage.registerPois();
+			//NRegistration.RegisterVillage.registerPois();
 		});
     }
 
@@ -274,7 +274,7 @@ public class Nedaire
 		colors.register((state, level, pos, tintIndex) ->
 		{
 			BlockEntity tile = level.getBlockEntity(pos);
-			if (tile != null && tile instanceof NBESidedAccess access && tintIndex != -1)
+			if (tile instanceof NBESidedAccess access && tintIndex != -1)
 			{
 				return access.getAccessType(Direction.values()[tintIndex]).getColor();
 			}

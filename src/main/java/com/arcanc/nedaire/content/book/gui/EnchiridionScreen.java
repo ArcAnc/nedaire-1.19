@@ -20,9 +20,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.GameNarrator;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchiridionScreen extends Screen 
 {
@@ -77,30 +80,30 @@ public class EnchiridionScreen extends Screen
 	}
 	
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float f) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
-		renderBackground(stack);	
+		renderBackground(guiGraphics);
 		
-		super.render(stack, mouseX, mouseY, f);
+		super.render(guiGraphics, mouseX, mouseY, f);
 	}
 	
 	@Override
-	public void renderBackground(PoseStack stack) 
+	public void renderBackground(@NotNull GuiGraphics guiGraphics)
 	{
-		super.renderBackground(stack);
+		super.renderBackground(guiGraphics);
 		
-		stack.pushPose();
+		guiGraphics.pose().pushPose();
 	    RenderSystem.setShader(GameRenderer::getPositionTexShader);
 	    RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
 	    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 	    
-	    blit(stack, guiLeft + xSize / 2, guiTop, 20, 1, 146, 180);
+	    guiGraphics.blit(EnchiridionScreen.TEXT, guiLeft + xSize / 2, guiTop, 20, 1, 146, 180);
 	    
-	    stack.scale(-1f, -1f, 1f);
+	    guiGraphics.pose().scale(-1f, -1f, 1f);
 	    
-	    blit(stack, -guiLeft - xSize / 2, - guiTop - ySize, 20, 1, 146, 180);
+	    guiGraphics.blit(EnchiridionScreen.TEXT, -guiLeft - xSize / 2, - guiTop - ySize, 20, 1, 146, 180);
 
-	    stack.scale(-1f, -1f, 1f);
-	    stack.popPose();
+	    guiGraphics.pose().scale(-1f, -1f, 1f);
+	    guiGraphics.pose().popPose();
 	}
 }

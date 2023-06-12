@@ -85,7 +85,7 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 				{
 					if (inv.getOutputHandler().getStackInSlot(0).getCount() < inv.getOutputHandler().getSlot(0).getSizeLimit())
 					{
-						if (rec.secondaryOutputs.isEmpty() || (!rec.secondaryOutputs.isEmpty() && inv.getOutputHandler().getStackInSlot(1).getCount() < inv.getOutputHandler().getSlot(1).getSizeLimit()))
+						if (rec.secondaryOutputs.isEmpty() || inv.getOutputHandler().getStackInSlot(1).getCount() < inv.getOutputHandler().getSlot(1).getSizeLimit())
 						{
 							int perTick = rec.getTotalProcessEnergy() / rec.getTotalProcessTime();
 							if (energy.getEnergyStored() >= perTick)

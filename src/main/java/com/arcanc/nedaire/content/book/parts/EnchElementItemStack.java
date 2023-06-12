@@ -9,15 +9,20 @@
 package com.arcanc.nedaire.content.book.parts;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchElementItemStack extends EnchElementAbstract 
 {
@@ -49,17 +54,18 @@ public class EnchElementItemStack extends EnchElementAbstract
 	}
 
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
-		pos.pushPose();
-		pos.scale(scale, scale, scale);
-		RenderHelper.renderItemStack(pos, stack, x, y, true);
-		pos.popPose();
+		guiGraphics.pose().pushPose();
+		guiGraphics.pose().scale(scale, scale, scale);
+		RenderHelper.renderItemStack(guiGraphics, stack, x, y, true);
+		guiGraphics.pose().popPose();
 		
 		if (isHovered())
 		{
 			RenderSystem.enableBlend();
-			ench.getScreen().renderTooltip(pos, ench.getScreen().getTooltipFromItem(stack), stack.getTooltipImage(), mouseX, mouseY);
+			Minecraft mc = RenderHelper.mc();
+			guiGraphics.renderTooltip(mc.font, Screen.getTooltipFromItem(mc, stack), stack.getTooltipImage(), mouseX, mouseY);
 		}
 	}
 	

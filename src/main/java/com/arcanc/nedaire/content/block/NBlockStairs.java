@@ -14,6 +14,7 @@ import com.arcanc.nedaire.util.helpers.BlockHelper;
 
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockStairs extends StairBlock 
 {
@@ -24,7 +25,7 @@ public class NBlockStairs extends StairBlock
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return BlockHelper.getRegistryName(this).toString().replace(':', '.').replace(':', '.').replace('/', '.');
 	}

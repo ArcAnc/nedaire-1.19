@@ -8,13 +8,15 @@
  */
 package com.arcanc.nedaire.content.material.armor.player;
 
-import com.google.common.base.Supplier;
+
 import com.google.common.base.Suppliers;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import java.util.function.Supplier;
 
 public abstract class NAbstractPlayerArmorMaterial implements ArmorMaterial	 
 {
@@ -166,7 +168,7 @@ public abstract class NAbstractPlayerArmorMaterial implements ArmorMaterial
 		
 		public T setRepairIngredient(Supplier<Ingredient> repairIngredient) 
 		{
-			this.repairIngredient = Suppliers.memoize(repairIngredient);
+			this.repairIngredient = Suppliers.memoize(repairIngredient :: get);
 			return getSelf();
 		}
 		

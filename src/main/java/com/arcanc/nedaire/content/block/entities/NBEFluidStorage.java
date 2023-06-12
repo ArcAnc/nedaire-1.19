@@ -81,7 +81,7 @@ public class NBEFluidStorage extends NBESidedAccess implements IInventoryCallbac
 	{
 		if (cap == FluidHelper.fluidHandler)
 		{
-			if (side == null || (side != null && side.getAxis().isVertical()))
+			if (side == null || side.getAxis().isVertical())
 			{
 				return fluidHandler.cast();
 			}

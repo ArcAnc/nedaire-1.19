@@ -20,12 +20,13 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class NWorldGenProvider extends DatapackBuiltinEntriesProvider 
 {
 
 	public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().
-			add(Registries.CONFIGURED_FEATURE, (boot) -> NConfiguredFeatures.bootstrap(boot)).
+			add(Registries.CONFIGURED_FEATURE, NConfiguredFeatures::bootstrap).
 			add(Registries.PLACED_FEATURE, NPlacedFeatures :: bootstrap);
 	
 	public NWorldGenProvider(PackOutput output, CompletableFuture<Provider> registries) 
@@ -34,7 +35,7 @@ public class NWorldGenProvider extends DatapackBuiltinEntriesProvider
 	}
 
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire World Gen";
 	}

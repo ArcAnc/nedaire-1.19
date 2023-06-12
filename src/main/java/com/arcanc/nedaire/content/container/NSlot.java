@@ -20,27 +20,28 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
 public class NSlot extends SlotItemHandler 
 {	
-	public static final ResourceLocation BACKGROUND_STANDART = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.STANDART);
+	public static final ResourceLocation BACKGROUND_STANDARD = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.STANDARD);
 	public static final ResourceLocation BACKGROUND_INPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.INPUT);
-	public static final ResourceLocation BACKGROUND_OUPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.OUTPUT);
+	public static final ResourceLocation BACKGROUND_OUTPUT = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.OUTPUT);
 	public static final ResourceLocation BACKGROUND_BOTH = StringHelper.getLocFStr(NDatabase.GUI.Slots.Textures.BOTH);
 	protected boolean active = true;
 	protected int panelIndex = 0;
-	protected Predicate<ItemStack> mayPlace = null;
+	protected Predicate<ItemStack> mayPlace;
 	
-	public NSlot(IItemHandler inv, int panelIndex, int id, int x, int y) 
+	public NSlot(@NotNull IItemHandler inv, int panelIndex, int id, int x, int y)
 	{
 		super(inv, id, x, y);
 		this.panelIndex = panelIndex;
 		mayPlace = $ -> true;
 	}
 
-	public NSlot(IItemHandler inv, int panelIndex, int id, int x, int y, Predicate<ItemStack> mayPlace)
+	public NSlot(@NotNull IItemHandler inv, int panelIndex, int id, int x, int y, @NotNull Predicate<ItemStack> mayPlace)
 	{
 		this(inv, panelIndex, id, x, y);
 		Preconditions.checkNotNull(mayPlace);
@@ -48,13 +49,13 @@ public class NSlot extends SlotItemHandler
 	}
 	
 	@Override
-	public boolean mayPlace(ItemStack stack) 
+	public boolean mayPlace(@NotNull ItemStack stack)
 	{
 		return this.mayPlace.test(stack);
 	}
 	
 	@Override
-	public void set(ItemStack stack) 
+	public void set(@NotNull ItemStack stack)
 	{
 		if (getItemHandler() instanceof NSimpleItemStorage handler)
 		{
@@ -73,7 +74,7 @@ public class NSlot extends SlotItemHandler
 		}
 	}
 	
-	public NSlot setColoredBackground ()
+	public @NotNull NSlot setColoredBackground ()
 	{
 		if (getItemHandler() instanceof NManagedItemStorage storage)
 		{
@@ -85,7 +86,7 @@ public class NSlot extends SlotItemHandler
 			}
 			else if (storage.getOutputHandler().getItems().contains(slot))
 			{
-				setBackground(InventoryMenu.BLOCK_ATLAS, BACKGROUND_OUPUT);
+				setBackground(InventoryMenu.BLOCK_ATLAS, BACKGROUND_OUTPUT);
 				return this;
 			}
 			else
@@ -94,12 +95,12 @@ public class NSlot extends SlotItemHandler
 				return this;
 			}
 		}
-		setBackground(InventoryMenu.BLOCK_ATLAS, BACKGROUND_STANDART);
+		setBackground(InventoryMenu.BLOCK_ATLAS, BACKGROUND_STANDARD);
 		return this;
 	}
 	
 	@Override
-	public NSlot setBackground(ResourceLocation atlas, ResourceLocation sprite) 
+	public @NotNull NSlot setBackground(@NotNull ResourceLocation atlas, @NotNull ResourceLocation sprite)
 	{
 
 		super.setBackground(atlas, sprite);
@@ -111,7 +112,7 @@ public class NSlot extends SlotItemHandler
 	 * @param active New state of slot
 	 * @return this, to allow chaining.
 	 */
-	public NSlot setActive(boolean active) 
+	public @NotNull NSlot setActive(boolean active)
 	{
 		this.active = active;
 		return this;
@@ -131,13 +132,13 @@ public class NSlot extends SlotItemHandler
 	public static class ItemHandlerGhost extends NSlot
 	{
 
-		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition, Predicate<ItemStack> mayPlace)
+		public ItemHandlerGhost(@NotNull IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition, @NotNull Predicate<ItemStack> mayPlace)
 		{
 			super(itemHandler, panelIndex, index, xPosition, yPosition);
 			Preconditions.checkNotNull(mayPlace);
 			this.mayPlace = mayPlace;
 		}
-		public ItemHandlerGhost(IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition) 
+		public ItemHandlerGhost(@NotNull IItemHandler itemHandler, int panelIndex, int index, int xPosition, int yPosition)
 		{
 			this(itemHandler, panelIndex, index, xPosition, yPosition, $ -> true);
 		}

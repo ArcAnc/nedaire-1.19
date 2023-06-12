@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.content.container.widget.icon;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,7 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class IconResourceLocation implements Icon<ResourceLocation> 
 {
-	private ResourceLocation loc;
+	private final ResourceLocation loc;
 	private int blitOffset = 0, texX = 0, texY = 0, texW = 1, texH = 1;
 	private int textureSizeX = 256, textureSizeY = 256;
 	
@@ -46,10 +47,12 @@ public class IconResourceLocation implements Icon<ResourceLocation>
 	}
 	
 	@Override
-	public void render(PoseStack stack, int x, int y, int width, int height) 
+	public void render(GuiGraphics guiGraphics, int x, int y, int width, int height)
 	{
 
-	    stack.pushPose(); 
+		PoseStack poseStack = guiGraphics.pose();
+
+	    poseStack.pushPose();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 	    RenderSystem.setShaderTexture(0, loc);
 	    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1f);
@@ -57,10 +60,10 @@ public class IconResourceLocation implements Icon<ResourceLocation>
 	    RenderSystem.defaultBlendFunc();
 	    RenderSystem.enableDepthTest();	    
 	    
-		blit(stack.last().pose(), x, x + width, y, y + height, blitOffset, texX / (float)textureSizeX, (texX + texW) / (float)textureSizeX, texY / (float)textureSizeY, (texY + texH) / (float)textureSizeY );
+		blit(poseStack.last().pose(), x, x + width, y, y + height, blitOffset, texX / (float)textureSizeX, (texX + texW) / (float)textureSizeX, texY / (float)textureSizeY, (texY + texH) / (float)textureSizeY );
 	    
 		RenderSystem.disableBlend();
-	    stack.popPose();
+	    poseStack.popPose();
 	}
 	
 	private void blit(Matrix4f matrix, float x0, float x1, float y0, float y1, float z, float u0, float u1, float v0, float v1)

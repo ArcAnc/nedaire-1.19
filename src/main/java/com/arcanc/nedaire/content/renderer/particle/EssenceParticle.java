@@ -18,6 +18,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class EssenceParticle extends TextureSheetParticle
@@ -71,7 +72,7 @@ public class EssenceParticle extends TextureSheetParticle
 	      return j | k << 16;
 	}
 	@Override
-	public ParticleRenderType getRenderType() 
+	public @NotNull ParticleRenderType getRenderType()
 	{
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
@@ -86,7 +87,7 @@ public class EssenceParticle extends TextureSheetParticle
 		}
 		
 	    @Override
-		public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double red, double green, double blue) 
+		public Particle createParticle(@NotNull SimpleParticleType type, @NotNull ClientLevel level, double x, double y, double z, double red, double green, double blue)
 		{
 			return new EssenceParticle(level, x, y, z, red, green, blue, sprites);
 		}

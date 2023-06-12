@@ -49,7 +49,7 @@ public class NExpExtractorMenu extends NContainerMenu
 
 		this.addSlot(new NSlot(inv, 0, 0, 40, 15).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 
-		this.addSlot(new NSlot(inv, 0, 1, 40, 50, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 1, 40, 50, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUTPUT).setActive(true));
 
 		this.ownSlotCount = 2;
 

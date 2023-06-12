@@ -71,7 +71,7 @@ public class NBEVimStorage extends NBESidedAccess implements IInventoryCallback,
 		if (cap == VimHelper.vimHandler)
 		{
 			Direction dir = getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
-			if ((side != null && dir.getAxis().isHorizontal() && dir.getAxis() != side.getAxis()) || side == null)
+			if (side == null || (dir.getAxis().isHorizontal() && dir.getAxis() != side.getAxis()))
 			{
 				return energyHandler.cast();
 			}

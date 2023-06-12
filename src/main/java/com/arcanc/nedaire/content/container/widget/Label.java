@@ -15,13 +15,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public class Label extends AbstractWidget 
 {
-	private Supplier<Component> text;
+	private final Supplier<Component> text;
 
 	public Label(int x, int y, int width, int height, Supplier<Component> text) 
 	{
@@ -30,30 +32,32 @@ public class Label extends AbstractWidget
 	}
 
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
 		Minecraft mc = RenderHelper.mc();
 		Font font = mc.font;
 
-		font.draw(stack, text.get(), this.getX() - font.width(text.get()) / 2, this.getY(), 16777215);
+		guiGraphics.drawString(font, text.get(), this.getX() - font.width(text.get()) / 2, this.getY(), 16777215);
 		
-		stack.popPose();
+		poseStack.popPose();
 	}
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderWidget(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 		}
 	}
 	
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput newText) 
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput newText)
 	{
 
 	}

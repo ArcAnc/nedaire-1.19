@@ -50,7 +50,7 @@ public class GemEffectHealth <T extends GemEffect<T>> extends GemEffect<T>
 	}
 
 	@Override
-	protected void applyInstateousEffect(ItemStack stack, Level level, LivingEntity entity) 
+	protected void applyInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity)
 	{
 		if (entity != null)
 		{
@@ -64,7 +64,7 @@ public class GemEffectHealth <T extends GemEffect<T>> extends GemEffect<T>
 	}
 
 	@Override
-	protected void removeInstanteousEffect(ItemStack stack, Level level, LivingEntity entity) 
+	protected void removeInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity)
 	{
 		if (entity != null)
 		{

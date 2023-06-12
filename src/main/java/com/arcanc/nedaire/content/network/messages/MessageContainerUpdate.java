@@ -19,8 +19,8 @@ import net.minecraftforge.network.NetworkEvent.Context;
 
 public class MessageContainerUpdate implements IMessage 
 {
-	private int windowId;
-	private CompoundTag tag;
+	private final int windowId;
+	private final CompoundTag tag;
 	
 	public MessageContainerUpdate(int windowId, CompoundTag tag) 
 	{

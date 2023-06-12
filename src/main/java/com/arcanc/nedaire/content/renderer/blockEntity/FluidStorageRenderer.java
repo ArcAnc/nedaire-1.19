@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -48,20 +49,17 @@ public class FluidStorageRenderer implements BlockEntityRenderer<NBEFluidStorage
 	}
 	
 	@Override
-	public void render(NBEFluidStorage blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	public void render(@NotNull NBEFluidStorage blockEntity, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (blockEntity != null)
-		{
-			FluidHelper.getFluidHandler(blockEntity).ifPresent(handler -> 
-			{
-				FluidStack stack = handler.getFluidInTank(0);
-				if (!stack.isEmpty())
-				{
-					renderContent(stack, (float)stack.getAmount()/handler.getTankCapacity(0), mStack, buffer, combinedLight, combinedOverlay);
-				}
-			});
-		}
-	}
+        FluidHelper.getFluidHandler(blockEntity).ifPresent(handler ->
+        {
+            FluidStack stack = handler.getFluidInTank(0);
+            if (!stack.isEmpty())
+            {
+                renderContent(stack, (float) stack.getAmount() / handler.getTankCapacity(0), mStack, buffer, combinedLight, combinedOverlay);
+            }
+        });
+    }
 
 	private void renderContent(FluidStack stack, float height, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{

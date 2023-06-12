@@ -10,7 +10,7 @@ package com.arcanc.nedaire.content.item.gem;
 
 public class GemEffectInstance <T extends GemEffect<T>>  
 {
-	private GemEffect<T> effect;
+	private final GemEffect<T> effect;
 	
 	public GemEffectInstance(GemEffect<T> effect) 
 	{

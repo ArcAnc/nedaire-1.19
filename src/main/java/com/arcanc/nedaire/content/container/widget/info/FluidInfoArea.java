@@ -19,6 +19,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -30,6 +31,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class FluidInfoArea extends InfoArea 
 {
@@ -60,20 +62,22 @@ public class FluidInfoArea extends InfoArea
 				Component.translatable(fluid.getFluidInTank(tank).getTranslationKey()).withStyle(style)).withStyle(ChatFormatting.GRAY));
 	}
 	
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderWidget(stack, mouseX, mouseY, partialTicks);
+	         this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
 		Minecraft mc = RenderHelper.mc();
 		Screen screen = mc.screen;
@@ -82,10 +86,8 @@ public class FluidInfoArea extends InfoArea
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-			RenderSystem.setShaderTexture(0, TEXTURE);
-
-			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, 18, 42, 64, 64);
-			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, 18, 42, 64, 64);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
 			
 			float fluidPercent = (float)fluid.getFluidInTank(tank).getAmount() / fluid.getTankCapacity(tank);
 			
@@ -102,18 +104,16 @@ public class FluidInfoArea extends InfoArea
 					TextureAtlasSprite still = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
 			
 					RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
-					RenderSystem.setShaderTexture(0, still.atlasLocation());
-					blit(stack, this.getX(), (int)f, 0/*FIXME: find method to get blitOffset*/, this.getWidth(), (int)f1, still);
+					guiGraphics.blit(this.getX(), (int)f, 0/*FIXME: find method to get blitOffset*/, this.getWidth(), (int)f1, still);
 
 				}
 			}
 			RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-			RenderSystem.setShaderTexture(0, TEXTURE);
 
-			Screen.blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 46, 0, 18, 42, 64, 64);
 		}
 		
-		stack.popPose();
+		poseStack.popPose();
 	}
 	
 	protected void renderTooltip() 

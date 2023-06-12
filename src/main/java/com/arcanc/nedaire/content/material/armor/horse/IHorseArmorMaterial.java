@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public interface IHorseArmorMaterial 
 {
-	public int getDurability();
+	int getDurability();
 	
-	public int getDefense();
+	int getDefense();
 	
-	public ResourceLocation getTexturePath ();
+	ResourceLocation getTexturePath ();
 }

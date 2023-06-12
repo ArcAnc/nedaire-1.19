@@ -10,6 +10,9 @@ package com.arcanc.nedaire.content.book.parts;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -36,7 +39,7 @@ public class EnchElementEntity extends EnchElementAbstract
 	protected EntityType<?> type;
 	private final Lazy<RenderData> renderData;
 	
-	public EnchElementEntity(EnchiridionInstance instance, EntityType<?> type, @Nullable CompoundTag entityData, int x, int y, int width, int height) 
+	public EnchElementEntity(@NotNull EnchiridionInstance instance, EntityType<?> type, @Nullable CompoundTag entityData, int x, int y, int width, int height)
 	{
 		super(instance, x, y, width, height);
 		
@@ -47,19 +50,19 @@ public class EnchElementEntity extends EnchElementAbstract
 		this.renderData = Lazy.of(() -> new RenderData(type, entityData));
 	}
 	
-	public EnchElementEntity(EnchiridionInstance instance, EntityType<?> type, int x, int y, int width, int height) 
+	public EnchElementEntity(@NotNull EnchiridionInstance instance, EntityType<?> type, int x, int y, int width, int height)
 	{
 		this(instance, type, null, x, y, width, height);
 	}
 	
-	public EnchElementEntity(EnchiridionInstance instance, EntityType<?> type, int x, int y) 
+	public EnchElementEntity(@NotNull EnchiridionInstance instance, EntityType<?> type, int x, int y)
 	{
 		this(instance, type, null, x, y, 40, 40);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
 		
 		// Entity rendering code was largely borrowed from JustEnoughResources by way2muchnoise
@@ -106,14 +109,14 @@ public class EnchElementEntity extends EnchElementAbstract
 		float scale = renderData.get().scale;
 		PoseStack modelViewStack = RenderSystem.getModelViewStack();
 		modelViewStack.pushPose();
-		modelViewStack.mulPoseMatrix(pos.last().pose());
-		modelViewStack.translate(this.x + (this.width / 2) + (entity.getBbWidth() * 16) / 4, this.y + (this.height / 2) + (entity.getBbHeight() * 16) / 2 , 50);
+		modelViewStack.mulPoseMatrix(guiGraphics.pose().last().pose());
+		modelViewStack.translate(this.x + ((float) this.width / 2) + (entity.getBbWidth() * 16) / 4, this.y + ((float) this.height / 2) + (entity.getBbHeight() * 16) / 2 , 50);
 		modelViewStack.scale(-scale < 1 ? scale * entity.getBbWidth() : scale / entity.getBbWidth(), entity.getBbHeight() > 1 ? scale / entity.getBbHeight() : scale * entity.getBbHeight(), scale);
 		PoseStack mobPoseStack = new PoseStack();
 		mobPoseStack.mulPose(new Quaternionf().fromAxisAngleDeg(new Vector3f(0, 0, 1), 180));
 
-		float pitch = this.y + (this.height / 2) + (entity.getBbHeight() * 16) / 4 - mouseY;
-		float yaw = this.x + (this.width / 2) + (entity.getBbWidth() * 16) / 4 - mouseX;
+		float pitch = this.y + ((float) this.height / 2) + (entity.getBbHeight() * 16) / 4 - mouseY;
+		float yaw = this.x + ((float) this.width / 2) + (entity.getBbWidth() * 16) / 4 - mouseX;
 
 		mobPoseStack.mulPose(new Quaternionf().fromAxisAngleDeg(new Vector3f(-1, 0, 0), (float)Math.atan((pitch/40f))*20f));
 		entity.yo = (float)Math.atan(yaw/40f)*20f;
@@ -129,9 +132,10 @@ public class EnchElementEntity extends EnchElementAbstract
 		}
 
 		RenderSystem.applyModelViewMatrix();
-		EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+		Minecraft mc = RenderHelper.mc();
+		EntityRenderDispatcher entityRenderDispatcher = mc.getEntityRenderDispatcher();
 		entityRenderDispatcher.setRenderShadow(false);
-		MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+		MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 		RenderSystem.runAsFancy(() -> {
 			entityRenderDispatcher.render(entity, 0, 0, 0, 0, 0.5f, mobPoseStack, bufferSource, 15728880);
 		});
@@ -142,7 +146,7 @@ public class EnchElementEntity extends EnchElementAbstract
 		
 		if (isHovered())
 		{
-			ench.getScreen().renderTooltip(pos, type.getDescription(), (int) mouseX, (int) mouseY);
+			guiGraphics.renderTooltip(mc.font, type.getDescription(), (int) mouseX, (int) mouseY);
 		}
 		
 	}

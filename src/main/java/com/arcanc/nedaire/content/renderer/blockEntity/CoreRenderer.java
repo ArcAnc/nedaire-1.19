@@ -233,7 +233,7 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 			mStack.mulPose(Axis.XP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
 			mStack.mulPose(Axis.YP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F));
 			mStack.mulPose(Axis.ZP.rotationDegrees(RANDOM_SOURCE.nextFloat() * 360.0F + time * 90.0F));
-			float f3 = RANDOM_SOURCE.nextFloat() * 1f + 0.05F + scale * 0.5F;
+			float f3 = RANDOM_SOURCE.nextFloat() + 0.05F + scale * 0.5F;
 			float f4 = RANDOM_SOURCE.nextFloat() * 0.02f + 0.01f + scale * 0.02f;
 			Matrix4f matrix4f = mStack.last().pose();
 			int j = (int)(255.0F * (1.0F - scale));
@@ -270,7 +270,7 @@ public class CoreRenderer implements BlockEntityRenderer<NBETerramorfer>
 
 	 private static void vertex4(VertexConsumer builder, Matrix4f matrix, float offsetVertical, float offsetHorizontal) 
 	 {
-		 builder.vertex(matrix, 0.0F, offsetVertical, 1.0F * offsetHorizontal).color(255, 0, 255, 0).endVertex();
+		 builder.vertex(matrix, 0.0F, offsetVertical, offsetHorizontal).color(255, 0, 255, 0).endVertex();
 	 }
 		
 	private void renderCrystal(VertexConsumer builder, PoseStack mStack, int overlay, int light)

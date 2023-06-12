@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import org.jetbrains.annotations.NotNull;
 
 public class DeliveryDroneRenderer extends LivingEntityRenderer<DeliveryDroneEntity, DeliveryDroneModel<DeliveryDroneEntity>>
 {
@@ -31,13 +32,13 @@ public class DeliveryDroneRenderer extends LivingEntityRenderer<DeliveryDroneEnt
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(DeliveryDroneEntity entity) 
+	public @NotNull ResourceLocation getTextureLocation(@NotNull DeliveryDroneEntity entity)
 	{
 		return TEXTURE;
 	}
 	
 	public static void registerModelLocation(final RegisterLayerDefinitions event)
 	{
-		event.registerLayerDefinition(LAYER_LOCATION, () -> DeliveryDroneModel.createLayer());
+		event.registerLayerDefinition(LAYER_LOCATION, DeliveryDroneModel::createLayer);
 	}
 }

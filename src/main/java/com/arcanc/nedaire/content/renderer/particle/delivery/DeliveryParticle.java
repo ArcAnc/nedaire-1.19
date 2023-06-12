@@ -16,6 +16,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class DeliveryParticle<T> extends Particle
 {
@@ -89,7 +90,7 @@ public abstract class DeliveryParticle<T> extends Particle
 	public static Vec3[] getBerzierCurve(Vec3 start, Vec3 p1, Vec3 p2, Vec3 finish, double distance)
 	{
 		int modifier = 10;
-		int amount = (int)(distance * modifier) < modifier ? modifier : (int)(distance * modifier);
+		int amount = Math.max((int) (distance * modifier), modifier);
 		
 		Vec3[] points = new Vec3[amount];
 		for (int q = 0; q < amount; q++)
@@ -112,7 +113,7 @@ public abstract class DeliveryParticle<T> extends Particle
 	}
 	
 	@Override
-	public ParticleRenderType getRenderType() 
+	public @NotNull ParticleRenderType getRenderType()
 	{
 		return ParticleRenderType.CUSTOM;
 	}

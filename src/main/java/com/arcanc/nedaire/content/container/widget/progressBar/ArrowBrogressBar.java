@@ -10,6 +10,8 @@ package com.arcanc.nedaire.content.container.widget.progressBar;
 
 import java.util.function.Supplier;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import com.arcanc.nedaire.util.database.NDatabase;
@@ -40,7 +42,7 @@ public class ArrowBrogressBar extends ProgressBar
 	protected Supplier<Tooltip> tooltip;
 	
 	/**
-	 * @param percent - 0 -- 1
+	 * parameter in percent - 0 -- 1
 	 */
 	public ArrowBrogressBar(Rect2i area, Supplier<Double> current, Supplier<Double> max) 
 	{
@@ -60,19 +62,21 @@ public class ArrowBrogressBar extends ProgressBar
 	}
 	
 	@Override
-	public void render(PoseStack mStack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderWidget(mStack, mouseX, mouseY, partialTicks);
+	         this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 
 	@Override
-	public void renderWidget(PoseStack mStack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
+		PoseStack mStack = guiGraphics.pose();
+
 		mStack.pushPose();
 		
 		Minecraft mc = RenderHelper.mc();
@@ -83,9 +87,7 @@ public class ArrowBrogressBar extends ProgressBar
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-			RenderSystem.setShaderTexture(0, TEXTURE);
-
-			blit(mStack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, 22, 15, 32, 32);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0, 0, 22, 15, 32, 32);
 			
 			if (current.get() > 0 && max.get() > 0)
 			{

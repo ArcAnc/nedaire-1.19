@@ -9,6 +9,7 @@
 package com.arcanc.nedaire.data.crafting.recipe;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class NCrusherRecipe extends NRecipe
 		this.isManual = isManual;
 		
 		
-		setInputList(Arrays.asList(input));
+		setInputList(Collections.singletonList(input));
 		this.outputList = Lazy.of(() -> NonNullList.of(ItemStack.EMPTY, this.output.get()));
 	}
 

@@ -13,11 +13,13 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchElementText extends EnchElementAbstract 
 {
-	private Component text;
+	private final Component text;
 
 	public EnchElementText(EnchiridionInstance instance, Component text, int x, int y, int width) 
 	{
@@ -36,10 +38,10 @@ public class EnchElementText extends EnchElementAbstract
 	}
 	
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
 		Minecraft mc = RenderHelper.mc();		
-		mc.font.drawWordWrap(pos, text, this.x, this.y, this.width, 8821358);
+		guiGraphics.drawWordWrap(mc.font, text, this.x, this.y, this.width, 8821358);
 	}
 
 	@Override

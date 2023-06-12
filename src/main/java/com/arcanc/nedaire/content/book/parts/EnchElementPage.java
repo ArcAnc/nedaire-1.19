@@ -13,11 +13,12 @@ import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
+import com.ibm.icu.impl.number.MicroProps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -33,6 +34,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +44,7 @@ public class EnchElementPage extends EnchElementAbstract
 	
 	/*FIXME: fix X offset*/
 	
-	private Vec3i toContent, arrowLeft, arrowRight;
+	private final Vec3i toContent, arrowLeft, arrowRight;
 	private List<Pair<Integer, EnchElementAbstract>> elements = Lists.newArrayList();
 	
 	private final Chapter chap;
@@ -62,17 +64,18 @@ public class EnchElementPage extends EnchElementAbstract
 	}
 
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
-		
 		elements.stream().
 		filter(entry -> entry.getFirst() == currentPage || entry.getFirst() == currentPage + 1).
 		forEachOrdered(entry -> 
 		{
-			entry.getSecond().render(pos, mouseX, mouseY, f);
+			entry.getSecond().render(guiGraphics, mouseX, mouseY, f);
 		});
-		pos.pushPose();
-		RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+
+		Minecraft mc = RenderHelper.mc();
+
+		guiGraphics.pose().pushPose();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -81,17 +84,16 @@ public class EnchElementPage extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowLeft))
 			{
-				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
-				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
+				guiGraphics.blit(EnchiridionScreen.TEXT, arrowLeft.getX(), arrowLeft.getY(), 26, 207, 18, arrowLeft.getZ());
+				guiGraphics.renderTooltip(mc.font, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_LEFT), mouseX, mouseY);
 			}
 			else
 			{
-				GuiComponent.blit(pos, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
+				guiGraphics.blit(EnchiridionScreen.TEXT, arrowLeft.getX(), arrowLeft.getY(), 3, 207, 18, arrowLeft.getZ());
 			}
 		}
-		pos.popPose();
-		pos.pushPose();
-		RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+		guiGraphics.pose().popPose();
+		guiGraphics.pose().pushPose();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -100,32 +102,31 @@ public class EnchElementPage extends EnchElementAbstract
 		{
 			if (isAboveArrow(mouseX, mouseY, arrowRight))
 			{
-				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
-				ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
+				guiGraphics.blit(EnchiridionScreen.TEXT, arrowRight.getX(), arrowRight.getY(), 26, 194, 18, arrowRight.getZ());
+				guiGraphics.renderTooltip(mc.font, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_RIGHT), mouseX, mouseY);
 			}
 			else
 			{
-				GuiComponent.blit(pos, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
+				guiGraphics.blit(EnchiridionScreen.TEXT, arrowRight.getX(), arrowRight.getY(), 3, 194, 18, arrowRight.getZ());
 			}
 		}
-		pos.popPose();
+		guiGraphics.pose().popPose();
 			
-		pos.pushPose();
-		RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+		guiGraphics.pose().pushPose();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
 		if (isAboveArrow(mouseX, mouseY, toContent))
 		{
-			GuiComponent.blit(pos, toContent.getX(), toContent.getY(), 49, 207, 17, toContent.getZ());
-			ench.getScreen().renderTooltip(pos, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START), mouseX, mouseY);
+			guiGraphics.blit(EnchiridionScreen.TEXT, toContent.getX(), toContent.getY(), 49, 207, 17, toContent.getZ());
+			guiGraphics.renderTooltip(mc.font, Component.translatable(NDatabase.GUI.Enchiridion.Arrows.ARROW_TO_START), mouseX, mouseY);
 		}
 		else
 		{
-			GuiComponent.blit(pos, toContent.getX(), toContent.getY(), 49, 194, 17, toContent.getZ());
+			guiGraphics.blit(EnchiridionScreen.TEXT, toContent.getX(), toContent.getY(), 49, 194, 17, toContent.getZ());
 		}
-		pos.popPose();
+		guiGraphics.pose().popPose();
 	}
 
 	@Override
@@ -235,26 +236,26 @@ public class EnchElementPage extends EnchElementAbstract
 							break;
 					}
 					
-					String first = "";
-					String second = "";
+					StringBuilder first = new StringBuilder();
+					StringBuilder second = new StringBuilder();
 					if (!split.isEmpty())
 					{
-						for (int i = 0; i < split.size(); i++)
+						for (FormattedText formattedText : split)
 						{
-							first += " " + split.get(i).getString();
+							first.append(" ").append(formattedText.getString());
 						}
 					}
-					for (int i = 0; i < secondList.size(); i++)
+					for (FormattedText formattedText : secondList)
 					{
-						second += " " + secondList.get(i).getString();
+						second.append(" ").append(formattedText.getString());
 					}
 					
-					elem = createComponent(first.trim(), 150 * (side % 2), tempShiftH += shiftH);
+					elem = createComponent(first.toString().trim(), 150 * (side % 2), tempShiftH += shiftH);
 					list.add(Pair.of(side, elem));
 					side += 1;
 					tempShiftH = 0;
 					shiftH = 20;
-					elem = createComponent(second.trim(), 150 * (side % 2), tempShiftH += shiftH);
+					elem = createComponent(second.toString().trim(), 150 * (side % 2), tempShiftH += shiftH);
 				}
 				else
 				{

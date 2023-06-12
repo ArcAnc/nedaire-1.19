@@ -77,7 +77,7 @@ public class NBEFluidFiller extends NBERedstoneSensitive implements IInventoryCa
 		};
 		
 		this.inv = new NManagedItemStorage(this).
-				addInputSlot(64, stack -> FluidHelper.isFluidHandler(stack)).
+				addInputSlot(64, FluidHelper::isFluidHandler).
 				addOutputSlot(1).
 				build();
 	}

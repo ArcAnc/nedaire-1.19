@@ -13,6 +13,7 @@ import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
+import org.jetbrains.annotations.NotNull;
 
 public class NPickaxeBase extends PickaxeItem
 {
@@ -23,7 +24,7 @@ public class NPickaxeBase extends PickaxeItem
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}

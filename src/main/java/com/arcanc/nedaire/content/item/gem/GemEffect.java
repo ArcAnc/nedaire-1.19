@@ -58,8 +58,8 @@ public abstract class GemEffect <T extends GemEffect<T>>
 	
 	protected abstract boolean isTicker();
 	protected abstract void tick (ItemStack stack, Level level, LivingEntity entity);
-	protected abstract void applyInstateousEffect(ItemStack stack, Level level, LivingEntity entity);
-	protected abstract void removeInstanteousEffect(ItemStack stack, Level level, LivingEntity entity);
+	protected abstract void applyInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity);
+	protected abstract void removeInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity);
 	
 	protected CompoundTag saveEffect ()
 	{

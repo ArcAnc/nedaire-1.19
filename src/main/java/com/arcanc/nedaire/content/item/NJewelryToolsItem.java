@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 
 public class NJewelryToolsItem extends NBaseItem 
 {
@@ -52,7 +53,7 @@ public class NJewelryToolsItem extends NBaseItem
 	}
 	
 	@Override
-	public boolean isEnchantable(ItemStack stack) 
+	public boolean isEnchantable(@NotNull ItemStack stack)
 	{
 		return true;
 	}
@@ -70,7 +71,7 @@ public class NJewelryToolsItem extends NBaseItem
 	}
 	
 	@Override
-	public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) 
+	public boolean isValidRepairItem(@NotNull ItemStack stack, ItemStack repairCandidate)
 	{
 		return repairCandidate.is(Tags.Items.INGOTS_IRON);
 	}

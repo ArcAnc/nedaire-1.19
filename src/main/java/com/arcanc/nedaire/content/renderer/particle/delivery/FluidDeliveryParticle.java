@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.content.renderer.particle.delivery;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -33,7 +34,7 @@ public class FluidDeliveryParticle extends DeliveryParticle<FluidStack>
 
 	protected float quadSize = 0.2f;
 	
-	private FluidStack stack;
+	private final FluidStack stack;
 	
 	public FluidDeliveryParticle(ClientLevel level, Vec3 startPos, Vec3 finishPos, Vec3 station, boolean toStation, FluidStack stack) 
 	{
@@ -59,12 +60,12 @@ public class FluidDeliveryParticle extends DeliveryParticle<FluidStack>
 	}
 
 	@Override
-	public void render(VertexConsumer vertex, Camera camera, float partialTicks) 
+	public void render(@NotNull VertexConsumer vertex, Camera camera, float partialTicks)
 	{
 	      Vec3 vec3 = camera.getPosition();
-	      float f = (float)(Mth.lerp((double)partialTicks, this.xo, this.x) - vec3.x());
-	      float f1 = (float)(Mth.lerp((double)partialTicks, this.yo, this.y) - vec3.y());
-	      float f2 = (float)(Mth.lerp((double)partialTicks, this.zo, this.z) - vec3.z());
+	      float f = (float)(Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
+	      float f1 = (float)(Mth.lerp(partialTicks, this.yo, this.y) - vec3.y());
+	      float f2 = (float)(Mth.lerp(partialTicks, this.zo, this.z) - vec3.z());
 	      Quaternionf quaternionf;
 	      if (this.roll == 0.0F) 
 	      {
@@ -92,10 +93,10 @@ public class FluidDeliveryParticle extends DeliveryParticle<FluidStack>
 	      float f4 = this.getV0();
 	      float f5 = this.getV1();
 	      int j = this.getLightColor(partialTicks);
-	      vertex.vertex((double)avector3f[0].x(), (double)avector3f[0].y(), (double)avector3f[0].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-	      vertex.vertex((double)avector3f[1].x(), (double)avector3f[1].y(), (double)avector3f[1].z()).uv(f7, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-	      vertex.vertex((double)avector3f[2].x(), (double)avector3f[2].y(), (double)avector3f[2].z()).uv(f6, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-	      vertex.vertex((double)avector3f[3].x(), (double)avector3f[3].y(), (double)avector3f[3].z()).uv(f6, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+	      vertex.vertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+	      vertex.vertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).uv(f7, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+	      vertex.vertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).uv(f6, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+	      vertex.vertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).uv(f6, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
 		
 	}
 	
@@ -125,7 +126,7 @@ public class FluidDeliveryParticle extends DeliveryParticle<FluidStack>
 	}
 
 	@Override
-	public ParticleRenderType getRenderType() 
+	public @NotNull ParticleRenderType getRenderType()
 	{
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}

@@ -69,8 +69,9 @@ public class NNetworkEngine
 	private static <T extends IMessage> void registerMessage(Class<T> packetType, Function<FriendlyByteBuf, T> decoder, Optional<NetworkDirection> dir)
 	{
 		if (!knownPacketTypes.add(packetType))
-			throw new IllegalStateException("Dublicate packcet type: " + packetType.getName());
-		packetHandler.registerMessage(messageId++, packetType, IMessage :: toBytes, decoder, (t, ctx) -> {
+			throw new IllegalStateException("Duplicate packet type: " + packetType.getName());
+		packetHandler.registerMessage(messageId++, packetType, IMessage :: toBytes, decoder, (t, ctx) ->
+		{
 			t.process(ctx);
 			ctx.get().setPacketHandled(true);
 		}, dir);

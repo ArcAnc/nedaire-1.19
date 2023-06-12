@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends HierarchicalModel<T> 
 {
@@ -119,7 +120,7 @@ public class DeliveryDroneModel<T extends DeliveryDroneEntity> extends Hierarchi
 	}
 */	
 	@Override
-	public ModelPart root() 
+	public @NotNull ModelPart root()
 	{
 		return this.root;
 	}

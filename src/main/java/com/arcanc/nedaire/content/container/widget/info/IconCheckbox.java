@@ -16,6 +16,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -23,12 +24,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public class IconCheckbox extends Checkbox 
 {
-	private ResourceLocation texture;
-	private OnPress pressAction;
-	private Supplier<Tooltip> tooltip;
+	private final ResourceLocation texture;
+	private final OnPress pressAction;
+	private final Supplier<Tooltip> tooltip;
 	
 	public IconCheckbox(int x, int y, int width, int height, boolean selected, ResourceLocation texture, OnPress actions, Supplier<Tooltip> tooltip) 
 	{
@@ -46,32 +48,33 @@ public class IconCheckbox extends Checkbox
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
-		RenderSystem.setShaderTexture(0, texture);
 		RenderSystem.enableDepthTest();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		
-		blit(stack, this.getX(), this.getY(), this.width, this.height, selected() ? 0.0f : 20.0F, this.isHovered() ? 20.0F : 0.0F, 20, 20, 64, 64);
+		guiGraphics.blit(texture, this.getX(), this.getY(), this.width, this.height, selected() ? 0.0f : 20.0F, this.isHovered() ? 20.0F : 0.0F, 20, 20, 64, 64);
 		
 		RenderSystem.disableBlend();
 		
-		stack.popPose();
+		poseStack.popPose();
 	}
 	
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (this.visible) 
 		{
 			this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-			this.renderWidget(stack, mouseX, mouseY, partialTicks);
+			this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 			renderTooltip();
 		}
 	}

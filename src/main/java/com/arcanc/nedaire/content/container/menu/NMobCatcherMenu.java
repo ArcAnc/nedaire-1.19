@@ -54,7 +54,7 @@ public class NMobCatcherMenu extends NContainerMenu
 		
 		for (int q = 1; q < inv.getSlots(); q++)
 		{
-			this.addSlot(new NSlot(inv, 0, q, 70 + ((q - 1) % 2) * 18, 20 + ((q - 1) / 2) * 18, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+			this.addSlot(new NSlot(inv, 0, q, 70 + ((q - 1) % 2) * 18, 20 + ((q - 1) / 2) * 18, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUTPUT).setActive(true));
 		}
 
 		this.ownSlotCount = inv.getSlots();

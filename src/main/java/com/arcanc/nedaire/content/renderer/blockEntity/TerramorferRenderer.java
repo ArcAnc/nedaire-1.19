@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -38,40 +39,37 @@ public class TerramorferRenderer implements BlockEntityRenderer<NBETerramorfer>
 	}
 	
 	@Override
-	public void render(NBETerramorfer blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(@NotNull NBETerramorfer blockEntity, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (blockEntity != null)
-		{
-			Minecraft mc = RenderHelper.mc();
-			Camera cam = mc.getBlockEntityRenderDispatcher().camera;
+		Minecraft mc = RenderHelper.mc();
+		Camera cam = mc.getBlockEntityRenderDispatcher().camera;
 
-			TextureAtlasSprite tex = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(VORTEX_TEXURE);
-			
-			mStack.pushPose();
-			
-		    RenderSystem.enableBlend();
-		    RenderSystem.defaultBlendFunc();
-		    RenderSystem.disableDepthTest();
-				
-		    mStack.translate(0.5f, 0.65f, 0.5f);
-			
-		    mStack.mulPose(cam.rotation());
-			mStack.mulPose(Axis.ZP.rotationDegrees((float)blockEntity.getLevel().getGameTime() % 360 + partialTicks));
-			
-			VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
-			
-			Matrix4f matrix = mStack.last().pose();
-			Matrix3f normal = mStack.last().normal();
-			
-			builder.vertex(matrix, 0.3f - 0.5f, 0.7f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU0(), tex.getV0()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
-			builder.vertex(matrix, 0.7f - 0.5f, 0.7f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU1(), tex.getV0()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
-			builder.vertex(matrix, 0.7f - 0.5f, 0.3f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU1(), tex.getV1()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
-			builder.vertex(matrix, 0.3f - 0.5f, 0.3f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU0(), tex.getV1()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
-			RenderSystem.enableDepthTest();
-			RenderSystem.disableBlend();
-			
-			mStack.popPose();
-		}
+		TextureAtlasSprite tex = mc.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(VORTEX_TEXURE);
+
+		mStack.pushPose();
+
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.disableDepthTest();
+
+		mStack.translate(0.5f, 0.65f, 0.5f);
+
+		mStack.mulPose(cam.rotation());
+		mStack.mulPose(Axis.ZP.rotationDegrees((float)blockEntity.getLevel().getGameTime() % 360 + partialTicks));
+
+		VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
+
+		Matrix4f matrix = mStack.last().pose();
+		Matrix3f normal = mStack.last().normal();
+
+		builder.vertex(matrix, 0.3f - 0.5f, 0.7f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU0(), tex.getV0()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
+		builder.vertex(matrix, 0.7f - 0.5f, 0.7f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU1(), tex.getV0()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
+		builder.vertex(matrix, 0.7f - 0.5f, 0.3f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU1(), tex.getV1()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
+		builder.vertex(matrix, 0.3f - 0.5f, 0.3f - 0.5f, 0).color(255, 255, 255, 255).uv(tex.getU0(), tex.getV1()).overlayCoords(combinedOverlay).uv2(combinedLight).normal(normal, 0, 0, -1).endVertex();
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
+
+		mStack.popPose();
 	}
 
 }

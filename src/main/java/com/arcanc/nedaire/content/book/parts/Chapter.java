@@ -16,12 +16,15 @@ import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class Chapter extends Button 
 {
@@ -40,16 +43,15 @@ public class Chapter extends Button
 		this.id  = id;
 		this.instance = instance;
 		this.icon = icon;
-		this.isNative = id.getNamespace() == NDatabase.MOD_ID;
+		this.isNative = id.getNamespace().equals(NDatabase.MOD_ID);
 		this.setTooltip(tooltip);
 	}
 
 	@Override
-	public void renderWidget(PoseStack pose, int x, int y, float f) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int x, int y, float f)
 	{
-	    pose.pushPose();
+	    guiGraphics.pose().pushPose();
 	    RenderSystem.setShader(GameRenderer::getPositionTexShader);
-	    RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
 	    if (isActive)
 	    	RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
 	    else
@@ -58,35 +60,35 @@ public class Chapter extends Button
 	    RenderSystem.defaultBlendFunc();
 	    RenderSystem.enableDepthTest();
 	    if (isNative)
-	    	blit(pose, this.getX(), this.getY(), 236, 0, this.width, this.height);
+	    	guiGraphics.blit(EnchiridionScreen.TEXT, this.getX(), this.getY(), 236, 0, this.width, this.height);
 	    else
 	    {
-    		blit(pose, this.getX(), this.getY(), 236, 26, this.width, this.height);
+    		guiGraphics.blit(EnchiridionScreen.TEXT, this.getX(), this.getY(), 236, 26, this.width, this.height);
 	    }
 	    
 	    //FIXME: fix render problem, when icon is ItemStack
-	    pose.scale(1.15f, 1.15f, 1f);
-	    icon.render(pose, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f) + 1, 16, 16);
+	    guiGraphics.pose().scale(1.15f, 1.15f, 1f);
+	    icon.render(guiGraphics, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f) + 1, 16, 16);
 	    //RenderHelper.renderItemStack(pose, icon, (int)(this.getX() /1.15f) + 1, (int)(this.getY() / 1.15f), true);
-	    pose.popPose();
+	    guiGraphics.pose().popPose();
 	    RenderSystem.disableBlend();
 	    RenderSystem.disableDepthTest();
 	    
 	    if (isActive && list != null)
 	    {
-	    	renderContent(pose, x, y, f);
+	    	renderContent(guiGraphics, x, y, f);
 	    }
 	}
 	
-	public void renderContent (PoseStack pose, int x, int y, float f)
+	public void renderContent (GuiGraphics guiGraphics, int x, int y, float f)
 	{
 		if (page != null)
 		{
-			page.render(pose, x, y, f);
+			page.render(guiGraphics, x, y, f);
 		}
 		else
 		{
-			list.render(pose, x, y, f);
+			list.render(guiGraphics, x, y, f);
 		}
 	}
 	
@@ -133,7 +135,7 @@ public class Chapter extends Button
 		
 		for (GuiEventListener but : instance.getScreen().children())
 		{
-			if (but instanceof Chapter chapt && chapt!=this)
+			if (but instanceof Chapter chapt && chapt != this)
 			{
 				chapt.isActive = false;
 			}

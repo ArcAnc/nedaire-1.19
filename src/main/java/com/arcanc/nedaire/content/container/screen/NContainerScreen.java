@@ -29,6 +29,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -45,6 +46,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -94,11 +96,11 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	}
 	
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		this.renderBackground(stack);
-		super.render(stack, mouseX, mouseY, partialTicks);
-		this.renderTooltip(stack, mouseX, mouseY);
+		this.renderBackground(guiGraphics);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 	
 	@Override
@@ -173,44 +175,37 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	}
 	
 	@Override
-	protected void renderBg(PoseStack stack, float partialTicks, int x, int y) 
+	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTicks, int x, int y)
 	{
-		renderBackground(stack);
+		renderBackground(guiGraphics);
 		int x_pos = this.leftPos;
 		int	y_pos = this.topPos;
 
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
-		blit(stack, x_pos, y_pos, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(LEFT_TOP, x_pos, y_pos, 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
-		blit(stack, x_pos + 8, y_pos, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
+		guiGraphics.blit(MIDDLE_TOP, x_pos + 8, y_pos, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(RIGHT_TOP, x_pos + this.imageWidth - 8, y_pos, 0, 0, 0, 8, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
-		blit(stack, x_pos, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
+		guiGraphics.blit(MIDDLE_LEFT, x_pos, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
-		blit(stack, x_pos, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(LEFT_BOT, x_pos, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
-		blit(stack, x_pos + 8, y_pos + this.imageHeight - 8, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
+		guiGraphics.blit(MIDDLE_BOT, x_pos + 8, y_pos + this.imageHeight - 8, 0, 0, 0, this.imageWidth - 16, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(RIGHT_BOT, x_pos + this.imageWidth - 8, y_pos + this.imageHeight - 8, 0, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
-		blit(stack, x_pos + this.imageWidth - 8, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
+		guiGraphics.blit(MIDDLE_RIGHT, x_pos + this.imageWidth - 8, y_pos + 8, 0, 0, 0, 8, this.imageHeight - 16, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
-		blit(stack, x_pos + 8, y_pos + 8, 0, 0, 0, this.imageWidth - 16, this.imageHeight - 16, 8, 8);
+		guiGraphics.blit(MIDDLE, x_pos + 8, y_pos + 8, 0, 0, 0, this.imageWidth - 16, this.imageHeight - 16, 8, 8);
 
-		stack.popPose();
+		poseStack.popPose();
 	}
 	
 	protected Panel addPanel(Panel panel)
@@ -357,7 +352,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		return panel;
 	}
 	
-	protected Panel addItemFilterPanel(BlockEntity be)
+	protected @NotNull Panel addItemFilterPanel(@NotNull BlockEntity be)
 	{
 		Panel panel = new Panel(10, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
 		FilterHelper.getItemFilter(be).ifPresent(filter -> panel.
@@ -412,7 +407,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 		return addPanel(panel);
 	}
 
-	protected Panel addFluidFilterPanel(BlockEntity be)
+	protected @NotNull Panel addFluidFilterPanel(@NotNull BlockEntity be)
 	{
 		Panel panel = new Panel(11, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
 		FilterHelper.getFluidFilter(be).ifPresent(filter -> panel.
@@ -468,7 +463,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 	}
 	
-	protected Panel addVimFilterPanel(BlockEntity be)
+	protected @NotNull Panel addVimFilterPanel(@NotNull BlockEntity be)
 	{
 		Panel panel = new Panel(12, this.getGuiLeft(), this.getGuiTop(), this.getXSize(), this.getYSize() - (this.getYSize() / 2) - 10 );
 		FilterHelper.getVimFilter(be).ifPresent(filter -> panel.
@@ -497,12 +492,12 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	}
 	
 	@Override
-	protected void renderLabels(PoseStack stack, int x_pos, int y_pos) 
+	protected void renderLabels(@NotNull GuiGraphics guiGraphics, int x_pos, int y_pos)
 	{
 	}
 	
 	@Override
-	public void renderSlot(PoseStack stack, Slot slot) 
+	public void renderSlot(@NotNull GuiGraphics guiGraphics, Slot slot)
 	{
 	      int i = slot.x;
 	      int j = slot.y;
@@ -513,8 +508,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	      String s = null;
 	      if (slot == this.clickedSlot && !this.draggingItem.isEmpty() && this.isSplittingStack && !itemstack.isEmpty()) 
 	      {
-	         itemstack = itemstack.copy();
-	         itemstack.setCount(itemstack.getCount() / 2);
+			  itemstack = itemstack.copyWithCount(itemstack.getCount() / 2);
 	      } 
 	      else if (this.isQuickCrafting && this.quickCraftSlots.contains(slot) && !itemstack1.isEmpty()) 
 	      {
@@ -525,14 +519,16 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 	         if (AbstractContainerMenu.canItemQuickReplace(slot, itemstack1, true) && this.menu.canDragTo(slot)) 
 	         {
-	            itemstack = itemstack1.copy();
 	            flag = true;
-	            AbstractContainerMenu.getQuickCraftSlotCount(this.quickCraftSlots, this.quickCraftingType, itemstack, slot.getItem().isEmpty() ? 0 : slot.getItem().getCount());
-	            int k = Math.min(itemstack.getMaxStackSize(), slot.getMaxStackSize(itemstack));
-	            if (itemstack.getCount() > k) {
-	               s = ChatFormatting.YELLOW.toString() + k;
-	               itemstack.setCount(k);
+	            int k = Math.min(itemstack1.getMaxStackSize(), slot.getMaxStackSize(itemstack1));
+				int l = slot.getItem().isEmpty() ? 0 : slot.getItem().getCount();
+	            int i1 = AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, this.quickCraftingType, itemstack1) + l;
+				if (i1 > k)
+				{
+					i1 = k;
+					s = ChatFormatting.YELLOW.toString() + k;
 	            }
+				 itemstack = itemstack1.copyWithCount(i1);
 	         } 
 	         else 
 	         {
@@ -541,8 +537,8 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         }
 	      }
 
-	      stack.pushPose();
-	      stack.translate(0.0F, 0.0F, 100.0F);
+	      guiGraphics.pose().pushPose();
+	      guiGraphics.pose().translate(0.0F, 0.0F, 100.0F);
 	      if (slot.isActive()) 
 	      {
 	         Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
@@ -550,7 +546,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         {
 	            TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
 	            RenderSystem.setShaderTexture(0, textureatlassprite.atlasLocation());
-	            blit(stack, i-1, j-1, 0, 18, 18, textureatlassprite);
+	            guiGraphics.blit(i-1, j-1, 0, 18, 18, textureatlassprite);
 	         }
 	      }
 
@@ -558,7 +554,7 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	      {
 	         if (flag) 
 	         {
-	        	 fill(stack, i, j, i + 16, j + 16, -2130706433);
+	        	 guiGraphics.fill(i, j, i + 16, j + 16, -2130706433);
 	         }
 
 	         RenderSystem.enableDepthTest();
@@ -568,11 +564,11 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	         }
 	         else 
 	         {
-		         this.itemRenderer.renderAndDecorateItem(stack, this.minecraft.player, itemstack, i, j, slot.x + slot.y * this.imageWidth);
-		         this.itemRenderer.renderGuiItemDecorations(stack, this.font, itemstack, i, j, s);
+		         guiGraphics.renderItem(itemstack, i, j, slot.x + slot.y * this.imageWidth);
+				 guiGraphics.renderItemDecorations(this.font, itemstack, i, j, s);
 	         }
 	      }
-	      stack.popPose();
+	      guiGraphics.pose().popPose();
 	}
 	
 	@Override
@@ -589,20 +585,14 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 			{
 				this.quickCraftingRemainder = itemstack.getCount();
 
-		        for(Slot slot : this.quickCraftSlots) 
-		        {
-		        	ItemStack itemstack1 = itemstack.copy();
-		            ItemStack itemstack2 = slot.getItem();
-		            int i = itemstack2.isEmpty() ? 0 : itemstack2.getCount();
-		            AbstractContainerMenu.getQuickCraftSlotCount(this.quickCraftSlots, this.quickCraftingType, itemstack1, i);
-		            int j = Math.min(itemstack1.getMaxStackSize(), slot.getMaxStackSize(itemstack1));
-		            if (itemstack1.getCount() > j) 
-		            {
-		            	itemstack1.setCount(j);
-		            }
-
-		               this.quickCraftingRemainder -= itemstack1.getCount() - i;
-		        }
+				for(Slot slot : this.quickCraftSlots)
+				{
+					ItemStack itemStack1 = slot.getItem();
+					int i = itemStack1.isEmpty() ? 0 : itemStack1.getCount();
+					int j = Math.min(itemstack.getMaxStackSize(), slot.getMaxStackSize(itemstack));
+					int k = Math.min(AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, this.quickCraftingType, itemstack) + i, j);
+					this.quickCraftingRemainder -= k - i;
+				}
 
 			}
 		}

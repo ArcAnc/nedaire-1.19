@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 
 public class NShieldBase extends ShieldItem implements ICustomModelProperties
 {
@@ -47,7 +48,7 @@ public class NShieldBase extends ShieldItem implements ICustomModelProperties
 	}
 	
 	@Override
-	public boolean isRepairable(ItemStack stack) 
+	public boolean isRepairable(@NotNull ItemStack stack)
 	{
 		return material.getRepairIngredient().test(stack) || super.isRepairable(stack);
 	}
@@ -59,13 +60,13 @@ public class NShieldBase extends ShieldItem implements ICustomModelProperties
 	}
 */	
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}
 	
 	@Override
-	public String getDescriptionId(ItemStack stack) 
+	public @NotNull String getDescriptionId(ItemStack stack)
 	{
 	      return stack.getTagElement("BlockEntityTag") != null ? getDescriptionId() + "." + getColor(stack).getName() : getDescriptionId();
 	}

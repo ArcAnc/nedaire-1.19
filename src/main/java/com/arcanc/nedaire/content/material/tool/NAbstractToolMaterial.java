@@ -10,15 +10,17 @@ package com.arcanc.nedaire.content.material.tool;
 
 import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 
+
+import com.google.common.base.Suppliers;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+
+import java.util.function.Supplier;
 
 public abstract class NAbstractToolMaterial implements Tier 
 {
@@ -179,7 +181,7 @@ public abstract class NAbstractToolMaterial implements Tier
 		
 		public T setRepairIngredient(Supplier<Ingredient> repairIngredient) 
 		{
-			this.repairIngredient = Suppliers.memoize(repairIngredient);
+			this.repairIngredient = Suppliers.memoize(repairIngredient :: get);
 			return getSelf();
 		}
 		

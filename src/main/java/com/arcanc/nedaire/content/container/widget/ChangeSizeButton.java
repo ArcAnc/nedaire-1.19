@@ -13,23 +13,25 @@ import java.util.function.Supplier;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public class ChangeSizeButton extends Button 
 {
 
 	private final int maxValue;
 	private final int minValue;
-	private Label label;
-	private Button decrease;
+	private final Label label;
+	private final Button decrease;
 	private Button increase;
 	private int currentValue;
-	private OnPress pressAction;
+	private final OnPress pressAction;
 	
 	public ChangeSizeButton(int x, int y, int minValue, int maxValue, int currentValue, OnPress pressAction, ButtonCtx leftButton, ButtonCtx rightButton) 
 	{
@@ -84,11 +86,11 @@ public class ChangeSizeButton extends Button
 	}
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (visible)
 		{
-			renderWidget(stack, mouseX, mouseY, partialTicks);
+			renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 			
 			this.decrease.visible = true;
 			this.increase.visible = true;
@@ -101,13 +103,13 @@ public class ChangeSizeButton extends Button
 			this.label.visible = false;
 		}
 		
-		decrease.render(stack, mouseX, mouseY, partialTicks);
-		increase.render(stack, mouseX, mouseY, partialTicks);
-		label.render(stack, mouseX, mouseY, partialTicks);
+		decrease.render(guiGraphics, mouseX, mouseY, partialTicks);
+		increase.render(guiGraphics, mouseX, mouseY, partialTicks);
+		label.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseY, int mouseX, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseY, int mouseX, float partialTicks)
 	{
 	}
 	

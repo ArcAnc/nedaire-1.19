@@ -16,6 +16,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -43,33 +44,31 @@ public class RenderHelper
 		return mc().getItemRenderer();
 	}
 	
-	public static void renderItemStack(PoseStack transform, ItemStack stack, int x, int y, boolean overlay)
+	public static void renderItemStack(GuiGraphics guiGraphics, ItemStack stack, int x, int y, boolean overlay)
 	{
-		renderItemStack(transform, stack, x, y, overlay, null);
+		renderItemStack(guiGraphics, stack, x, y, overlay, null);
 	}
 
-	public static void renderItemStack(PoseStack transform, ItemStack stack, int x, int y, boolean overlay, String count)
-	{
-		if(!stack.isEmpty())
+	public static void renderItemStack(GuiGraphics guiGraphics, ItemStack stack, int x, int y, boolean overlay, String count)
+    {
+        if(!stack.isEmpty())
 		{
-			// Include the matrix transformation
+			PoseStack poseStack = guiGraphics.pose();
+            // Include the matrix transformation
 			PoseStack modelViewStack = RenderSystem.getModelViewStack();
 			modelViewStack.pushPose();
-			modelViewStack.mulPoseMatrix(transform.last().pose());
+			modelViewStack.mulPoseMatrix(poseStack.last().pose());
 			RenderSystem.applyModelViewMatrix();
 
 			// Counteract the zlevel increase, because multiplied with the matrix, it goes out of view
-			ItemRenderer itemRenderer = renderItem();
-			transform.translate(0, 0, -50); 
-			itemRenderer.renderAndDecorateItem(transform, stack, x, y);
-			transform.translate(0, 0, 50);
+			guiGraphics.renderItem(stack, x, y, -50);
 
 			if(overlay)
 			{
 				// Use the Item's font renderer, if available
 				Font font = IClientItemExtensions.of(stack.getItem()).getFont(stack, FontContext.ITEM_COUNT);
 				font = font!=null? font: mc().font;
-				itemRenderer.renderGuiItemDecorations(transform, font, stack, x, y, count);
+				guiGraphics.renderItemDecorations(font, stack, x, y, count);
 			}
 			modelViewStack.popPose();
 			RenderSystem.applyModelViewMatrix();

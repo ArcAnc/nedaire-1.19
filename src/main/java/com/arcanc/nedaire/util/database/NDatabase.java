@@ -411,7 +411,7 @@ public class NDatabase
 			public static final String PATH = GUI.PATH + "slots/";
 			public static class Textures
 			{
-				public static final String STANDART = Slots.PATH + "standart";
+				public static final String STANDARD = Slots.PATH + "standart";
 				public static final String INPUT = Slots.PATH + "input";
 				public static final String OUTPUT = Slots.PATH + "output";
 				public static final String BOTH = Slots.PATH + "both";

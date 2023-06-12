@@ -33,6 +33,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher> 
 {
@@ -59,9 +62,9 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 	}
 	
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
+	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult)
 	{
-		if (player instanceof FakePlayer || player == null)
+		if (player instanceof FakePlayer)
 		{
 			dropBlock(level, pos);
 			return InteractionResult.sidedSuccess(level.isClientSide());
@@ -80,7 +83,7 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos newPos, Block block, BlockPos oldPos, boolean bool) 
+	public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos newPos, @NotNull Block block, @NotNull BlockPos oldPos, boolean bool)
 	{
 		BlockHelper.castTileEntity(level, newPos, NBEManualCrusher.class).ifPresent( tile -> 
 		{
@@ -96,7 +99,7 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 	}
 	
 	@Override
-	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity player, ItemStack stack) 
+	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity player, @NotNull ItemStack stack)
 	{
 		super.setPlacedBy(level, pos, state, player, stack);
 		
@@ -112,20 +115,21 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 	}
 	
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) 
+	public BlockState getStateForPlacement(@NotNull BlockPlaceContext context)
 	{
-		return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+		return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState rotate(BlockState state, Rotation rot) 
+	public @NotNull BlockState rotate(BlockState state, Rotation rot)
 	{
 		return state.setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState mirror(BlockState state, Mirror mirror) 
+	public @NotNull BlockState mirror(BlockState state, Mirror mirror)
 	{
 		return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
@@ -135,15 +139,16 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 		level.destroyBlock(pos, true);
 		level.sendBlockUpdated(pos, defaultBlockState(), level.getBlockState(pos), UPDATE_ALL);
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public RenderShape getRenderShape(BlockState state) 
+	public @NotNull RenderShape getRenderShape(@NotNull BlockState state)
 	{
 		return RenderShape.MODEL;
 	}
 	
 	@Override
-	public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean update) 
+	public void onRemove(@NotNull BlockState oldState, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean update)
 	{
 		if (!level.isClientSide() && !oldState.is(newState.getBlock())) 
 		{
@@ -154,27 +159,24 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 		super.onRemove(oldState, level, pos, newState, update);
 		}
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) 
-	{
-		builder.add(BlockHelper.BlockProperties.HORIZONTAL_FACING, BlockHelper.BlockProperties.WATERLOGGED);
-	}
-	
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
+	public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
 	{
 		return SHAPE;
 	}

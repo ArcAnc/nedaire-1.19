@@ -10,6 +10,7 @@ package com.arcanc.nedaire.content.renderer.blockEntity;
 
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import com.arcanc.nedaire.content.block.entities.NBEPedestal;
@@ -43,46 +44,42 @@ public class PedestalRenderer implements BlockEntityRenderer<NBEPedestal>
 	}
 	
 	@Override
-	public void render(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(@NotNull NBEPedestal blockEntity, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (blockEntity != null)
+		if (!ItemHelper.isEmpty(blockEntity))
 		{
-			if (!ItemHelper.isEmpty(blockEntity))
-			{
-				LazyOptional<IItemHandler> handler = ItemHelper.getItemHandler(blockEntity);
-				
-				handler.ifPresent( stackHandler ->
-				{
-					int amount = 0;
-					Set<Integer> presentSlots = Sets.newHashSet();
-					for (int q = 0; q < stackHandler.getSlots(); q++)
-					{
-						if (!stackHandler.getStackInSlot(q).isEmpty())
-						{
-							amount++;
-							presentSlots.add(q);
-						}
-					}
+			LazyOptional<IItemHandler> handler = ItemHelper.getItemHandler(blockEntity);
 
-					
-					if (amount == 0)
+			handler.ifPresent(stackHandler ->
+			{
+				int amount = 0;
+				Set<Integer> presentSlots = Sets.newHashSet();
+				for (int q = 0; q < stackHandler.getSlots(); q++)
+				{
+					if (!stackHandler.getStackInSlot(q).isEmpty())
 					{
-						return;
+						amount++;
+						presentSlots.add(q);
 					}
-					else if (amount == 1)
-					{
-						renderProjector(blockEntity, partialTicks, mStack, buffer);
-						renderSolo(blockEntity, partialTicks, mStack, buffer, combinedLight, combinedOverlay, stackHandler, presentSlots);
-					}
-					else
-					{
-						renderProjector(blockEntity, partialTicks, mStack, buffer);
-						renderMore(blockEntity, partialTicks, mStack, buffer, combinedLight, combinedOverlay, stackHandler, amount, presentSlots);
-					}
-				});
-			}
-			
+				}
+
+
+				if (amount == 0)
+				{
+					return;
+				} else if (amount == 1)
+				{
+					renderProjector(blockEntity, partialTicks, mStack, buffer);
+					renderSolo(blockEntity, partialTicks, mStack, buffer, combinedLight, combinedOverlay, stackHandler, presentSlots);
+				}
+				else
+				{
+					renderProjector(blockEntity, partialTicks, mStack, buffer);
+					renderMore(blockEntity, partialTicks, mStack, buffer, combinedLight, combinedOverlay, stackHandler, amount, presentSlots);
+				}
+			});
 		}
+
 	}
 
 	private void renderProjector(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer)
@@ -142,7 +139,7 @@ public class PedestalRenderer implements BlockEntityRenderer<NBEPedestal>
 	
 	private void renderMore(NBEPedestal blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, IItemHandler stackHandler, int amount, Set<Integer> presentSlots) 
 	{
-		float offsetPerItem = 360/amount;
+		float offsetPerItem = (float) 360 /amount;
 		float ticks = (blockEntity.getLevel().getGameTime() + partialTicks) * 0.5f;
 		
 		final float modifier = 6F;

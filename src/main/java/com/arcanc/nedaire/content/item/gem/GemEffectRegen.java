@@ -23,7 +23,7 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 	/**
 	 * In ticks
 	 */
-	private int period;
+	private final int period;
 	private int healPower;
 	
 	public GemEffectRegen(Color color, int period, int power) 
@@ -66,12 +66,12 @@ public class GemEffectRegen <T extends GemEffect<T>> extends GemEffect <T>
 	}
 
 	@Override
-	protected void applyInstateousEffect(ItemStack stack, Level level, LivingEntity entity) 
+	protected void applyInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity)
 	{
 	}
 
 	@Override
-	protected void removeInstanteousEffect(ItemStack stack, Level level, LivingEntity entity) 
+	protected void removeInstantaneousEffect(ItemStack stack, Level level, LivingEntity entity)
 	{
 		
 	}

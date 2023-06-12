@@ -21,6 +21,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockTagsProvider extends BlockTagsProvider
 {
@@ -30,7 +31,7 @@ public class NBlockTagsProvider extends BlockTagsProvider
 	}
 	
 	@Override
-	protected void addTags(HolderLookup.Provider provider) 
+	protected void addTags(HolderLookup.@NotNull Provider provider)
 	{
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		
@@ -53,7 +54,7 @@ public class NBlockTagsProvider extends BlockTagsProvider
 	}
 	
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire Block Tags";
 	}

@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -105,7 +106,7 @@ public class NBlockLootSubProvider extends BlockLootSubProvider
 	}
 
 	@Override
-	protected Iterable<Block> getKnownBlocks()
+	protected @NotNull Iterable<Block> getKnownBlocks()
 	{
 		return NRegistration.RegisterBlocks.BLOCKS.getEntries().stream().map(RegistryObject :: get).filter(block -> !block.getLootTable().equals(BuiltInLootTables.EMPTY)).collect(Collectors.toSet());
 	}

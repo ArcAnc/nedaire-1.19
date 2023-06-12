@@ -10,6 +10,8 @@ package com.arcanc.nedaire.content.container.widget.info;
 
 import java.util.function.Supplier;
 
+import net.minecraft.client.gui.GuiGraphics;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import com.arcanc.nedaire.content.capabilities.vim.IVim;
@@ -49,20 +51,22 @@ public class EnergyInfoArea extends InfoArea
 	}
 
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float p_93660_) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float p_93660_)
 	{
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderWidget(stack, mouseX, mouseY, p_93660_);
+	         this.renderWidget(guiGraphics, mouseX, mouseY, p_93660_);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float p_93679_) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float p_93679_)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
 		Minecraft mc = RenderHelper.mc();
 		Screen screen = mc.screen;
@@ -71,19 +75,17 @@ public class EnergyInfoArea extends InfoArea
 			RenderSystem.setShader(GameRenderer::getPositionTexShader);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-			RenderSystem.setShaderTexture(0, TEXTURE);
-
-			blit(stack, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 1, 0, 14, 42, 32, 64);
+			guiGraphics.blit(TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 1, 0, 14, 42, 32, 64);
 			
 			float energyPercent = (float)energy.getEnergyStored() / energy.getMaxEnergyStored();
 			
 			float f = this.getY() + (this.getHeight() * (1 - energyPercent));
 			float f1 = 42 * (1 - energyPercent);
 			
-			localBlit(stack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0, 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
+			localBlit(poseStack.last().pose(), this.getX(), this.getX() + this.getWidth(), f, this.getY() + this.getHeight(), 0, 17f / 32f, (17f + 14f) / 32f, f1/64f, 42f/64f);
 		}
 		
-		stack.popPose();
+		poseStack.popPose();
 	}
 	
 	private void localBlit(Matrix4f matrix, float x0, float x1, float y0, float y1, float z, float u0, float u1, float v0, float v1)

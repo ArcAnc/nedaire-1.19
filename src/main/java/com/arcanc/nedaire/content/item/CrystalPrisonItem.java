@@ -25,6 +25,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class CrystalPrisonItem extends NBaseItem
 {
@@ -39,7 +40,7 @@ public class CrystalPrisonItem extends NBaseItem
 	}
 
 	@Override
-	public ItemStack getDefaultInstance() 
+	public @NotNull ItemStack getDefaultInstance()
 	{
 		ItemStack stack = super.getDefaultInstance();
 		stack.getOrCreateTag().put(ENTITY_DATA, new CompoundTag());
@@ -47,7 +48,7 @@ public class CrystalPrisonItem extends NBaseItem
 	}
 	
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) 
+	public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand)
 	{
 	      ItemStack itemstack = player.getItemInHand(hand);
 	      level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));

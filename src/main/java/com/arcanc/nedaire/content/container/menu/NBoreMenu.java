@@ -49,7 +49,7 @@ public class NBoreMenu extends NContainerMenu
                 map(handler -> handler).
                 orElse(new ItemStackHandler(1));
 
-        this.addSlot(new NSlot(inv, 0, 0, 87, 35, stack -> stack.is(ItemTags.PICKAXES)).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+        this.addSlot(new NSlot(inv, 0, 0, 87, 35, stack -> stack.is(ItemTags.PICKAXES)).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUTPUT).setActive(true));
 
         ownSlotCount = 1;
 

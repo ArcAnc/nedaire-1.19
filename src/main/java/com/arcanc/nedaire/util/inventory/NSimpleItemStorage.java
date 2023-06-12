@@ -43,7 +43,7 @@ public class NSimpleItemStorage implements IItemHandler, INBTSerializable<Compou
 	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv)
 	{
 		this.tileInv = tileInv;
-		items = new ArrayList<IItemStackAccess>();
+		items = new ArrayList<>();
 	}
 	
 	public NSimpleItemStorage(@Nullable IInventoryCallback tileInv, int size)

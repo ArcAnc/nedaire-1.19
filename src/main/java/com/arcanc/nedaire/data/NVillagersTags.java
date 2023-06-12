@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NVillagersTags extends TagsProvider<PoiType> 
 {
@@ -33,13 +34,13 @@ public class NVillagersTags extends TagsProvider<PoiType>
 	}
 
 	@Override
-	protected void addTags(Provider provider) 
+	protected void addTags(@NotNull Provider provider)
 	{
 		tag(createTag("acquirable_job_site")).add(createKey(NRegistration.RegisterVillage.UNDERGROUNDER_POI.getId().toString()));
 	}
 	
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire Villager PoI Tags";
 	}

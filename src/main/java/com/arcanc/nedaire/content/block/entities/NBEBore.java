@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -127,7 +128,7 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
     }
 
     @Override
-    public InteractionResult onUsed(UseOnContext ctx)
+    public InteractionResult onUsed(@NotNull UseOnContext ctx)
     {
         Level level = ctx.getLevel();
         if (level.isClientSide())
@@ -197,8 +198,7 @@ public class NBEBore extends NBEPlatform.Attachable implements NServerTickerBloc
             ItemHelper.getItemHandler(platform).ifPresent(itemHandler ->
             {
                 BlockEntity blockentity = state.hasBlockEntity() ? this.getLevel().getBlockEntity(pos) : null;
-                LootContext.Builder builder = new LootContext.Builder((ServerLevel) getLevel()).
-                        withRandom(getLevel().getRandom()).
+                LootParams.Builder builder = new LootParams.Builder((ServerLevel) getLevel()).
                         withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(platform.getBlockPos())).
                         withParameter(LootContextParams.TOOL, stack).
                         withOptionalParameter(LootContextParams.BLOCK_ENTITY, blockentity).

@@ -12,10 +12,11 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class InfoArea extends AbstractWidget 
 {
-	protected InfoArea(Rect2i area)
+	protected InfoArea(@NotNull Rect2i area)
 	{
 		super(area.getX(), area.getY(), area.getWidth(), area.getHeight(), Component.empty());
 	}
@@ -37,20 +38,9 @@ public abstract class InfoArea extends AbstractWidget
 	{
 		return false;
 	}
-	
+
 	@Override
-	public void mouseMoved(double mouseX, double mouseY) 
-	{
-	}
-	
-	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double p_94736_) 
-	{
-		return false;
-	}
-	
-	@Override
-	protected void updateWidgetNarration(NarrationElementOutput p_259858_) 
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput p_259858_)
 	{
 		
 	}

@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import org.jetbrains.annotations.NotNull;
 
 public class MobCatcherRenderer implements BlockEntityRenderer<NBEMobCatcher>  
 {
@@ -42,43 +43,38 @@ public class MobCatcherRenderer implements BlockEntityRenderer<NBEMobCatcher>
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public void render(NBEMobCatcher tile, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	public void render(@NotNull NBEMobCatcher tile, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (tile != null)
+		if (tile.getUsedEnergy() > 0)
 		{
-			if (tile.getUsedEnergy() > 0)
+			mStack.pushPose();
+			mStack.translate(0.5, 2.5, 0.5);
+			mStack.scale(1, -1, 1);
+
+			this.cageModel.setupAnim(tile, tile.age, 1f);
+			VertexConsumer vertex = buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE, false));
+
+			this.cageModel.renderToBuffer(mStack, vertex, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+
+			mStack.popPose();
+
+			mStack.pushPose();
+
+			mStack.translate(0.5f, 1f, 0.5f);
+
+			if (tile.getEnt() != null)
 			{
-				mStack.pushPose();
-				mStack.translate(0.5, 2.5, 0.5);
-				mStack.scale(1, -1, 1);
-				
-				this.cageModel.setupAnim(tile, tile.age, 1f);
-				VertexConsumer vertex = buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE, false));
-			
-				this.cageModel.renderToBuffer(mStack, vertex, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
-			
-				mStack.popPose();
-				
-				mStack.pushPose();
-				
-				mStack.translate(0.5f, 1f, 0.5f);
-				
-				if (tile.getEnt() != null)
-				{
-					EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-					RenderSystem.runAsFancy(() -> 
-					{
-						entityRenderDispatcher.render(tile.getEnt(), 0, 0, 0, 0, 0.5f, mStack, buffer, 15728880);
-					});
-				}
-				
-				mStack.popPose();
+				EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+				RenderSystem.runAsFancy(() ->
+						entityRenderDispatcher.render(tile.getEnt(), 0, 0, 0, 0, 0.5f, mStack, buffer, 15728880));
 			}
+
+			mStack.popPose();
 		}
 	}
 	
 	public static void registerModelLocation(final RegisterLayerDefinitions event)
 	{
-		event.registerLayerDefinition(CAGE, () -> CageModel.createLayer());
+		event.registerLayerDefinition(CAGE, CageModel::createLayer);
 	}
 }

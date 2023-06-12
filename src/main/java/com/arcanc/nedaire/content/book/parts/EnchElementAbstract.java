@@ -12,9 +12,11 @@ import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.sounds.SoundEvents;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class EnchElementAbstract 
 {
@@ -31,7 +33,7 @@ public abstract class EnchElementAbstract
 	protected int baseShiftX = 0;
 	protected int baseShiftY = 0;
 	
-	public EnchElementAbstract(EnchiridionInstance instance, int x, int y, int width, int height)
+	public EnchElementAbstract(@NotNull EnchiridionInstance instance, int x, int y, int width, int height)
 	{
 		this.ench = instance;
 		this.shiftX = x;
@@ -42,14 +44,14 @@ public abstract class EnchElementAbstract
 		this.y = ench.getScreen().guiTop + shiftY + baseShiftY;
 	}
 	
-	public void render(PoseStack pos, int mouseX, int mouseY, float f)
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
-		onDraw(pos, mouseX, mouseY, f);
+		onDraw(guiGraphics, mouseX, mouseY, f);
 		isHovered = hovered(mouseX, mouseY);
 		
 	}
 	
-	public abstract void onDraw(PoseStack pos, int mouseX, int mouseY, float f);
+	public abstract void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f);
 	
 	public void playDownSound(SoundManager manager) 
 	{

@@ -11,12 +11,14 @@ package com.arcanc.nedaire.content.container.widget.icon;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
 public class IconItemStack implements Icon<ItemStack> 
 {
-	private boolean overlay;
-	private ItemStack stack;
+	private final boolean overlay;
+	private final ItemStack stack;
 	
 	public IconItemStack(ItemStack stack, boolean requiredOverlay)
 	{
@@ -25,20 +27,22 @@ public class IconItemStack implements Icon<ItemStack>
 	}
 	
 	@Override
-	public void render(PoseStack stack, int x, int y, int width, int height) 
+	public void render(GuiGraphics guiGraphics, int x, int y, int width, int height)
 	{
-		stack.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+
+		poseStack.pushPose();
 		
 		float sizeX = width/16f;
 		float sizeY = height/16f;
 		
-		stack.scale(sizeX, sizeY, 1f);
+		poseStack.scale(sizeX, sizeY, 1f);
 		
-		RenderHelper.renderItemStack(stack, this.stack, x, y, overlay);
+		RenderHelper.renderItemStack(guiGraphics, this.stack, x, y, overlay);
 	
-		stack.scale(-sizeX, -sizeY, 1f);
+		poseStack.scale(-sizeX, -sizeY, 1f);
 		
-		stack.popPose();
+		poseStack.popPose();
 	}
 
 }

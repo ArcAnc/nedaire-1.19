@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import com.arcanc.nedaire.content.block.entities.NBEMobCatcher;
@@ -124,7 +125,7 @@ public class CageModel extends Model
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) 
+	public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
 		this.root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
@@ -162,10 +163,8 @@ public class CageModel extends Model
 		    	list.forEach((channel) -> 
 		    	{
 		    		Keyframe[] akeyframe = channel.keyframes();
-		            int i = Math.max(0, Mth.binarySearch(0, akeyframe.length, (q) -> 
-		            {
-		            	return f <= akeyframe[q].timestamp();
-		            }) - 1);
+		            int i = Math.max(0, Mth.binarySearch(0, akeyframe.length, (q) ->
+							f <= akeyframe[q].timestamp()) - 1);
 		            int j = Math.min(akeyframe.length - 1, i + 1);
 		            Keyframe keyframe = akeyframe[i];
 		            Keyframe keyframe1 = akeyframe[j];
@@ -187,12 +186,8 @@ public class CageModel extends Model
 	
 	public Optional<ModelPart> getAnyDescendantWithName(String str)
 	{
-		return str.equals("root") ? Optional.of(this.root) : this.root.getAllParts().filter((part) -> 
-		{
-			return part.hasChild(str);
-		}).findFirst().map((part) -> 
-		{
-			return part.getChild(str);
-		});
+		return str.equals("root") ? Optional.of(this.root) : this.root.getAllParts().
+				filter((part) -> part.hasChild(str)).
+				findFirst().map((part) -> part.getChild(str));
 	}
 }

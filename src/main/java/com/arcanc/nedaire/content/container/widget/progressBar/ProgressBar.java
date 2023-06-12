@@ -12,6 +12,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ProgressBar extends AbstractWidget 
 {
@@ -22,7 +23,7 @@ public abstract class ProgressBar extends AbstractWidget
 	}
 
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput element) 
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput element)
 	{
 
 	}

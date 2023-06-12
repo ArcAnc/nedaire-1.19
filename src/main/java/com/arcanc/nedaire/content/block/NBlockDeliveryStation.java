@@ -36,6 +36,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation> 
 {
@@ -87,14 +88,14 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	}
 	
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) 
+	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult)
 	{
 		return super.use(state, level, pos, player, hand, hitResult);
 	}
 	
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) 
+	public BlockState getStateForPlacement(@NotNull BlockPlaceContext context)
 	{
 		// north - 4
 		// east - 8
@@ -114,7 +115,7 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	}
 	
 	@Override
-	public BlockState updateShape(BlockState state, Direction dir, BlockState facingState, LevelAccessor level,	BlockPos currentPos, BlockPos facingPos) 
+	public @NotNull BlockState updateShape(BlockState state, @NotNull Direction dir, @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos)
 	{
 		return state.setValue(BlockHelper.BlockProperties.Pipe.PROPERTY_BY_DIRECTION.get(dir), connectsTo(level, currentPos, dir));
 	}

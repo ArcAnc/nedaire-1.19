@@ -11,6 +11,7 @@ package com.arcanc.nedaire.content.block;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 
 import net.minecraft.world.level.block.SlabBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockSlab extends SlabBlock 
 {
@@ -21,7 +22,7 @@ public class NBlockSlab extends SlabBlock
 	}
 	
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return BlockHelper.getRegistryName(this).toString().replace(':', '.').replace(':', '.').replace('/', '.');
 	}

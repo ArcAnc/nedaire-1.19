@@ -66,7 +66,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		{
 			for (int q = 0; q < fil.getContent().getSlots(); q++)
 			{
-				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 10, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 10, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDARD).setActive(false));
 			}
 		});
 	}
@@ -80,7 +80,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		{
 			for (int q = 0; q < fil.getContent().getSlots(); q++)
 			{
-				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18, FluidHelper::isFluidHandler).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(false));
+				this.addSlot(new NSlot.ItemHandlerGhost(fil.getContent(), 11, q, xPos + (q % 3) * 18, yPos + (q / 3) * 18, FluidHelper::isFluidHandler).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDARD).setActive(false));
 			}
 		});
 	}
@@ -89,7 +89,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
     {
         for (int i = 0; i < amount ; i++) 
         {
-            addSlot(new Slot(handler, index, x, y).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART));
+            addSlot(new Slot(handler, index, x, y).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDARD));
             x += dx;
             index++;
         }

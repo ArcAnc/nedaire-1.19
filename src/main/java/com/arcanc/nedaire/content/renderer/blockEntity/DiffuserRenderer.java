@@ -8,6 +8,7 @@
  */
 package com.arcanc.nedaire.content.renderer.blockEntity;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -49,65 +50,62 @@ public class DiffuserRenderer implements BlockEntityRenderer<NBEDiffuser>
 	}
 	
 	@Override
-	public void render(NBEDiffuser tile, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(@NotNull NBEDiffuser tile, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (tile != null)
+		FluidHelper.getFluidHandler(tile).ifPresent(handler ->
 		{
-			FluidHelper.getFluidHandler(tile).ifPresent(handler -> 
+			if (!FluidHelper.isEmpty(handler))
 			{
-				if (!FluidHelper.isEmpty(handler))
-				{
-					FluidStack fluid = handler.getFluidInTank(0);
-					
-					float height = fluid.getAmount() / (float)handler.getTankCapacity(0);
-				
-					IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluid());
+				FluidStack fluid = handler.getFluidInTank(0);
 
-					ResourceLocation stillTex = renderProps.getStillTexture();
-					TextureAtlasSprite still = RenderHelper.mc().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTex);
+				float height = fluid.getAmount() / (float) handler.getTankCapacity(0);
 
-					boolean gas = fluid.getFluid().getFluidType().isLighterThanAir();
-					int[] color = RenderHelper.splitRGBA(renderProps.getTintColor());
+				IClientFluidTypeExtensions renderProps = IClientFluidTypeExtensions.of(fluid.getFluid());
 
-			        VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
-			        Matrix4f matrix = mStack.last().pose();
-			        Matrix3f normal = mStack.last().normal();	
-					
-					mStack.pushPose();
-					
-					drawTop(builder, matrix, normal, height, still, color, gas, combinedOverlay, combinedLight);
-					
-					mStack.popPose();
-				}
-			});
-			
-			ItemHelper.getItemHandler(tile).ifPresent(handler ->
+				ResourceLocation stillTex = renderProps.getStillTexture();
+				TextureAtlasSprite still = RenderHelper.mc().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTex);
+
+				boolean gas = fluid.getFluid().getFluidType().isLighterThanAir();
+				int[] color = RenderHelper.splitRGBA(renderProps.getTintColor());
+
+				VertexConsumer builder = buffer.getBuffer(Sheets.translucentCullBlockSheet());
+				Matrix4f matrix = mStack.last().pose();
+				Matrix3f normal = mStack.last().normal();
+
+				mStack.pushPose();
+
+				drawTop(builder, matrix, normal, height, still, color, gas, combinedOverlay, combinedLight);
+
+				mStack.popPose();
+			}
+		});
+
+		ItemHelper.getItemHandler(tile).ifPresent(handler ->
+		{
+			if (!ItemHelper.isEmpty(handler))
 			{
-				if (!ItemHelper.isEmpty(handler))
-				{
-					ItemStack stack = handler.getStackInSlot(0);
+				ItemStack stack = handler.getStackInSlot(0);
 
-					mStack.pushPose();
-					mStack.translate(0.5f, 0.5f, 0.5f);
-					mStack.translate(0, Math.sin((tile.getLevel().getGameTime()) / 10.0F) * 0.1 + 0.1, 0); //Item bobbing
-					mStack.scale(0.75F, 0.75F, 0.75F);
-			        long time = tile.getLevel().getGameTime();
-			        float angle = (time) % 360 + partialTicks;
-			        mStack.mulPose(Axis.YP.rotationDegrees(angle));
-			        RenderHelper.renderItem().renderStatic(
-			        		stack, 
-			        		ItemDisplayContext.GROUND, 
-			        		combinedLight, 
-			        		combinedOverlay,
-			        		mStack, 
-			        		buffer,
-			        		tile.getLevel(),
-			        		0);
-			        mStack.popPose();
+				mStack.pushPose();
+				mStack.translate(0.5f, 0.5f, 0.5f);
+				mStack.translate(0, Math.sin((tile.getLevel().getGameTime()) / 10.0F) * 0.1 + 0.1, 0); //Item bobbing
+				mStack.scale(0.75F, 0.75F, 0.75F);
+				long time = tile.getLevel().getGameTime();
+				float angle = (time) % 360 + partialTicks;
+				mStack.mulPose(Axis.YP.rotationDegrees(angle));
+				RenderHelper.renderItem().renderStatic(
+						stack,
+						ItemDisplayContext.GROUND,
+						combinedLight,
+						combinedOverlay,
+						mStack,
+						buffer,
+						tile.getLevel(),
+						0);
+				mStack.popPose();
 
-				}
-			});
-		}
+			}
+		});
 	}
 
     private void drawTop(VertexConsumer builder, Matrix4f matrix, Matrix3f normal, float height, TextureAtlasSprite tex, int[] color, boolean gas, int overlay, int light)

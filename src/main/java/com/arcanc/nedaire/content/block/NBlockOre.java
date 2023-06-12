@@ -26,6 +26,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.ticks.ScheduledTick;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedBlock
 {
@@ -42,7 +43,7 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int eventId, int eventParam) 
+	public boolean triggerEvent(@NotNull BlockState state, Level world, @NotNull BlockPos pos, int eventId, int eventParam)
 	{
 		if (world.isClientSide() && eventId == 255)
 		{
@@ -53,7 +54,7 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	}
 	
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return BlockHelper.getRegistryName(this).toString().replace(':', '.').replace(':', '.').replace('/', '.');
 	}
@@ -63,7 +64,7 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	 */
 	
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) 
+	public BlockState getStateForPlacement(@NotNull BlockPlaceContext context)
 	{
 		BlockState state = this.defaultBlockState();
 		if (state.hasProperty(BlockStateProperties.WATERLOGGED))
@@ -75,7 +76,7 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState updateShape(BlockState state, Direction dir, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos) 
+	public @NotNull BlockState updateShape(BlockState state, @NotNull Direction dir, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos)
 	{
 		if (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED))
 		{
@@ -86,7 +87,7 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public FluidState getFluidState(BlockState state) 
+	public @NotNull FluidState getFluidState(BlockState state)
 	{
 		if (state.hasProperty(BlockStateProperties.WATERLOGGED) && state.getValue(BlockStateProperties.WATERLOGGED))
 		{
@@ -96,19 +97,19 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	}
 	
 	@Override
-	public boolean canPlaceLiquid(BlockGetter world, BlockPos pos, BlockState state, Fluid liquid) 
+	public boolean canPlaceLiquid(@NotNull BlockGetter world, @NotNull BlockPos pos, BlockState state, @NotNull Fluid liquid)
 	{
 		return state.hasProperty(BlockStateProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.canPlaceLiquid(world, pos, state, liquid);
 	}
 	
 	@Override
-	public boolean placeLiquid(LevelAccessor world, BlockPos pos, BlockState state, FluidState liquid) 
+	public boolean placeLiquid(@NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state, @NotNull FluidState liquid)
 	{
 		return state.hasProperty(BlockStateProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.placeLiquid(world, pos, state, liquid);
 	}
 
 	@Override
-	public ItemStack pickupBlock(LevelAccessor world, BlockPos pos, BlockState state) 
+	public @NotNull ItemStack pickupBlock(@NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state)
 	{
 		if (state.hasProperty(BlockStateProperties.WATERLOGGED))
 		{

@@ -51,7 +51,7 @@ public class NFluidFillerMenu extends NContainerMenu
 
 		this.addSlot(new NSlot(inv, 0, 0, 87, 25, FluidHelper :: isFluidHandler).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_INPUT).setActive(true));
 
-		this.addSlot(new NSlot(inv, 0, 1, 87, 45, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUPUT).setActive(true));
+		this.addSlot(new NSlot(inv, 0, 1, 87, 45, stack -> false).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_OUTPUT).setActive(true));
 		
 		ownSlotCount = 2;
 		

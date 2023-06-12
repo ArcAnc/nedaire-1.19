@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.container.screen.NContainerScreen;
@@ -30,6 +31,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec2;
+import org.jetbrains.annotations.NotNull;
 
 public class DropPanel extends AbstractWidget 
 {
@@ -43,13 +45,13 @@ public class DropPanel extends AbstractWidget
 	private final Vec2 closedSize = new Vec2(24, 24);
 	private State state;
 	private final Side side;
-	private Color color;
+	private final Color color;
 	
-	private List<AbstractWidget> widgets = Lists.newArrayList();
-	private Supplier<Icon<?>> icon;
-	private Supplier<Tooltip> tooltip;
+	private final List<AbstractWidget> widgets = Lists.newArrayList();
+	private final Supplier<Icon<?>> icon;
+	private final Supplier<Tooltip> tooltip;
 	
-	public DropPanel(int width, int height, Side side, boolean isOpen, Color color, Supplier<Icon<?>> icon, Supplier<Tooltip> closeTootip) 
+	public DropPanel(int width, int height, Side side, boolean isOpen, Color color, Supplier<Icon<?>> icon, Supplier<Tooltip> closeTooltip)
 	{
 		super(0, 0, isOpen ? width : 24, isOpen ? height: 24, Component.empty());
 		this.openSize = new Vec2(width, height);
@@ -61,7 +63,7 @@ public class DropPanel extends AbstractWidget
 		
 		this.color = color;
 		this.icon = icon;
-		this.tooltip = closeTootip;
+		this.tooltip = closeTooltip;
 	}
 
 	public DropPanel addWidget (AbstractWidget widget)
@@ -77,7 +79,7 @@ public class DropPanel extends AbstractWidget
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (state == State.OPENING)
 		{
@@ -124,50 +126,43 @@ public class DropPanel extends AbstractWidget
 			for (AbstractWidget widget : widgets)
 				widget.visible = false;
 		}
-		stack.pushPose();
+
+		PoseStack poseStack = guiGraphics.pose();
+		poseStack.pushPose();
 		
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_TOP);
-		blit(stack, getX(), getY(), -10, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.LEFT_TOP, getX(), getY(), -10, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_TOP);
-		blit(stack, getX() + 8, getY(), -10, 0, 0, getWidth() - 16, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_TOP, getX() + 8, getY(), -10, 0, 0, getWidth() - 16, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_TOP);
-		blit(stack, getX() + getWidth() - 8, getY(), -10, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.RIGHT_TOP, getX() + getWidth() - 8, getY(), -10, 0, 0, 8, 8, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_LEFT);
-		blit(stack, getX(), getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_LEFT, getX(), getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
 		
-		RenderSystem.setShaderTexture(0, NContainerScreen.LEFT_BOT);
-		blit(stack, getX(), getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.LEFT_BOT, getX(), getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_BOT);
-		blit(stack, getX() + 8, getY() + getHeight() - 8, -10, 0, 0, getWidth() - 16, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_BOT, getX() + 8, getY() + getHeight() - 8, -10, 0, 0, getWidth() - 16, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.RIGHT_BOT);
-		blit(stack, getX() + getWidth() - 8, getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
+		guiGraphics.blit(NContainerScreen.RIGHT_BOT, getX() + getWidth() - 8, getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE_RIGHT);
-		blit(stack, getX() + getWidth() - 8, getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE_RIGHT, getX() + getWidth() - 8, getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
 
-		RenderSystem.setShaderTexture(0, NContainerScreen.MIDDLE);
-		blit(stack, getX() + 8, getY() + 8, -10, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
+		guiGraphics.blit(NContainerScreen.MIDDLE, getX() + 8, getY() + 8, -10, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		if (state == State.CLOSED)
 		{
-			icon.get().render(stack, this.getX() + (this.getWidth() / 2) - 8, this.getY() + (this.getHeight() / 2) - 8, 16, 16);
-			renderTootip();
+			icon.get().render(guiGraphics, this.getX() + (this.getWidth() / 2) - 8, this.getY() + (this.getHeight() / 2) - 8, 16, 16);
+			renderTooltip();
 		}
 		
-		stack.popPose();
+		poseStack.popPose();
 
 	}
 	
-	private void renderTootip() 
+	private void renderTooltip()
 	{
 		if (this.tooltip != null) 
 		{
@@ -219,7 +214,7 @@ public class DropPanel extends AbstractWidget
 	}
 	
 	@Override
-	protected void updateWidgetNarration(NarrationElementOutput p_259858_) 
+	protected void updateWidgetNarration(@NotNull NarrationElementOutput p_259858_)
 	{
 	}
 	
@@ -242,7 +237,7 @@ public class DropPanel extends AbstractWidget
 			return id;
 		}
 	}
-	public static enum Side
+	public enum Side
 	{
 		LEFT, 
 		RIGHT;

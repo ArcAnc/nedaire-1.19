@@ -41,9 +41,9 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 		//										SLOTS
 		//		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH.substring(0, NDatabase.GUI.Slots.PATH.length()-1)),
 		//																			   StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH)));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_STANDART, Optional.empty()));
+		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_STANDARD, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_INPUT, Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_OUPUT, Optional.empty()));
+		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_OUTPUT, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_BOTH, Optional.empty()));
 		//										MANUAL CRUSHER
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(StringHelper.getLocFStr("block/manual_crusher/manual_crusher"), Optional.empty()));

@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 public class ManualCrusherRenderer implements BlockEntityRenderer<NBEManualCrusher> 
@@ -41,49 +42,42 @@ public class ManualCrusherRenderer implements BlockEntityRenderer<NBEManualCrush
 	}
 	
 	@Override
-	public void render(NBEManualCrusher blockEntity, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) 
+	public void render(@NotNull NBEManualCrusher blockEntity, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (blockEntity != null)
-		{
-			mStack.pushPose();
-			mStack.translate(0.5d, 0, 0.5d);
-			mStack.mulPose(new Quaternionf().fromAxisAngleDeg(0, 1, 0, blockEntity.currentAngle));
-			
-			VertexConsumer vertexconsumer = TEXT_LOCATION.buffer(buffer, RenderType::entitySolid);
-			this.crankModel.renderToBuffer(mStack, vertexconsumer, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
-			
-			mStack.popPose();
-			
-			mStack.pushPose();
-			mStack.translate(0.5d, 0d, 0.5d);
-			
-			ItemHelper.getItemHandler(blockEntity).ifPresent(handler -> 
-			{
-				if (!handler.getStackInSlot(0).isEmpty())
-				{
-					NCrusherRecipe.findRecipe(blockEntity.getLevel(), handler.getStackInSlot(0)).ifPresentOrElse(rec -> 
-					{
-						mStack.translate(0d, (1 - ((float)blockEntity.usedEnergy / rec.getTotalProcessEnergy())) / 2d, 0d);
-					},
-					() ->
-					{
-						mStack.translate(0d, 0.5d, 0d);
-					});
-				}
-				else
-					mStack.translate(0d, 0.5d, 0d);
-			});
+		mStack.pushPose();
+		mStack.translate(0.5d, 0, 0.5d);
+		mStack.mulPose(new Quaternionf().fromAxisAngleDeg(0, 1, 0, blockEntity.currentAngle));
 
-			this.pressModel.renderToBuffer(mStack, vertexconsumer, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
-			
-			mStack.popPose();
-		}
+		VertexConsumer vertexconsumer = TEXT_LOCATION.buffer(buffer, RenderType::entitySolid);
+		this.crankModel.renderToBuffer(mStack, vertexconsumer, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
+
+		mStack.popPose();
+
+		mStack.pushPose();
+		mStack.translate(0.5d, 0d, 0.5d);
+
+		ItemHelper.getItemHandler(blockEntity).ifPresent(handler ->
+		{
+			if (!handler.getStackInSlot(0).isEmpty())
+			{
+				NCrusherRecipe.findRecipe(blockEntity.getLevel(), handler.getStackInSlot(0)).ifPresentOrElse(rec ->
+						mStack.translate(0d, (1 - ((float)blockEntity.usedEnergy / rec.getTotalProcessEnergy())) / 2d, 0d),
+				() ->
+						mStack.translate(0d, 0.5d, 0d));
+			}
+			else
+				mStack.translate(0d, 0.5d, 0d);
+		});
+
+		this.pressModel.renderToBuffer(mStack, vertexconsumer, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
+
+		mStack.popPose();
 	}
 	
 	public static void registerModelLocation(final RegisterLayerDefinitions event)
 	{
-		event.registerLayerDefinition(CRANK, () -> CrankModel.createLayer());
-		event.registerLayerDefinition(PRESS, () -> PressModel.createLayer());
+		event.registerLayerDefinition(CRANK, CrankModel::createLayer);
+		event.registerLayerDefinition(PRESS, PressModel::createLayer);
 	}
 
 }

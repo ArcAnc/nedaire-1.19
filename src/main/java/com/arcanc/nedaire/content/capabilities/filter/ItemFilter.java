@@ -95,7 +95,6 @@ public class ItemFilter implements IItemFilter
 			}
 			return false;
 		}
-		else
 		return true;
 	}
 
@@ -114,7 +113,6 @@ public class ItemFilter implements IItemFilter
 			}
 			return false;
 		}
-		else
 		return true;
 	}
 	

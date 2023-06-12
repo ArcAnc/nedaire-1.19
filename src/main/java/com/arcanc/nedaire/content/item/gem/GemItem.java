@@ -13,6 +13,7 @@ import com.arcanc.nedaire.content.item.NBaseItem;
 import com.arcanc.nedaire.content.registration.NRegistration;
 
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class GemItem extends NBaseItem implements IGemItem
 {
@@ -23,7 +24,7 @@ public class GemItem extends NBaseItem implements IGemItem
 	}
 	
 	@Override
-	public ItemStack getDefaultInstance() 
+	public @NotNull ItemStack getDefaultInstance()
 	{
 		ItemStack stack = new ItemStack(this);
 		GemUtils.makeGem(stack, NRegistration.RegisterGemEffects.HEALTH.get().getColor());

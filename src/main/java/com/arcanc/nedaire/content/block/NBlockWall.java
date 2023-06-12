@@ -11,6 +11,7 @@ package com.arcanc.nedaire.content.block;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 
 import net.minecraft.world.level.block.WallBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockWall extends WallBlock 
 {
@@ -21,7 +22,7 @@ public class NBlockWall extends WallBlock
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return BlockHelper.getRegistryName(this).toString().replace(':', '.').replace(':', '.').replace('/', '.');
 	}

@@ -147,7 +147,7 @@ public class NBEManualCrusher extends NBERedstoneSensitive implements IInventory
 		BlockState state = getBlockState();
 		Direction dir = state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 		Vec3 pos = new Vec3(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ()).add(0.5f, 0.2f, 0.5f).relative(dir, 0.6f);
-		Double speed = level.random.nextDouble() * 0.2D - 0.1D;
+		double speed = level.random.nextDouble() * 0.2D - 0.1D;
 		for (ItemStack stack : stacks)
 		{
 			WorldHelper.spawnItemEntity(getLevel(), pos.x(), pos.y(), pos.z(), speed * dir.getStepX(), 0, speed * dir.getStepZ(), stack);

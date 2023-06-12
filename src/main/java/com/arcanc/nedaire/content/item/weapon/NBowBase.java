@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 public class NBowBase extends BowItem implements ICustomModelProperties
 {
@@ -29,7 +30,7 @@ public class NBowBase extends BowItem implements ICustomModelProperties
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}

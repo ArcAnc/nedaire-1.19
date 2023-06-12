@@ -53,7 +53,7 @@ public class NHooverMenu extends NContainerMenu
 		
 		for (int q = 0; q < inv.getSlots(); q++)
 		{
-			this.addSlot(new NSlot(inv, 0, q, 62 + (q % 3) * 18, 15 + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDART).setActive(true));
+			this.addSlot(new NSlot(inv, 0, q, 62 + (q % 3) * 18, 15 + (q / 3) * 18).setBackground(InventoryMenu.BLOCK_ATLAS, NSlot.BACKGROUND_STANDARD).setActive(true));
 		}
 		
 		this.ownSlotCount = NBEHoover.INVENTORY_SIZE;

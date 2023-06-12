@@ -22,13 +22,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemDeliveryParticle extends DeliveryParticle<ItemStack> 
 {
-	private Entity item;
+	private final Entity item;
 	
-	private EntityRenderDispatcher entityRenderDispatcher;
-	private RenderBuffers renderBuffers;
+	private final EntityRenderDispatcher entityRenderDispatcher;
+	private final RenderBuffers renderBuffers;
 
 	public ItemDeliveryParticle(EntityRenderDispatcher renderDispatcher, RenderBuffers buffers, ClientLevel level, Entity item, Vec3 finishPos, Vec3 station, boolean toStation) 
 	{
@@ -53,7 +54,7 @@ public class ItemDeliveryParticle extends DeliveryParticle<ItemStack>
 	}
 	
 	@Override
-	public void render(VertexConsumer vertex, Camera camera, float partialTicks) 
+	public void render(@NotNull VertexConsumer vertex, Camera camera, float partialTicks)
 	{
 		double dx = Mth.lerp(partialTicks, this.xo, this.x);
 		double dy = Mth.lerp(partialTicks, this.yo, this.y);

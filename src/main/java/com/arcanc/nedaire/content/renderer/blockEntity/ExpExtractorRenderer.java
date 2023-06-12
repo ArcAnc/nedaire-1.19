@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -31,34 +32,31 @@ public class ExpExtractorRenderer implements BlockEntityRenderer<NBEExpExtractor
 	private static final float HEIGHT_3 = 11/16f;
 	private static final float HEIGHT_4 = 14/16f;
     
-	public ExpExtractorRenderer(BlockEntityRendererProvider.Context ctx) 
+	public ExpExtractorRenderer(BlockEntityRendererProvider.Context ctx)
 	{
 	}
 
 	@Override
-	public void render(NBEExpExtractor tile, float partialTicks, PoseStack mStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	public void render(@NotNull NBEExpExtractor tile, float partialTicks, @NotNull PoseStack mStack, @NotNull MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		if (tile != null)
-		{
-			Direction dir = tile.getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
+		Direction dir = tile.getBlockState().getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING);
 
-			if (tile.getBlockState().getValue(BlockHelper.BlockProperties.LIT))
+		if (tile.getBlockState().getValue(BlockHelper.BlockProperties.LIT))
+		{
+			renderLightning(mStack, buffer, HEIGHT_1, dir);
+			renderLightning(mStack, buffer, HEIGHT_2, dir);
+			renderLightning(mStack, buffer, HEIGHT_3, dir);
+			renderLightning(mStack, buffer, HEIGHT_4, dir);
+		}
+		else
+		{
+			if (RANDOM_SOURCE.nextInt(10) % 10 == 0)
 			{
 				renderLightning(mStack, buffer, HEIGHT_1, dir);
 				renderLightning(mStack, buffer, HEIGHT_2, dir);
 				renderLightning(mStack, buffer, HEIGHT_3, dir);
 				renderLightning(mStack, buffer, HEIGHT_4, dir);
-			}
-			else
-			{
-				if (RANDOM_SOURCE.nextInt(10) % 10 == 0)
-				{
-					renderLightning(mStack, buffer, HEIGHT_1, dir);
-					renderLightning(mStack, buffer, HEIGHT_2, dir);
-					renderLightning(mStack, buffer, HEIGHT_3, dir);
-					renderLightning(mStack, buffer, HEIGHT_4, dir);
-					
-				}
+
 			}
 		}
 	}

@@ -16,9 +16,11 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
+import org.jetbrains.annotations.NotNull;
 
 public class TooltipArea extends InfoArea 
 {
@@ -26,12 +28,12 @@ public class TooltipArea extends InfoArea
 	@Nullable
 	protected Supplier<Tooltip> tooltip;
 	
-	public TooltipArea(Rect2i area, Tooltip text)
+	public TooltipArea(Rect2i area, @NotNull Tooltip text)
 	{
 		this (area, () -> text);
 	}
 
-	public TooltipArea(Rect2i area, Supplier<Tooltip> text)
+	public TooltipArea(Rect2i area, @NotNull  Supplier<Tooltip> text)
 	{
 		super(area);
 		this.tooltip = text;
@@ -39,18 +41,18 @@ public class TooltipArea extends InfoArea
 
 	
 	@Override
-	public void render(PoseStack stack, int mouseX, int mouseY, float p_93660_) 
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		if (visible)
 		{
 	         this.isHovered = mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
-	         this.renderWidget(stack, mouseX, mouseY, p_93660_);
+	         this.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 	         this.renderTooltip();
 		}
 	}
 	
 	@Override
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) 
+	public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 	}
 	

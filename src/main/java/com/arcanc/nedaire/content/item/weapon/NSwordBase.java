@@ -13,6 +13,7 @@ import com.arcanc.nedaire.util.helpers.ItemHelper;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
+import org.jetbrains.annotations.NotNull;
 
 public class NSwordBase extends SwordItem 
 {
@@ -22,7 +23,7 @@ public class NSwordBase extends SwordItem
 	}
 
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}

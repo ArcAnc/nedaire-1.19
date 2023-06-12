@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class ThrownCrystalPrison extends ThrowableItemProjectile 
 {
@@ -44,13 +45,13 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 	}
 	
 	@Override
-	protected Item getDefaultItem() 
+	protected @NotNull Item getDefaultItem()
 	{
 		return NRegistration.RegisterItems.CRYSTAL_PRISON.get();
 	}
 
 	@Override
-	protected void onHitEntity(EntityHitResult hitResult) 
+	protected void onHitEntity(@NotNull EntityHitResult hitResult)
 	{
 		super.onHitEntity(hitResult);
 		Entity entity = hitResult.getEntity();
@@ -73,7 +74,7 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 	}
 
 	@Override
-	protected void onHitBlock(BlockHitResult hitResult) 
+	protected void onHitBlock(@NotNull BlockHitResult hitResult)
 	{
 		super.onHitBlock(hitResult);
 		ItemStack stack = this.getItem();
@@ -134,7 +135,7 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 		}
 	}
 
-	protected void onHit(HitResult hitResult) 
+	protected void onHit(@NotNull HitResult hitResult)
 	{
 		super.onHit(hitResult);
 
@@ -162,12 +163,12 @@ public class ThrownCrystalPrison extends ThrowableItemProjectile
 
 	@Nullable
 	@Override
-	public Entity changeDimension(ServerLevel level, net.minecraftforge.common.util.ITeleporter teleporter) 
+	public Entity changeDimension(@NotNull ServerLevel level, net.minecraftforge.common.util.@NotNull ITeleporter teleporter)
 	{
 		Entity entity = this.getOwner();
 		if (entity != null && entity.level().dimension() != level.dimension())
 		{
-			this.setOwner((Entity)null);
+			this.setOwner(null);
 		}
 		return super.changeDimension(level, teleporter);
 	}

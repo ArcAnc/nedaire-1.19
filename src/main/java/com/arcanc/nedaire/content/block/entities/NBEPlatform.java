@@ -62,7 +62,7 @@ public class NBEPlatform extends NBESidedAccess implements BlockInterfaces.IInve
     }
 
     @Override
-    public InteractionResult onUsed(UseOnContext ctx)
+    public InteractionResult onUsed(@NotNull UseOnContext ctx)
     {
         Nedaire.getLogger().warn("Platform used");
         BlockPos pos = ctx.getClickedPos();

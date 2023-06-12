@@ -18,15 +18,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class NFluid extends ForgeFlowingFluid 
 {
 
 	public static NFluid makeFluid(Function<Properties, ? extends NFluid> make, Properties properties, Consumer<Properties> props)
 	{
-		NFluid result = make.apply(Util.make(properties, props));
-		
-		return result;
+		return make.apply(Util.make(properties, props));
 	}
 	
 	protected NFluid(Properties properties) 
@@ -43,13 +42,13 @@ public abstract class NFluid extends ForgeFlowingFluid
 		}
 
 		@Override
-		public int getAmount(FluidState state) 
+		public int getAmount(@NotNull FluidState state)
 		{
 			return 8;
 		}
 
 		@Override
-		public boolean isSource(FluidState state) 
+		public boolean isSource(@NotNull FluidState state)
 		{
 			return true;
 		}
@@ -71,13 +70,13 @@ public abstract class NFluid extends ForgeFlowingFluid
 		}
 
 		@Override
-		public boolean isSource(FluidState state) 
+		public boolean isSource(@NotNull FluidState state)
 		{
 			return false;
 		}
 		
 		@Override
-		protected void createFluidStateDefinition(Builder<Fluid, FluidState> builder) 
+		protected void createFluidStateDefinition(@NotNull Builder<Fluid, FluidState> builder)
 		{
 			super.createFluidStateDefinition(builder);
 			builder.add(LEVEL);

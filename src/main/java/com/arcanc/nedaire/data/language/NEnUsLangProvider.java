@@ -15,6 +15,7 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class NEnUsLangProvider extends LanguageProvider 
 {
@@ -269,7 +270,7 @@ public class NEnUsLangProvider extends LanguageProvider
 	}
 	
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire EnUs Provider";
 	}

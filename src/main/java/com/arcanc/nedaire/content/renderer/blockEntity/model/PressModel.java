@@ -19,6 +19,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
+import org.jetbrains.annotations.NotNull;
 
 public class PressModel extends Model 
 {
@@ -50,7 +51,7 @@ public class PressModel extends Model
 	}
 	
 	@Override
-	public void renderToBuffer(PoseStack p_103111_, VertexConsumer p_103112_, int p_103113_, int p_103114_,	float p_103115_, float p_103116_, float p_103117_, float p_103118_) 
+	public void renderToBuffer(@NotNull PoseStack p_103111_, @NotNull VertexConsumer p_103112_, int p_103113_, int p_103114_, float p_103115_, float p_103116_, float p_103117_, float p_103118_)
 	{
 		this.root.render(p_103111_, p_103112_, p_103113_, p_103114_, p_103115_, p_103116_, p_103117_, p_103118_);
 	}

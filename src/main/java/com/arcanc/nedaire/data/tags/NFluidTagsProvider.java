@@ -19,6 +19,7 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class NFluidTagsProvider extends FluidTagsProvider 
 {
@@ -29,13 +30,13 @@ public class NFluidTagsProvider extends FluidTagsProvider
 	}
 	
 	@Override
-	protected void addTags(Provider provider) 
+	protected void addTags(@NotNull Provider provider)
 	{
 		tag(NTags.Fluids.EXPERIENCE).add(NRegistration.RegisterFluids.EXPERIENCE.still().get()).add(NRegistration.RegisterFluids.EXPERIENCE.flowing().get());
 	}
 	
 	@Override
-	public String getName() 
+	public @NotNull String getName()
 	{
 		return "Nedaire Fluid Tags";
 	}

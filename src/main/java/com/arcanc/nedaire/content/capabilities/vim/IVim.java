@@ -16,7 +16,7 @@ public interface IVim extends INBTSerializable<CompoundTag>
     /**
     * Adds energy to the storage. Returns quantity of energy that was accepted.
     *
-    * @param maxReceive
+    * @param count
     *            Maximum amount of energy to be inserted.
     * @param simulate
     *            If TRUE, the insertion will only be simulated.
@@ -27,7 +27,7 @@ public interface IVim extends INBTSerializable<CompoundTag>
     /**
     * Removes energy from the storage. Returns quantity of energy that was removed.
     *
-    * @param maxExtract
+    * @param count
     *            Maximum amount of energy to be extracted.
     * @param simulate
     *            If TRUE, the extraction will only be simulated.

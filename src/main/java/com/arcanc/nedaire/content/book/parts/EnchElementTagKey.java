@@ -10,6 +10,9 @@ package com.arcanc.nedaire.content.book.parts;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,9 +52,12 @@ public class EnchElementTagKey extends EnchElementAbstract
 	}
 
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
-		pos.pushPose();
+		PoseStack poseStack = guiGraphics.pose();
+		Minecraft mc = RenderHelper.mc();
+
+		poseStack.pushPose();
 
 		List<ItemStack> items = getStackFromTag(tag);
 		
@@ -59,15 +65,15 @@ public class EnchElementTagKey extends EnchElementAbstract
 			return;
 		
 		ItemStack stack = getStackAtCurrentTime(items);
-		pos.scale(scale, scale, scale);
-		RenderHelper.renderItemStack(pos, stack, x, y, true);
-		pos.popPose();
+		poseStack.scale(scale, scale, scale);
+		RenderHelper.renderItemStack(guiGraphics, stack, x, y, true);
+		poseStack.popPose();
 		
 		RenderSystem.enableBlend();
 		
 		if (isHovered())
 		{
-			ench.getScreen().renderTooltip(pos, ench.getScreen().getTooltipFromItem(stack), stack.getTooltipImage(), mouseX, mouseY);
+			guiGraphics.renderTooltip(mc.font, Screen.getTooltipFromItem(mc, stack), stack.getTooltipImage(), mouseX, mouseY);
 		}
 	}
 
@@ -81,20 +87,17 @@ public class EnchElementTagKey extends EnchElementAbstract
 	private List<ItemStack> getStackFromTag (TagKey<?> tag)
 	{
 		String type = tag.registry().location().getPath();
-		
-		if (type.equals("item"))
+
+		return switch (type)
 		{
-			return ForgeRegistries.ITEMS.tags().getTag((@NotNull TagKey<Item>) tag).stream().map(ItemStack :: new).toList();
-		}
-		else if (type.equals("block"))
-		{
-			return ForgeRegistries.BLOCKS.tags().getTag((@NotNull TagKey<Block>) tag).stream().map(ItemStack :: new).toList();
-		}
-		else if (type.equals("fluid"))
-		{
-			return ForgeRegistries.FLUIDS.tags().getTag((@NotNull TagKey<Fluid>) tag).stream().map(f -> new FluidStack(f, 1)).map(FluidUtil :: getFilledBucket).toList(); 
-		}
-		return Lists.newArrayList();
+			case "item" ->
+					ForgeRegistries.ITEMS.tags().getTag((@NotNull TagKey<Item>) tag).stream().map(ItemStack::new).toList();
+			case "block" ->
+					ForgeRegistries.BLOCKS.tags().getTag((@NotNull TagKey<Block>) tag).stream().map(ItemStack::new).toList();
+			case "fluid" ->
+					ForgeRegistries.FLUIDS.tags().getTag((@NotNull TagKey<Fluid>) tag).stream().map(f -> new FluidStack(f, 1)).map(FluidUtil::getFilledBucket).toList();
+			default -> Lists.newArrayList();
+		};
 	}
 
 	public ItemStack getStackAtCurrentTime(List<ItemStack> items)

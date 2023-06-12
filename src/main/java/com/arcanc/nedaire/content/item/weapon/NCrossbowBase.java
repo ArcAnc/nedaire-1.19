@@ -18,6 +18,7 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 public class NCrossbowBase extends CrossbowItem implements ICustomModelProperties
 {
@@ -37,7 +38,7 @@ public class NCrossbowBase extends CrossbowItem implements ICustomModelPropertie
 	}
 	
 	@Override
-	public String getDescriptionId() 
+	public @NotNull String getDescriptionId()
 	{
 		return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 	}

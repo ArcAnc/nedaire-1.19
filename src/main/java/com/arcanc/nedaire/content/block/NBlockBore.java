@@ -32,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult)
     {
         if (!level.isClientSide())
         {
@@ -75,14 +76,14 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
         return super.use(state, level, pos, player, hand, hitResult);
     }
 
-    public BlockState getStateForPlacement(BlockPlaceContext context)
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context)
     {
         return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT, context.getNearestLookingVerticalDirection());
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos newPos, Block block, BlockPos oldPos, boolean bool)
+    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos newPos, @NotNull Block block, @NotNull BlockPos oldPos, boolean bool)
     {
         BlockHelper.castTileEntity(level, newPos, NBEBore.class).ifPresent(tile ->
         {
@@ -105,7 +106,7 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity player, ItemStack stack)
+    public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity player, @NotNull ItemStack stack)
     {
         super.setPlacedBy(level, pos, state, player, stack);
 
@@ -120,8 +121,9 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
         });
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public RenderShape getRenderShape(BlockState state)
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state)
     {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
@@ -132,20 +134,23 @@ public class NBlockBore extends NTileProviderBlock<NBEBore>
         builder.add(BlockHelper.BlockProperties.VERTICAL_ATTACHMENT);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
     {
         return SHAPE;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
     {
         return SHAPE;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos)
+    public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
     {
         return SHAPE;
     }

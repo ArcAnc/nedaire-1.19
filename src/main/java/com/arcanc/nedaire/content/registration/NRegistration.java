@@ -59,6 +59,7 @@ import net.minecraft.world.entity.EntityType.Builder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -94,6 +95,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.*;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
@@ -116,7 +118,7 @@ public class NRegistration
 	{
 		public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NDatabase.MOD_ID);
 
-		protected static final Supplier<Item.Properties> baseProps = () -> new Item.Properties();
+		protected static final Supplier<Item.Properties> baseProps = Properties::new;
 		
 		public static final ItemRegObject<NBaseItem> NUGGET_SKYSTONE = simple(
 				StringHelper.slashPlacer(
@@ -147,8 +149,8 @@ public class NRegistration
 				NBaseItem :: new);
 		
 		public static final ItemRegObject<Item> DRONE_SPAWN_EGG = new ItemRegObject<>(
-				"drone_spawn_egg", 
-				() -> baseProps.get(), 
+				"drone_spawn_egg",
+				baseProps,
 				(p) -> new ForgeSpawnEggItem(RegisterEntities.DELIVERY_DRONE, 0x22b341, 0x19732e, p));
 		
 		public static final ItemRegObject<NJewelryToolsItem> JEWELRY_TOOLS = new ItemRegObject<>(
@@ -513,7 +515,7 @@ public class NRegistration
 			}
 
 			@Override
-			public Item asItem() 
+			public @NotNull Item asItem()
 			{
 				return itemBlock.get();
 			}
@@ -694,7 +696,7 @@ public class NRegistration
 						name, () -> makeTypeWithTextures(builder, stillTex, flowingTex, overlayTex, tintColor, fogColor)
 				);
 				Mutable<FluidEntry> thisMutable = new MutableObject<>();
-				NFluid.FluidPropsGetter fluidProps = (fluidType, stillFluid, flowingFluid) -> new ForgeFlowingFluid.Properties(fluidType, stillFluid, flowingFluid);
+				NFluid.FluidPropsGetter fluidProps = ForgeFlowingFluid.Properties::new;
 				RegistryObject<NFluid> still = Fluids.FLUIDS.register(NDatabase.Fluids.getStillLoc(name).getPath(), () -> NFluid.makeFluid(makeStill, 
 						fluidProps.get(
 								thisMutable.getValue().type(), 
@@ -994,21 +996,7 @@ public class NRegistration
 		public static final RegistryObject<VillagerProfession> UNDERGROUNDER = VILLAGER_PROFESSIONS.register(NDatabase.Village.Villagers.UNDERGROUNDER, 
 				() -> new VillagerProfession(NDatabase.Village.Villagers.UNDERGROUNDER, x -> x.get() == UNDERGROUNDER_POI.get(), 
 				x -> x.get() == UNDERGROUNDER_POI.get(), ImmutableSet.of(), ImmutableSet.of(), 
-				SoundEvents.VILLAGER_WORK_CLERIC)); 
-	
-	
-		public static void registerPois()
-		{
-			try
-			{
-				Method m = ObfuscationReflectionHelper.findMethod(PoiType.class, "registerBlockStates", PoiType.class);
-				m.invoke(null, UNDERGROUNDER_POI.get());
-			} 
-			catch (InvocationTargetException | IllegalAccessException e) 
-			{
-				e.printStackTrace();
-			}
-		}
+				SoundEvents.VILLAGER_WORK_CLERIC));
 	}
 	
 	public static class RegisterGemEffects
@@ -1218,14 +1206,14 @@ public class NRegistration
 		public static final RegistryObject<CreativeModeTab> MAIN_TAB = register(
 				NDatabase.ItemGroups.Main.MAIN,
 				new ItemStack(Blocks.BEACON.asItem()),
-				NRegistration.RegisterItems.ITEMS.getEntries().
+				() -> NRegistration.RegisterItems.ITEMS.getEntries().
 					stream().
 					filter(obj -> !(obj.get() instanceof FakeIconItem)).
 					map(RegistryObject :: get).
 					map(ItemStack :: new).
 					sorted(Comparator.comparing(stack -> stack.getDisplayName().getString())).
 					toList());
-		private static RegistryObject<CreativeModeTab> register(String name, ItemStack icon, Collection<ItemStack> items)
+		private static RegistryObject<CreativeModeTab> register(String name, ItemStack icon, Supplier<Collection<ItemStack>> items)
 		{
 			return CREATIVE_MODE_TABS.register(name, () -> CreativeModeTab.builder().
 					icon(() -> icon).
@@ -1235,7 +1223,7 @@ public class NRegistration
 					withSearchBar().
 					displayItems((params, output) ->
 					{
-						output.acceptAll(items);
+						output.acceptAll(items.get());
 					}).
 					build());
 		}

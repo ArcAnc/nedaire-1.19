@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class NBlockVimStorage extends NTileProviderBlock<NBEVimStorage> 
 {
@@ -62,20 +63,21 @@ public class NBlockVimStorage extends NTileProviderBlock<NBEVimStorage>
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) 
+	public BlockState getStateForPlacement(@NotNull BlockPlaceContext context)
 	{
 		return super.getStateForPlacement(context).setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState rotate(BlockState state, Rotation rot) 
+	public @NotNull BlockState rotate(BlockState state, Rotation rot)
 	{
 		return state.setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, rot.rotate(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState mirror(BlockState state, Mirror mirror) 
+	public @NotNull BlockState mirror(BlockState state, Mirror mirror)
 	{
 		return state.rotate(mirror.getRotation(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
 	}
@@ -85,21 +87,24 @@ public class NBlockVimStorage extends NTileProviderBlock<NBEVimStorage>
 	{
 		builder.add(BlockHelper.BlockProperties.HORIZONTAL_FACING, BlockHelper.BlockProperties.WATERLOGGED);
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING).getAxis()  == Direction.Axis.Z ? SHAPE : ROTATED_SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	public @NotNull VoxelShape getCollisionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context)
 	{
 		return state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING).getAxis()  == Direction.Axis.Z ? SHAPE : ROTATED_SHAPE;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@Override
-	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
+	public @NotNull VoxelShape getInteractionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos)
 	{
 		return state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING).getAxis()  == Direction.Axis.Z ? SHAPE : ROTATED_SHAPE;
 	}

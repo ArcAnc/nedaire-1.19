@@ -9,6 +9,7 @@
 package com.arcanc.nedaire.content.material;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.arcanc.nedaire.content.block.NBlockOre;
 import com.arcanc.nedaire.content.item.NBaseBlockItem;
@@ -35,7 +36,6 @@ import com.arcanc.nedaire.content.registration.NRegistration.RegisterItems.ItemR
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-import com.google.common.base.Supplier;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -46,8 +46,8 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.TierSortingRegistry;
 
 public class NMaterial 
@@ -58,7 +58,7 @@ public class NMaterial
 	private final NAbstractPlayerArmorMaterial armorMat;
 	private final NHorseArmorMaterial horseArmorMat;
 	
-	private static Supplier<Item.Properties> baseProps = () -> new Item.Properties();
+	private static final Supplier<Item.Properties> baseProps = Item.Properties::new;
 	
 	private final ItemRegObject<? extends Item> ingot, nugget, raw, dust,
 	   pickaxe, axe, shovel, hoe, shears, fishingRod,
@@ -134,7 +134,13 @@ public class NMaterial
 		this.playerArmorLegs = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_LEGS), (p) -> new NArmorBase(armorMat, ArmorItem.Type.LEGGINGS));
 		this.playerArmorFeet = new ItemRegObject<>(StringHelper.slashPlacer(this.name, Items.Names.ARMOR, Items.Names.PLAYER_ARMOR, Items.Names.Armor.ARMOR_FEET), (p) -> new NArmorBase(armorMat, ArmorItem.Type.BOOTS));
 	
-		this.storageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK), () -> Block.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(5.0f, 6.0f).sound(SoundType.METAL));
+		this.storageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK), () ->
+				Block.Properties.of().
+						mapColor(MapColor.METAL).
+						instrument(NoteBlockInstrument.IRON_XYLOPHONE).
+						requiresCorrectToolForDrops().
+						strength(5.0f, 6.0f).
+						sound(SoundType.METAL));
 	
 		this.isRequiredOre = props.isRequiredOre;
 		
@@ -143,17 +149,29 @@ public class NMaterial
 			this.raw = NRegistration.RegisterItems.simple(StringHelper.slashPlacer(this.name, Items.Names.RAW));
 
 			this.oreBlock = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.ORE), 
-					() -> Block.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0f, 3.0f), 
+					() -> Block.Properties.of().
+							mapColor(MapColor.STONE).
+							instrument(NoteBlockInstrument.BASEDRUM).
+							requiresCorrectToolForDrops().
+							strength(3.0f, 3.0f).
+							sound(SoundType.STONE),
 					NBlockOre :: new, 
 					baseProps, 
 					NBaseBlockItem :: new);
 			
 			this.rawStorageBlock = NRegistration.RegisterBlocks.BlockRegObject.simple(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.STORAGE_BLOCK, 
 					NDatabase.Items.Names.RAW), 
-					() -> Block.Properties.of(Material.STONE /*FIXME: create material Color for it*/).requiresCorrectToolForDrops().strength(5.0f, 6.0f));
+					() -> Block.Properties.of().
+							mapColor(MapColor.QUARTZ) /*FIXME: add custom color for it*/.
+							instrument(NoteBlockInstrument.BASEDRUM).
+							requiresCorrectToolForDrops().
+							strength(5.0f, 6.0f));
 			
 			this.deepSlateOre = new BlockRegObject<>(StringHelper.slashPlacer(this.name, NDatabase.Blocks.Names.DEEPSLATE), 
-					() -> Block.Properties.copy(this.oreBlock.get()).color(MaterialColor.DEEPSLATE).strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE),
+					() -> Block.Properties.copy(this.oreBlock.get()).
+							mapColor(MapColor.DEEPSLATE).
+							strength(4.5f, 3.0f).
+							sound(SoundType.DEEPSLATE),
 					NBlockOre :: new,
 					baseProps,
 					NBaseBlockItem :: new);
@@ -309,7 +327,7 @@ public class NMaterial
 	
 	public static class NMaterialProperties
 	{
-		private String name;
+		private final String name;
 
 		private int toolDurability;
 		private float toolSpeed;

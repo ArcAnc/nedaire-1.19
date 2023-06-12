@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class NBEHolder extends NBaseBlockEntity implements IInventoryCallback 
 {
@@ -107,7 +108,7 @@ public class NBEHolder extends NBaseBlockEntity implements IInventoryCallback
 	}
 	
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) 
+	public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side)
 	{
 		if (cap == ItemHelper.itemHandler)
 		{

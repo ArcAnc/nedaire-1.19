@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import org.apache.commons.compress.utils.Lists;
 
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
@@ -19,10 +21,8 @@ import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +33,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.phys.Vec2;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchElementRecipeBurning extends EnchElementAbstractRecipe 
 {
@@ -68,7 +69,7 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 	}
 	
 	@Override
-	public void onDraw(PoseStack pos, int mouseX, int mouseY, float f) 
+	public void onDraw(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
 	{
 		recipe.ifPresent(rec -> 
 		{
@@ -88,64 +89,60 @@ public class EnchElementRecipeBurning extends EnchElementAbstractRecipe
 				
 				for (int q = 0; q < 2; q++)
 				{
-					pos.pushPose();
-					RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+					guiGraphics.pose().pushPose();
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 					RenderSystem.enableBlend();
 					RenderSystem.defaultBlendFunc();
 					RenderSystem.enableDepthTest();
 					stack = getStackAtCurrentTime(ingr.get(q));
 					
-					GuiComponent.blit(pos, (int)positions.get(q).x, (int)positions.get(q).y, 217, 0, 18, 18);
-					RenderHelper.renderItemStack(pos, stack, (int)positions.get(q).x, (int)positions.get(q).y, true);
+					guiGraphics.blit(EnchiridionScreen.TEXT, (int)positions.get(q).x, (int)positions.get(q).y, 217, 0, 18, 18);
+					RenderHelper.renderItemStack(guiGraphics, stack, (int)positions.get(q).x, (int)positions.get(q).y, true);
 					if (mouseX >= (int)positions.get(q).x && mouseY >= (int)positions.get(q).y && mouseX <= (int)positions.get(q).x + 16 && mouseY <= positions.get(q).y + 16)
 					{
 						highlighted = stack;
 					}
-					pos.popPose();
+					guiGraphics.pose().popPose();
 				}
-				pos.pushPose();
-				RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+				guiGraphics.pose().pushPose();
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
 				RenderSystem.enableDepthTest();
 				//exp
-				GuiComponent.blit(pos, (int)expPos.x + 18, (int)expPos.y + 2, 234, 86, 11, 11);
+				guiGraphics.blit(EnchiridionScreen.TEXT, (int)expPos.x + 18, (int)expPos.y + 2, 234, 86, 11, 11);
 				
 				RenderSystem.disableBlend();
 				RenderSystem.disableDepthTest();
-				pos.popPose();
+				guiGraphics.pose().popPose();
 
-				pos.pushPose();
-				RenderSystem.setShaderTexture(0, EnchiridionScreen.TEXT);
+				guiGraphics.pose().pushPose();
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
 				RenderSystem.enableDepthTest();
 				//palochka
-				GuiComponent.blit(pos, (int)arrowPos.x, (int)arrowPos.y, 234, 53, animateArrow(time), 15);
+				guiGraphics.blit(EnchiridionScreen.TEXT, (int)arrowPos.x, (int)arrowPos.y, 234, 53, animateArrow(time), 15);
 				RenderSystem.disableBlend();
 				RenderSystem.disableDepthTest();
-				pos.popPose();
-				
+				guiGraphics.pose().popPose();
 				
 				if (!highlighted.isEmpty())
 				{
 					RenderSystem.enableBlend();
-					ench.getScreen().renderTooltip(pos, ench.getScreen().getTooltipFromItem(highlighted), highlighted.getTooltipImage(), mouseX, mouseY);
+					guiGraphics.renderTooltip(mc.font, Screen.getTooltipFromItem(mc, highlighted), highlighted.getTooltipImage(), mouseX, mouseY);
 				}
 				else if (mouseX >= arrowPos.x && mouseY >= arrowPos.y && mouseX <= arrowPos.x + 14 && mouseY <= arrowPos.y + 14)
 				{
 					RenderSystem.enableBlend();
 					
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.TICKS, time)), Optional.empty(), mouseX, mouseY);
+					guiGraphics.renderTooltip(mc.font, List.of(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.TICKS, time)), Optional.empty(), mouseX, mouseY);
 				}
 				else if (mouseX >= expPos.x + 18 && mouseY >= expPos.y + 2 && mouseX <= expPos.x + 18 + 11 && mouseY <= expPos.y + 2 +11)
 				{
 					RenderSystem.enableBlend();
 					
-					ench.getScreen().renderTooltip(pos, Arrays.asList(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.EXPERIENCE, exp)), Optional.empty(), mouseX, mouseY);
+					guiGraphics.renderTooltip(mc.font, List.of(Component.translatable(NDatabase.GUI.Enchiridion.Recipes.Translatable.EXPERIENCE, exp)), Optional.empty(), mouseX, mouseY);
 				}
 			}
 		});
