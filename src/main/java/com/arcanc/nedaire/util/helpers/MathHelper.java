@@ -10,10 +10,13 @@
 package com.arcanc.nedaire.util.helpers;
 
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class MathHelper
 {
-    public static Vec3 lerp (Vec3 a, Vec3 b, double scale)
+
+    public static @NotNull Vec3 lerp (Vec3 a, Vec3 b, double scale)
     {
         return new Vec3(checkedLerp(a.x(), b.x(), scale), checkedLerp(a.y(), b.y(), scale), checkedLerp(a.z(), b.z(), scale));
     }

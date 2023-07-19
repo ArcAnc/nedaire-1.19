@@ -11,6 +11,7 @@ package com.arcanc.nedaire.content.block;
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterMenuTypes.BEContainer;
 import com.google.common.base.Preconditions;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -95,5 +96,4 @@ public class BlockInterfaces
 	{
 		InteractionResult onUsed(@NotNull UseOnContext ctx);
 	}
-
 }

@@ -116,6 +116,8 @@ public class Nedaire
 	    NRegistration.RegisterFeatures.FEATURES.register(modEventBus);
 		NRegistration.RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
+		NRegistration.RegisterMultiblocks.init(modEventBus);
+
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
 //	    modEventBus.addListener(this :: registerItemColors);
@@ -199,7 +201,6 @@ public class Nedaire
 		MenuScreens.register(NRegistration.RegisterMenuTypes.FLUID_FILLER.getType(), NFluidFillerScreen :: new);
 
 		MenuScreens.register(NRegistration.RegisterMenuTypes.EXP_EXTRACTOR.getType(), NExpExtractorScreen :: new);
-		MenuScreens.register(NRegistration.RegisterMenuTypes.BORE.getType(), NBoreScreen :: new);
 	}
 
 
@@ -223,7 +224,6 @@ public class Nedaire
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_EXP_EXTRACTOR.get(), ExpExtractorRenderer :: new);
 
 		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_CORE.get(), CoreRenderer :: new);
-		BlockEntityRenderers.register(NRegistration.RegisterBlockEntities.BE_BORE.get(), BoreRenderer :: new);
 	}
 
 	private void registerParticles(final RegisterParticleProvidersEvent event)
@@ -237,7 +237,6 @@ public class Nedaire
 
 		bus.addListener(ManualCrusherRenderer :: registerModelLocation);
 		bus.addListener(MobCatcherRenderer :: registerModelLocation);
-		bus.addListener(BoreRenderer :: registerModelLocation);
 	}
 
 	private void registerEntityCustomModels(IEventBus bus)

@@ -11,6 +11,8 @@ package com.arcanc.nedaire.content.registration;
 import com.arcanc.nedaire.content.block.*;
 import com.arcanc.nedaire.content.block.entities.*;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer.CoreType;
+import com.arcanc.nedaire.content.block.entities.multiblocks.BlockMatcher;
+import com.arcanc.nedaire.content.block.entities.multiblocks.INMultiblock;
 import com.arcanc.nedaire.content.container.menu.*;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
@@ -462,20 +464,6 @@ public class NRegistration
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
 
-		public static final BlockRegObject<NBlockPlatform, NBaseBlockItem> PLATFORM = new BlockRegObject<>(
-				NDatabase.Blocks.BlockEntities.Names.PLATFORM,
-				() -> baseMachineProps.get().noOcclusion(),
-				NBlockPlatform :: new,
-				NRegistration.RegisterItems.baseProps,
-				NBaseBlockItem :: new);
-
-		public static final BlockRegObject<NBlockBore, NBaseBlockItem> BORE = new BlockRegObject<>(
-				NDatabase.Blocks.BlockEntities.Names.BORE,
-				() -> baseMachineProps.get().noOcclusion(),
-				NBlockBore :: new,
-				NRegistration.RegisterItems.baseProps,
-				NBaseBlockItem :: new);
-		
 		public static class BlockRegObject<T extends Block, I extends Item> implements Supplier<T>, ItemLike
 		{
 //			public static final Collection<BlockRegObject<? extends Block, ? extends Item>> ALL_ENTRIES = Lists.newArrayList();
@@ -889,17 +877,6 @@ public class NRegistration
 				makeType((pos, state) -> new NBETerramorfer(pos, state, CoreType.UNSTABLE),
 						RegisterBlocks.CORE));
 
-		public static final RegistryObject<BlockEntityType<NBEPlatform>> BE_PLATFORM = BLOCK_ENTITIES.register(
-				NDatabase.Blocks.BlockEntities.Names.PLATFORM,
-				makeType(NBEPlatform::new,
-						RegisterBlocks.PLATFORM));
-
-		public static final RegistryObject<BlockEntityType<NBEBore>> BE_BORE = BLOCK_ENTITIES.register(
-				NDatabase.Blocks.BlockEntities.Names.BORE,
-				makeType(NBEBore::new,
-						RegisterBlocks.BORE));
-		
-		
 		public static <T extends BlockEntity> Supplier<BlockEntityType<T>> makeType(BlockEntityType.BlockEntitySupplier<T> create, Supplier<? extends Block> valid)
 		{
 			return makeTypeMultipleBlocks(create, ImmutableSet.of(valid));
@@ -1064,9 +1041,6 @@ public class NRegistration
 		public static final BEContainer<NBEExpExtractor, NExpExtractorMenu> EXP_EXTRACTOR = registerBENew(
 				NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR, NExpExtractorMenu :: makeServer, NExpExtractorMenu :: makeClient);
 
-		public static final BEContainer<NBEBore, NBoreMenu> BORE = registerBENew(
-				NDatabase.Blocks.BlockEntities.Names.BORE, NBoreMenu :: makeServer, NBoreMenu :: makeClient);
-
 		public static <T extends BlockEntity, C extends NContainerMenu>	BEContainer<T, C> registerBENew
 		(String name, BEContainerConstructor<T, C> container, ClientContainerConstructor<C> client)
 		{
@@ -1227,6 +1201,24 @@ public class NRegistration
 					}).
 					build());
 		}
+	}
+
+	public static class RegisterMultiblocks
+	{
+		public static final ResourceKey<Registry<INMultiblock>> MULTIBLOCK_KEY = ResourceKey.createRegistryKey(new ResourceLocation(NDatabase.Multiblocks.TAG_LOCATION));
+
+		public static final DeferredRegister<INMultiblock> MULTIBLOCKS = DeferredRegister.create(MULTIBLOCK_KEY, NDatabase.MOD_ID);
+
+		public static final Supplier<IForgeRegistry<INMultiblock>> MULTIBLOCKS_BUILTIN = MULTIBLOCKS.makeRegistry(() -> makeRegistry(MULTIBLOCK_KEY).disableSaving());
+
+		public static void init(final IEventBus bus)
+		{
+			MULTIBLOCKS.register(bus);
+
+			BlockMatcher.registerPreProcessor(BlockMatcher.WATERLOGGING);
+			BlockMatcher.registerPreProcessor(BlockMatcher.CHECK_AIR);
+		}
+
 	}
 
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)

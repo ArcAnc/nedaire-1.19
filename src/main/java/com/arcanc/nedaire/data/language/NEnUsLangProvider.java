@@ -105,8 +105,6 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NRegistration.RegisterBlocks.FLUID_FILLER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.FLUID_FILLER.replace("_f", " F")));
 		add(NRegistration.RegisterBlocks.DIFFUSER.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DIFFUSER));
 		add(NRegistration.RegisterBlocks.EXP_EXTRACTOR.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.EXP_EXTRACTOR).replace("_e", " E"));
-		add(NRegistration.RegisterBlocks.PLATFORM.get().asItem(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PLATFORM));
-		add(NRegistration.RegisterBlocks.BORE.get().asItem(), "Drill");
 
 		add(NRegistration.RegisterFluids.EXPERIENCE.bucket().get(), StringHelper.capitalize(NDatabase.Fluids.Names.EXPERIENCE) + " Bucket");
 		add(NRegistration.RegisterFluids.EXPERIENCE.type().get().getDescriptionId(), StringHelper.capitalize(NDatabase.Fluids.Names.EXPERIENCE));
@@ -209,8 +207,8 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Enchiridion.Chapters.PATCH_0_3.toLanguageKey(), "Patch 0.3");
 		add(NDatabase.GUI.Enchiridion.Pages.PATCH_0_3.toLanguageKey(), "Added: \n\u2022 Experience fluid\n\u2022 Experience Extractor\n\u2022 Lightning generator\nFixed:\n\u2022 Huge amount of bugs");
 
-		add(NDatabase.GUI.Enchiridion.Chapters.PATCH_0_4.toLanguageKey(), "Patch 0.4");
-		add(NDatabase.GUI.Enchiridion.Pages.PATCH_0_4.toLanguageKey(), "Added: \n\u2022 Platform Block\n\u2022 Bore Block\n\u2022 Some fixes and internal reworks");
+//		add(NDatabase.GUI.Enchiridion.Chapters.PATCH_0_4.toLanguageKey(), "Patch 0.4");
+//		add(NDatabase.GUI.Enchiridion.Pages.PATCH_0_4.toLanguageKey(), "Added: \n\u2022 Platform Block\n\u2022 Bore Block\n\u2022 Some fixes and internal reworks");
 
 		
 		add(NDatabase.GUI.Enchiridion.Chapters.SKYSTONE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.Names.SKYSTONE));
@@ -261,11 +259,11 @@ public class NEnUsLangProvider extends LanguageProvider
 		add(NDatabase.GUI.Enchiridion.Chapters.DELIVERY.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.DELIVERY_STATION).replace("_s", " S"));
 		add(NDatabase.GUI.Enchiridion.Pages.DELIVERY.toLanguageKey(), "The most complicated and strange device. Can transport items, liquid or vim for 32 blocks range, depending on choosed mode. </recipe;"+ NRegistration.RegisterBlocks.DELIVERY_STATION.getId() + "/> Even can filter, what this this thing will deliver. Extract choosed thing from nearby placed device and transport it to connected receptor. For connect receptor just use hammer on it, and after that use hammer again on Delivery Station");
 
-		add(NDatabase.GUI.Enchiridion.Chapters.PLATFORM.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PLATFORM));
-		add(NDatabase.GUI.Enchiridion.Pages.PLATFORM.toLanguageKey(), "It's just platform for blocks like Bore or Defensive Tower. They may be placed ONLY on platform, on top or bottom side. May be rotated with hammer. Bore mining result will expel from face of this block. Oh yea, almost forgot... Recipe... </recipe;" + NRegistration.RegisterBlocks.PLATFORM.getId() + "/>");
+//		add(NDatabase.GUI.Enchiridion.Chapters.PLATFORM.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.PLATFORM));
+//		add(NDatabase.GUI.Enchiridion.Pages.PLATFORM.toLanguageKey(), "It's just platform for blocks like Bore or Defensive Tower. They may be placed ONLY on platform, on top or bottom side. May be rotated with hammer. Bore mining result will expel from face of this block. Oh yea, almost forgot... Recipe... </recipe;" + NRegistration.RegisterBlocks.PLATFORM.getId() + "/>");
 
-		add(NDatabase.GUI.Enchiridion.Chapters.BORE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.BORE));
-		add(NDatabase.GUI.Enchiridion.Pages.BORE.toLanguageKey(), "I'm a drill and I digging a hole, diggy diggy hole, diggy diggy hole! Place me on platform and rotate me with hammer. </recipe;" + NRegistration.RegisterBlocks.BORE.getId() + "/>");
+//		add(NDatabase.GUI.Enchiridion.Chapters.BORE.toLanguageKey(), StringHelper.capitalize(NDatabase.Blocks.BlockEntities.Names.BORE));
+//		add(NDatabase.GUI.Enchiridion.Pages.BORE.toLanguageKey(), "I'm a drill and I digging a hole, diggy diggy hole, diggy diggy hole! Place me on platform and rotate me with hammer. </recipe;" + NRegistration.RegisterBlocks.BORE.getId() + "/>");
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
 	}
 	

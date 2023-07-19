@@ -461,36 +461,6 @@ public class NRecipeProvider extends RecipeProvider
 				unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
 				save(out, NRegistration.RegisterBlocks.DELIVERY_STATION.getId());
 
-		//Platform
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.PLATFORM.get().asItem()).
-				define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
-				define('B', Ingredient.of(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-				define('C', Ingredient.of(Blocks.DISPENSER)).
-				define('D', Ingredient.of(NTags.Items.CORIUM.getIngot())).
-				pattern("ADA").
-				pattern("DBD").
-				pattern("ACA").
-				unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
-				unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-				unlockedBy("has_" + BlockHelper.getRegistryName(Blocks.DISPENSER).getPath(), has(Blocks.DISPENSER)).
-				unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
-				save(out, NRegistration.RegisterBlocks.PLATFORM.getId());
-
-		//Bore
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NRegistration.RegisterBlocks.BORE.get().asItem()).
-				define('A', Ingredient.of(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
-				define('B', Ingredient.of(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-				define('C', Ingredient.of(net.minecraft.world.item.Items.DIAMOND)).
-				define('D', Ingredient.of(NTags.Items.CORIUM.getIngot())).
-				pattern("ADA").
-				pattern("DBD").
-				pattern("ACA").
-				unlockedBy("has_" + NRegistration.RegisterBlocks.SKYSTONE.getId().getPath(), has(NRegistration.RegisterBlocks.SKYSTONE.asItem())).
-				unlockedBy("has_" + NRegistration.RegisterBlocks.FRAMEWORK.getId().getPath(), has(NRegistration.RegisterBlocks.FRAMEWORK.asItem())).
-				unlockedBy("has_" + ItemHelper.getRegistryName(net.minecraft.world.item.Items.DIAMOND).getPath(), has(net.minecraft.world.item.Items.DIAMOND)).
-				unlockedBy("has_" + NTags.Items.CORIUM.getIngot().location().getPath(), has(NTags.Items.CORIUM.getIngot())).
-				save(out, NRegistration.RegisterBlocks.BORE.getId());
-
 	}
 
 	private void crusherRecipes(Consumer<FinishedRecipe> out) {

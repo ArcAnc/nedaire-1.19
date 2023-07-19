@@ -210,14 +210,6 @@ public class NDatabase
 						public static final String DRAINED_FLUID = "drained_fluid";
 						public static final String TO_DRAIN = "to_drain";
 					}
-					public static class Bore
-					{
-						public static final String MINING = "mining";
-						public static final String START_DIG = "start_dig";
-						public static final String PREV_ROT = "prev_rot";
-						public static final String CUR_ROT = "cur_rot";
-						public static final String TARGET_ROT = "target_rot";
-					}
 				}
 			}
 			
@@ -401,6 +393,11 @@ public class NDatabase
 				public static final String NAME = "regeneration";
 			}
 		}
+	}
+
+	public static class Multiblocks
+	{
+		public static final String TAG_LOCATION = StringHelper.getStrLocFStr("multiblock");
 	}
 
 	public static class GUI
@@ -674,9 +671,7 @@ public class NDatabase
 										addPage(Chapters.HOOVER, Pages.HOOVER).
 										addPage(Chapters.GROWTH_CRYSTAL, Pages.GROWTH_CRYSTAL).
 										addPage(Chapters.EXTRUDER, Pages.EXTRUDER).
-										addPage(Chapters.DELIVERY, Pages.DELIVERY).
-										addPage(Chapters.PLATFORM, Pages.PLATFORM).
-										addPage(Chapters.BORE, Pages.BORE)
+										addPage(Chapters.DELIVERY, Pages.DELIVERY)
 						));
 			}
 			public static final String CHAPTER = "chapter";
@@ -704,8 +699,6 @@ public class NDatabase
 				public static final ResourceLocation GROWTH_CRYSTAL = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.Crystal.GROWTH); 
 				public static final ResourceLocation EXTRUDER = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.EXTRUDER); 
 				public static final ResourceLocation DELIVERY = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.DELIVERY_STATION);
-				public static final ResourceLocation PLATFORM = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.PLATFORM);
-				public static final ResourceLocation BORE = getEnchiridionPath(getChapt(Section.ADVANCED), Blocks.BlockEntities.Names.BORE);
 
 				private static String getChapt(String name)
 				{
@@ -737,9 +730,6 @@ public class NDatabase
 				public static final ResourceLocation GROWTH_CRYSTAL = StringHelper.getLocFStr(getPage(Chapters.GROWTH_CRYSTAL)); 
 				public static final ResourceLocation EXTRUDER = StringHelper.getLocFStr(getPage(Chapters.EXTRUDER)); 
 				public static final ResourceLocation DELIVERY = StringHelper.getLocFStr(getPage(Chapters.DELIVERY));
-				public static final ResourceLocation PLATFORM = StringHelper.getLocFStr(getPage(Chapters.PLATFORM));
-				public static final ResourceLocation BORE = StringHelper.getLocFStr(getPage(Chapters.BORE));
-
 				private static String getPage(ResourceLocation chapter)
 				{
 					return getPage(chapter, "description");
