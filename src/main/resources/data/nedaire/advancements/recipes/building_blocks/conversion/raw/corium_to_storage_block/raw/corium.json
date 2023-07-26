@@ -28,5 +28,6 @@
     "recipes": [
       "nedaire:conversion/raw/corium_to_storage_block/raw/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

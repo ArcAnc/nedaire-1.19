@@ -36,6 +36,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRecipe 
 {
@@ -327,20 +328,20 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	/* =============== IFinishedRecipe =============== */
 
 	@Override
-	public void serializeRecipeData(JsonObject jsonObject)
+	public void serializeRecipeData(@NotNull JsonObject jsonObject)
 	{
 		for(Consumer<JsonObject> writer : this.writerFunctions)
 			writer.accept(jsonObject);
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public @NotNull ResourceLocation getId()
 	{
 		return id;
 	}
 
 	@Override
-	public RecipeSerializer<?> getType()
+	public @NotNull RecipeSerializer<?> getType()
 	{
 		return serializer;
 	}

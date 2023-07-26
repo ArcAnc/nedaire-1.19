@@ -15,7 +15,6 @@ import com.arcanc.nedaire.content.capabilities.vim.CapabilityVim;
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.screen.*;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
-import com.arcanc.nedaire.content.item.FakeIconItem;
 import com.arcanc.nedaire.content.item.ItemInterfaces.ICustomModelProperties;
 import com.arcanc.nedaire.content.item.weapon.NShieldBase;
 import com.arcanc.nedaire.content.module.jewelry.ModuleJewelry;
@@ -35,7 +34,10 @@ import com.arcanc.nedaire.data.tags.NFluidTagsProvider;
 import com.arcanc.nedaire.data.tags.NItemTagsProvider;
 import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.StringHelper;
+import com.arcanc.nedaire.util.helpers.VoxelShapeHelper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -49,13 +51,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -73,12 +74,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod(NDatabase.MOD_ID)
 public class Nedaire 
@@ -116,7 +114,7 @@ public class Nedaire
 	    NRegistration.RegisterFeatures.FEATURES.register(modEventBus);
 		NRegistration.RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
-		NRegistration.RegisterMultiblocks.init(modEventBus);
+//		NRegistration.RegisterMultiblocks.init(modEventBus);
 
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
@@ -317,6 +315,7 @@ public class Nedaire
         gen.addProvider(event.includeServer(), new NFluidTagsProvider(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), new NRecipeProvider(packOutput));
         gen.addProvider(event.includeServer(), new NWorldGenProvider(packOutput, lookupProvider));
+		gen.addProvider(event.includeClient(), new NParticlesDescriptionProvider(packOutput, ext));
 /*            gen.addProvider(new NedaireMultiblockProvider(gen));
  */
 

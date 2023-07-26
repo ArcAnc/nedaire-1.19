@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/hammer"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

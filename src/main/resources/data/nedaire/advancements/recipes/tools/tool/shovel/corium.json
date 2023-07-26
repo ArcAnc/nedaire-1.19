@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/shovel/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

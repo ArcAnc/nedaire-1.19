@@ -10,19 +10,19 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "nedaire:gui/slots/standart"
+      "resource": "nedaire:nedaire.gui/slots/standard"
     },
     {
       "type": "minecraft:single",
-      "resource": "nedaire:gui/slots/input"
+      "resource": "nedaire:nedaire.gui/slots/input"
     },
     {
       "type": "minecraft:single",
-      "resource": "nedaire:gui/slots/output"
+      "resource": "nedaire:nedaire.gui/slots/output"
     },
     {
       "type": "minecraft:single",
-      "resource": "nedaire:gui/slots/both"
+      "resource": "nedaire:nedaire.gui/slots/both"
     },
     {
       "type": "minecraft:single",

@@ -30,5 +30,6 @@
     "recipes": [
       "nedaire:conversion/skystone_to_nugget/skystone"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

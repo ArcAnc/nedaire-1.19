@@ -37,10 +37,12 @@ import com.arcanc.nedaire.data.crafting.serializers.NDiffuserRecipeSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
+import com.arcanc.nedaire.util.helpers.ItemHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.kinds.IdF;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -61,7 +63,6 @@ import net.minecraft.world.entity.EntityType.Builder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -93,7 +94,6 @@ import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.*;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -103,15 +103,10 @@ import org.joml.Vector3f;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 public class NRegistration 
@@ -153,7 +148,14 @@ public class NRegistration
 		public static final ItemRegObject<Item> DRONE_SPAWN_EGG = new ItemRegObject<>(
 				"drone_spawn_egg",
 				baseProps,
-				(p) -> new ForgeSpawnEggItem(RegisterEntities.DELIVERY_DRONE, 0x22b341, 0x19732e, p));
+				(p) -> new ForgeSpawnEggItem(RegisterEntities.DELIVERY_DRONE, 0x22b341, 0x19732e, p)
+				{
+					@Override
+					public String getDescriptionId()
+					{
+						return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
+					}
+				});
 		
 		public static final ItemRegObject<NJewelryToolsItem> JEWELRY_TOOLS = new ItemRegObject<>(
 				StringHelper.slashPlacer(
@@ -711,7 +713,17 @@ public class NRegistration
 			
 			private static FluidType makeTypeWithTextures(FluidType.Properties props, ResourceLocation stillTex, ResourceLocation flowingTex, ResourceLocation overlayTex, Supplier<Integer> tintColor, NFluidType.FogGetter fogColor)
 			{
-				return new NFluidType(stillTex, flowingTex, overlayTex, tintColor, fogColor, props);
+				return new NFluidType(stillTex, flowingTex, overlayTex, tintColor, fogColor, props)
+				{
+					@Override
+					public String getDescriptionId()
+					{
+						ResourceLocation loc = ForgeRegistries.FLUID_TYPES.get().getKey(this);
+						if (loc != null)
+							return loc.getNamespace() + "." + "fluid_type" + "." + loc.getPath().replace('/', '.');
+						return "unregistered.fluid_type";
+					}
+				};
 			}
 			
 			private static BucketItem makeBucket (RegistryObject<NFluid> still, int burnTime)
@@ -725,9 +737,15 @@ public class NRegistration
 							}
 							
 							@Override
-							public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) 
+							public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, CompoundTag nbt)
 							{
 								return new net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper(stack);
+							}
+
+							@Override
+							public @NotNull String getDescriptionId()
+							{
+								return ItemHelper.getRegistryName(this).toString().replace(':', '.').replace('/', '.');
 							}
 						};
 			}
@@ -888,6 +906,23 @@ public class NRegistration
 			return () -> new BlockEntityType<>(
 					create, ImmutableSet.copyOf(valid.stream().map(Supplier::get).collect(Collectors.toList())), null);
 		}
+
+		public record MultiblockBEType<T extends NBEMultiblockBase, M extends INMultiblock>(RegistryObject<BlockEntityType<T>> blockEntityType, RegistryObject<M> multiblock)
+		{
+
+		}
+
+		public static <T extends NBEMultiblockBase, M extends INMultiblock> MultiblockBEType<T, M> makeType(String name,
+																				 BlockEntityType.BlockEntitySupplier<T> create,
+																				 Collection<Supplier<? extends Block>> validBlocks,
+																				 RegistryObject<M> multiblock)
+		{
+			Supplier<BlockEntityType<T>>  type = makeTypeMultipleBlocks(create, validBlocks);
+
+			RegistryObject<BlockEntityType<T>> regObj = BLOCK_ENTITIES.register(name, type);
+
+			return new MultiblockBEType<>(regObj, multiblock);
+		}
 	}
 	
 	public static class RegisterRecipes
@@ -915,7 +950,7 @@ public class NRegistration
 		
 			private static <T extends Recipe<?>> TypeWithClass<T> register(String name, Class<T> type)
 			{
-				RegistryObject<RecipeType<T>> regObj = RECIPE_TYPES.register(name, () -> new RecipeType<T>()
+				RegistryObject<RecipeType<T>> regObj = RECIPE_TYPES.register(name, () -> new RecipeType<>()
 				{
 				});
 				return new TypeWithClass<>(regObj, type);

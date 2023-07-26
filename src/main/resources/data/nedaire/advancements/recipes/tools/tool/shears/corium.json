@@ -28,5 +28,6 @@
     "recipes": [
       "nedaire:tool/shears/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

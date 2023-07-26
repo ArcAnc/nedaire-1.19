@@ -50,5 +50,6 @@
     "recipes": [
       "nedaire:armor/horse/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

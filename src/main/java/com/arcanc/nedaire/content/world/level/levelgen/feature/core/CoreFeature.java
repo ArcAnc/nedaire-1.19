@@ -34,21 +34,21 @@ public class CoreFeature extends Feature<CoreConfiguration>
 		RandomSource random = ctx.random();
 		BlockPos pos = ctx.origin();
 		WorldGenLevel level = ctx.level();
-		int offsetX = config.offset.sample(random);
-		int offsetY = config.offset.sample(random);
-		int offsetZ = config.offset.sample(random);
+		int offsetX = config.offset().sample(random);
+		int offsetY = config.offset().sample(random);
+		int offsetZ = config.offset().sample(random);
 		
 		BlockPos newPos = pos.offset(offsetX, offsetY, offsetZ);
         BlockState state = level.getBlockState(newPos);
 		
-        if (state.is(config.cannotReplace) || state.is(config.invalidBlocks))
+        if (state.is(config.cannotReplace()) || state.is(config.invalidBlocks()))
         	return false;
         
-        this.safeSetBlock(level, newPos, config.core.getState(random, newPos), p -> true);
+        this.safeSetBlock(level, newPos, config.core().getState(random, newPos), p -> true);
         for(Direction dir : Direction.values())
         {
         	BlockPos tempPos = newPos.relative(dir);
-        	this.safeSetBlock(level, tempPos, config.metall.getState(random, tempPos), p -> true);
+        	this.safeSetBlock(level, tempPos, config.metal().getState(random, tempPos), p -> true);
         }
         
         for (Direction dir : Direction.values())
@@ -58,11 +58,11 @@ public class CoreFeature extends Feature<CoreConfiguration>
             	BlockPos tempPos = newPos.relative(dir, 2);
             	if (tempPos.getY() >= 5)
             	{
-                	this.safeSetBlock(level, tempPos, config.ore.getState(random, tempPos), p -> true);
+                	this.safeSetBlock(level, tempPos, config.ore().getState(random, tempPos), p -> true);
             	}
             	else
             	{
-                	this.safeSetBlock(level, tempPos, config.deepslateOre.getState(random, tempPos), p -> true);
+                	this.safeSetBlock(level, tempPos, config.deepslateOre().getState(random, tempPos), p -> true);
             	}
         	}
         }

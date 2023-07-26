@@ -43,5 +43,6 @@
     "recipes": [
       "nedaire:framework"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

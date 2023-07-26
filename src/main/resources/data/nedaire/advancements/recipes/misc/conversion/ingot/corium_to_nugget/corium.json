@@ -28,5 +28,6 @@
     "recipes": [
       "nedaire:conversion/ingot/corium_to_nugget/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

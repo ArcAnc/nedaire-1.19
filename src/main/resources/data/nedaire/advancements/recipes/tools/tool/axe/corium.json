@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/axe/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -78,5 +78,6 @@
     "recipes": [
       "nedaire:generator/solar"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -54,5 +54,6 @@
     "recipes": [
       "nedaire:delivery_station"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

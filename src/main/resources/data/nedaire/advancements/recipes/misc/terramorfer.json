@@ -52,5 +52,6 @@
     "recipes": [
       "nedaire:terramorfer"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

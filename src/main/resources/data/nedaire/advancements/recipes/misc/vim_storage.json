@@ -52,5 +52,6 @@
     "recipes": [
       "nedaire:vim_storage"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

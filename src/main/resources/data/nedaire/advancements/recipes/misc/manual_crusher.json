@@ -78,5 +78,6 @@
     "recipes": [
       "nedaire:manual_crusher"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

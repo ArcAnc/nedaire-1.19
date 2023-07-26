@@ -19,6 +19,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.function.Function;
 
 public class NDatabase 
 {
@@ -398,17 +399,34 @@ public class NDatabase
 	public static class Multiblocks
 	{
 		public static final String TAG_LOCATION = StringHelper.getStrLocFStr("multiblock");
+
+		public static class Serializing
+		{
+			public static final String TYPE = "type";
+
+			public static final String POSITION = "position";
+			public static final String STATE = "state";
+			public static final String TAG = "tag";
+			public static final String SHAPE = "shape";
+			public static final String IS_TRIGGER = "isTrigger";
+		}
+
+		private static final Function<String, String> nameBuilder = (builder) -> TAG_LOCATION + '.' + builder;
+
+		public static final String IS_FORMED = nameBuilder.apply("is_formed");
+
+		public static final String ROTATION = nameBuilder.apply("rotation");
 	}
 
 	public static class GUI
 	{
-		public static final String PATH = "gui/";
+		public static final String PATH = StringHelper.getStrLocFStr("gui/").replace(':', '.');
 		public static class Slots
 		{
 			public static final String PATH = GUI.PATH + "slots/";
 			public static class Textures
 			{
-				public static final String STANDARD = Slots.PATH + "standart";
+				public static final String STANDARD = Slots.PATH + "standard";
 				public static final String INPUT = Slots.PATH + "input";
 				public static final String OUTPUT = Slots.PATH + "output";
 				public static final String BOTH = Slots.PATH + "both";
@@ -438,20 +456,20 @@ public class NDatabase
 			public static final String PATH = GUI.PATH + "elements/";
 			public static class Vim
 			{
-				public static final String PATH = GUI.Elements.PATH + "vim/vim";
+				public static final String PATH = Elements.PATH + "vim/vim";
 			}
 			public static class FluidHandler
 			{
-				public static final String PATH = GUI.Elements.PATH + "fluid/fluid";
+				public static final String PATH = Elements.PATH + "fluid/fluid";
 			}
 			public static class RadioButton
 			{
-				public static final String PATH = GUI.Elements.PATH + "radiobutton/radiobutton";
-				public static final String BACKGROUND = GUI.Elements.PATH + "radiobutton/radiobutton_background";
+				public static final String PATH = Elements.PATH + "radiobutton/radiobutton";
+				public static final String BACKGROUND = Elements.PATH + "radiobutton/radiobutton_background";
 			}
 			public static class ProgressBar
 			{
-				public static final String PATH = GUI.Elements.PATH + "progress_bar/";
+				public static final String PATH = Elements.PATH + "progress_bar/";
 				public static final String ARROW_RIGHT = PATH + "arrow_right";
 				public static class Description
 				{
@@ -461,7 +479,7 @@ public class NDatabase
 			}
 			public static class EnchElementDiffuserRecipe
 			{
-				public static final String PATH = GUI.Elements.PATH + "diffuser_recipe";
+				public static final String PATH = Elements.PATH + "diffuser_recipe";
 				public static final String AMOUNT = PATH.replace(':', '.').replace('/', '.') + "amount";
 			}
 			public static class DropPanel
@@ -499,7 +517,7 @@ public class NDatabase
 			public static final String PATH = GUI.PATH + "block_entities/";
 			public static class DeliveryStation
 			{
-				public static final String PATH = GUI.BlockEntities.PATH + "delivery_station/";
+				public static final String PATH = BlockEntities.PATH + "delivery_station/";
 				public static final String MODE = PATH + "mode/";
 				public static class Description
 				{
@@ -511,7 +529,7 @@ public class NDatabase
 			
 			public static class Extruder
 			{
-				public static final String PATH = GUI.BlockEntities.PATH + "extruder/";
+				public static final String PATH = BlockEntities.PATH + "extruder/";
 				public static final String MODE = PATH +"mode/";
 				public static class Description
 				{
@@ -647,12 +665,12 @@ public class NDatabase
 				
 				public static final List<SectionData> SECTIONS = new LinkedList<>(
 						Arrays.asList(
-								new SectionData (Section.ResourceLocations.PATCH_NOTES,
+								new SectionData (ResourceLocations.PATCH_NOTES,
 									Icon.of(net.minecraft.world.item.Items.WRITABLE_BOOK)).
 										addPage(Chapters.PATCH_0_1, Pages.PATCH_0_1).
 										addPage(Chapters.PATCH_0_3, Pages.PATCH_0_3).
 										addPage(Chapters.PATCH_0_4, Pages.PATCH_0_4),
-								new SectionData (Section.ResourceLocations.BASIC,
+								new SectionData (ResourceLocations.BASIC,
 									Icon.of(getTexturePath("gui/enchiridion/" + BASIC), 5, 0, 0, 16, 16, 16, 16)).
 										addPage(Chapters.SKYSTONE, Pages.SKYSTONE).
 										addPage(Chapters.TERRAMORFER, Pages.TERRAMORFER).
@@ -663,7 +681,7 @@ public class NDatabase
 										addPage(Chapters.FLUID_STORAGE, Pages.FLUID_STORAGE).
 										addPage(Chapters.RACK, Pages.RACK).
 										addPage(Chapters.EXP_EXTRACTOR, Pages.EXP_EXTRACTOR),
-								new SectionData (Section.ResourceLocations.ADVANCED,
+								new SectionData (ResourceLocations.ADVANCED,
 									Icon.of(getTexturePath("gui/enchiridion/" + ADVANCED), 5, 0, 0, 16, 16, 16, 16)).
 										addPage(Chapters.FLUID_FILLER, Pages.FLUID_FILLER).
 										addPage(Chapters.FURNACE, Pages.FURNACE).

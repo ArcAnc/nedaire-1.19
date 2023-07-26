@@ -28,7 +28,7 @@ public class NEnUsLangProvider extends LanguageProvider
 	@Override
 	protected void addTranslations() 
 	{
-		add(Nedaire.TAB.getDisplayName().getString(), "Nedaire");
+		add(NRegistration.RegisterCreativeTabs.MAIN_TAB.get().getDisplayName().getString(), "Nedaire");
 		
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 		

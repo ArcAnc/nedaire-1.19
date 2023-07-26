@@ -140,6 +140,12 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 		level.sendBlockUpdated(pos, defaultBlockState(), level.getBlockState(pos), UPDATE_ALL);
 	}
 
+	@Override
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder)
+	{
+		builder.add(BlockHelper.BlockProperties.HORIZONTAL_FACING);
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public @NotNull RenderShape getRenderShape(@NotNull BlockState state)

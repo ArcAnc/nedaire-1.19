@@ -91,5 +91,6 @@
     "recipes": [
       "nedaire:crusher"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

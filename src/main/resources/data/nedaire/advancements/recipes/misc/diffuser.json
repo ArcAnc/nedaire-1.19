@@ -30,5 +30,6 @@
     "recipes": [
       "nedaire:diffuser"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

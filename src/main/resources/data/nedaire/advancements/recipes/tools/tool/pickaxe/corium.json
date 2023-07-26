@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/pickaxe/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

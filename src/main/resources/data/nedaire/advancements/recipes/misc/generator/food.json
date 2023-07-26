@@ -80,5 +80,6 @@
     "recipes": [
       "nedaire:generator/food"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

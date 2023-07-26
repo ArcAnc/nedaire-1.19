@@ -80,5 +80,6 @@
     "recipes": [
       "nedaire:hoover"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

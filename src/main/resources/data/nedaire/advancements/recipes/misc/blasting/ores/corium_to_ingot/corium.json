@@ -28,5 +28,6 @@
     "recipes": [
       "nedaire:blasting/ores/corium_to_ingot/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

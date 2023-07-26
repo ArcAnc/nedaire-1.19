@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/fishing_rod/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

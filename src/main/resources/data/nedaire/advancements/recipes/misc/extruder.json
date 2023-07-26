@@ -93,5 +93,6 @@
     "recipes": [
       "nedaire:extruder"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

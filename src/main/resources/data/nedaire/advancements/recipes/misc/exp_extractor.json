@@ -54,5 +54,6 @@
     "recipes": [
       "nedaire:exp_extractor"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

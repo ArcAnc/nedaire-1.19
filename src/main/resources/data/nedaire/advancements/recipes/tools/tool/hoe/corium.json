@@ -39,5 +39,6 @@
     "recipes": [
       "nedaire:tool/hoe/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

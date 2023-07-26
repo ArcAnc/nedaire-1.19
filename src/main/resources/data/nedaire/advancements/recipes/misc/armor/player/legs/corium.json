@@ -28,5 +28,6 @@
     "recipes": [
       "nedaire:armor/player/legs/corium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

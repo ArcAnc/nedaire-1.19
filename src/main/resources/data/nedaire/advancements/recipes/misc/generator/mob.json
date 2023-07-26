@@ -80,5 +80,6 @@
     "recipes": [
       "nedaire:generator/mob"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

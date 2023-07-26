@@ -37,6 +37,9 @@ public class BlockHelper
 		public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 		public static final BooleanProperty ENABLED =  BlockStateProperties.ENABLED;
 		public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
+		public static final BooleanProperty MULTIBLOCK_SLAVE = BooleanProperty.create("multiblock_slave");
+
 		public static class Pipe
 		{
 			public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
