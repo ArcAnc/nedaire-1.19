@@ -8,13 +8,6 @@
  */
 package com.arcanc.nedaire.content.container.widget;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.function.Supplier;
-
-import net.minecraft.client.gui.GuiGraphics;
-import org.apache.commons.compress.utils.Lists;
-
 import com.arcanc.nedaire.content.container.screen.NContainerScreen;
 import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
@@ -22,8 +15,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -31,7 +24,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec2;
+import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class DropPanel extends AbstractWidget 
 {
@@ -190,7 +188,7 @@ public class DropPanel extends AbstractWidget
 			}
 		}
 		
-		return canClick ? super.mouseClicked(mouseX, mouseY, button) : false;
+		return canClick && super.mouseClicked(mouseX, mouseY, button);
 	}
 	
 	@Override
@@ -227,7 +225,7 @@ public class DropPanel extends AbstractWidget
 		
 		private final int id;
 		
-		private State (int id)
+		State (int id)
 		{
 			this.id = id;
 		}
@@ -240,7 +238,7 @@ public class DropPanel extends AbstractWidget
 	public enum Side
 	{
 		LEFT, 
-		RIGHT;
+		RIGHT
 	}
 
 }
