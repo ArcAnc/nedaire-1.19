@@ -8,50 +8,41 @@
  */
 package com.arcanc.nedaire.data.crafting.recipe;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.commons.compress.utils.Lists;
-
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.CachedRecipeList;
 import com.arcanc.nedaire.data.crafting.StackWithChance;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
 import com.google.common.base.Preconditions;
-
+import com.google.common.collect.Lists;
 import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class NCrusherRecipe extends NRecipe 
 {
 	public static Lazy<RegistryObject<NCrusherRecipeSerializer>> SERIALIZER = Lazy.of(() -> NRegistration.RegisterRecipes.CRUSHER_SERIALIZER);
 	public static final CachedRecipeList<NCrusherRecipe> RECIPES = new CachedRecipeList<>(NRegistration.RegisterRecipes.Types.MANUAL_CRUSHER);
-	
-	public final Ingredient input;
-	public final Lazy<ItemStack> output;
+
 	public final List<StackWithChance> secondaryOutputs = Lists.newArrayList();
-	public final boolean isManual;
-	
-	public NCrusherRecipe(ResourceLocation id, Lazy<ItemStack> output, Ingredient input, int energy, boolean isManual) 
+
+	public NCrusherRecipe(ItemStack output, Ingredient input, int energy)
 	{
-		super(output, NRegistration.RegisterRecipes.Types.MANUAL_CRUSHER.get(), id);
-		this.output = output;
-		this.input = input;
+		super(Lazy.of(() -> output), NRegistration.RegisterRecipes.Types.MANUAL_CRUSHER.get());
 		setTimeAndEnergy(50, energy);
-		this.isManual = isManual;
-		
+
 		
 		setInputList(Collections.singletonList(input));
-		this.outputList = Lazy.of(() -> NonNullList.of(ItemStack.EMPTY, this.output.get()));
+		this.outputList = Lazy.of(() -> NonNullList.of(ItemStack.EMPTY, output));
 	}
 
 	@Override
@@ -65,7 +56,7 @@ public class NCrusherRecipe extends NRecipe
 	{
 		NonNullList<ItemStack> list = NonNullList.create();
 		
-		list.add(output.get());
+		list.add(getOutput());
 		
 		for(StackWithChance out : secondaryOutputs)
 		{
@@ -87,21 +78,26 @@ public class NCrusherRecipe extends NRecipe
 		return this;
 	}
 	
-	public static Optional<NCrusherRecipe> findRecipe(Level level, ItemStack input)
+	public static @NotNull Optional<NCrusherRecipe> findRecipe(Level level, ItemStack input)
 	{
-		
-/*		for (NCrusherRecipe recipe : RECIPES.getRecipes(level))
-			if (recipe.input.test(input))
-				return recipe;
-*/		return RECIPES.getRecipes(level).stream().
-		filter(recipe -> recipe.input.test(input)).
+		return RECIPES.getRecipes(level).stream().
+		filter(recipe -> recipe.getInput().test(input)).
 		findFirst();
-
 	}
-	
+
 	@Override
 	public int getMultipleProcessTicks() 
 	{
 		return 4;
+	}
+
+	public ItemStack getOutput()
+	{
+		return outputList.get().get(0);
+	}
+
+	public Ingredient getInput()
+	{
+		return inputList.get(0);
 	}
 }

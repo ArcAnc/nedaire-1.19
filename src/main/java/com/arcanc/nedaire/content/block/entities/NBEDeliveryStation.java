@@ -312,7 +312,7 @@ public class NBEDeliveryStation extends NBERedstoneSensitive implements IInvento
 		ItemStack stack = ctx.getItemInHand();
 		Level level = ctx.getLevel();
 
-		if (level .isClientSide())
+		if (level.isClientSide())
 			return InteractionResult.PASS;
 
 		if (!(stack.getItem() instanceof NHammer))

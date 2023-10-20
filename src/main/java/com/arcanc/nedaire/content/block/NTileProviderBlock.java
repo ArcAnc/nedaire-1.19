@@ -21,12 +21,12 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,11 +67,11 @@ public class NTileProviderBlock<T extends BlockEntity> extends NBaseBlock implem
 						interaction = interaction.getBE();
 						if(interaction != null && interaction.canUseGui(player))
 						{
-							NetworkHooks.openScreen(serverPlayer, interaction, pos);
+							serverPlayer.openMenu(interaction, pos);
 						}
 					}
 					else
-						NetworkHooks.openScreen(serverPlayer, prov, pos);
+						serverPlayer.openMenu(prov, pos);
 				}
 				return InteractionResult.sidedSuccess(level.isClientSide());
 			}

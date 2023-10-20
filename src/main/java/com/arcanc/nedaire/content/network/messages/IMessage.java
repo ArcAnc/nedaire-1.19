@@ -8,14 +8,12 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.function.Supplier;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public interface IMessage 
 {
 	void toBytes(FriendlyByteBuf buf);
 	
-	void process(Supplier<Context> context);
+	void process(CustomPayloadEvent.Context context);
 }

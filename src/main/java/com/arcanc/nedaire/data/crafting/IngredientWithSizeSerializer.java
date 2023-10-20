@@ -8,22 +8,41 @@
  */
 package com.arcanc.nedaire.data.crafting;
 
-import javax.annotation.Nonnull;
-
-import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.ingredients.IIngredientSerializer;
 
-public class IngredientWithSizeSerializer implements IIngredientWithSizeSerializer 
+public class IngredientWithSizeSerializer implements IIngredientSerializer<IngredientWithSize>
 {
 
-	public static final IngredientWithSizeSerializer INSTANCE = new IngredientWithSizeSerializer();
+	public static final Codec<IngredientWithSize> CODEC = RecordCodecBuilder.create(instance ->
+		instance.group(
+				Ingredient.CODEC.fieldOf("ingredient").forGetter(IngredientWithSize::getIngredient),
+				Codec.INT.optionalFieldOf("amount", 1).forGetter(IngredientWithSize::getAmount)
+		).apply(instance, IngredientWithSize :: new));
+	@Override
+	public Codec<IngredientWithSize> codec()
+	{
+		return CODEC;
+	}
 
+	@Override
+	public void write(FriendlyByteBuf buffer, IngredientWithSize value)
+	{
+		buffer.writeInt(value.getAmount());
+		value.getIngredient().toNetwork(buffer);
+	}
+
+	@Override
+	public IngredientWithSize read(FriendlyByteBuf buffer)
+	{
+		final int count = buffer.readInt();
+		final Ingredient base = Ingredient.fromNetwork(buffer);
+		return new IngredientWithSize(base, count);
+	}
+/*
 	@Nonnull
 	@Override
 	public IngredientWithSize parse(@Nonnull FriendlyByteBuf buffer)
@@ -68,4 +87,5 @@ public class IngredientWithSizeSerializer implements IIngredientWithSizeSerializ
 		json.add(NDatabase.Recipes.IngredientWithSizeNBT.BASE_KEY, ingredient.getBaseIngredient().toJson());
 		return json;
 	}
+	*/
 }

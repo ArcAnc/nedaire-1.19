@@ -12,6 +12,7 @@ import com.arcanc.nedaire.util.helpers.BlockHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.ticks.ScheduledTick;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public class NBaseBlock extends Block implements SimpleWaterloggedBlock
 {
@@ -99,11 +102,11 @@ public class NBaseBlock extends Block implements SimpleWaterloggedBlock
 		}
 		return super.getFluidState(state);
 	}
-	
+
 	@Override
-	public boolean canPlaceLiquid(@NotNull BlockGetter world, @NotNull BlockPos pos, BlockState state, @NotNull Fluid liquid)
+	public boolean canPlaceLiquid(@Nullable Player player, BlockGetter world, BlockPos pos, BlockState state, Fluid liquid)
 	{
-		return state.hasProperty(BlockHelper.BlockProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.canPlaceLiquid(world, pos, state, liquid);
+		return state.hasProperty(BlockHelper.BlockProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.canPlaceLiquid(player, world, pos, state, liquid);
 	}
 	
 	@Override
@@ -113,11 +116,11 @@ public class NBaseBlock extends Block implements SimpleWaterloggedBlock
 	}
 
 	@Override
-	public @NotNull ItemStack pickupBlock(@NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state)
+	public @NotNull ItemStack pickupBlock(@Nullable Player player, @NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state)
 	{
 		if (state.hasProperty(BlockHelper.BlockProperties.WATERLOGGED))
 		{
-			return SimpleWaterloggedBlock.super.pickupBlock(world, pos, state);
+			return SimpleWaterloggedBlock.super.pickupBlock(player, world, pos, state);
 		}
 		return ItemStack.EMPTY;
 	}

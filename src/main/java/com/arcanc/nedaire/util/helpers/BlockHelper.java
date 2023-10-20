@@ -15,14 +15,18 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -61,7 +65,7 @@ public class BlockHelper
 	}
 
 
-	public static Optional<BlockEntity> getTileEntity(LevelReader world, Vec3 pos)
+	public static Optional<BlockEntity> getTileEntity(BlockGetter world, Vec3 pos)
 	{
 		if (pos != null)
 		{
@@ -71,9 +75,9 @@ public class BlockHelper
 	}
 
 	@SuppressWarnings("deprecation")
-	public static Optional<BlockEntity> getTileEntity(LevelReader world, BlockPos pos)
+	public static Optional<BlockEntity> getTileEntity(BlockGetter world, BlockPos pos)
 	{
-		if (world != null && world.hasChunkAt(pos))
+		if (world != null)
 		{
 			return Optional.ofNullable(world.getBlockEntity(pos));
 		}
@@ -91,7 +95,7 @@ public class BlockHelper
 		return Optional.empty();
 	}
 
-	public static <T> Optional<T> castTileEntity(LevelReader world, BlockPos pos, Class<T> to)
+	public static <T> Optional<T> castTileEntity(BlockGetter world, BlockPos pos, Class<T> to)
 	{
 		if (world != null && pos != null)
 		{
@@ -100,7 +104,7 @@ public class BlockHelper
 		return Optional.empty();
 	}
 
-	public static <T> Optional<T> castTileEntity(LevelReader world, Vec3 pos, Class<T> to)
+	public static <T> Optional<T> castTileEntity(BlockGetter world, Vec3 pos, Class<T> to)
 	{
 		if (world != null && pos != null)
 		{
@@ -112,5 +116,19 @@ public class BlockHelper
 	public static ResourceLocation getRegistryName (Block block)
 	{
 		return ForgeRegistries.BLOCKS.getKey(block);
+	}
+
+	@NotNull
+	public static BlockState rotateBlockState(@NotNull BlockState state, @NotNull Rotation rotation)
+	{
+		if (!isRotatable(state))
+			return state;
+
+		return state.setValue(BlockHelper.BlockProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockHelper.BlockProperties.HORIZONTAL_FACING)));
+	}
+
+	public static boolean isRotatable(@NotNull BlockState state)
+	{
+		return state.hasProperty(BlockProperties.HORIZONTAL_FACING);
 	}
 }

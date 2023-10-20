@@ -8,24 +8,21 @@
  */
 package com.arcanc.nedaire.content.book.gui;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.parts.Chapter;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.GameNarrator;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public class EnchiridionScreen extends Screen 
 {
@@ -80,17 +77,17 @@ public class EnchiridionScreen extends Screen
 	}
 	
 	@Override
-	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float f)
+	public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground(guiGraphics);
+		renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		
-		super.render(guiGraphics, mouseX, mouseY, f);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
 	
 	@Override
-	public void renderBackground(@NotNull GuiGraphics guiGraphics)
+	public void renderBackground(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBackground(guiGraphics);
+		super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 		
 		guiGraphics.pose().pushPose();
 	    RenderSystem.setShader(GameRenderer::getPositionTexShader);

@@ -107,7 +107,7 @@ public class NBEDiffuser extends NBERedstoneSensitive implements IInventoryCallb
 				
 				if (elapsedTime >= rec.getTotalProcessTime() && drainedFluid >= rec.fluid.getAmount())
 				{
-					ItemStack output = rec.output.get();
+					ItemStack output = rec.getOutput().copy();
 					inv.setStackInSlot(output, 0);
 					
 					elapsedTime = 0;

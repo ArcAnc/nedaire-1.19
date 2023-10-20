@@ -9,6 +9,7 @@
 
 package com.arcanc.nedaire.content.block.entities.multiblocks;
 
+import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -55,8 +56,8 @@ public class BlockMatcher
             found = p.preprocessFoundState(expected, found, world, pos);
         BlockState finalFound = found;
         return Stream.concat(Stream.of(BASIC), additional.stream())
-                .map(pred -> pred.matches(expected, finalFound, world, pos))
-                .reduce(true, (accum, elem) -> elem && accum);
+                .map(predicate -> predicate.matches(expected, finalFound, world, pos))
+                .reduce(true, (accumulator, elem) -> elem && accumulator);
     }
 
     public static void registerPreProcessor(PreProcessor preprocessor)

@@ -12,7 +12,6 @@ import com.arcanc.nedaire.content.block.*;
 import com.arcanc.nedaire.content.block.entities.*;
 import com.arcanc.nedaire.content.block.entities.NBETerramorfer.CoreType;
 import com.arcanc.nedaire.content.block.entities.multiblocks.BlockMatcher;
-import com.arcanc.nedaire.content.block.entities.multiblocks.INMultiblock;
 import com.arcanc.nedaire.content.container.menu.*;
 import com.arcanc.nedaire.content.entities.DeliveryDroneEntity;
 import com.arcanc.nedaire.content.entities.ThrownCrystalPrison;
@@ -29,11 +28,14 @@ import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.material.NMaterial.NMaterialProperties;
 import com.arcanc.nedaire.content.world.level.levelgen.feature.core.CoreConfiguration;
 import com.arcanc.nedaire.content.world.level.levelgen.feature.core.CoreFeature;
+import com.arcanc.nedaire.data.crafting.IngredientWithSizeSerializer;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
 import com.arcanc.nedaire.data.crafting.recipe.NShieldRecipes;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.data.crafting.serializers.NDiffuserRecipeSerializer;
+import com.arcanc.nedaire.data.multiblocks.reloadListeners.MultiblockManager;
+import com.arcanc.nedaire.data.multiblocks.serializer.NMultiblockSerializer;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.database.NDatabase.Items;
 import com.arcanc.nedaire.util.helpers.BlockHelper;
@@ -42,7 +44,6 @@ import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.arcanc.nedaire.util.helpers.StringHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.kinds.IdF;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -90,6 +91,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.crafting.ingredients.IIngredientSerializer;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
@@ -106,7 +108,10 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.*;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class NRegistration 
@@ -461,7 +466,7 @@ public class NRegistration
 		
 		public static final BlockRegObject<NBlockCore, NBaseBlockItem> CORE = new BlockRegObject<>(
 				NDatabase.Blocks.BlockEntities.Names.CORE,
-				() -> baseMachineProps.get().noLootTable().noParticlesOnBreak().noOcclusion().lightLevel(state -> 15).emissiveRendering((state, getter, pos) -> true),
+				() -> baseMachineProps.get().noLootTable().noTerrainParticles().noOcclusion().lightLevel(state -> 15).emissiveRendering((state, getter, pos) -> true),
 				NBlockCore :: new,
 				NRegistration.RegisterItems.baseProps,
 				NBaseBlockItem :: new);
@@ -907,21 +912,21 @@ public class NRegistration
 					create, ImmutableSet.copyOf(valid.stream().map(Supplier::get).collect(Collectors.toList())), null);
 		}
 
-		public record MultiblockBEType<T extends NBEMultiblockBase, M extends INMultiblock>(RegistryObject<BlockEntityType<T>> blockEntityType, RegistryObject<M> multiblock)
+		public record MultiblockBEType<T extends NBEMultiblockBase>(RegistryObject<BlockEntityType<T>> blockEntityType, ResourceLocation multiblockLocation)
 		{
 
 		}
 
-		public static <T extends NBEMultiblockBase, M extends INMultiblock> MultiblockBEType<T, M> makeType(String name,
+		public static <T extends NBEMultiblockBase> MultiblockBEType<T> makeType(String name,
 																				 BlockEntityType.BlockEntitySupplier<T> create,
 																				 Collection<Supplier<? extends Block>> validBlocks,
-																				 RegistryObject<M> multiblock)
+																				 ResourceLocation multiblockLocation)
 		{
 			Supplier<BlockEntityType<T>>  type = makeTypeMultipleBlocks(create, validBlocks);
 
 			RegistryObject<BlockEntityType<T>> regObj = BLOCK_ENTITIES.register(name, type);
 
-			return new MultiblockBEType<>(regObj, multiblock);
+			return new MultiblockBEType<>(regObj, multiblockLocation);
 		}
 	}
 	
@@ -1240,20 +1245,26 @@ public class NRegistration
 
 	public static class RegisterMultiblocks
 	{
-		public static final ResourceKey<Registry<INMultiblock>> MULTIBLOCK_KEY = ResourceKey.createRegistryKey(new ResourceLocation(NDatabase.Multiblocks.TAG_LOCATION));
-
-		public static final DeferredRegister<INMultiblock> MULTIBLOCKS = DeferredRegister.create(MULTIBLOCK_KEY, NDatabase.MOD_ID);
-
-		public static final Supplier<IForgeRegistry<INMultiblock>> MULTIBLOCKS_BUILTIN = MULTIBLOCKS.makeRegistry(() -> makeRegistry(MULTIBLOCK_KEY).disableSaving());
-
+		public static final NMultiblockSerializer MULTIBLOCK_SERIALIZER = new NMultiblockSerializer();
+		public static final MultiblockManager MANAGER = new MultiblockManager();
 		public static void init(final IEventBus bus)
 		{
-			MULTIBLOCKS.register(bus);
-
 			BlockMatcher.registerPreProcessor(BlockMatcher.WATERLOGGING);
 			BlockMatcher.registerPreProcessor(BlockMatcher.CHECK_AIR);
 		}
 
+	}
+
+	public static class RegisterIngredients
+	{
+		public static final DeferredRegister<IIngredientSerializer<?>> INGREDIENT_SERIALIZERS = DeferredRegister.create(ForgeRegistries.INGREDIENT_SERIALIZERS, NDatabase.MOD_ID);
+
+		public static final RegistryObject<IngredientWithSizeSerializer> INGREDIENT_WITH_SIZE = register(NDatabase.Ingredients.INGREDIENT_WITH_SIZE, IngredientWithSizeSerializer :: new);
+
+		private static <T extends IIngredientSerializer<?>> RegistryObject<T> register(String name, Supplier<T> serializer )
+		{
+			return INGREDIENT_SERIALIZERS.register(name, serializer);
+		}
 	}
 
     public static <T> RegistryBuilder<T> makeRegistry(ResourceKey<? extends Registry<T>> key)

@@ -336,19 +336,22 @@ public class NBlockDeliveryStation extends NTileProviderBlock<NBEDeliveryStation
 	}
 	
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	@SuppressWarnings("deprecation")
+	public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
 		return shapeByIndex[getAABBIndex(state)];
 	}
 	
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) 
+	@SuppressWarnings("deprecation")
+	public @NotNull VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
 	{
 		return shapeByIndex[getAABBIndex(state)];
 	}
 	
 	@Override
-	public VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) 
+	@SuppressWarnings("deprecation")
+	public @NotNull VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos)
 	{
 		return shapeByIndex[getAABBIndex(state)];
 	}

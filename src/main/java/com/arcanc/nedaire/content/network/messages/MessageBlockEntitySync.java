@@ -8,12 +8,8 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.content.block.entities.NBaseBlockEntity;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,8 +17,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent.Context;
+
+import java.util.Objects;
 
 public class MessageBlockEntitySync implements IMessage 
 {
@@ -54,9 +52,8 @@ public class MessageBlockEntitySync implements IMessage
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void process(Supplier<Context> context)
+	public void process(CustomPayloadEvent.Context ctx)
 	{
-		Context ctx = context.get();
 		if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER)
 			ctx.enqueueWork(() -> 
 			{

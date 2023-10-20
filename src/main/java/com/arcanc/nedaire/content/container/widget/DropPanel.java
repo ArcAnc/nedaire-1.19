@@ -218,14 +218,14 @@ public class DropPanel extends AbstractWidget
 	{
 	}
 	
-	public static enum State
+	public enum State
 	{
 		OPEN(0), 
 		OPENING(1),
 		CLOSED(2),
 		CLOSING(3);
 		
-		private int id;
+		private final int id;
 		
 		private State (int id)
 		{

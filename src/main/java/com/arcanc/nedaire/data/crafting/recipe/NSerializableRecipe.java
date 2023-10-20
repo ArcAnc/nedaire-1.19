@@ -9,9 +9,8 @@
 package com.arcanc.nedaire.data.crafting.recipe;
 
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
-
+import com.arcanc.nedaire.util.helpers.StringHelper;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -27,13 +26,11 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 
 	protected final Lazy<ItemStack> outputDummy;
 	protected final RecipeType<?> type;
-	protected final ResourceLocation id;
 
-	protected <T extends Recipe<?>>	NSerializableRecipe(Lazy<ItemStack> outputDummy, RecipeType<T> type, ResourceLocation id)
+	protected <T extends Recipe<?>>	NSerializableRecipe(Lazy<ItemStack> outputDummy, RecipeType<T> type)
 	{
 		this.outputDummy = outputDummy;
 		this.type = type;
-		this.id = id;
 	}
 
 	@Override
@@ -67,9 +64,9 @@ public abstract class NSerializableRecipe implements Recipe<Container>
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull String getGroup()
 	{
-		return this.id;
+		return StringHelper.getStrLocFStr(type.toString());
 	}
 
 	@Override

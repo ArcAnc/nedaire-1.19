@@ -9,24 +9,18 @@
 
 package com.arcanc.nedaire.util.helpers;
 
-
 import com.arcanc.nedaire.Nedaire;
-import com.google.common.base.Function;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.PrimitiveCodec;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.apache.commons.lang3.mutable.Mutable;
-import org.apache.commons.lang3.mutable.MutableInt;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
+
 
 public class VoxelShapeHelper
 {
@@ -38,12 +32,12 @@ public class VoxelShapeHelper
         {
             return ops.getStream(input).flatMap(stream ->
             {
-                final List<T> list = stream.collect(Collectors.toList());
+                final List<T> list = stream.toList();
                 if (list.stream().allMatch(element -> ops.getNumberValue(element).result().isPresent()))
                 {
                     return DataResult.success(list.stream().mapToDouble(element -> ops.getNumberValue(element).result().get().doubleValue()));
                 }
-                return DataResult.error(() -> "Some elements are not ints: " + input);
+                return DataResult.error(() -> "Some elements are not double: " + input);
             });
         }
 
@@ -67,7 +61,6 @@ public class VoxelShapeHelper
         if (values.length % 6 != 0)
             return DataResult.error(() -> "Wrong stream size");
 
-
         List<VoxelShape> shapes = new ArrayList<>();
 
         for (int q = 0; q < values.length; q++)
@@ -78,19 +71,13 @@ public class VoxelShapeHelper
             }
         }
 
-        VoxelShape resultShape = Shapes.empty();
+        return shapes.stream().reduce((voxelShape, voxelShape2) -> Shapes.or(voxelShape, voxelShape2)).
+                map(voxelShape -> DataResult.success(voxelShape)).
+                orElseGet(() -> DataResult.error(() -> "???"));
 
-        for (int q = 0; q < shapes.size() - 1; q++)
-        {
-            VoxelShape shape = shapes.get(q);
-            Shapes.or(resultShape, shape);
-        }
-        return DataResult.success(resultShape.optimize());
     }, (shape) ->
     {
         List<Double> list = new LinkedList<>();
-
-        MutableInt i = new MutableInt(0);
 
         shape.forAllBoxes((startX, startY, startZ, finishX, finishY, finishZ) ->
         {

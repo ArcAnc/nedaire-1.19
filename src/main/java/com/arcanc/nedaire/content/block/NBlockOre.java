@@ -9,10 +9,10 @@
 package com.arcanc.nedaire.content.block;
 
 import com.arcanc.nedaire.util.helpers.BlockHelper;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -27,6 +27,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.ticks.ScheduledTick;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedBlock
 {
@@ -97,9 +98,9 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	}
 	
 	@Override
-	public boolean canPlaceLiquid(@NotNull BlockGetter world, @NotNull BlockPos pos, BlockState state, @NotNull Fluid liquid)
+	public boolean canPlaceLiquid(@Nullable Player player, @NotNull BlockGetter world, @NotNull BlockPos pos, BlockState state, @NotNull Fluid liquid)
 	{
-		return state.hasProperty(BlockStateProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.canPlaceLiquid(world, pos, state, liquid);
+		return state.hasProperty(BlockStateProperties.WATERLOGGED) && SimpleWaterloggedBlock.super.canPlaceLiquid(player, world, pos, state, liquid);
 	}
 	
 	@Override
@@ -109,11 +110,11 @@ public class NBlockOre extends DropExperienceBlock implements SimpleWaterloggedB
 	}
 
 	@Override
-	public @NotNull ItemStack pickupBlock(@NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state)
+	public @NotNull ItemStack pickupBlock(@Nullable Player player, @NotNull LevelAccessor world, @NotNull BlockPos pos, BlockState state)
 	{
 		if (state.hasProperty(BlockStateProperties.WATERLOGGED))
 		{
-			return SimpleWaterloggedBlock.super.pickupBlock(world, pos, state);
+			return SimpleWaterloggedBlock.super.pickupBlock(player, world, pos, state);
 		}
 		return ItemStack.EMPTY;
 	}

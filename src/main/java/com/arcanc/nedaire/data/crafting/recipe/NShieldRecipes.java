@@ -26,14 +26,14 @@ import org.jetbrains.annotations.NotNull;
 public class NShieldRecipes extends ShieldDecorationRecipe
 {
 	   
-	public NShieldRecipes(ResourceLocation location, CraftingBookCategory category)
+	public NShieldRecipes(CraftingBookCategory category)
 	{
-		super(location, category);
+		super(category);
 	}
 	
-	public NShieldRecipes(ResourceLocation location) 
+	public NShieldRecipes()
 	{
-		this(location, CraftingBookCategory.EQUIPMENT);
+		this(CraftingBookCategory.EQUIPMENT);
 	}
 
 	   
@@ -90,32 +90,28 @@ public class NShieldRecipes extends ShieldDecorationRecipe
 
 		for(int i = 0; i < inventory.getContainerSize(); ++i) 
 		{
-			ItemStack itemstack2 = inventory.getItem(i);
-			if (!itemstack2.isEmpty()) 
+			ItemStack itemStack2 = inventory.getItem(i);
+			if (!itemStack2.isEmpty())
 			{
-				if (itemstack2.getItem() instanceof BannerItem) 
+				if (itemStack2.getItem() instanceof BannerItem)
 				{
-					itemstack = itemstack2;
+					itemstack = itemStack2;
 				} 
-				else if (itemstack2.getItem() instanceof NShieldBase) 
+				else if (itemStack2.getItem() instanceof NShieldBase)
 				{
-					itemstack1 = itemstack2.copy();
+					itemstack1 = itemStack2.copy();
 				}
 			}
 		}
 
-		if (itemstack1.isEmpty()) 
+		if (!itemstack1.isEmpty())
 		{
-			return itemstack1;
-		} 
-		else 
-		{
-			CompoundTag compoundnbt = itemstack.getTagElement("BlockEntityTag");
-			CompoundTag compoundnbt1 = compoundnbt == null ? new CompoundTag() : compoundnbt.copy();
-			compoundnbt1.putInt("Base", ((BannerItem)itemstack.getItem()).getColor().getId());
-			itemstack1.addTagElement("BlockEntityTag", compoundnbt1);
-			return itemstack1;
+			CompoundTag compoundTag = itemstack.getTagElement("BlockEntityTag");
+			CompoundTag compoundTag1 = compoundTag == null ? new CompoundTag() : compoundTag.copy();
+			compoundTag1.putInt("Base", ((BannerItem) itemstack.getItem()).getColor().getId());
+			itemstack1.addTagElement("BlockEntityTag", compoundTag1);
 		}
+		return itemstack1;
 	}
 
 	@Override

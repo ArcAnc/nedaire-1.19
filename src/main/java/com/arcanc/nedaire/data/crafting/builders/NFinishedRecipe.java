@@ -8,12 +8,6 @@
  */
 package com.arcanc.nedaire.data.crafting.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import javax.annotation.Nullable;
-
 import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
@@ -22,9 +16,10 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -33,10 +28,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRecipe 
 {
@@ -66,7 +65,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		return true;
 	}
 
-	public void build(Consumer<FinishedRecipe> out, ResourceLocation id)
+	public void build(RecipeOutput out, ResourceLocation id)
 	{
 		Preconditions.checkArgument(isComplete(), "This recipe is incomplete");
 		this.id = id;
@@ -81,7 +80,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		return (T)this;
 	}
 
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	public T addCondition(ICondition condition)
 	{
 		if(this.conditions==null)
@@ -92,7 +91,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		this.conditions.add(CraftingHelper.serialize(condition));
 		return (T)this;
 	}
-
+*/
 	/* =============== Common Objects =============== */
 
 	public T setTime(int time)
@@ -140,17 +139,17 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	public T addResult(Ingredient ingredient)
 	{
 		if(resultArray!=null)
-			return addMultiResult(ingredient.toJson());
+			return addMultiResult(ingredient.toJson(false));
 		else
-			return addWriter(jsonObject -> jsonObject.add("result", ingredient.toJson()));
+			return addWriter(jsonObject -> jsonObject.add("result", ingredient.toJson(false)));
 	}
 
 	public T addResult(IngredientWithSize ingredientWithSize)
 	{
 		if(resultArray!=null)
-			return addMultiResult(ingredientWithSize.serialize());
+			return addMultiResult(ingredientWithSize.toJson());
 		else
-			return addWriter(jsonObject -> jsonObject.add("result", ingredientWithSize.serialize()));
+			return addWriter(jsonObject -> jsonObject.add("result", ingredientWithSize.toJson()));
 	}
 
 	/* =============== Input Handling =============== */
@@ -179,12 +178,12 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T addMultiInput(Ingredient ingredient)
 	{
-		return addMultiInput(ingredient.toJson());
+		return addMultiInput(ingredient.toJson(false));
 	}
 
 	public T addMultiInput(IngredientWithSize ingredient)
 	{
-		return addMultiInput(ingredient.serialize());
+		return addMultiInput(ingredient.toJson());
 	}
 
 	protected String generateSafeInputKey()
@@ -285,12 +284,12 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T addIngredient(String key, Ingredient ingredient)
 	{
-		return addWriter(jsonObject -> jsonObject.add(key, ingredient.toJson()));
+		return addWriter(jsonObject -> jsonObject.add(key, ingredient.toJson(false)));
 	}
 
 	public T addIngredient(String key, IngredientWithSize ingredient)
 	{
-		return addWriter(jsonObject -> jsonObject.add(key, ingredient.serialize()));
+		return addWriter(jsonObject -> jsonObject.add(key, ingredient.toJson()));
 	}
 
 	/* =============== Fluids =============== */
@@ -335,27 +334,27 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull ResourceLocation id()
 	{
 		return id;
 	}
 
 	@Override
-	public @NotNull RecipeSerializer<?> getType()
+	public @NotNull RecipeSerializer<?> type()
 	{
 		return serializer;
 	}
 
 	@Nullable
 	@Override
-	public JsonObject serializeAdvancement()
+	public AdvancementHolder advancement()
 	{
 		return null;
 	}
 
 	@Nullable
 	@Override
-	public ResourceLocation getAdvancementId()
+	public AdvancementData advancementData()
 	{
 		return null;
 	}
@@ -364,12 +363,12 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	{
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("chance", chance);
-		jsonObject.add("output", ingredient.serialize());
+		jsonObject.add("output", ingredient.toJson());
 		if(conditions.length > 0)
 		{
 			JsonArray conditionArray = new JsonArray();
-			for(ICondition condition : conditions)
-				conditionArray.add(CraftingHelper.serialize(condition));
+//			for(ICondition condition : conditions)
+//				conditionArray.add(CraftingHelper.serialize(condition));
 			jsonObject.add("conditions", conditionArray);
 		}
 		return jsonObject;

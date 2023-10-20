@@ -162,7 +162,7 @@ public class NBEMobCatcher extends NBERedstoneSensitive implements IInventoryCal
 		
 		tag.put("entity", mobStack.getTag().get(CrystalPrisonItem.ENTITY_DATA));
 		
-		NNetworkEngine.packetHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(getBlockPos())), new MessageBlockEntitySync(this, tag));
+		NNetworkEngine.packetHandler.send(new MessageBlockEntitySync(this, tag), PacketDistributor.TRACKING_CHUNK.with(level.getChunkAt(getBlockPos())));
 	}
 	
 	@Override

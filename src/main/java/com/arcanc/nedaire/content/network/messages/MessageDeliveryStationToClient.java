@@ -8,9 +8,6 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.content.block.entities.NBEDeliveryStation;
 import com.arcanc.nedaire.content.renderer.particle.delivery.FluidDeliveryParticle;
 import com.arcanc.nedaire.content.renderer.particle.delivery.ItemDeliveryParticle;
@@ -18,7 +15,6 @@ import com.arcanc.nedaire.content.renderer.particle.delivery.VimDeliveryParticle
 import com.arcanc.nedaire.util.helpers.BlockHelper;
 import com.arcanc.nedaire.util.helpers.PacketHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -27,8 +23,10 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.network.NetworkEvent.Context;
+
+import java.util.Optional;
 
 public class MessageDeliveryStationToClient implements IMessage 
 {
@@ -108,9 +106,9 @@ public class MessageDeliveryStationToClient implements IMessage
 	}
 
 	@Override
-	public void process(Supplier<Context> ctx) 
+	public void process(CustomPayloadEvent.Context ctx)
 	{
-		ctx.get().enqueueWork(() -> 
+		ctx.enqueueWork(() ->
 		{
 			Minecraft mc = RenderHelper.mc();
 			ClientLevel level = mc.level;

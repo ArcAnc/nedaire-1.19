@@ -38,8 +38,8 @@ public class EnchElementCraftingRecipe extends EnchElementAbstractRecipe
 {
 	private final List<Vec2> positions = Lists.newArrayList();
 	private Vec2 imagePos = Vec2.ZERO;
-	private int partW = width/5;
-	private int partH = height/3;
+	private final int partW = width/5;
+	private final int partH = height/3;
 	
 	public EnchElementCraftingRecipe(EnchiridionInstance instance, ResourceLocation loc, int x, int y, int width, int height) 
 	{

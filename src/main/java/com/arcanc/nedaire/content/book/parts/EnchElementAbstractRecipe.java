@@ -8,15 +8,14 @@
  */
 package com.arcanc.nedaire.content.book.parts;
 
-import java.util.Optional;
-
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+
+import java.util.Optional;
 
 public abstract class EnchElementAbstractRecipe extends EnchElementAbstract 
 {
@@ -31,7 +30,7 @@ public abstract class EnchElementAbstractRecipe extends EnchElementAbstract
 		this.location = location;
 		
 		Minecraft mc = instance.getScreen().getMinecraft();
-		recipe = mc.level.getRecipeManager().byKey(location);
+		recipe = Optional.ofNullable(mc.level.getRecipeManager().byKey(location).get().value());
 	}
 	
 	public ItemStack getStackAtCurrentTime(Ingredient ingr)
@@ -46,11 +45,6 @@ public abstract class EnchElementAbstractRecipe extends EnchElementAbstract
 	public int animateArrow (int ticks)
 	{
 		return (int) (System.currentTimeMillis()/ticks%22);
-	}
-	
-	public static String encode(Recipe<?> recipe)
-	{
-		return String.format(" </recipe;%s/> ", recipe.getType(), recipe.getId());
 	}
 
 }

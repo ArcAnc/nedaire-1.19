@@ -32,8 +32,6 @@ import net.minecraftforge.common.Tags.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
-
 public class NRecipeProvider extends RecipeProvider
 {
 	public NRecipeProvider(PackOutput output) {
@@ -41,7 +39,8 @@ public class NRecipeProvider extends RecipeProvider
 	}
 
 	@Override
-	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> out) {
+	protected void buildRecipes(@NotNull RecipeOutput out)
+	{
 		NMaterial mat = NRegistration.RegisterMaterials.CORIUM;
 
 		//=========================
@@ -83,7 +82,8 @@ public class NRecipeProvider extends RecipeProvider
 		addBlasting(NTags.Items.MATERIALS.get(mat.getName()).getDust(), mat.getIngot().get(), 0.0f, out);
 		addSmelting(NTags.Items.MATERIALS.get(mat.getName()).getDust(), mat.getIngot().get(), 0.0f, out);
 
-		if (mat.requiredOre()) {
+		if (mat.requiredOre())
+		{
 			addBlasting(NTags.Items.MATERIALS.get(mat.getName()).getRaw(), mat.getIngot().get(), 1.0f, out);
 			addSmelting(NTags.Items.MATERIALS.get(mat.getName()).getRaw(), mat.getIngot().get(), 1.0f, out);
 
@@ -463,7 +463,8 @@ public class NRecipeProvider extends RecipeProvider
 
 	}
 
-	private void crusherRecipes(Consumer<FinishedRecipe> out) {
+	private void crusherRecipes(RecipeOutput out)
+	{
 /*		NCrusherRecipeBuilder.builder(NRegistration.RegisterItems.CHALK.asItem()).
 			addInput(Items.ENDER_PEARLS).
 			setEnergy(1600).
@@ -524,7 +525,8 @@ public class NRecipeProvider extends RecipeProvider
 				build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.CRUSHER + "/" + getConversionRecipeName(net.minecraft.world.item.Items.QUARTZ, Blocks.NETHER_QUARTZ_ORE)));
 	}
 
-	private void diffuserRecipes(Consumer<FinishedRecipe> out) {
+	private void diffuserRecipes(RecipeOutput out)
+	{
 		NDiffuserRecipeBuilder.builder(NRegistration.RegisterBlocks.CRYSTAL_GROWTH.asItem()).
 				addInput(Blocks.AMETHYST_CLUSTER).
 				addFluid(Fluids.WATER, 1000).
@@ -544,19 +546,22 @@ public class NRecipeProvider extends RecipeProvider
 				build(out, StringHelper.getLocFStr(NDatabase.Recipes.Types.DIFFUSER + "/" + NRegistration.RegisterItems.CRYSTAL_PRISON.getId().getPath()));
 	}
 
-	private void addBlasting (TagKey<Item> input, Item output, float exp, Consumer<FinishedRecipe> out) {
+	private void addBlasting (TagKey<Item> input, Item output, float exp, RecipeOutput out)
+	{
 		SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), RecipeCategory.MISC, output, exp, 100).
 				unlockedBy("has_" + input.location().getPath(), has(input)).
 				save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.BLASTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
 	}
 
-	private void addSmelting (TagKey<Item> input, Item output, float exp, Consumer<FinishedRecipe> out) {
+	private void addSmelting (TagKey<Item> input, Item output, float exp, RecipeOutput out)
+	{
 		SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, output, exp, 200).
 				unlockedBy("has_" + input.location().getPath(), has(input)).
 				save(out, StringHelper.getLocFStr(NDatabase.Recipes.VanillaTypes.SMELTING + "/" + input.location().getPath() + "_to_" + ItemHelper.getRegistryName(output).getPath()));
 	}
 
-	private void addTools(NMaterial mat, Consumer<FinishedRecipe> out) {
+	private void addTools(NMaterial mat, RecipeOutput out)
+	{
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, mat.getAxe().get()).
 				define('A', Ingredient.of(NTags.Items.MATERIALS.get(mat.getName()).getIngot())).
 				define('B', Ingredient.of(Tags.Items.RODS_WOODEN)).
@@ -615,7 +620,8 @@ public class NRecipeProvider extends RecipeProvider
 				save(out, StringHelper.getLocFStr(mat.getFishingRod().getId().getPath()));
 	}
 
-	private void addWeapon(NMaterial mat, Consumer<FinishedRecipe> out) {
+	private void addWeapon(NMaterial mat, RecipeOutput out)
+	{
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, mat.getSword().get()).
 				define('A', Ingredient.of(NTags.Items.MATERIALS.get(mat.getName()).getIngot())).
@@ -663,7 +669,8 @@ public class NRecipeProvider extends RecipeProvider
 				save(out, StringHelper.getLocFStr(mat.getShield().getId().getPath()));
 	}
 
-	private void addArmor(NMaterial mat, Consumer<FinishedRecipe> out) {
+	private void addArmor(NMaterial mat, RecipeOutput out)
+	{
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, mat.getArmorHorse().get()).
 				define('A', Ingredient.of(NTags.Items.MATERIALS.get(mat.getName()).getIngot())).
 				define('B', Ingredient.of(Tags.Items.LEATHER)).
@@ -708,7 +715,7 @@ public class NRecipeProvider extends RecipeProvider
 
 	}
 
-	private void addShieldDecorationRecipe(Consumer<FinishedRecipe> out, SimpleCraftingRecipeSerializer<?> serializer) {
+	private void addShieldDecorationRecipe(RecipeOutput out, SimpleCraftingRecipeSerializer<?> serializer) {
 		SpecialRecipeBuilder.special(serializer).save(out, StringHelper.getStrLocFStr("dynamic/" + ForgeRegistries.RECIPE_SERIALIZERS.getKey(serializer).getPath()));
 	}
 

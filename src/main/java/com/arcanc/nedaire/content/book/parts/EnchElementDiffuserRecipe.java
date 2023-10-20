@@ -8,16 +8,6 @@
  */
 package com.arcanc.nedaire.content.book.parts;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import org.apache.commons.compress.utils.Lists;
-
 import com.arcanc.nedaire.content.book.EnchiridionInstance;
 import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.content.registration.NRegistration;
@@ -26,9 +16,10 @@ import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.FluidHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.ChatFormatting;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -39,7 +30,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class EnchElementDiffuserRecipe extends EnchElementAbstractRecipe 
 {
@@ -91,7 +88,7 @@ public class EnchElementDiffuserRecipe extends EnchElementAbstractRecipe
 			Minecraft mc = RenderHelper.mc();
 			NDiffuserRecipe rec = (NDiffuserRecipe)r;
 
-			Ingredient in = rec.input;
+			Ingredient in = rec.getInput();
 			ItemStack stack = getStackAtCurrentTime(in);
 			ItemStack highlighted = ItemStack.EMPTY;
 			RenderHelper.renderItemStack(guiGraphics, stack, (int)positions.get(0).x, (int)positions.get(0).y, true);
@@ -100,10 +97,10 @@ public class EnchElementDiffuserRecipe extends EnchElementAbstractRecipe
 				highlighted = stack;
 			}
 
-			RenderHelper.renderItemStack(guiGraphics, rec.output.get(), (int)positions.get(2).x, (int)positions.get(2).y, true);
+			RenderHelper.renderItemStack(guiGraphics, rec.getOutput(), (int)positions.get(2).x, (int)positions.get(2).y, true);
 			if (mouseX >= (int)positions.get(2).x && mouseY >= (int)positions.get(2).y && mouseX <= (int)positions.get(2).x + 16 && mouseY <= positions.get(2).y + 16)
 			{
-				highlighted = rec.output.get();
+				highlighted = rec.getOutput();
 			}
 			
 			RenderHelper.renderItemStack(guiGraphics, new ItemStack(NRegistration.RegisterBlocks.DIFFUSER), (int)positions.get(3).x, (int)positions.get(3).y, true);

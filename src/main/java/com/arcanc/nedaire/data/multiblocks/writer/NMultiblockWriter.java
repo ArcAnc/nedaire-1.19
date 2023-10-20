@@ -7,17 +7,16 @@
  * Details can be found in the license file in the root folder of this project
  */
 
-package com.arcanc.nedaire.content.block.entities.multiblocks;
+package com.arcanc.nedaire.data.multiblocks.writer;
 
-import com.arcanc.nedaire.Nedaire;
 import com.arcanc.nedaire.util.database.NDatabase;
+import com.arcanc.nedaire.util.helpers.VoxelShapeHelper;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,16 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
-public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implements INMultiblockSerializer
+public class NMultiblockWriter<T extends NMultiblockWriter<T>> implements INMultiblockWriter<T>
 {
     private ResourceLocation registryName;
     private final List<Consumer<JsonObject>> writerFunctions;
 
-    protected JsonArray infoArray = null;
+    protected JsonArray infoArray;
 
-    public NMultiblockSerializer()
+    public NMultiblockWriter()
     {
         this.writerFunctions = new ArrayList<>();
         this.infoArray = new JsonArray();
@@ -49,27 +47,25 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
         return true;
     }
 
-    public void build(Consumer<INMultiblockSerializer> out, ResourceLocation registryName)
+    public void build(Consumer<INMultiblockWriter<T>> out, ResourceLocation registryName)
     {
         Preconditions.checkArgument(isComplete(), "This recipe is incomplete");
+
+        addWriter(jsonObject -> jsonObject.add(NDatabase.Multiblocks.Serializing.INFO_ARRAY, infoArray));
+
         this.registryName = registryName;
+
         out.accept(this);
     }
 
-    @SuppressWarnings("unchecked")
     public T addWriter(Consumer<JsonObject> writer)
     {
         Preconditions.checkArgument(registryName == null, "This recipe has already been finalized");
         this.writerFunctions.add(writer);
-        return (T)this;
+        return getSelf();
     }
 
     /* ===============     Common Objects     =============== */
-
-    public T addInfo()
-    {
-        return addWriter(jsonObject -> {});
-    }
 
     /* =============== INMultiblockSerializer =============== */
 
@@ -88,7 +84,6 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
 
     public record StructureInfo(BlockPos pos, BlockState state, @Nullable CompoundTag tag, VoxelShape shape, boolean isTrigger)
     {
-
         public StructureInfo(BlockPos pos, BlockState state, @Nullable CompoundTag tag, VoxelShape shape)
         {
             this(pos, state, tag, shape, false);
@@ -121,6 +116,7 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
                     );
             return obj;
         }
+        @NotNull
         public static JsonObject writeTag(@NotNull CompoundTag tag, @NotNull JsonObject obj)
         {
             CompoundTag.CODEC.encodeStart(JsonOps.INSTANCE, tag).result().ifPresentOrElse
@@ -134,7 +130,45 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
             return obj;
         }
 
+        @NotNull
+        public static JsonObject writeVoxelShape(@NotNull VoxelShape shape, @NotNull JsonObject obj)
+        {
+            VoxelShapeHelper.CODEC.encodeStart(JsonOps.INSTANCE, shape).result().ifPresentOrElse
+                    (
+                            saved -> obj.add(NDatabase.Multiblocks.Serializing.SHAPE, saved),
+                            () ->
+                            {
+                                throw new NoSuchElementException("VoxelShape is null");
+                            }
+                    );
+            return obj;
+        }
 
+        @NotNull
+        public static JsonObject writeIsTrigger(boolean isTrigger, @NotNull JsonObject obj)
+        {
+            Codec.BOOL.encodeStart(JsonOps.INSTANCE, isTrigger).result().ifPresentOrElse(
+                    saved -> obj.add(NDatabase.Multiblocks.Serializing.IS_TRIGGER, saved),
+                    () ->
+                    {
+                        throw new NoSuchElementException("Is Trigger is null. HOW you can do this???");
+                    }
+            );
+            return obj;
+        }
+
+        public static JsonObject writeInfo(@NotNull StructureInfo info)
+        {
+            JsonObject obj = new JsonObject();
+
+            writeBlockPos(info.pos(), obj);
+            writeBlockState(info.state(), obj);
+            writeTag(info.tag(), obj);
+            writeVoxelShape(info.shape(), obj);
+            writeIsTrigger(info.isTrigger(), obj);
+
+            return obj;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -148,7 +182,7 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
         return new InfoBuilder();
     }
 
-    private class InfoBuilder
+    public class InfoBuilder
     {
         private BlockPos pos;
         private BlockState state;
@@ -156,8 +190,12 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
         private VoxelShape shape;
         private boolean isTrigger;
 
-        @NotNull
-        public InfoBuilder setPos(@NotNull BlockPos pos)
+        public InfoBuilder()
+        {
+
+        }
+
+        public @NotNull InfoBuilder setPos(@NotNull BlockPos pos)
         {
             this.pos = pos;
             return this;
@@ -193,9 +231,9 @@ public class NMultiblockSerializer<T extends NMultiblockSerializer<T>> implement
 
         public T build()
         {
-            StructureInfo info = new StructureInfo(pos, state, tag, shape, isTrigger);
+            StructureInfo info = new StructureInfo(this.pos, this.state, this.tag, this.shape, this.isTrigger);
 
-
+            infoArray.add(StructureInfo.writeInfo(info));
 
             return getSelf();
         }

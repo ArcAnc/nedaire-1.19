@@ -13,9 +13,7 @@ import com.arcanc.nedaire.content.book.gui.EnchiridionScreen;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
-import com.ibm.icu.impl.number.MicroProps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -335,7 +333,7 @@ public class EnchElementPage extends EnchElementAbstract
 			ResourceLocation loc = new ResourceLocation(strings[1]);
 
 			Minecraft mc = RenderHelper.mc();
-			Optional<? extends Recipe<?>> recipe = mc.level.getRecipeManager().byKey(loc);
+			Optional<? extends Recipe<?>> recipe = Optional.ofNullable(mc.level.getRecipeManager().byKey(loc).get().value());
 	
 			return recipe.map(rec -> 
 			{

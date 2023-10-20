@@ -129,7 +129,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 		}
 		if (!toSync.isEmpty())
 			for (ServerPlayer player : usingPlayers)
-				NNetworkEngine.packetHandler.sendTo(new MessageContainerData(toSync), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+				NNetworkEngine.sendToPlayer(player, new MessageContainerData(toSync));
 				
 	}
 	
@@ -339,7 +339,7 @@ public abstract class NContainerMenu extends AbstractContainerMenu
 			List<Pair<Integer, DataPair<?>>> list = new ArrayList<>();
 			for (int q = 0; q < cont.genericData.size(); q++)
 				list.add(Pair.of(q, cont.genericData.get(q).dataPair()));
-			NNetworkEngine.packetHandler.sendTo(new MessageContainerData(list), serverPlayer.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+			NNetworkEngine.sendToPlayer(serverPlayer, new MessageContainerData(list));
 		}
 	}
 	

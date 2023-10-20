@@ -409,6 +409,8 @@ public class NDatabase
 			public static final String TAG = "tag";
 			public static final String SHAPE = "shape";
 			public static final String IS_TRIGGER = "isTrigger";
+
+			public static final String INFO_ARRAY = "info_array";
 		}
 
 		private static final Function<String, String> nameBuilder = (builder) -> TAG_LOCATION + '.' + builder;
@@ -416,6 +418,9 @@ public class NDatabase
 		public static final String IS_FORMED = nameBuilder.apply("is_formed");
 
 		public static final String ROTATION = nameBuilder.apply("rotation");
+
+		public static final String IS_MASTER = nameBuilder.apply("is_master");
+		public static final String MASTER_POS = nameBuilder.apply("master_pos");
 	}
 
 	public static class GUI
@@ -836,5 +841,10 @@ public class NDatabase
 				}
 			}
 		}
+	}
+
+	public static final class Ingredients
+	{
+		public static final String INGREDIENT_WITH_SIZE = "ingredient_with_size";
 	}
 }

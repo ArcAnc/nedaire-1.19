@@ -32,7 +32,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -64,12 +63,7 @@ public class NBlockManualCrusher extends NTileProviderBlock<NBEManualCrusher>
 	@Override
 	public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult)
 	{
-		if (player instanceof FakePlayer)
-		{
-			dropBlock(level, pos);
-			return InteractionResult.sidedSuccess(level.isClientSide());
-		}
-		return BlockHelper.castTileEntity(level, pos, NBEManualCrusher.class).map(tile -> 
+		return BlockHelper.castTileEntity(level, pos, NBEManualCrusher.class).map(tile ->
 		{
 			if (hitResult.getDirection() == Direction.UP)
 			{

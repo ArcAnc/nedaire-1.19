@@ -8,15 +8,11 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.function.Supplier;
-
-import org.joml.Vector3d;
-
 import com.arcanc.nedaire.content.renderer.EssenceRender;
 import com.arcanc.nedaire.util.helpers.PacketHelper;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.minecraftforge.event.network.CustomPayloadEvent;
+import org.joml.Vector3d;
 
 public class MessageEssenceParticle implements IMessage 
 {
@@ -48,9 +44,9 @@ public class MessageEssenceParticle implements IMessage
 	}
 
 	@Override
-	public void process(Supplier<Context> context) 
+	public void process(CustomPayloadEvent.Context context)
 	{
-		context.get().enqueueWork(() -> 
+		context.enqueueWork(() ->
 		{
 			if (!destroy)
 				EssenceRender.addNewPointPatricle(startPoint, finishPoint);

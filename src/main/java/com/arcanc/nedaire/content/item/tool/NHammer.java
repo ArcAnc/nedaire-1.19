@@ -80,6 +80,7 @@ public class NHammer extends NBaseItem
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public int getEnchantmentValue() 
 	{
 		return 0;

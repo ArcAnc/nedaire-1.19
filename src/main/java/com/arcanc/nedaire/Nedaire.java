@@ -29,15 +29,12 @@ import com.arcanc.nedaire.content.world.level.levelgen.village.NVillage;
 import com.arcanc.nedaire.content.world.level.levelgen.village.NVillageAddition;
 import com.arcanc.nedaire.data.*;
 import com.arcanc.nedaire.data.language.NEnUsLangProvider;
+import com.arcanc.nedaire.data.multiblocks.reloadListeners.MultiblockManager;
 import com.arcanc.nedaire.data.tags.NBlockTagsProvider;
 import com.arcanc.nedaire.data.tags.NFluidTagsProvider;
 import com.arcanc.nedaire.data.tags.NItemTagsProvider;
 import com.arcanc.nedaire.data.worldgen.NBiomeTags;
 import com.arcanc.nedaire.util.database.NDatabase;
-import com.arcanc.nedaire.util.helpers.VoxelShapeHelper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -55,8 +52,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -76,7 +71,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod(NDatabase.MOD_ID)
 public class Nedaire 
@@ -114,7 +108,7 @@ public class Nedaire
 	    NRegistration.RegisterFeatures.FEATURES.register(modEventBus);
 		NRegistration.RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
-//		NRegistration.RegisterMultiblocks.init(modEventBus);
+		NRegistration.RegisterMultiblocks.init(modEventBus);
 
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);
@@ -141,6 +135,9 @@ public class Nedaire
 	    MinecraftForge.EVENT_BUS.addListener(NVillageAddition :: addNewVillageBuilding);
 //	    MinecraftForge.EVENT_BUS.addListener(EssenceRender :: worldRender);
 	    MinecraftForge.EVENT_BUS.addListener(EssenceRender :: worldRenderPatricle);
+		MinecraftForge.EVENT_BUS.addListener(MultiblockManager :: registerListener);
+		MinecraftForge.EVENT_BUS.addListener(MultiblockManager ::syncDataToClient);
+
 	}
 
 	private void serverSetup(final FMLCommonSetupEvent event)
@@ -314,6 +311,7 @@ public class Nedaire
         gen.addProvider(event.includeServer(), new NItemTagsProvider(packOutput, lookupProvider, btp, ext));
         gen.addProvider(event.includeServer(), new NFluidTagsProvider(packOutput, lookupProvider, ext));
         gen.addProvider(event.includeServer(), new NRecipeProvider(packOutput));
+		gen.addProvider(event.includeServer(), new NMultiblockProvider(packOutput));
         gen.addProvider(event.includeServer(), new NWorldGenProvider(packOutput, lookupProvider));
 		gen.addProvider(event.includeClient(), new NParticlesDescriptionProvider(packOutput, ext));
 /*            gen.addProvider(new NedaireMultiblockProvider(gen));

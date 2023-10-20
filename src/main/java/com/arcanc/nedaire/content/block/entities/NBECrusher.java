@@ -142,7 +142,7 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 		super.writeCustomTag(tag, descPacket);
 
 		tag.putInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Crusher.USED_ENERGY, usedEnergy);
-		tag.putString(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Crusher.CURRENT_RECIPE, currentRecipe.map(rec -> rec.getId().toString()).orElse("null"));
+		tag.putString(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Crusher.CURRENT_RECIPE, currentRecipe.map(rec -> rec.getGroup()).orElse("null"));
 	
 		tag.put(NDatabase.Capabilities.ItemHandler.TAG_LOCATION, inv.serializeNBT());
 		tag.put(NDatabase.Capabilities.Vim.TAG_LOCATION, energy.serializeNBT());
@@ -158,7 +158,7 @@ public class NBECrusher extends NBERedstoneSensitive implements IInventoryCallba
 		
 		usedEnergy = tag.getInt(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Crusher.USED_ENERGY);
 		String str = tag.getString(NDatabase.Blocks.BlockEntities.TagAddress.Machines.Crusher.CURRENT_RECIPE);
-		currentRecipe = NCrusherRecipe.RECIPES.getRecipes(getLevel()).stream().filter(rec -> rec.getId().toString().equals(str)).findFirst();
+		currentRecipe = NCrusherRecipe.RECIPES.getRecipes(getLevel()).stream().filter(rec -> rec.getGroup().equals(str)).findFirst();
 	}
 	
 	@Override

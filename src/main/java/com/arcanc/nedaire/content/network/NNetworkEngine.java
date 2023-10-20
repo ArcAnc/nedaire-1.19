@@ -8,38 +8,27 @@
  */
 package com.arcanc.nedaire.content.network;
 
+import com.arcanc.nedaire.content.network.messages.*;
+import com.arcanc.nedaire.util.helpers.StringHelper;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.*;
+
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.arcanc.nedaire.content.network.messages.IMessage;
-import com.arcanc.nedaire.content.network.messages.MessageBlockEntitySync;
-import com.arcanc.nedaire.content.network.messages.MessageContainerData;
-import com.arcanc.nedaire.content.network.messages.MessageContainerUpdate;
-import com.arcanc.nedaire.content.network.messages.MessageDeliveryStationToClient;
-import com.arcanc.nedaire.content.network.messages.MessageEssenceParticle;
-import com.arcanc.nedaire.util.helpers.StringHelper;
-
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
-
 public class NNetworkEngine 
 {
-	public static final String VERSION = "currentVersion";
-	
-	/*FIXME: add version getter from api*/
-	public static final SimpleChannel packetHandler = NetworkRegistry.ChannelBuilder.
+	public static final int VERSION = 1;
+
+	public static final SimpleChannel packetHandler = ChannelBuilder.
 			named(StringHelper.getLocFStr("main")).
-			networkProtocolVersion(() -> VERSION).
-			serverAcceptedVersions(VERSION :: equals).
-			clientAcceptedVersions(VERSION :: equals).
+			networkProtocolVersion(VERSION).
+			serverAcceptedVersions(Channel.VersionTest.exact(VERSION)).
+			clientAcceptedVersions(Channel.VersionTest.exact(VERSION)).
 			simpleChannel();
-	
-	private static int messageId = 0;
+
 	private static final Set<Class<?>> knownPacketTypes = new HashSet<>();
 	
 	public static void init()
@@ -49,31 +38,40 @@ public class NNetworkEngine
 		registerMessage(MessageEssenceParticle.class, MessageEssenceParticle :: new, NetworkDirection.PLAY_TO_CLIENT);
 		registerMessage(MessageDeliveryStationToClient.class, MessageDeliveryStationToClient :: new, NetworkDirection.PLAY_TO_CLIENT);
 		registerMessage(MessageBlockEntitySync.class, MessageBlockEntitySync::new);
+		registerMessage(MessageMultiblockSyncToClient.class, MessageMultiblockSyncToClient :: new, NetworkDirection.PLAY_TO_CLIENT);
 	}
 	
 	public static void sendToAllPlayers(IMessage message)
 	{
-		packetHandler.send(PacketDistributor.ALL.noArg(), message);
+		packetHandler.send(message, PacketDistributor.ALL.noArg());
+	}
+
+	public static void sendToPlayer(ServerPlayer player, IMessage message)
+	{
+		packetHandler.send(message, PacketDistributor.PLAYER.with(player));
+	}
+
+	public static void sendToServer(IMessage message)
+	{
+		packetHandler.send(message, PacketDistributor.SERVER.noArg());
 	}
 	
 	private static <T extends IMessage> void registerMessage(Class<T> packetType, Function<FriendlyByteBuf, T> decoder)
 	{
-		registerMessage(packetType, decoder, Optional.empty());
+		registerMessage(packetType, decoder, null);
 	}
-	
+
 	private static <T extends IMessage> void registerMessage(Class<T> packetType, Function<FriendlyByteBuf, T> decoder, NetworkDirection dir)
-	{
-		registerMessage(packetType, decoder, Optional.of(dir));
-	}
-	
-	private static <T extends IMessage> void registerMessage(Class<T> packetType, Function<FriendlyByteBuf, T> decoder, Optional<NetworkDirection> dir)
 	{
 		if (!knownPacketTypes.add(packetType))
 			throw new IllegalStateException("Duplicate packet type: " + packetType.getName());
-		packetHandler.registerMessage(messageId++, packetType, IMessage :: toBytes, decoder, (t, ctx) ->
+		packetHandler.messageBuilder(packetType, dir).
+		decoder(decoder).
+		encoder(IMessage :: toBytes).
+		consumerNetworkThread((msg, ctx) ->
 		{
-			t.process(ctx);
-			ctx.get().setPacketHandled(true);
-		}, dir);
+			msg.process(ctx);
+			ctx.setPacketHandled(true);
+		}).add();
 	}
 }

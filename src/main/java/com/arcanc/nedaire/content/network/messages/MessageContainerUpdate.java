@@ -8,14 +8,11 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class MessageContainerUpdate implements IMessage 
 {
@@ -42,9 +39,8 @@ public class MessageContainerUpdate implements IMessage
 	}
 
 	@Override
-	public void process(Supplier<Context> context) 
+	public void process(CustomPayloadEvent.Context ctx)
 	{
-		Context ctx = context.get();
 		ServerPlayer player = ctx.getSender();
 		assert player!= null;
 		ctx.enqueueWork( ()-> 

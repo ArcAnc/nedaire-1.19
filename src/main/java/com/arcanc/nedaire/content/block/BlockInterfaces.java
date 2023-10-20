@@ -66,7 +66,7 @@ public class BlockInterfaces
 	}
 	/*
 	 * taken from Immersive Engineering
-	 * Sorry, bro, but your code is perfect
+	 * Sorry, bro, but your code is cool
 	 */
 	public interface INInteractionObject<T extends BlockEntity & INInteractionObject<T>> extends MenuProvider
 	{

@@ -8,20 +8,18 @@
  */
 package com.arcanc.nedaire.content.network.messages;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.content.container.menu.NContainerMenu;
 import com.arcanc.nedaire.content.container.sync.GenericDataSerializers;
 import com.arcanc.nedaire.content.container.sync.GenericDataSerializers.DataPair;
 import com.arcanc.nedaire.util.helpers.PacketHelper;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.minecraftforge.event.network.CustomPayloadEvent;
+
+import java.util.List;
 
 public class MessageContainerData implements IMessage 
 {
@@ -48,9 +46,9 @@ public class MessageContainerData implements IMessage
 	}
 
 	@Override
-	public void process(Supplier<Context> context) 
+	public void process(CustomPayloadEvent.Context context)
 	{
-		context.get().enqueueWork(() ->
+		context.enqueueWork(() ->
 		{
 			Minecraft mc = RenderHelper.mc();
 			AbstractContainerMenu currentContainer = mc.player.containerMenu;

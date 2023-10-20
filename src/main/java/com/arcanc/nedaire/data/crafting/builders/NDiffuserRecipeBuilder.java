@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 
 public class NDiffuserRecipeBuilder extends NFinishedRecipe<NDiffuserRecipeBuilder> 
 {
-	JsonArray fluidsArray = new JsonArray();
 	boolean isManual = false;
 
 	protected NDiffuserRecipeBuilder() 

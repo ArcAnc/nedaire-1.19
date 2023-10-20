@@ -8,20 +8,11 @@
  */
 package com.arcanc.nedaire.data.crafting;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-
 import com.arcanc.nedaire.content.registration.NRegistration.RegisterRecipes.Types.TypeWithClass;
 import com.arcanc.nedaire.util.database.NDatabase;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -30,6 +21,13 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+
+import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @EventBusSubscriber(modid = NDatabase.MOD_ID, bus = Bus.FORGE)
 public class CachedRecipeList <T extends Recipe<?>>
@@ -94,9 +92,8 @@ public class CachedRecipeList <T extends Recipe<?>>
 		if(recipes != null && cachedAtReloadCount == reloadCount && (!cachedDataIsClient || isClient))
 			return;
 		this.recipes = manager.getRecipes().stream().
-				filter(iRecipe -> iRecipe.getType()==type.get()).
-				map(recipeClass::cast).
-				collect(Collectors.toMap(T::getId, Function.identity()));
+				filter(iRecipe -> iRecipe.value().getType().toString().equals(type.get().toString())).
+				collect(Collectors.toMap(RecipeHolder::id, holder -> (T)holder.value()));
 		this.cachedDataIsClient = isClient;
 		this.cachedAtReloadCount = reloadCount;
 	}

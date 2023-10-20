@@ -8,57 +8,58 @@
  */
 package com.arcanc.nedaire.data.crafting;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.arcanc.nedaire.content.registration.NRegistration;
 import com.google.gson.JsonElement;
-
-import net.minecraft.network.FriendlyByteBuf;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.Util;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.ingredients.IIngredientSerializer;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class IngredientWithSize implements Predicate<ItemStack> 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
+public class IngredientWithSize extends Ingredient implements Predicate<ItemStack>
 {
-	public static final IIngredientWithSizeSerializer SERIALIZER = IngredientWithSizeSerializer.INSTANCE;
-	protected final Ingredient basePredicate;
-	protected final int count;
 
-	public IngredientWithSize(Ingredient basePredicate, int count)
+	protected final Ingredient ingredient;
+	protected final int amount;
+
+	public IngredientWithSize(Stream<? extends Value> values, int amount)
 	{
-		this.basePredicate = basePredicate;
-		this.count = count;
+		super(values);
+		this.ingredient = fromValues(values);
+		this.amount = amount;
 	}
 
-	public IngredientWithSize(Ingredient basePredicate)
+	public IngredientWithSize(Stream<? extends  Value> values)
 	{
-		this(basePredicate, 1);
+		this(values, 1);
 	}
 
-	public IngredientWithSize(TagKey<Item> basePredicate, int count)
+	public IngredientWithSize(Ingredient ingredient)
 	{
-		this(Ingredient.of(basePredicate), count);
+		this(Arrays.stream(ingredient.getItems()).map(ItemValue::new));
 	}
 
-	public IngredientWithSize(TagKey<Item> basePredicate)
+	public IngredientWithSize(Ingredient ingredient, int amount)
 	{
-		this(basePredicate, 1);
+		this(Arrays.stream(ingredient.getItems()).map(ItemValue::new), amount);
+	}
+	public IngredientWithSize(TagKey<Item> ingredient, int amount)
+	{
+		this(Ingredient.of(ingredient), amount);
 	}
 
-	public static IngredientWithSize deserialize(JsonElement input)
+	public IngredientWithSize(TagKey<Item> ingredient)
 	{
-		return SERIALIZER.parse(input);
-	}
-
-	public static IngredientWithSize read(FriendlyByteBuf input)
-	{
-		return SERIALIZER.parse(input);
+		this(ingredient, 1);
 	}
 
 	@Override
@@ -66,54 +67,47 @@ public class IngredientWithSize implements Predicate<ItemStack>
 	{
 		if(itemStack==null)
 			return false;
-		return basePredicate.test(itemStack)&&itemStack.getCount() >= this.count;
+		return ingredient.test(itemStack)&&itemStack.getCount() >= this.amount;
 	}
 
 	@Nonnull
 	public ItemStack[] getMatchingStacks()
 	{
-		ItemStack[] baseStacks = basePredicate.getItems();
+		ItemStack[] baseStacks = ingredient.getItems();
 		ItemStack[] ret = new ItemStack[baseStacks.length];
 		for(int i = 0; i < baseStacks.length; ++i)
-			ret[i] = ItemHandlerHelper.copyStackWithSize(baseStacks[i], this.count);
+			ret[i] = ItemHandlerHelper.copyStackWithSize(baseStacks[i], this.amount);
 		return ret;
 	}
 
-	@Nonnull
-	public List<ItemStack> getMatchingStackList()
+	@Override
+	public IIngredientSerializer<IngredientWithSize> serializer()
 	{
-		return Arrays.asList(getMatchingStacks());
-	}
-
-	@Nonnull
-	public JsonElement serialize()
-	{
-		return SERIALIZER.write(this);
+		return NRegistration.RegisterIngredients.INGREDIENT_WITH_SIZE.get();
 	}
 
 	public boolean hasNoMatchingItems()
 	{
-		return basePredicate.isEmpty();
+		return ingredient.isEmpty();
 	}
 
-	public int getCount()
+	public int getAmount()
 	{
-		return count;
+		return amount;
 	}
 
-	public Ingredient getBaseIngredient()
+	public Ingredient getIngredient()
 	{
-		return basePredicate;
+		return ingredient;
 	}
-
-	public IngredientWithSize withSize(int size)
-	{
-		return new IngredientWithSize(this.basePredicate, size);
-	}
-
 	public static IngredientWithSize of(ItemStack stack)
 	{
 		return new IngredientWithSize(Ingredient.of(stack), stack.getCount());
+	}
+
+	public JsonElement toJson()
+	{
+		return Util.getOrThrow(IngredientWithSizeSerializer.CODEC.encodeStart(JsonOps.INSTANCE, this), IllegalStateException :: new);
 	}
 
 	public ItemStack getRandomizedExampleStack(int rand)
@@ -122,16 +116,11 @@ public class IngredientWithSize implements Predicate<ItemStack>
 		if (all.length == 0)
 			return ItemStack.EMPTY;
 		else
-			return all[(rand/20)%all.length];
+			return all[rand%all.length];
 	}
 
 	public boolean testIgnoringSize(ItemStack itemstack)
 	{
-		return basePredicate.test(itemstack);
-	}
-
-	public void write(FriendlyByteBuf out)
-	{
-		SERIALIZER.write(out, this);
+		return ingredient.test(itemstack);
 	}
 }

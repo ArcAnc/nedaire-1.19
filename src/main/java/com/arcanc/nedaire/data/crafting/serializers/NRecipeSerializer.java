@@ -8,34 +8,18 @@
  */
 package com.arcanc.nedaire.data.crafting.serializers;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.arcanc.nedaire.data.crafting.IngredientWithSize;
-import com.arcanc.nedaire.data.crafting.StackWithChance;
-import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.conditions.ICondition.IContext;
-import net.minecraftforge.common.util.JsonUtils;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeSerializer<T> 
 {
 	public abstract ItemStack getIcon();
-	
+
+	/*
 	@Override
 	public T fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject object) 
 	{
@@ -56,9 +40,9 @@ public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeS
 	{
 		if(outputObject.isJsonObject() && outputObject.getAsJsonObject().has("item"))
 			return Lazy.of(() -> ShapedRecipe.itemStackFromJson(outputObject.getAsJsonObject()));
-		IngredientWithSize outgredient = IngredientWithSize.deserialize(outputObject);
-		/* FIXME: change to choosing required stack depending on mc mod*/
-		return Lazy.of(() -> outgredient.getMatchingStacks()[0]);
+		IngredientWithSize outIngredient = IngredientWithSize.deserialize(outputObject);
+		// FIXME: change to choosing required stack depending on mc mod
+		return Lazy.of(() -> outIngredient.getMatchingStacks()[0]);
 	}
 	
 	@Nullable
@@ -73,18 +57,19 @@ public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeS
 		}
 		return null;
 	}
-	
-	protected static Lazy<ItemStack> readLazyStack(FriendlyByteBuf buf)
+*/
+	protected static @NotNull Lazy<ItemStack> readLazyStack(@NotNull FriendlyByteBuf buf)
 	{
 		ItemStack stack = buf.readItem();
 		return Lazy.of(() -> stack);
 	}
 
-	protected static void writeLazyStack(FriendlyByteBuf buf, Lazy<ItemStack> stack)
+	protected static void writeLazyStack(@NotNull FriendlyByteBuf buf, @NotNull Lazy<ItemStack> stack)
 	{
 		buf.writeItem(stack.get());
 	}
 	
+/*
 	protected static FluidStack readFluidStack(JsonObject jsonObject)
 	{
 		Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(GsonHelper.getAsString(jsonObject, "fluid")));
@@ -94,4 +79,5 @@ public abstract class NRecipeSerializer <T extends Recipe<?>> implements RecipeS
 			fluidStack.setTag(JsonUtils.readNBT(jsonObject, "tag"));
 		return fluidStack;
 	}
+	*/
 }
