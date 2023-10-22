@@ -4,12 +4,13 @@
   "input": {
     "tag": "forge:ores/corium"
   },
-  "is_manual": false,
   "result": {
-    "base_ingredient": {
-      "tag": "forge:dusts/corium"
-    },
-    "count": 2
+    "amount": 2,
+    "ingredient": [
+      {
+        "tag": "forge:dusts/corium"
+      }
+    ]
   },
   "secondaries": []
 }

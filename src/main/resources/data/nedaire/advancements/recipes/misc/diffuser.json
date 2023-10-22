@@ -22,8 +22,8 @@
   },
   "requirements": [
     [
-      "has_ingot/corium",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_ingot/corium"
     ]
   ],
   "rewards": {

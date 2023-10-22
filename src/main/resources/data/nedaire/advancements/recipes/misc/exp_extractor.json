@@ -44,10 +44,10 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingot/corium",
       "has_glass_panes",
-      "has_observer",
-      "has_the_recipe"
+      "has_observer"
     ]
   ],
   "rewards": {

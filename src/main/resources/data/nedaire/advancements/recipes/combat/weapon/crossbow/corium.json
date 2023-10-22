@@ -52,11 +52,11 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_string",
       "has_rods/wooden",
-      "has_tripwire_hook",
-      "has_the_recipe"
+      "has_tripwire_hook"
     ]
   ],
   "rewards": {

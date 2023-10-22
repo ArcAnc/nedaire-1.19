@@ -4,12 +4,13 @@
   "input": {
     "tag": "minecraft:coal_ores"
   },
-  "is_manual": false,
   "result": {
-    "base_ingredient": {
-      "tag": "minecraft:coals"
-    },
-    "count": 8
+    "amount": 8,
+    "ingredient": [
+      {
+        "tag": "minecraft:coals"
+      }
+    ]
   },
   "secondaries": []
 }

@@ -109,6 +109,7 @@ public class Nedaire
 		NRegistration.RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
 
 		NRegistration.RegisterMultiblocks.init(modEventBus);
+		NRegistration.RegisterIngredients.INGREDIENT_SERIALIZERS.register(modEventBus);
 
 	    modEventBus.addListener(this :: serverSetup);
 	    modEventBus.addListener(this :: clientSetup);

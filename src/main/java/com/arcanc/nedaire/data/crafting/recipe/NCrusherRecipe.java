@@ -10,6 +10,7 @@ package com.arcanc.nedaire.data.crafting.recipe;
 
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.CachedRecipeList;
+import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.StackWithChance;
 import com.arcanc.nedaire.data.crafting.serializers.NCrusherRecipeSerializer;
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
@@ -43,6 +44,11 @@ public class NCrusherRecipe extends NRecipe
 		
 		setInputList(Collections.singletonList(input));
 		this.outputList = Lazy.of(() -> NonNullList.of(ItemStack.EMPTY, output));
+	}
+
+	public NCrusherRecipe(IngredientWithSize output, Ingredient input, int energy)
+	{
+		this(output.getRandomizedExampleStack(0),input, energy);
 	}
 
 	@Override

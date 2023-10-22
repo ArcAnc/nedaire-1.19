@@ -8,11 +8,8 @@
  */
 package com.arcanc.nedaire.content.container.widget;
 
-import java.util.function.Supplier;
-
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -20,6 +17,8 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class Label extends AbstractWidget 
 {
@@ -41,7 +40,7 @@ public class Label extends AbstractWidget
 		Minecraft mc = RenderHelper.mc();
 		Font font = mc.font;
 
-		guiGraphics.drawString(font, text.get(), this.getX() - font.width(text.get()) / 2, this.getY(), 16777215);
+		guiGraphics.drawString(font, text.get(), this.getX() - font.width(text.get()) / 2, this.getY(), 16777215, false);
 		
 		poseStack.popPose();
 	}

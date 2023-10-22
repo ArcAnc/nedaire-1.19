@@ -44,10 +44,10 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
-      "has_bucket",
-      "has_the_recipe"
+      "has_bucket"
     ]
   ],
   "rewards": {

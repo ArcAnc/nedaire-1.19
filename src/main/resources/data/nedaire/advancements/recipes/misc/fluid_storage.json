@@ -54,11 +54,11 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_glass",
       "has_cauldron",
       "has_dusts/redstone",
-      "has_skystone",
-      "has_the_recipe"
+      "has_skystone"
     ]
   ],
   "rewards": {

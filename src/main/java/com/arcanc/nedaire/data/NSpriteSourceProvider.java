@@ -8,18 +8,18 @@
  */
 package com.arcanc.nedaire.data;
 
-import java.util.Optional;
-
 import com.arcanc.nedaire.content.container.NSlot;
 import com.arcanc.nedaire.content.material.NMaterial;
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.arcanc.nedaire.util.helpers.StringHelper;
-
+import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SpriteSourceProvider;
+
+import java.util.Optional;
 
 public class NSpriteSourceProvider extends SpriteSourceProvider 
 {
@@ -39,8 +39,8 @@ public class NSpriteSourceProvider extends SpriteSourceProvider
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(mat.getToolMat().getShieldNoPattern().texture(), Optional.empty()));
 		
 		//										SLOTS
-		//		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister(StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH.substring(0, NDatabase.GUI.Slots.PATH.length()-1)),
-		//																			   StringHelper.getStrLocFStr(NDatabase.GUI.Slots.PATH)));
+		//	atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new DirectoryLister("gui/slots", "nedaire"));
+		//
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_STANDARD, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_INPUT, Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(NSlot.BACKGROUND_OUTPUT, Optional.empty()));

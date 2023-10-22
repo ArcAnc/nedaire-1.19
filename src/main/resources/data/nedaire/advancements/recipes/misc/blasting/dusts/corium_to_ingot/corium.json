@@ -20,8 +20,8 @@
   },
   "requirements": [
     [
-      "has_dusts/corium",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_dusts/corium"
     ]
   ],
   "rewards": {

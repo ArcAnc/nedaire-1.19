@@ -22,8 +22,8 @@
   },
   "requirements": [
     [
-      "has_nedaire:nugget/corium",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_nedaire:nugget/corium"
     ]
   ],
   "rewards": {

@@ -252,12 +252,18 @@ public class NDatabase
 	
 	public static class Recipes
 	{
+		public static final String RESULT = "result";
+		public static final String INPUT = "input";
+		public static final String ENERGY = "energy";
+		public static final String TIME = "time";
+		public static final String FLUID = "fluid";
+		public static final String IS_MANUAL = "is_manual";
+
 		public static class StackWithChanceNBT
 		{
 			public static final String CHANCE = "chance";
 			public static final String STACK = "stack";
 		}
-		
 		public static class IngredientWithSizeNBT
 		{
 			public static final String COUNT_KEY = "count";
@@ -269,21 +275,9 @@ public class NDatabase
 			public static final String CRUSHER = "crusher";
 			public static class Crusher
 			{
-				public static final String RESULT = "result";
-				public static final String INPUT = "input";
 				public static final String SECONDARIES = "secondaries";
-				public static final String ENERGY = "energy";
-				public static final String IS_MANUAL = "is_manual";
 			}
 			public static final String DIFFUSER = "diffuser";
-			public static class Diffuser
-			{
-				public static final String RESULT = "result";
-				public static final String INPUT = "input";
-				public static final String FLUID = "fluid";
-				public static final String TIME = "time";
-				public static final String IS_MANUAL = "is_manual";
-			}
 		}
 		public static class VanillaTypes
 		{
@@ -428,18 +422,18 @@ public class NDatabase
 		public static final String PATH = StringHelper.getStrLocFStr("gui/").replace(':', '.');
 		public static class Slots
 		{
-			public static final String PATH = GUI.PATH + "slots/";
+			public static final String PATH = GUI.PATH.replace('.', '/').substring(GUI.PATH.indexOf('.')) + "slots/";
 			public static class Textures
 			{
-				public static final String STANDARD = Slots.PATH + "standard";
-				public static final String INPUT = Slots.PATH + "input";
-				public static final String OUTPUT = Slots.PATH + "output";
-				public static final String BOTH = Slots.PATH + "both";
+				public static final String STANDARD = PATH + "standard";
+				public static final String INPUT = PATH + "input";
+				public static final String OUTPUT = PATH + "output";
+				public static final String BOTH = PATH + "both";
 			}
 		}
 		public static class Background
 		{
-			public static final String PATH = GUI.PATH + "background/";
+			public static final String PATH = GUI.PATH.replace('.', '/').substring(GUI.PATH.indexOf('.')) + "background/";
 			public static final class Textures
 			{
 				public static final String MIDDLE = Background.PATH + "middle";
@@ -458,7 +452,7 @@ public class NDatabase
 		
 		public static class Elements
 		{
-			public static final String PATH = GUI.PATH + "elements/";
+			public static final String PATH = GUI.PATH.replace('.', '/').substring(GUI.PATH.indexOf('.')) + "elements/";
 			public static class Vim
 			{
 				public static final String PATH = Elements.PATH + "vim/vim";
@@ -478,14 +472,14 @@ public class NDatabase
 				public static final String ARROW_RIGHT = PATH + "arrow_right";
 				public static class Description
 				{
-					public static final String PERCENT = PATH.replace(':', '.').replace('/', '.') + "percent";
-					public static final String PERCENT_FULL = PATH.replace(':', '.').replace('/', '.') + "percent_full";
+					public static final String PERCENT = PATH + "percent";
+					public static final String PERCENT_FULL = PATH + "percent_full";
 				}
 			}
 			public static class EnchElementDiffuserRecipe
 			{
 				public static final String PATH = Elements.PATH + "diffuser_recipe";
-				public static final String AMOUNT = PATH.replace(':', '.').replace('/', '.') + "amount";
+				public static final String AMOUNT = PATH + "amount";
 			}
 			public static class DropPanel
 			{
@@ -547,7 +541,7 @@ public class NDatabase
 		
 		public static class Filter
 		{
-			public static final String PATH = GUI.PATH + "filter/";
+			public static final String PATH = GUI.PATH.replace('.', '/').substring(GUI.PATH.indexOf('.')) + "filter/";
 			
 			public static final String WHITELIST = PATH + "whitelist";
 			public static final String TAG = PATH + "tag";

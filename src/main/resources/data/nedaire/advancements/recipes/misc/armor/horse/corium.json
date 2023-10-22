@@ -40,10 +40,10 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_leather",
-      "has_wool",
-      "has_the_recipe"
+      "has_wool"
     ]
   ],
   "rewards": {

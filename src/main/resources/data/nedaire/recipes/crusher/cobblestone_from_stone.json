@@ -4,9 +4,9 @@
   "input": {
     "item": "minecraft:stone"
   },
-  "is_manual": false,
   "result": {
-    "item": "minecraft:cobblestone"
+    "Count": 1,
+    "id": "minecraft:cobblestone"
   },
   "secondaries": []
 }

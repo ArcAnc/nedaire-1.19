@@ -42,10 +42,10 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_glass_panes",
       "has_stone",
-      "has_nedaire:ingot/corium",
-      "has_the_recipe"
+      "has_nedaire:ingot/corium"
     ]
   ],
   "rewards": {

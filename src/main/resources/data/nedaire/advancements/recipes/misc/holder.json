@@ -32,9 +32,9 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_skystone",
-      "has_glass_panes",
-      "has_the_recipe"
+      "has_glass_panes"
     ]
   ],
   "rewards": {

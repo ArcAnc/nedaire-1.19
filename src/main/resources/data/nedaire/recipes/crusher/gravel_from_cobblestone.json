@@ -4,15 +4,16 @@
   "input": {
     "item": "minecraft:cobblestone"
   },
-  "is_manual": false,
   "result": {
-    "item": "minecraft:gravel"
+    "Count": 1,
+    "id": "minecraft:gravel"
   },
   "secondaries": [
     {
       "chance": 0.15,
       "output": {
-        "item": "minecraft:sand"
+        "Count": 1,
+        "id": "minecraft:sand"
       }
     }
   ]

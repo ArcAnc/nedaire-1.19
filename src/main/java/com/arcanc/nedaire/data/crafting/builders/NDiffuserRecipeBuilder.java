@@ -10,9 +10,6 @@ package com.arcanc.nedaire.data.crafting.builders;
 
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
-import com.arcanc.nedaire.util.database.NDatabase;
-import com.google.gson.JsonArray;
-
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +21,6 @@ public class NDiffuserRecipeBuilder extends NFinishedRecipe<NDiffuserRecipeBuild
 	protected NDiffuserRecipeBuilder() 
 	{
 		super(NDiffuserRecipe.SERIALIZER.get().get());
-		addWriter(jsonObject -> jsonObject.addProperty(NDatabase.Recipes.Types.Crusher.IS_MANUAL, isManual));
 	}
 
 	public static NDiffuserRecipeBuilder builder(Item result)

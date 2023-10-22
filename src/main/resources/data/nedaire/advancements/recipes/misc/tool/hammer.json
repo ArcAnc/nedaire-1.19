@@ -30,9 +30,9 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_rods/wooden",
-      "has_ingots/iron",
-      "has_the_recipe"
+      "has_ingots/iron"
     ]
   ],
   "rewards": {

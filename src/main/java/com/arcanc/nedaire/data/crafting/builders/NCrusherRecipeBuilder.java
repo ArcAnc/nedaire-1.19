@@ -13,7 +13,6 @@ import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
 import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +29,6 @@ public class NCrusherRecipeBuilder extends NFinishedRecipe<NCrusherRecipeBuilder
 	{
 		super(NCrusherRecipe.SERIALIZER.get().get());
 		addWriter(jsonObject -> jsonObject.add(NDatabase.Recipes.Types.Crusher.SECONDARIES, secondaryArray));
-		addWriter(jsonObject -> jsonObject.addProperty(NDatabase.Recipes.Types.Crusher.IS_MANUAL, isManual));
 	}
 
 	public static NCrusherRecipeBuilder builder(Item result)

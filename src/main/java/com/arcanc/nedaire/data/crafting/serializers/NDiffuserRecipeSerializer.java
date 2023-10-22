@@ -10,6 +10,7 @@ package com.arcanc.nedaire.data.crafting.serializers;
 
 import com.arcanc.nedaire.content.registration.NRegistration;
 import com.arcanc.nedaire.data.crafting.recipe.NDiffuserRecipe;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,10 +25,10 @@ public class NDiffuserRecipeSerializer extends NRecipeSerializer<NDiffuserRecipe
 	public static final Codec<NDiffuserRecipe> CODEC = RecordCodecBuilder.create(instance ->
 			instance.group
 			(
-				ItemStack.CODEC.fieldOf("output").forGetter(NDiffuserRecipe :: getOutput),
-				Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(NDiffuserRecipe::getInput),
-				Codec.INT.fieldOf("time").forGetter(NDiffuserRecipe ::getTotalProcessTime),
-				FluidStack.CODEC.fieldOf("fluid").forGetter(NDiffuserRecipe::getFluid)
+				ItemStack.CODEC.fieldOf(NDatabase.Recipes.RESULT).forGetter(NDiffuserRecipe :: getOutput),
+				Ingredient.CODEC_NONEMPTY.fieldOf(NDatabase.Recipes.INPUT).forGetter(NDiffuserRecipe::getInput),
+				Codec.INT.fieldOf(NDatabase.Recipes.TIME).forGetter(NDiffuserRecipe ::getTotalProcessTime),
+				FluidStack.CODEC.fieldOf(NDatabase.Recipes.FLUID).forGetter(NDiffuserRecipe::getFluid)
 			).apply(instance, NDiffuserRecipe :: new));
 
 	@Override

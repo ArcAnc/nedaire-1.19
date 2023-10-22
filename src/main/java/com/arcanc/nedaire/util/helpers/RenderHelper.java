@@ -11,24 +11,25 @@ package com.arcanc.nedaire.util.helpers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions.FontContext;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
 
 public class RenderHelper 
 {
@@ -238,5 +239,35 @@ public class RenderHelper
 
         return new int[] { r, g, b, a };
     }
-    
+
+    public static void blit(GuiGraphics guiGraphics, ResourceLocation location, float posX, float posY, float posZ, float sizeX, float sizeY, int uStart, int uSize, int vStart, int vSize, int textureSizeX, int textureSizeY)
+    {
+        blit(guiGraphics, location, posX, posY, posZ, sizeX, sizeY, uStart, uSize, vStart, vSize, textureSizeX, textureSizeY, 1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    public static void blit(@NotNull GuiGraphics guiGraphics, ResourceLocation location, float posX, float posY, float posZ, float sizeX, float sizeY, int uStart, int uSize, int vStart, int vSize, int textureSizeX, int textureSizeY, float red, float green, float blue, float alpha)
+    {
+        RenderSystem.setShaderTexture(0, location);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.enableBlend();
+
+        float posXFinish = posX + sizeX;
+        float posYFinish = posY + sizeY;
+
+        float uScaledStart = uStart / (float)textureSizeX;
+        float uScaledFinish = (uStart + uSize) / (float)textureSizeX;
+        float vScaledStart = vStart / (float)textureSizeY;
+        float vScaledFinish = (vStart + vSize) / (float)textureSizeY;
+
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+        bufferbuilder.vertex(matrix4f, posX,       posY,       posZ).color(red, green, blue, alpha).uv(uScaledStart,  vScaledStart).endVertex();
+        bufferbuilder.vertex(matrix4f, posX,       posYFinish, posZ).color(red, green, blue, alpha).uv(uScaledStart,  vScaledFinish).endVertex();
+        bufferbuilder.vertex(matrix4f, posXFinish, posYFinish, posZ).color(red, green, blue, alpha).uv(uScaledFinish, vScaledFinish).endVertex();
+        bufferbuilder.vertex(matrix4f, posXFinish, posY,       posZ).color(red, green, blue, alpha).uv(uScaledFinish, vScaledStart).endVertex();
+        BufferUploader.drawWithShader(bufferbuilder.end());
+        RenderSystem.disableBlend();
+    }
+
 }

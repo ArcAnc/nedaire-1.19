@@ -66,12 +66,12 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
       "has_ingots/copper",
       "has_vim_storage",
-      "has_skystone",
-      "has_the_recipe"
+      "has_skystone"
     ]
   ],
   "rewards": {

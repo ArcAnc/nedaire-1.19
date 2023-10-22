@@ -1,15 +1,15 @@
 {
   "type": "nedaire:diffuser",
   "fluid": {
-    "amount": 1000,
-    "fluid": "minecraft:water"
+    "Amount": 1000,
+    "FluidName": "minecraft:water"
   },
   "input": {
     "item": "minecraft:amethyst_cluster"
   },
-  "is_manual": false,
   "result": {
-    "item": "nedaire:growth_crystal"
+    "Count": 1,
+    "id": "nedaire:growth_crystal"
   },
   "time": 500
 }

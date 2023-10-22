@@ -20,8 +20,8 @@
   },
   "requirements": [
     [
-      "has_storage_block_corium",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_storage_block_corium"
     ]
   ],
   "rewards": {

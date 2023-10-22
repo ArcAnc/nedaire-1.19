@@ -42,10 +42,10 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
-      "has_dusts/redstone",
-      "has_the_recipe"
+      "has_dusts/redstone"
     ]
   ],
   "rewards": {

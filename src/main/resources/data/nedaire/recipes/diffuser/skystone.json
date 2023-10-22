@@ -1,15 +1,15 @@
 {
   "type": "nedaire:diffuser",
   "fluid": {
-    "amount": 50,
-    "fluid": "nedaire:block/fluids/experience/still"
+    "Amount": 50,
+    "FluidName": "nedaire:block/fluids/experience/still"
   },
   "input": {
     "tag": "forge:stone"
   },
-  "is_manual": false,
   "result": {
-    "item": "nedaire:skystone"
+    "Count": 1,
+    "id": "nedaire:skystone"
   },
   "time": 500
 }

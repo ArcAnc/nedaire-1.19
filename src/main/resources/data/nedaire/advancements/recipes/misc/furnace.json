@@ -68,12 +68,12 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
       "has_hopper",
       "has_furnace",
-      "has_bricks",
-      "has_the_recipe"
+      "has_bricks"
     ]
   ],
   "rewards": {

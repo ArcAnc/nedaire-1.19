@@ -13,7 +13,6 @@ import com.arcanc.nedaire.content.container.widget.icon.Icon;
 import com.arcanc.nedaire.util.helpers.RenderHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,7 +20,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec2;
 import org.apache.commons.compress.utils.Lists;
@@ -128,27 +126,26 @@ public class DropPanel extends AbstractWidget
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f);
+//		RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+//		RenderSystem.setShaderColor(this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f);
 
-		guiGraphics.blit(NContainerScreen.LEFT_TOP, getX(), getY(), -10, 0, 0, 8, 8, 8, 8);
+		RenderHelper.blit(guiGraphics, NContainerScreen.LEFT_TOP, getX(), getY(), -10, 8 ,8, 0, 8, 0,8, 8, 8,this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
-		guiGraphics.blit(NContainerScreen.MIDDLE_TOP, getX() + 8, getY(), -10, 0, 0, getWidth() - 16, 8, 8, 8);
-		
-		guiGraphics.blit(NContainerScreen.RIGHT_TOP, getX() + getWidth() - 8, getY(), -10, 0, 0, 8, 8, 8, 8);
-		
-		guiGraphics.blit(NContainerScreen.MIDDLE_LEFT, getX(), getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
-		
-		guiGraphics.blit(NContainerScreen.LEFT_BOT, getX(), getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
+		RenderHelper.blit(guiGraphics, NContainerScreen.MIDDLE_TOP, getX() + 8, getY(), -10, getWidth() - 16, 8, 0, 8, 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
-		guiGraphics.blit(NContainerScreen.MIDDLE_BOT, getX() + 8, getY() + getHeight() - 8, -10, 0, 0, getWidth() - 16, 8, 8, 8);
+		RenderHelper.blit(guiGraphics, NContainerScreen.RIGHT_TOP, getX() + getWidth() - 8, getY(), -10, 8, 8, 0, 8 , 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
-		guiGraphics.blit(NContainerScreen.RIGHT_BOT, getX() + getWidth() - 8, getY() + getHeight() - 8, -10, 0, 0, 8, 8, 8, 8);
+		RenderHelper.blit(guiGraphics, NContainerScreen.MIDDLE_LEFT, getX(), getY() + 8, -10, 8, getHeight() - 16, 0, 8, 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
-		guiGraphics.blit(NContainerScreen.MIDDLE_RIGHT, getX() + getWidth() - 8, getY() + 8, -10, 0, 0, 8, getHeight() - 16, 8, 8);
+		RenderHelper.blit(guiGraphics, NContainerScreen.LEFT_BOT, getX(), getY() + getHeight() - 8, -10, 8, 8, 0, 8, 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
-		guiGraphics.blit(NContainerScreen.MIDDLE, getX() + 8, getY() + 8, -10, 0, 0, getWidth() - 16, getHeight() - 16, 8, 8);
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+		RenderHelper.blit(guiGraphics, NContainerScreen.MIDDLE_BOT, getX() + 8, getY() + getHeight() - 8, -10, getWidth() - 16, 8, 0, 8, 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
+
+		RenderHelper.blit(guiGraphics, NContainerScreen.RIGHT_BOT, getX() + getWidth() - 8, getY() + getHeight() - 8, -10, 8,8, 0, 8, 0, 8, 8, 8, this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
+
+		RenderHelper.blit(guiGraphics, NContainerScreen.MIDDLE_RIGHT, getX() + getWidth() - 8, getY() + 8, -10, 8, getHeight() - 16, 0, 8, 0, 8, 8,8,this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
+
+		RenderHelper.blit(guiGraphics, NContainerScreen.MIDDLE, getX() + 8, getY() + 8, -10, getWidth() - 16, getHeight() - 16, 0, 8, 0, 8, 8,8,this.color.getRed() / 255f, this.color.getGreen() / 255f, this.color.getBlue() / 255f, this.color.getAlpha() / 255f );
 
 		if (state == State.CLOSED)
 		{

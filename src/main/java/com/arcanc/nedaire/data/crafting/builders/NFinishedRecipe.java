@@ -11,11 +11,13 @@ package com.arcanc.nedaire.data.crafting.builders;
 import com.arcanc.nedaire.data.crafting.FluidTagInput;
 import com.arcanc.nedaire.data.crafting.IngredientWithSize;
 import com.arcanc.nedaire.data.crafting.serializers.NRecipeSerializer;
-import com.arcanc.nedaire.util.helpers.FluidHelper;
+import com.arcanc.nedaire.util.database.NDatabase;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.Util;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -39,6 +41,9 @@ import java.util.function.Consumer;
 
 public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRecipe 
 {
+	/**
+	 * TODO: completely move all generation code to codecs. FUCKING CODECS!
+	 */
 
 	private final NRecipeSerializer<?> serializer;
 	private final List<Consumer<JsonObject>> writerFunctions;
@@ -96,12 +101,12 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T setTime(int time)
 	{
-		return addWriter(jsonObject -> jsonObject.addProperty("time", time));
+		return addWriter(jsonObject -> jsonObject.addProperty(NDatabase.Recipes.TIME, time));
 	}
 
 	public T setEnergy(int energy)
 	{
-		return addWriter(jsonObject -> jsonObject.addProperty("energy", energy));
+		return addWriter(jsonObject -> jsonObject.addProperty(NDatabase.Recipes.ENERGY, energy));
 	}
 
 	/* =============== Result Handling =============== */
@@ -110,7 +115,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	{
 		this.resultArray = new JsonArray();
 		this.maxResultCount = maxResultCount;
-		return addWriter(jsonObject -> jsonObject.add("results", resultArray));
+		return addWriter(jsonObject -> jsonObject.add(NDatabase.Recipes.RESULT, resultArray));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -133,7 +138,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		if(resultArray!=null)
 			return addMultiResult(serializeItemStack(itemStack));
 		else
-			return addItem("result", itemStack);
+			return addItem(NDatabase.Recipes.RESULT, itemStack);
 	}
 
 	public T addResult(Ingredient ingredient)
@@ -141,7 +146,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		if(resultArray!=null)
 			return addMultiResult(ingredient.toJson(false));
 		else
-			return addWriter(jsonObject -> jsonObject.add("result", ingredient.toJson(false)));
+			return addWriter(jsonObject -> jsonObject.add(NDatabase.Recipes.RESULT, ingredient.toJson(false)));
 	}
 
 	public T addResult(IngredientWithSize ingredientWithSize)
@@ -149,7 +154,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 		if(resultArray!=null)
 			return addMultiResult(ingredientWithSize.toJson());
 		else
-			return addWriter(jsonObject -> jsonObject.add("result", ingredientWithSize.toJson()));
+			return addWriter(jsonObject -> jsonObject.add(NDatabase.Recipes.RESULT, ingredientWithSize.toJson()));
 	}
 
 	/* =============== Input Handling =============== */
@@ -163,7 +168,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T setUseInputArray(int maxInputCount)
 	{
-		return setUseInputArray(maxInputCount, "inputs");
+		return setUseInputArray(maxInputCount, NDatabase.Recipes.INPUT);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -237,15 +242,9 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 	/* =============== ItemStacks =============== */
 
 	@SuppressWarnings("deprecation")
-	public JsonObject serializeItemStack(ItemStack stack)
+	public JsonElement serializeItemStack(ItemStack stack)
 	{
-		JsonObject obj = new JsonObject();
-		obj.addProperty("item", BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
-		if(stack.getCount() > 1)
-			obj.addProperty("count", stack.getCount());
-		if(stack.hasTag())
-			obj.addProperty("nbt", stack.getTag().toString());
-		return obj;
+		return Util.getOrThrow(ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack), IllegalStateException :: new);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -296,17 +295,17 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T addFluid(String key, FluidStack fluidStack)
 	{
-		return addWriter(jsonObject -> jsonObject.add(key, FluidHelper.jsonSerializeFluidStack(fluidStack)));
+		return addWriter(jsonObject -> jsonObject.add(key, Util.getOrThrow(FluidStack.CODEC.encodeStart(JsonOps.INSTANCE, fluidStack), IllegalStateException::new)));
 	}
 
 	public T addFluid(FluidStack fluidStack)
 	{
-		return addFluid("fluid", fluidStack);
+		return addFluid(NDatabase.Recipes.FLUID, fluidStack);
 	}
 
 	public T addFluid(Fluid fluid, int amount)
 	{
-		return addFluid("fluid", new FluidStack(fluid, amount));
+		return addFluid(NDatabase.Recipes.FLUID, new FluidStack(fluid, amount));
 	}
 
 	public T addFluidTag(String key, FluidTagInput fluidTag)
@@ -321,7 +320,7 @@ public class NFinishedRecipe<T extends NFinishedRecipe<T>> implements FinishedRe
 
 	public T addFluidTag(TagKey<Fluid> fluidTag, int amount)
 	{
-		return addFluidTag("fluid", new FluidTagInput(fluidTag, amount, null));
+		return addFluidTag(NDatabase.Recipes.FLUID, new FluidTagInput(fluidTag, amount, null));
 	}
 
 	/* =============== IFinishedRecipe =============== */

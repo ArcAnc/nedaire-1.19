@@ -1,15 +1,15 @@
 {
   "type": "nedaire:diffuser",
   "fluid": {
-    "amount": 1000,
-    "fluid": "minecraft:water"
+    "Amount": 1000,
+    "FluidName": "minecraft:water"
   },
   "input": {
     "tag": "forge:gems/amethyst"
   },
-  "is_manual": false,
   "result": {
-    "item": "nedaire:crystal_prison"
+    "Count": 1,
+    "id": "nedaire:crystal_prison"
   },
   "time": 200
 }

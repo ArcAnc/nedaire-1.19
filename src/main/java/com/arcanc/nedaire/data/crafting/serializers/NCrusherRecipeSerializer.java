@@ -9,11 +9,16 @@
 package com.arcanc.nedaire.data.crafting.serializers;
 
 import com.arcanc.nedaire.content.registration.NRegistration;
+import com.arcanc.nedaire.data.crafting.IngredientWithSize;
+import com.arcanc.nedaire.data.crafting.IngredientWithSizeSerializer;
 import com.arcanc.nedaire.data.crafting.StackWithChance;
 import com.arcanc.nedaire.data.crafting.recipe.NCrusherRecipe;
+import com.arcanc.nedaire.util.database.NDatabase;
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
@@ -26,10 +31,29 @@ public class NCrusherRecipeSerializer extends NRecipeSerializer<NCrusherRecipe>
 	private static final Codec<NCrusherRecipe> CODEC = RecordCodecBuilder.create(instance ->
 			instance.group
 			(
-					ItemStack.CODEC.fieldOf("output").forGetter(NCrusherRecipe :: getOutput),
-					Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(NCrusherRecipe :: getInput),
-					Codec.INT.fieldOf("energy").forGetter(NCrusherRecipe :: getTotalProcessEnergy)
-			).apply(instance, NCrusherRecipe :: new));
+					ExtraCodecs.xor(ItemStack.CODEC, IngredientWithSizeSerializer.CODEC).
+							xmap(either ->
+							{
+								return either.map(stack ->
+								{
+									return stack;
+								}, ingredient ->
+								{
+									return ingredient;
+								});
+							}, value ->
+							{
+								if (value instanceof ItemStack stack)
+									return Either.left(stack);
+								else if (value instanceof IngredientWithSize ingredient)
+									return Either.right(ingredient);
+								else
+									throw new UnsupportedOperationException("This is neither an item value nor a ingredient value.");
+							}).
+							fieldOf(NDatabase.Recipes.RESULT).forGetter(NCrusherRecipe :: getOutput),
+					Ingredient.CODEC_NONEMPTY.fieldOf(NDatabase.Recipes.INPUT).forGetter(NCrusherRecipe :: getInput),
+					Codec.INT.fieldOf(NDatabase.Recipes.ENERGY).forGetter(NCrusherRecipe :: getTotalProcessEnergy)
+			).apply(instance, (output, input, energy) -> new NCrusherRecipe(output instanceof ItemStack outStack ? outStack : ((IngredientWithSize)output).getRandomizedExampleStack(0) , input, energy)));
 
 	@Override
 	public ItemStack getIcon() 

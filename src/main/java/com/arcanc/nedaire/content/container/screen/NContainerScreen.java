@@ -46,7 +46,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -178,7 +177,6 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics guiGraphics, float partialTicks, int x, int y)
 	{
-		renderBackground(guiGraphics, x, y, partialTicks);
 		int x_pos = this.leftPos;
 		int	y_pos = this.topPos;
 
@@ -208,7 +206,13 @@ public abstract class NContainerScreen<T extends AbstractContainerMenu> extends 
 
 		poseStack.popPose();
 	}
-	
+
+	@Override
+	public void renderTransparentBackground(GuiGraphics guiGraphics)
+	{
+		guiGraphics.fillGradient(0, 0, this.width, this.height, -100, -1072689136, -804253680);
+	}
+
 	protected Panel addPanel(Panel panel)
 	{
 		addRenderableOnly(panel);

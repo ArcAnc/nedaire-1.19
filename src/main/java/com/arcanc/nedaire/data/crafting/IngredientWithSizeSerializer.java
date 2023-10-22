@@ -9,17 +9,28 @@
 package com.arcanc.nedaire.data.crafting;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.ingredients.IIngredientSerializer;
 
+import java.util.List;
+
 public class IngredientWithSizeSerializer implements IIngredientSerializer<IngredientWithSize>
 {
 
+	private static final Codec<Ingredient.Value[]> VALUES_CODEC = Codec.list(Ingredient.Value.CODEC).comapFlatMap((values) ->
+	{
+		return values.size() < 1 ? DataResult.error(() ->
+		{
+			return "Item array cannot be empty, at least one item must be defined";
+		}) : DataResult.success(values.toArray(new Ingredient.Value[0]));
+	}, List::of);
+
 	public static final Codec<IngredientWithSize> CODEC = RecordCodecBuilder.create(instance ->
 		instance.group(
-				Ingredient.CODEC.fieldOf("ingredient").forGetter(IngredientWithSize::getIngredient),
+				VALUES_CODEC.fieldOf("ingredient").forGetter(IngredientWithSize :: getValues),
 				Codec.INT.optionalFieldOf("amount", 1).forGetter(IngredientWithSize::getAmount)
 		).apply(instance, IngredientWithSize :: new));
 	@Override

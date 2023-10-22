@@ -28,19 +28,28 @@ import java.util.stream.Stream;
 public class IngredientWithSize extends Ingredient implements Predicate<ItemStack>
 {
 
-	protected final Ingredient ingredient;
 	protected final int amount;
+
 
 	public IngredientWithSize(Stream<? extends Value> values, int amount)
 	{
 		super(values);
-		this.ingredient = fromValues(values);
 		this.amount = amount;
 	}
 
 	public IngredientWithSize(Stream<? extends  Value> values)
 	{
 		this(values, 1);
+	}
+
+	public IngredientWithSize(Ingredient.Value[] values)
+	{
+		this(Stream.of(values));
+	}
+
+	public IngredientWithSize(Ingredient.Value[] values, int amount)
+	{
+		this(Stream.of(values), amount);
 	}
 
 	public IngredientWithSize(Ingredient ingredient)
@@ -54,7 +63,7 @@ public class IngredientWithSize extends Ingredient implements Predicate<ItemStac
 	}
 	public IngredientWithSize(TagKey<Item> ingredient, int amount)
 	{
-		this(Ingredient.of(ingredient), amount);
+		this(Stream.of(new Ingredient.TagValue(ingredient)), amount);
 	}
 
 	public IngredientWithSize(TagKey<Item> ingredient)
@@ -67,13 +76,13 @@ public class IngredientWithSize extends Ingredient implements Predicate<ItemStac
 	{
 		if(itemStack==null)
 			return false;
-		return ingredient.test(itemStack)&&itemStack.getCount() >= this.amount;
+		return super.test(itemStack) && itemStack.getCount() >= this.amount;
 	}
 
 	@Nonnull
 	public ItemStack[] getMatchingStacks()
 	{
-		ItemStack[] baseStacks = ingredient.getItems();
+		ItemStack[] baseStacks = this.getItems();
 		ItemStack[] ret = new ItemStack[baseStacks.length];
 		for(int i = 0; i < baseStacks.length; ++i)
 			ret[i] = ItemHandlerHelper.copyStackWithSize(baseStacks[i], this.amount);
@@ -88,7 +97,7 @@ public class IngredientWithSize extends Ingredient implements Predicate<ItemStac
 
 	public boolean hasNoMatchingItems()
 	{
-		return ingredient.isEmpty();
+		return this.isEmpty();
 	}
 
 	public int getAmount()
@@ -98,7 +107,7 @@ public class IngredientWithSize extends Ingredient implements Predicate<ItemStac
 
 	public Ingredient getIngredient()
 	{
-		return ingredient;
+		return this;
 	}
 	public static IngredientWithSize of(ItemStack stack)
 	{
@@ -121,6 +130,12 @@ public class IngredientWithSize extends Ingredient implements Predicate<ItemStac
 
 	public boolean testIgnoringSize(ItemStack itemstack)
 	{
-		return ingredient.test(itemstack);
+		return this.test(itemstack);
 	}
+
+	public Ingredient.Value[] getValues()
+	{
+		return this.values;
+	}
+
 }

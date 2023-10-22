@@ -78,13 +78,13 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
       "has_piston",
       "has_chest",
       "has_skystone",
-      "has_dusts/redstone",
-      "has_the_recipe"
+      "has_dusts/redstone"
     ]
   ],
   "rewards": {

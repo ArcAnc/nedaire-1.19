@@ -68,12 +68,12 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_ingots/corium",
       "has_framework",
       "has_crystal_prison",
       "has_hopper",
-      "has_skystone",
-      "has_the_recipe"
+      "has_skystone"
     ]
   ],
   "rewards": {
